@@ -38,7 +38,7 @@ public class AgendaCanvas {
      * Last action is calling the <code>draw()</code> method.
      *
      * @param width  sets <code>this.canvas.setWidth</code> to this value
-     * @param height sets <code>this.canvas.setHeight</code> to this value
+     * @param height  sets <code>this.canvas.setHeight</code> to this value
      */
     public AgendaCanvas(double width, double height) {
         this.cameraTransform = new AffineTransform();
@@ -57,6 +57,11 @@ public class AgendaCanvas {
         draw(graphics);
     }
 
+    /**
+     * Calculates the boundaries of the canvas based on stages and shows in the Agenda. (not yet implemented)
+     * <p>
+     * Initializes <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
+     */
     public void calculateBounds() {
         //Todo: Will later calculate these value's based on current Agenda.
         this.startX = -100;
@@ -87,7 +92,7 @@ public class AgendaCanvas {
     /**
      * Draws the time information on the horizontal axis.
      *
-     * @param graphics object to draw on
+     * @param graphics  object to draw on
      */
     private void drawTopBar(FXGraphics2D graphics) {
         for (int i = 0; i < 24; i++) { //Later changed in starttune till endtime
@@ -101,7 +106,7 @@ public class AgendaCanvas {
     /**
      * Makes scrolling possible by translating <code>this.cameraTransform</code>.
      *
-     * @param scrollEvent is the eventhandler for scrolling
+     * @param scrollEvent  is the eventhandler for scrolling
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
         double scrollPixels = scrollEvent.getDeltaY() / 1.5;
@@ -113,6 +118,12 @@ public class AgendaCanvas {
 
     }
 
+    /**
+     * Calculates if the given translate will fit within the set bounds.
+     * @param additionX  the given translate in the X-axis
+     * @param additionY  the given translate in the Y-axis
+     * @return returns true if the given translate is in bounds
+     */
     private boolean cameraInBounds(double additionX, double additionY) {
         return (this.cameraTransform.getTranslateX() + additionX <= 0 &&
                 this.cameraTransform.getTranslateX() + additionX >= -(this.endX - this.startX - this.canvas.getWidth()) &&
