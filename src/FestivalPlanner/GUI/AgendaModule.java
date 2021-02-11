@@ -2,6 +2,7 @@ package FestivalPlanner.GUI;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 
 public class AgendaModule{
 
@@ -9,6 +10,11 @@ public class AgendaModule{
     }
 
     public Scene buildAgendaModule(){
-        return null;
+        VBox mainPane = new VBox();
+
+        AgendaCanvas agendaCanvas = new AgendaCanvas();
+        mainPane.getChildren().addAll(agendaCanvas);
+
+        return new Scene(mainPane);
     }
 }
