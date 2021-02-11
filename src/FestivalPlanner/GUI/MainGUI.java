@@ -1,6 +1,7 @@
 package FestivalPlanner.GUI;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MainGUI extends Application {
@@ -13,6 +14,9 @@ public class MainGUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        AgendaModule agendaModule = new AgendaModule();
+
+        stage.setScene(agendaModule.buildAgendaModule());
         stage.show();
     }
 
