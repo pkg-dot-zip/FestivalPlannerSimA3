@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 
 public class AgendaModule{
 
+    public AgendaModule() {
+    }
 
     public Scene buildAgendaModule(){
         return null;
