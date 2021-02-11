@@ -13,6 +13,8 @@ public class MainGUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        AgendaModule agendaModule = new AgendaModule();
+        stage.setScene(agendaModule.generateGUILayout());
         stage.show();
     }
 
