@@ -13,7 +13,7 @@ public class AgendaModule{
         VBox mainPane = new VBox();
 
         AgendaCanvas agendaCanvas = new AgendaCanvas();
-        mainPane.getChildren().addAll(agendaCanvas);
+        mainPane.getChildren().addAll(agendaCanvas.buildAgendaCanvas());
 
         return new Scene(mainPane);
     }
