@@ -12,7 +12,6 @@ public class AgendaCanvas {
     }
 
     public AgendaCanvas(double width, double height) {
-
     }
 
 
