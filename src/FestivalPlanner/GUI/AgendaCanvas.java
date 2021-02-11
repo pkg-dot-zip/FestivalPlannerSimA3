@@ -16,13 +16,18 @@ public class AgendaCanvas {
     private Canvas canvas;
     private AffineTransform cameraTransform;
 
+    private int startX;
+    private int lenghtX;
+    private int startY;
+    private int lenghtY;
+
     //TODO: Needs Agenda object in constructor.
 
     /**
      * Blank constructor of <code>AgendaCanvas</code>.
      */
     public AgendaCanvas() {
-        this(1920 / 3f, 1080 / 2f);
+        this(1920 / 3f, 400);
     }
 
     /**
@@ -31,8 +36,9 @@ public class AgendaCanvas {
      * Initializes <code>this.cameraTransform</code> and <code>this.canvas</code>.
      * <p>
      * Last action is calling the <code>draw()</code> method.
+     *
      * @param width  sets <code>this.canvas.setWidth</code> to this value
-     * @param height  sets <code>this.canvas.setHeight</code> to this value
+     * @param height sets <code>this.canvas.setHeight</code> to this value
      */
     public AgendaCanvas(double width, double height) {
         this.cameraTransform = new AffineTransform();
@@ -42,6 +48,8 @@ public class AgendaCanvas {
         this.canvas.setHeight(height);
         this.canvas.setWidth(width);
 
+        calculateBounds();
+
         this.canvas.setOnScroll(this::setOnScroll);
 
         this.mainPane.setCenter(this.canvas);
@@ -49,9 +57,18 @@ public class AgendaCanvas {
         draw(graphics);
     }
 
+    public void calculateBounds() {
+        //Todo: Will later calculate these value's based on current Agenda.
+        this.startX = -100;
+        this.lenghtX = 1250;
+        this.startY = -50;
+        this.lenghtY = 400;
+    }
+
     /**
      * Main method to draw everything on <code>this.canvas</code>.
-     * @param graphics  object that draws on <code>this.canvas</code>
+     *
+     * @param graphics object that draws on <code>this.canvas</code>
      */
     private void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
@@ -60,19 +77,17 @@ public class AgendaCanvas {
 
         graphics.setTransform(this.cameraTransform);
 
-        int sideOffset = 150;
-        int topOffset = 50;
+        graphics.translate(-this.startX, -this.startY);
 
-        graphics.translate(sideOffset, topOffset);
-
-        graphics.drawLine(-sideOffset, 0, (int) canvas.getWidth(), 0);
-        graphics.drawLine(0, -topOffset, 0, (int) canvas.getHeight());
+        graphics.drawLine(this.startX, 0, this.lenghtX, 0);
+        graphics.drawLine(0, this.startY, 0, this.lenghtY);
         drawTopBar(graphics);
     }
 
     /**
      * Draws the time information on the horizontal axis.
-     * @param graphics  object to draw on
+     *
+     * @param graphics object to draw on
      */
     private void drawTopBar(FXGraphics2D graphics) {
         for (int i = 0; i < 24; i++) { //Later changed in starttune till endtime
@@ -82,18 +97,23 @@ public class AgendaCanvas {
 
     /**
      * Makes scrolling possible by translating <code>this.cameraTransform</code>.
-     * @param scrollEvent  is the eventhandler for scrolling
+     *
+     * @param scrollEvent is the eventhandler for scrolling
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
+        double scrollPixels = scrollEvent.getDeltaY() / 1.5;
+        if(this.cameraTransform.getTranslateX() + scrollPixels < 0) {
+            this.cameraTransform.translate(scrollPixels, 0);
+            draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
+        }
 
-        this.cameraTransform.translate(scrollEvent.getDeltaY() / 1.5, 0);
-        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
 
     }
 
     /**
      * Returns <code>this.mainPane</code> to the class AgendaModule so AgendaCanvas can be added to the GUI.
-     * @return  <code>this.mainPane</code> to the class AgendaModule
+     *
+     * @return <code>this.mainPane</code> to the class AgendaModule
      */
     public Node buildAgendaCanvas() {
         return this.mainPane;
