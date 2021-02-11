@@ -75,7 +75,7 @@ public class AgendaCanvas {
      * @param graphics  object to draw on
      */
     private void drawTopBar(FXGraphics2D graphics) {
-        for (int i = 0; i < 24; i++) { //Later veranderen in van begintijd tot eindtijd
+        for (int i = 0; i < 24; i++) { //Later changed in starttune till endtime
             graphics.drawString(i + ".00", i * 50 + 10, -25);
         }
     }
@@ -87,7 +87,6 @@ public class AgendaCanvas {
     private void setOnScroll(ScrollEvent scrollEvent) {
 
         this.cameraTransform.translate(scrollEvent.getDeltaY() / 1.5, 0);
-        System.out.println(scrollEvent.getDeltaY());
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
 
     }
