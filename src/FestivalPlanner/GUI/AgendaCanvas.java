@@ -17,9 +17,9 @@ public class AgendaCanvas {
     private AffineTransform cameraTransform;
 
     private int startX;
-    private int lenghtX;
+    private int endX;
     private int startY;
-    private int lenghtY;
+    private int endY;
 
     //TODO: Needs Agenda object in constructor.
 
@@ -60,9 +60,9 @@ public class AgendaCanvas {
     public void calculateBounds() {
         //Todo: Will later calculate these value's based on current Agenda.
         this.startX = -100;
-        this.lenghtX = 1250;
+        this.endX = 1255;
         this.startY = -50;
-        this.lenghtY = 400;
+        this.endY = 400;
     }
 
     /**
@@ -79,8 +79,8 @@ public class AgendaCanvas {
 
         graphics.translate(-this.startX, -this.startY);
 
-        graphics.drawLine(this.startX, 0, this.lenghtX, 0);
-        graphics.drawLine(0, this.startY, 0, this.lenghtY);
+        graphics.drawLine(this.startX, 0, this.endX, 0);
+        graphics.drawLine(0, this.startY, 0, this.endY);
         drawTopBar(graphics);
     }
 
@@ -92,6 +92,9 @@ public class AgendaCanvas {
     private void drawTopBar(FXGraphics2D graphics) {
         for (int i = 0; i < 24; i++) { //Later changed in starttune till endtime
             graphics.drawString(i + ".00", i * 50 + 10, -25);
+            graphics.setColor(Color.lightGray);
+            graphics.drawLine(i * 50 + 50, this.startY,i * 50 + 50, this.endY);
+            graphics.setColor(Color.BLACK);
         }
     }
 
@@ -102,12 +105,20 @@ public class AgendaCanvas {
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
         double scrollPixels = scrollEvent.getDeltaY() / 1.5;
-        if(this.cameraTransform.getTranslateX() + scrollPixels < 0) {
+        if (cameraInBounds(scrollPixels, 0)) {
             this.cameraTransform.translate(scrollPixels, 0);
             draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         }
 
 
+    }
+
+    private boolean cameraInBounds(double additionX, double additionY) {
+        return (this.cameraTransform.getTranslateX() + additionX <= 0 &&
+                this.cameraTransform.getTranslateX() + additionX >= -(this.endX - this.startX - this.canvas.getWidth()) &&
+                this.cameraTransform.getTranslateY() + additionY <= 0 &&
+                this.cameraTransform.getTranslateY() + additionY >= -(this.endY - this.startY - this.canvas.getHeight())
+        );
     }
 
     /**
