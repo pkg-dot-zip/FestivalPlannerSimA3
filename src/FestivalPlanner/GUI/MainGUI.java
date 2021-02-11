@@ -9,7 +9,7 @@ public class MainGUI extends Application {
     /**
      * Starts the MainGUI
      * @param stage  The stage that is shown on screen
-     * @throws Exception Standard exeption in<a href=”{javafx/application/Application.html”></a>
+     * @throws Exception Standard exeption in<a href=”https://docs.oracle.com/javase/8/javafx/api/javafx/application/Application.html”></a>
      */
     @Override
     public void start(Stage stage) throws Exception {
