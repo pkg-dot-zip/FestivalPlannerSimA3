@@ -47,4 +47,30 @@ public class Show {
     public long getDuration(){
         return ChronoUnit.SECONDS.between(startTime, endTime);
     }
+
+    //TODO: Write documentation for all getters below this line.
+
+    public String getName() {
+        return this.name;
+    }
+
+    public LocalDateTime getStartTime() {
+        return this.startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return this.endTime;
+    }
+
+    public int getExpectedPopularity() {
+        return this.expectedPopularity;
+    }
+
+    public Stage getStage() {
+        return this.stage;
+    }
+
+    public ArrayList<Artist> getArtists() {
+        return this.artists;
+    }
 }

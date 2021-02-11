@@ -1,6 +1,7 @@
 package FestivalPlanner.Agenda;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //TODO: Improve documentation.
 
@@ -13,13 +14,34 @@ public class Agenda {
     private ArrayList<Show> shows;
 
     /**
-     * Constructor of <code>Agenda</code>.
+     * Constructor for <code>Agenda</code>.
      * <p>
      * Sets the name to the parameter's value and initialises the this.shows ArrayList.
      * @param name  changes <code>this.name</code> to the parameter's value
      */
     public Agenda(String name) {
         this.name = name;
+        this.shows = new ArrayList<>();
+    }
+
+    /**
+     * Specific constructor for <code>Agenda</code> only used
+     * by <a href="{@docRoot}/FestivalPlanner/Agenda/SaveHandler.html">SaveHandler</a>.
+     * <p>
+     * Sets the name to the parameter's value and sets <code>this.shows</code> to the parameter's value.
+     * @param name  changes <code>this.name</code> to the parameter's value
+     */
+    public Agenda(String name, ArrayList<Show> shows) {
+        this.name = name;
+        this.shows = shows;
+    }
+
+    /**
+     * Empty constructor for <code>Agenda</code> only used
+     * by <a href="{@docRoot}/FestivalPlanner/Agenda/SaveHandler.html">SaveHandler</a> in <code>readAgendaFromFile()</code>.
+     */
+    public Agenda() {
+        this.name = "";
         this.shows = new ArrayList<>();
     }
 

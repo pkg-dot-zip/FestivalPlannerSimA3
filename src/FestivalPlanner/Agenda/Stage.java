@@ -19,10 +19,18 @@ public class Stage {
     }
 
     /**
-     * Returns a string containing the name of this artist.
-     * @return  this.name, a string containing this name of this artist
+     * Returns a string containing the name of this stage.
+     * @return  this.name, a string containing this name of this stage
      */
     public String getName() {
         return this.name;
+    }
+
+    /**
+     * Returns a string containing the location of this stage.
+     * @return  this.location, a string containing this location of this stage
+     */
+    public String getLocation() {
+        return this.location;
     }
 }
