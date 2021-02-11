@@ -17,10 +17,23 @@ public class AgendaCanvas {
     private AffineTransform cameraTransform;
 
     //@TODO Needs Agenda object in constructior
+
+    /**
+     * blank constructor of <code>AgendaCanvas</code>
+     */
     public AgendaCanvas() {
         this(1920 / 3f, 1080 / 2f);
     }
 
+    /**
+     * blank constructor of <code>AgendaCanvas</code>
+     * <p>
+     * initializes <code>this.cameraTransform</code> and <code>this.canvas</code>
+     * <p>
+     * last action is calling the #draw method
+     * @param width sets <code>this.canvas.setWidth</code> to this value
+     * @param height sets <code>this.canvas.setHeight</code> to this value
+     */
     public AgendaCanvas(double width, double height) {
         this.cameraTransform = new AffineTransform();
         this.mainPane = new BorderPane();
@@ -31,12 +44,15 @@ public class AgendaCanvas {
 
         this.canvas.setOnScroll(this::setOnScroll);
 
-
         this.mainPane.setCenter(this.canvas);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         draw(graphics);
     }
 
+    /**
+     * main method to draw everything on <code>this.canvas</code>
+     * @param graphics object that draws on <code>this.canvas</code>
+     */
     private void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
@@ -54,12 +70,20 @@ public class AgendaCanvas {
         drawTopBar(graphics);
     }
 
+    /**
+     * draws the time information on the horizontal axis
+     * @param graphics object to draw on
+     */
     private void drawTopBar(FXGraphics2D graphics) {
         for (int i = 0; i < 24; i++) { //Later veranderen in van begintijd tot eindtijd
             graphics.drawString(i + ".00", i * 50 + 10, -25);
         }
     }
 
+    /**
+     * makes scrolling possible by translating <code>this.cameraTransform</code>
+     * @param scrollEvent is the eventhandler for scrolling
+     */
     private void setOnScroll(ScrollEvent scrollEvent) {
 
         this.cameraTransform.translate(scrollEvent.getDeltaY() / 1.5, 0);
@@ -68,6 +92,10 @@ public class AgendaCanvas {
 
     }
 
+    /**
+     * returns <code>this.mainPane</code> to the class AgendaModule so AgendaCanvas can be added to the GUI
+     * @return <code>this.mainPane</code> to the class AgendaModule
+     */
     public Node buildAgendaCanvas() {
         return this.mainPane;
     }
