@@ -1,12 +1,14 @@
 package FestivalPlanner.GUI;
 
 import FestivalPlanner.Agenda.Agenda;
+import FestivalPlanner.Agenda.Show;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
+import sun.security.provider.SHA;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -123,17 +125,17 @@ public class AgendaCanvas {
      * @param graphics object that draws on <code>this.canvas</code>
      */
     private void draw(FXGraphics2D graphics) {
+        //resetting the screen
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
         graphics.setTransform(this.cameraTransform);
-
         graphics.translate(-this.startX, -this.startY);
 
-        graphics.drawLine(this.startX, 0, this.endX, 0);
-        graphics.drawLine(0, this.startY, 0, this.endY);
         drawTopBar(graphics);
+
+        drawShow(graphics, this.agenda.getShows().get(0));//temporary for testing
     }
 
     /**
@@ -142,12 +144,20 @@ public class AgendaCanvas {
      * @param graphics object to draw on
      */
     private void drawTopBar(FXGraphics2D graphics) {
+        graphics.drawLine(this.startX, 0, this.endX, 0);
+        graphics.drawLine(0, this.startY, 0, this.endY);
         for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
-            graphics.drawString(i + ".00", i * 50 + 10, -25);
+            graphics.drawString(i + ".00", i * 50 + 10, -25); //magic numbers will later be based on cameraTransform etc.
             graphics.setColor(Color.lightGray);
             graphics.drawLine(i * 50 + 50, this.startY, i * 50 + 50, this.endY);
             graphics.setColor(Color.BLACK);
         }
+    }
+
+    //Todo: Method not complete / working
+    private void drawShow(FXGraphics2D graphics, Show show) {
+        double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
+        double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute()/60f);
     }
 
     /**
