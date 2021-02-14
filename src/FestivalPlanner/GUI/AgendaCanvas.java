@@ -84,6 +84,22 @@ public class AgendaCanvas {
     }
 
     /**
+     * Getter for <code>this.agenda</code>.
+     * @return Value of <code>this.agenda</code>
+     */
+    public Agenda getAgenda() {
+        return agenda;
+    }
+
+    /**
+     * Setter for <code>this.agenda</code>.
+     * @param agenda  sets <code>this.agenda</code> to this value.
+     */
+    public void setAgenda(Agenda agenda) {
+        this.agenda = agenda;
+    }
+
+    /**
      * Calculates the boundaries of the canvas based on stages and shows in the Agenda. (not yet implemented)
      * <p>
      * Initializes <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
