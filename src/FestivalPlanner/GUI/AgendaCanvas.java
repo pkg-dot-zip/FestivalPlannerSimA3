@@ -62,7 +62,7 @@ public class AgendaCanvas {
      * <p>
      * Initializes <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
      */
-    public void calculateBounds() {
+    private void calculateBounds() {
         //Todo: Will later calculate these value's based on current Agenda.
         this.startX = -100;
         this.endX = 1255;
