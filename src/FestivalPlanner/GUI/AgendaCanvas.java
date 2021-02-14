@@ -24,13 +24,13 @@ public class AgendaCanvas {
     private int startY;
     private int endY;
 
-    //TODO: Needs Agenda object in constructor.
+    //TODO: Remember to remove Agenda package before merging since this one is temporary.
 
     /**
      * Blank constructor of <code>AgendaCanvas</code>.
      */
     public AgendaCanvas() {
-        this(new Agenda(), 1920 / 3f, 1080 / 2f);
+        this(new Agenda(), 1920 / 4f, 1080 / 3f);
     }
 
     /**
@@ -40,7 +40,7 @@ public class AgendaCanvas {
      * @param agenda  sets <code>this.agenda</code> to this object
      */
     public AgendaCanvas(Agenda agenda) {
-        this(agenda, 1920 / 3f, 1080 / 2f);
+        this(agenda, 1920 / 4f, 1080 / 3f);
     }
 
     /**
@@ -121,7 +121,7 @@ public class AgendaCanvas {
      * @param graphics  object to draw on
      */
     private void drawTopBar(FXGraphics2D graphics) {
-        for (int i = 0; i < 24; i++) { //Later changed in starttune till endtime
+        for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
             graphics.drawString(i + ".00", i * 50 + 10, -25);
             graphics.setColor(Color.lightGray);
             graphics.drawLine(i * 50 + 50, this.startY,i * 50 + 50, this.endY);
