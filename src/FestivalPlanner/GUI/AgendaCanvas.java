@@ -37,7 +37,8 @@ public class AgendaCanvas {
      * Constructor of <code>AgendaCanvas</code>.
      * <p>
      * Uses the Agenda given as parameter for <code>this.agenda</code>.
-     * @param agenda  sets <code>this.agenda</code> to this object
+     *
+     * @param agenda sets <code>this.agenda</code> to this object
      */
     public AgendaCanvas(Agenda agenda) {
         this(agenda, 1920 / 4f, 1080 / 3f);
@@ -48,8 +49,9 @@ public class AgendaCanvas {
      * <p>
      * Uses the the given width and height for <code>this.canvas.setWidth</code> and <code>this.canvas.setHeight</code>
      * respectively. It creates a new blank Agenda for <code>this.agenda</code>.
+     *
      * @param width  sets <code>this.canvas.setWidth</code> to this value
-     * @param height  sets <code>this.canvas.setHeight</code> to this value
+     * @param height sets <code>this.canvas.setHeight</code> to this value
      */
     public AgendaCanvas(double width, double height) {
         this(new Agenda(), width, height);
@@ -62,8 +64,9 @@ public class AgendaCanvas {
      * <p>
      * Last action is calling the <code>draw()</code> method,
      * so the canvas will be drawn after initialisation of <code>AgendaCanvas</code>.
+     *
      * @param width  sets <code>this.canvas.setWidth</code> to this value
-     * @param height  sets <code>this.canvas.setHeight</code> to this value
+     * @param height sets <code>this.canvas.setHeight</code> to this value
      */
     public AgendaCanvas(Agenda agenda, double width, double height) {
         this.agenda = agenda;
@@ -85,6 +88,7 @@ public class AgendaCanvas {
 
     /**
      * Getter for <code>this.agenda</code>.
+     *
      * @return Value of <code>this.agenda</code>
      */
     public Agenda getAgenda() {
@@ -93,7 +97,8 @@ public class AgendaCanvas {
 
     /**
      * Setter for <code>this.agenda</code>.
-     * @param agenda  sets <code>this.agenda</code> to this value.
+     *
+     * @param agenda sets <code>this.agenda</code> to this value.
      */
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
@@ -134,13 +139,13 @@ public class AgendaCanvas {
     /**
      * Draws the time information on the horizontal axis.
      *
-     * @param graphics  object to draw on
+     * @param graphics object to draw on
      */
     private void drawTopBar(FXGraphics2D graphics) {
         for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
             graphics.drawString(i + ".00", i * 50 + 10, -25);
             graphics.setColor(Color.lightGray);
-            graphics.drawLine(i * 50 + 50, this.startY,i * 50 + 50, this.endY);
+            graphics.drawLine(i * 50 + 50, this.startY, i * 50 + 50, this.endY);
             graphics.setColor(Color.BLACK);
         }
     }
@@ -148,12 +153,12 @@ public class AgendaCanvas {
     /**
      * Makes scrolling possible by translating <code>this.cameraTransform</code>.
      *
-     * @param scrollEvent  is the eventhandler for scrolling
+     * @param scrollEvent is the eventhandler for scrolling
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
         double scrollPixels = scrollEvent.getDeltaY() / 1.5;
         AffineTransform translate = new AffineTransform();
-        translate.translate(scrollPixels,0);
+        translate.translate(scrollPixels, 0);
         if (cameraInBounds(translate)) {
             this.cameraTransform.translate(scrollPixels, 0);
             draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
@@ -166,7 +171,8 @@ public class AgendaCanvas {
      * Calculates if the given translate will fit within the set bounds.
      * <p>
      * Currently only works on translations, scale not yet implemented.
-     * @param transform  AffineTransform that is proposed
+     *
+     * @param transform AffineTransform that is proposed
      * @return returns true if the given translate is in bounds
      */
     private boolean cameraInBounds(AffineTransform transform) {
