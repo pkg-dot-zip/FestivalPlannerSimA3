@@ -1,5 +1,6 @@
 package FestivalPlanner.GUI;
 
+import FestivalPlanner.Agenda.Agenda;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ScrollEvent;
@@ -16,6 +17,8 @@ public class AgendaCanvas {
     private Canvas canvas;
     private AffineTransform cameraTransform;
 
+    private Agenda agenda;
+
     private int startX;
     private int endX;
     private int startY;
@@ -27,20 +30,43 @@ public class AgendaCanvas {
      * Blank constructor of <code>AgendaCanvas</code>.
      */
     public AgendaCanvas() {
-        this(1920 / 3f, 400);
+        this(new Agenda(), 1920 / 3f, 1080 / 2f);
     }
 
     /**
-     * Blank constructor of <code>AgendaCanvas</code>.
+     * Constructor of <code>AgendaCanvas</code>.
      * <p>
-     * Initializes <code>this.cameraTransform</code> and <code>this.canvas</code>.
+     * Uses the Agenda given as parameter for <code>this.agenda</code>.
+     * @param agenda  sets <code>this.agenda</code> to this object
+     */
+    public AgendaCanvas(Agenda agenda) {
+        this(agenda, 1920 / 3f, 1080 / 2f);
+    }
+
+    /**
+     * Constructor of <code>AgendaCanvas</code>.
      * <p>
-     * Last action is calling the <code>draw()</code> method.
-     *
+     * Uses the the given width and height for <code>this.canvas.setWidth</code> and <code>this.canvas.setHeight</code>
+     * respectively. It creates a new blank Agenda for <code>this.agenda</code>.
      * @param width  sets <code>this.canvas.setWidth</code> to this value
      * @param height  sets <code>this.canvas.setHeight</code> to this value
      */
     public AgendaCanvas(double width, double height) {
+        this(new Agenda(), width, height);
+    }
+
+    /**
+     * Top constructor of <code>AgendaCanvas</code>.
+     * <p>
+     * Initializes all the attributes of <code>AgendaCanvas</code>.
+     * <p>
+     * Last action is calling the <code>draw()</code> method,
+     * so the canvas will be drawn after initialisation of <code>AgendaCanvas</code>.
+     * @param width  sets <code>this.canvas.setWidth</code> to this value
+     * @param height  sets <code>this.canvas.setHeight</code> to this value
+     */
+    public AgendaCanvas(Agenda agenda, double width, double height) {
+        this.agenda = agenda;
         this.cameraTransform = new AffineTransform();
         this.mainPane = new BorderPane();
 
