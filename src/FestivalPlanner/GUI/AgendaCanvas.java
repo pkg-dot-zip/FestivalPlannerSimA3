@@ -110,7 +110,9 @@ public class AgendaCanvas {
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
         double scrollPixels = scrollEvent.getDeltaY() / 1.5;
-        if (cameraInBounds(scrollPixels, 0)) {
+        AffineTransform translate = new AffineTransform();
+        translate.translate(scrollPixels,0);
+        if (cameraInBounds(translate)) {
             this.cameraTransform.translate(scrollPixels, 0);
             draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         }
@@ -120,15 +122,16 @@ public class AgendaCanvas {
 
     /**
      * Calculates if the given translate will fit within the set bounds.
-     * @param additionX  the given translate in the X-axis
-     * @param additionY  the given translate in the Y-axis
+     * <p>
+     * Currently only works on translations, scale not yet implemented.
+     * @param transform  AffineTransform that is proposed
      * @return returns true if the given translate is in bounds
      */
-    private boolean cameraInBounds(double additionX, double additionY) {
-        return (this.cameraTransform.getTranslateX() + additionX <= 0 &&
-                this.cameraTransform.getTranslateX() + additionX >= -(this.endX - this.startX - this.canvas.getWidth()) &&
-                this.cameraTransform.getTranslateY() + additionY <= 0 &&
-                this.cameraTransform.getTranslateY() + additionY >= -(this.endY - this.startY - this.canvas.getHeight())
+    private boolean cameraInBounds(AffineTransform transform) {
+        return (this.cameraTransform.getTranslateX() + transform.getTranslateX() <= 0 &&
+                this.cameraTransform.getTranslateX() + transform.getTranslateX() >= -(this.endX - this.startX - this.canvas.getWidth()) &&
+                this.cameraTransform.getTranslateY() + transform.getTranslateY() <= 0 &&
+                this.cameraTransform.getTranslateY() + transform.getTranslateY() >= -(this.endY - this.startY - this.canvas.getHeight())
         );
     }
 
