@@ -2,6 +2,7 @@ package FestivalPlanner.GUI;
 
 import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.Agenda.Show;
+import FestivalPlanner.Agenda.Stage;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ScrollEvent;
@@ -12,6 +13,9 @@ import sun.security.provider.SHA;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AgendaCanvas {
 
@@ -20,6 +24,7 @@ public class AgendaCanvas {
     private AffineTransform cameraTransform;
 
     private Agenda agenda;
+    private ArrayList<Stage> usedStages;
 
     private int startX;
     private int endX;
@@ -75,11 +80,12 @@ public class AgendaCanvas {
         this.cameraTransform = new AffineTransform();
         this.mainPane = new BorderPane();
 
+        calculateBounds();
+        this.usedStages = getUsedStages();
+
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
         this.canvas.setHeight(height);
         this.canvas.setWidth(width);
-
-        calculateBounds();
 
         this.canvas.setOnScroll(this::setOnScroll);
 
@@ -120,6 +126,19 @@ public class AgendaCanvas {
     }
 
     /**
+     * Gets a list of all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>, duplicates won't show up
+     * @return an ArrayList with all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>
+     */
+    private ArrayList<Stage> getUsedStages(){
+        Set<Stage> stageSet = new HashSet<>();
+
+        for (Show show : this.agenda.getShows()) {
+            stageSet.add(show.getStage());
+        }
+        return new ArrayList<>(stageSet);
+    }
+
+    /**
      * Main method to draw everything on <code>this.canvas</code>.
      *
      * @param graphics object that draws on <code>this.canvas</code>
@@ -134,6 +153,8 @@ public class AgendaCanvas {
         graphics.translate(-this.startX, -this.startY);
 
         drawTopBar(graphics);
+
+        System.out.println(this.usedStages);
 
         drawShow(graphics, this.agenda.getShows().get(0));//temporary for testing
     }
