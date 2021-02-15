@@ -153,14 +153,13 @@ public class AgendaCanvas {
         graphics.translate(-this.startX, -this.startY);
 
         drawTopBar(graphics);
-
-        System.out.println(this.usedStages);
+        drawStages(graphics);
 
         drawShow(graphics, this.agenda.getShows().get(0));//temporary for testing
     }
 
     /**
-     * Draws the time information on the horizontal axis.
+     * Draws the time information on the horizontal axis to <code>this.canvas</code>.
      *
      * @param graphics object to draw on
      */
@@ -179,6 +178,20 @@ public class AgendaCanvas {
     private void drawShow(FXGraphics2D graphics, Show show) {
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
         double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute()/60f);
+    }
+
+    /**
+     * Draws the lines and names for all <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">stages</a> in <code>this.usedStages</code>
+     * @param graphics  object to draw on
+     */
+    private void drawStages(FXGraphics2D graphics) {
+        int stageHeight = 60;
+        ArrayList<Stage> usedStages1 = this.usedStages;
+        for (int i = 0; i < usedStages1.size(); i++) {
+            Stage stage = usedStages1.get(i);
+            graphics.drawLine(this.startX, stageHeight * (i+1), this.endX, stageHeight * (i+1));
+            graphics.drawString(stage.getName(), this.startX + 10, stageHeight * (i+1) - stageHeight /2);
+        }
     }
 
     /**
