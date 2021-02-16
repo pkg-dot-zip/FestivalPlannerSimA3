@@ -9,6 +9,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
+import java.awt.geom.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -186,10 +187,29 @@ public class AgendaCanvas {
         drawTopBar(graphics);
         drawStages(graphics);
 
-        for(ShowRectangle2D rectangle : this.showRectangles) {
-            rectangle.draw(graphics);
+        for(ShowRectangle2D showRectangle : this.showRectangles) {
+            showRectangle.draw(graphics);
+            Area overlap = getIntersectArea(showRectangle.getRectangle());
+            if (overlap != null) {
+                graphics.setColor(Color.RED);
+                graphics.fill(overlap);
+                graphics.setColor(Color.BLACK);
+                graphics.draw(overlap);
+            }
         }
         
+    }
+
+    private Area getIntersectArea(Rectangle2D mainRect) {
+        for (ShowRectangle2D otherShowRect : this.showRectangles) {
+            if (otherShowRect.getRectangle() != mainRect && mainRect.intersects(otherShowRect.getRectangle())) {
+                Area mainArea = new Area(mainRect);
+                Area otherArea = new Area(otherShowRect.getRectangle());
+                mainArea.intersect(otherArea);
+                return mainArea;
+            }
+        }
+        return null;
     }
 
     /**

@@ -68,7 +68,7 @@ public class ShowRectangle2D{
      * @return  The value of <code>this.rectangle</code>
      */
     public Rectangle2D getRectangle() {
-        return rectangle;
+        return this.rectangle;
     }
 
     /**
