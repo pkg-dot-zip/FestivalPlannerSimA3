@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+//todo: Class needs documentation.
 public class AgendaCanvas {
 
     private BorderPane mainPane;
