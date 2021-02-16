@@ -217,7 +217,6 @@ public class AgendaCanvas {
     }
 
     /**
-     * Todo: contains a bug when scrolling left and then back to start, needs fix
      * Calculates if the given translate will fit within the set bounds.
      * <p>
      * Currently only works on translations, scale not yet implemented.
@@ -226,9 +225,9 @@ public class AgendaCanvas {
      * @return returns true if the given translate is in bounds
      */
     private boolean cameraInBounds(AffineTransform transform) {
-        return (this.cameraTransform.getTranslateX() + transform.getTranslateX() <= 0 &&
+        return (this.cameraTransform.getTranslateX() + transform.getTranslateX() <= 1 &&
                 this.cameraTransform.getTranslateX() + transform.getTranslateX() >= -(this.endX - this.startX - this.canvas.getWidth()) &&
-                this.cameraTransform.getTranslateY() + transform.getTranslateY() <= 0 &&
+                this.cameraTransform.getTranslateY() + transform.getTranslateY() <= 1 &&
                 this.cameraTransform.getTranslateY() + transform.getTranslateY() >= -(this.endY - this.startY - this.canvas.getHeight())
         );
     }
