@@ -23,7 +23,7 @@ public class AgendaCanvas {
     private BorderPane mainPane;
     private Canvas canvas;
     private AffineTransform cameraTransform;
-    private ArrayList<Rectangle2D> showRectangles;
+    private ArrayList<ShowRectangle2D> showRectangles;
 
     private int startX;
     private int endX;
@@ -102,8 +102,8 @@ public class AgendaCanvas {
      * <p>
      * @return ArrayList with all the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangles</a> from the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">shows</a>
      */
-    private ArrayList<Rectangle2D> ShowRectanglesToArrayList() {
-        ArrayList<Rectangle2D> rectangles = new ArrayList<>();
+    private ArrayList<ShowRectangle2D> ShowRectanglesToArrayList() {
+        ArrayList<ShowRectangle2D> rectangles = new ArrayList<>();
         for (Show show : this.agenda.getShows()) {
             rectangles.add(createShowRectangle(show));
         }
@@ -115,12 +115,12 @@ public class AgendaCanvas {
      * @return a rectangle, this rectangle isn't shown yet but has a size and location based on the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>
      * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that the returned <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle</a> is based on
      */
-    private Rectangle2D createShowRectangle(Show show) {
+    private ShowRectangle2D createShowRectangle(Show show) {
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
         double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute()/60f);
         int stageIndex = this.usedStages.indexOf(show.getStage());
 
-        return new Rectangle2D.Double(startTime * 60, stageIndex * 60 + 5, (endTime * 60) - (startTime * 60), 50);
+        return new ShowRectangle2D(startTime * 60, stageIndex * 60 + 5, (endTime * 60) - (startTime * 60), 50, show);
     }
 
     /**
@@ -186,11 +186,8 @@ public class AgendaCanvas {
         drawTopBar(graphics);
         drawStages(graphics);
 
-        for(Rectangle2D rectangle : this.showRectangles) {
-            graphics.setColor(Color.green);
-            graphics.fill(rectangle);
-            graphics.setColor(Color.black);
-            graphics.draw(rectangle);
+        for(ShowRectangle2D rectangle : this.showRectangles) {
+            rectangle.draw(graphics);
         }
         
     }
