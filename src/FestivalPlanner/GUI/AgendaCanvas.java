@@ -97,9 +97,9 @@ public class AgendaCanvas {
     }
 
     /**
-     * Creates an ArrayList with a rectangle for every show.
+     * Creates an ArrayList with a <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> for every <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
      * <p>
-     * @return ArrayList with all the <code>rectangles</code> from the <code>show</code>s
+     * @return ArrayList with all the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangles</a> from the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">shows</a>
      */
     private ArrayList<Rectangle2D> ShowRectanglesToArrayList() {
         ArrayList<Rectangle2D> rectangles = new ArrayList<>();
@@ -110,8 +110,9 @@ public class AgendaCanvas {
     }
 
     /**
-     * @return a rectangle, this rectangle isn't shown yet but has a size and location based on the
-     * @param show
+     * Creates an Rectangle that represents the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>.
+     * @return a rectangle, this rectangle isn't shown yet but has a size and location based on the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>
+     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that the returned <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle</a> is based on
      */
     private Rectangle2D createShowRectangle(Show show) {
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
