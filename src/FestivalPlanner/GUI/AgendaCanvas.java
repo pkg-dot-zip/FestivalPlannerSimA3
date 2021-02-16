@@ -175,6 +175,9 @@ public class AgendaCanvas {
         drawStages(graphics);
 
         for(Rectangle2D rectangle : this.showRectangles) {
+            graphics.setColor(Color.green);
+            graphics.fill(rectangle);
+            graphics.setColor(Color.black);
             graphics.draw(rectangle);
         }
         

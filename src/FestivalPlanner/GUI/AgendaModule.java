@@ -26,22 +26,22 @@ public class AgendaModule{
 
         Agenda agenda = new Agenda("test");
         agenda.addShow(new Show("show1",
-                LocalDateTime.of(2021,2,14,10,0),
-                LocalDateTime.of(2021,2,14,21,0),
+                LocalDateTime.of(2021,2,14,1,0),
+                LocalDateTime.of(2021,2,14,3,30),
                 100,
                 stageA,
                 artists));
 
         agenda.addShow(new Show("show2",
-                LocalDateTime.of(2021,2,14,11,0),
-                LocalDateTime.of(2021,2,14,18,30),
+                LocalDateTime.of(2021,2,14,12,5),
+                LocalDateTime.of(2021,2,14,14,30),
                 100,
                 stageB,
                 artists));
 
         agenda.addShow(new Show("show1",
                 LocalDateTime.of(2021,2,14,10,0),
-                LocalDateTime.of(2021,2,14,21,0),
+                LocalDateTime.of(2021,2,14,12,0),
                 100,
                 stageA,
                 artists));
