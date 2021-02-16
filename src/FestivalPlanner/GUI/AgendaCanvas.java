@@ -107,8 +107,9 @@ public class AgendaCanvas {
     private Rectangle2D createShowRectangle(Show show) {
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
         double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute()/60f);
+        int stageIndex = this.usedStages.indexOf(show.getStage());
 
-        return new Rectangle2D.Double(startTime * 60, 5, (endTime * 60) - (startTime * 60), 50);
+        return new Rectangle2D.Double(startTime * 60, stageIndex * 60 + 5, (endTime * 60) - (startTime * 60), 50);
     }
 
     /**

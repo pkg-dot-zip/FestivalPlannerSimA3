@@ -15,6 +15,9 @@ public class AgendaModule{
     public AgendaModule() {
     }
 
+    /**
+     * muil dicht, tis tijdelijk @jesse
+     */
     public Scene buildAgendaModule(){
         VBox mainPane = new VBox();
 
@@ -47,7 +50,7 @@ public class AgendaModule{
                 artists));
 
         AgendaCanvas agendaCanvas = new AgendaCanvas(agenda);
-        mainPane.getChildren().addAll(agendaCanvas.buildAgendaCanvas());
+        mainPane.getChildren().add(agendaCanvas.buildAgendaCanvas());
 
         return new Scene(mainPane);
     }
