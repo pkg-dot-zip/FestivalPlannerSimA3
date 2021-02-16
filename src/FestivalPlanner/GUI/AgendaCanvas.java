@@ -83,7 +83,7 @@ public class AgendaCanvas {
 
         calculateBounds();
         this.usedStages = getUsedStages();
-        this.showRectangles = getShowRectangles();
+        this.showRectangles = createShowRectangles();
 
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
         this.canvas.setHeight(height);
@@ -96,7 +96,7 @@ public class AgendaCanvas {
         draw(graphics);
     }
 
-    private ArrayList<Rectangle2D> getShowRectangles() {
+    private ArrayList<Rectangle2D> createShowRectangles() {
         ArrayList<Rectangle2D> rectangles = new ArrayList<>();
         for (Show show : this.agenda.getShows()) {
             double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
@@ -184,7 +184,6 @@ public class AgendaCanvas {
             graphics.setColor(Color.BLACK);
         }
     }
-    
 
     /**
      * Draws the lines and names for all <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">stages</a> in <code>this.usedStages</code>
@@ -218,6 +217,7 @@ public class AgendaCanvas {
     }
 
     /**
+     * Todo: contains a bug when scrolling left and then back to start, needs fix
      * Calculates if the given translate will fit within the set bounds.
      * <p>
      * Currently only works on translations, scale not yet implemented.
