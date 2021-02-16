@@ -1,36 +1,44 @@
 package FestivalPlanner.GUI;
 
 import FestivalPlanner.Agenda.Show;
-import javafx.geometry.Rectangle2D;
+
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import org.jfree.fx.FXGraphics2D;
 
 //Todo: Class needs documentation
-public class ShowRectangle2D extends Rectangle2D {
+public class ShowRectangle2D{
 
+    private Rectangle2D rectangle;
     private Show show;
+    private Color color;
 
-    /**
-     * Creates a new instance of {@code Rectangle2D}.
-     *
-     * @param minX   The x coordinate of the upper-left corner of the {@code Rectangle2D}
-     * @param minY   The y coordinate of the upper-left corner of the {@code Rectangle2D}
-     * @param width  The width of the {@code Rectangle2D}
-     * @param height The height of the {@code Rectangle2D}
-     */
-    public ShowRectangle2D(double minX, double minY, double width, double height) {
-        super(minX, minY, width, height);
-    }
-
-    /**
-     * Creates a new instance of {@code Rectangle2D}.
-     *
-     * @param minX   The x coordinate of the upper-left corner of the {@code Rectangle2D}
-     * @param minY   The y coordinate of the upper-left corner of the {@code Rectangle2D}
-     * @param width  The width of the {@code Rectangle2D}
-     * @param height The height of the {@code Rectangle2D}
-     * @param show The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that this rectangle represents.
-     */
     public ShowRectangle2D(double minX, double minY, double width, double height, Show show) {
-        super(minX, minY, width, height);
-        this.show = show;
+        this(new Rectangle2D.Double(minX, minY, width, height), show);
     }
+
+    public ShowRectangle2D(Rectangle2D rectangle, Show show) {
+        this.rectangle = rectangle;
+        this.show = show;
+        this.color = Color.CYAN;
+    }
+
+    public Show getShow() {
+        return show;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void draw(FXGraphics2D graphics) {
+        graphics.drawString(this.show.getName(), (int)(this.rectangle.getX() + 5), (int)(this.rectangle.getY() + 5));
+        graphics.setColor(this.color);
+        graphics.draw(this.rectangle);
+    }
+
 }
