@@ -64,6 +64,14 @@ public class ShowRectangle2D{
     }
 
     /**
+     * Getter for <code>this.rectangle</code>.
+     * @return  The value of <code>this.rectangle</code>
+     */
+    public Rectangle2D getRectangle() {
+        return rectangle;
+    }
+
+    /**
      * Draws the ShowRectangle2D on the given <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html">Graphics2D</a>.
      * @param graphics  The <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html">graphics2D</a> the method should draw to
      */
