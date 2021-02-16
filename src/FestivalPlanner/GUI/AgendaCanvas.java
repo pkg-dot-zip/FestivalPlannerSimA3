@@ -3,7 +3,6 @@ package FestivalPlanner.GUI;
 import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.Agenda.Stage;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ScrollEvent;
@@ -13,6 +12,7 @@ import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -82,8 +82,8 @@ public class AgendaCanvas {
         this.mainPane = new BorderPane();
 
         calculateBounds();
-        this.usedStages = getUsedStages();
-        this.showRectangles = createShowRectangles();
+        this.usedStages = calculateUsedStages();
+        this.showRectangles = calculateShowRectangles();
 
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
         this.canvas.setHeight(height);
@@ -96,14 +96,19 @@ public class AgendaCanvas {
         draw(graphics);
     }
 
-    private ArrayList<Rectangle2D> createShowRectangles() {
+    private ArrayList<Rectangle2D> calculateShowRectangles() {
         ArrayList<Rectangle2D> rectangles = new ArrayList<>();
         for (Show show : this.agenda.getShows()) {
-            double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
-            double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute()/60f);
-
+            rectangles.add(createShowRectangle(show));
         }
         return rectangles;
+    }
+
+    private Rectangle2D createShowRectangle(Show show) {
+        double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
+        double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute()/60f);
+
+        return new Rectangle2D.Double(startTime * 60, 5, (endTime * 60) - (startTime * 60), 50);
     }
 
     /**
@@ -114,7 +119,7 @@ public class AgendaCanvas {
     private void calculateBounds() {
         //Todo: Will later calculate these value's based on current Agenda.
         this.startX = -100;
-        this.endX = 1255;
+        this.endX = 1440;
         this.startY = -50;
         this.endY = 400;
     }
@@ -123,7 +128,7 @@ public class AgendaCanvas {
      * Gets a list of all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>, duplicates won't show up
      * @return an ArrayList with all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>
      */
-    private ArrayList<Stage> getUsedStages(){
+    private ArrayList<Stage> calculateUsedStages(){
         Set<Stage> stageSet = new HashSet<>();
 
         for (Show show : this.agenda.getShows()) {
@@ -143,11 +148,13 @@ public class AgendaCanvas {
 
     /**
      * Setter for <code>this.agenda</code>.
+     * <p>
      *
      * @param agenda sets <code>this.agenda</code> to this value.
      */
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
+        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     /**
@@ -166,6 +173,10 @@ public class AgendaCanvas {
 
         drawTopBar(graphics);
         drawStages(graphics);
+
+        for(Rectangle2D rectangle : this.showRectangles) {
+            graphics.draw(rectangle);
+        }
         
     }
 
@@ -178,9 +189,9 @@ public class AgendaCanvas {
         graphics.drawLine(this.startX, 0, this.endX, 0);
         graphics.drawLine(0, this.startY, 0, this.endY);
         for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
-            graphics.drawString(i + ".00", i * 50 + 10, -25); //magic numbers will later be based on cameraTransform etc.
+            graphics.drawString(i + ".00", i * 60 + 10, -25); //magic numbers will later be based on cameraTransform etc.
             graphics.setColor(Color.lightGray);
-            graphics.drawLine(i * 50 + 50, this.startY, i * 50 + 50, this.endY);
+            graphics.drawLine(i * 60 + 60, this.startY, i * 60 + 60, this.endY);
             graphics.setColor(Color.BLACK);
         }
     }
