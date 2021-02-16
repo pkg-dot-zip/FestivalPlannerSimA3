@@ -83,7 +83,7 @@ public class AgendaCanvas {
 
         calculateBounds();
         this.usedStages = calculateUsedStages();
-        this.showRectangles = calculateShowRectangles();
+        this.showRectangles = ShowRectanglesToArrayList();
 
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
         this.canvas.setHeight(height);
@@ -96,7 +96,12 @@ public class AgendaCanvas {
         draw(graphics);
     }
 
-    private ArrayList<Rectangle2D> calculateShowRectangles() {
+    /**
+     * Creates an ArrayList with a rectangle for every show.
+     * <p>
+     * @return ArrayList with all the <code>rectangles</code> from the <code>show</code>s
+     */
+    private ArrayList<Rectangle2D> ShowRectanglesToArrayList() {
         ArrayList<Rectangle2D> rectangles = new ArrayList<>();
         for (Show show : this.agenda.getShows()) {
             rectangles.add(createShowRectangle(show));
@@ -104,6 +109,10 @@ public class AgendaCanvas {
         return rectangles;
     }
 
+    /**
+     * @return a rectangle, this rectangle isn't shown yet but has a size and location based on the
+     * @param show
+     */
     private Rectangle2D createShowRectangle(Show show) {
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
         double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute()/60f);
