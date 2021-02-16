@@ -3,13 +3,13 @@ package FestivalPlanner.GUI;
 import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.Agenda.Stage;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
-import sun.security.provider.SHA;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -22,14 +22,15 @@ public class AgendaCanvas {
     private BorderPane mainPane;
     private Canvas canvas;
     private AffineTransform cameraTransform;
-
-    private Agenda agenda;
-    private ArrayList<Stage> usedStages;
+    private ArrayList<Rectangle2D> showRectangles;
 
     private int startX;
     private int endX;
     private int startY;
     private int endY;
+
+    private Agenda agenda;
+    private ArrayList<Stage> usedStages;
 
     //TODO: Remember to remove Agenda package before merging since this one is temporary.
 
@@ -82,6 +83,7 @@ public class AgendaCanvas {
 
         calculateBounds();
         this.usedStages = getUsedStages();
+        this.showRectangles = getShowRectangles();
 
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
         this.canvas.setHeight(height);
@@ -94,22 +96,14 @@ public class AgendaCanvas {
         draw(graphics);
     }
 
-    /**
-     * Getter for <code>this.agenda</code>.
-     *
-     * @return Value of <code>this.agenda</code>
-     */
-    public Agenda getAgenda() {
-        return agenda;
-    }
+    private ArrayList<Rectangle2D> getShowRectangles() {
+        ArrayList<Rectangle2D> rectangles = new ArrayList<>();
+        for (Show show : this.agenda.getShows()) {
+            double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
+            double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute()/60f);
 
-    /**
-     * Setter for <code>this.agenda</code>.
-     *
-     * @param agenda sets <code>this.agenda</code> to this value.
-     */
-    public void setAgenda(Agenda agenda) {
-        this.agenda = agenda;
+        }
+        return rectangles;
     }
 
     /**
@@ -139,6 +133,24 @@ public class AgendaCanvas {
     }
 
     /**
+     * Getter for <code>this.agenda</code>.
+     *
+     * @return Value of <code>this.agenda</code>
+     */
+    public Agenda getAgenda() {
+        return agenda;
+    }
+
+    /**
+     * Setter for <code>this.agenda</code>.
+     *
+     * @param agenda sets <code>this.agenda</code> to this value.
+     */
+    public void setAgenda(Agenda agenda) {
+        this.agenda = agenda;
+    }
+
+    /**
      * Main method to draw everything on <code>this.canvas</code>.
      *
      * @param graphics object that draws on <code>this.canvas</code>
@@ -154,8 +166,7 @@ public class AgendaCanvas {
 
         drawTopBar(graphics);
         drawStages(graphics);
-
-        drawShow(graphics, this.agenda.getShows().get(0));//temporary for testing
+        
     }
 
     /**
@@ -173,12 +184,7 @@ public class AgendaCanvas {
             graphics.setColor(Color.BLACK);
         }
     }
-
-    //Todo: Method not complete / working
-    private void drawShow(FXGraphics2D graphics, Show show) {
-        double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
-        double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute()/60f);
-    }
+    
 
     /**
      * Draws the lines and names for all <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">stages</a> in <code>this.usedStages</code>
