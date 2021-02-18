@@ -9,6 +9,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
+
 import java.awt.geom.*;
 
 import java.awt.*;
@@ -99,18 +100,17 @@ public class AgendaCanvas {
     /**
      * When this method is called it calculates and sets the following attributes:
      * <p>
-     *      <ul>
-     *          <li>{@link #calculateBounds()}</li>
-     *          <li>{@link #calculateUsedStages()}</li>
-     *          <li>{@link #showRectanglesToArrayList()}</li>
-     *      </ul>
+     * <ul>
+     * <li>{@link #calculateBounds()}</li>
+     * <li>{@link #calculateUsedStages()}</li>
+     * <li>{@link #showRectanglesToArrayList()}</li>
+     * </ul>
      * <p>
-     *     When an update has been made to <code>this.agenda</code> this method will make the canvas recalculate the
-     *     things linked above.
+     * When an update has been made to <code>this.agenda</code> this method will make the canvas recalculate the
+     * things linked above.
      * <p>
-     *     This method wil also be called in the constructor of this object and after setting <code>this.agenda</code>.
-     *     After these actions it is unnecessary to call this method.
-     *
+     * This method wil also be called in the constructor of this object and after setting <code>this.agenda</code>.
+     * After these actions it is unnecessary to call this method.
      */
     public void buildAgendaCanvas() {
         calculateBounds();
@@ -120,7 +120,8 @@ public class AgendaCanvas {
 
     /**
      * Getter for <code>this.mainPane</code>.
-     * @return  this.mainPane
+     *
+     * @return this.mainPane
      */
     public Node getMainPane() {
         return mainPane;
@@ -129,6 +130,7 @@ public class AgendaCanvas {
     /**
      * Creates an ArrayList with a <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> for every <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
      * <p>
+     *
      * @return ArrayList with all the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangles</a> from the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">shows</a>
      */
     private ArrayList<ShowRectangle2D> showRectanglesToArrayList() {
@@ -141,12 +143,13 @@ public class AgendaCanvas {
 
     /**
      * Creates an Rectangle that represents the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>.
+     *
+     * @param show The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that the returned <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle</a> is based on
      * @return a rectangle, this rectangle isn't shown yet but has a size and location based on the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>
-     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that the returned <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle</a> is based on
      */
     private ShowRectangle2D createShowRectangle(Show show) {
-        double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute()/60f);
-        double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute()/60f);
+        double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute() / 60f);
+        double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute() / 60f);
         int stageIndex = this.usedStages.indexOf(show.getStage());
 
         return new ShowRectangle2D(startTime * 60, stageIndex * 60 + 5, (endTime * 60) - (startTime * 60), 50, show);
@@ -167,9 +170,10 @@ public class AgendaCanvas {
 
     /**
      * Gets a list of all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>, duplicates won't show up
+     *
      * @return an ArrayList with all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>
      */
-    private ArrayList<Stage> calculateUsedStages(){
+    private ArrayList<Stage> calculateUsedStages() {
         Set<Stage> stageSet = new HashSet<>();
 
         for (Show show : this.agenda.getShows()) {
@@ -215,7 +219,7 @@ public class AgendaCanvas {
         drawTopBar(graphics);
         drawStages(graphics);
 
-        for(ShowRectangle2D showRectangle : this.showRectangles) {
+        for (ShowRectangle2D showRectangle : this.showRectangles) {
             showRectangle.draw(graphics);
             Area overlap = getIntersectArea(showRectangle.getRectangle());
             if (overlap != null) {
@@ -225,7 +229,7 @@ public class AgendaCanvas {
                 graphics.draw(overlap);
             }
         }
-        
+
     }
 
     private Area getIntersectArea(Rectangle2D mainRect) {
@@ -258,15 +262,16 @@ public class AgendaCanvas {
 
     /**
      * Draws the lines and names for all <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">stages</a> in <code>this.usedStages</code>
-     * @param graphics  object to draw on
+     *
+     * @param graphics object to draw on
      */
     private void drawStages(FXGraphics2D graphics) {
         int stageHeight = 60;
         ArrayList<Stage> usedStages1 = this.usedStages;
         for (int i = 0; i < usedStages1.size(); i++) {
             Stage stage = usedStages1.get(i);
-            graphics.drawLine(this.startX, stageHeight * (i+1), this.endX, stageHeight * (i+1));
-            graphics.drawString(stage.getName(), this.startX + 10, stageHeight * (i+1) - stageHeight /2);
+            graphics.drawLine(this.startX, stageHeight * (i + 1), this.endX, stageHeight * (i + 1));
+            graphics.drawString(stage.getName(), this.startX + 10, stageHeight * (i + 1) - stageHeight / 2);
         }
     }
 
@@ -283,8 +288,6 @@ public class AgendaCanvas {
             this.cameraTransform.translate(scrollPixels, 0);
             draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         }
-
-
     }
 
     /**

@@ -72,7 +72,7 @@ public class AgendaModule{
                 artists));
 
         AgendaCanvas agendaCanvas = new AgendaCanvas(agenda);
-        mainPane.getChildren().add(agendaCanvas.buildAgendaCanvas());
+        mainPane.getChildren().add(agendaCanvas.getMainPane());
 
         return new Scene(mainPane);
     }
