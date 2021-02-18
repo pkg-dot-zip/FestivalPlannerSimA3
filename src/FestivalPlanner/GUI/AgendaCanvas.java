@@ -83,9 +83,7 @@ public class AgendaCanvas {
         this.cameraTransform = new AffineTransform();
         this.mainPane = new BorderPane();
 
-        calculateBounds();
-        this.usedStages = calculateUsedStages();
-        this.showRectangles = ShowRectanglesToArrayList();
+        buildAgendaCanvas();
 
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
         this.canvas.setHeight(height);
@@ -99,11 +97,41 @@ public class AgendaCanvas {
     }
 
     /**
+     * When this method is called it calculates and sets the following attributes:
+     * <p>
+     *      <ul>
+     *          <li>{@link #calculateBounds()}</li>
+     *          <li>{@link #calculateUsedStages()}</li>
+     *          <li>{@link #showRectanglesToArrayList()}</li>
+     *      </ul>
+     * <p>
+     *     When an update has been made to <code>this.agenda</code> this method will make the canvas recalculate the
+     *     things linked above.
+     * <p>
+     *     This method wil also be called in the constructor of this object and after setting <code>this.agenda</code>.
+     *     After these actions it is unnecessary to call this method.
+     *
+     */
+    public void buildAgendaCanvas() {
+        calculateBounds();
+        this.usedStages = calculateUsedStages();
+        this.showRectangles = showRectanglesToArrayList();
+    }
+
+    /**
+     * Getter for <code>this.mainPane</code>.
+     * @return  this.mainPane
+     */
+    public Node getMainPane() {
+        return mainPane;
+    }
+
+    /**
      * Creates an ArrayList with a <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> for every <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
      * <p>
      * @return ArrayList with all the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangles</a> from the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">shows</a>
      */
-    private ArrayList<ShowRectangle2D> ShowRectanglesToArrayList() {
+    private ArrayList<ShowRectangle2D> showRectanglesToArrayList() {
         ArrayList<ShowRectangle2D> rectangles = new ArrayList<>();
         for (Show show : this.agenda.getShows()) {
             rectangles.add(createShowRectangle(show));
@@ -273,15 +301,6 @@ public class AgendaCanvas {
                 this.cameraTransform.getTranslateY() + transform.getTranslateY() <= 1 &&
                 this.cameraTransform.getTranslateY() + transform.getTranslateY() >= -(this.endY - this.startY - this.canvas.getHeight())
         );
-    }
-
-    /**
-     * Returns <code>this.mainPane</code> to the class AgendaModule so AgendaCanvas can be added to the GUI.
-     *
-     * @return <code>this.mainPane</code> to the class AgendaModule
-     */
-    public Node buildAgendaCanvas() {
-        return this.mainPane;
     }
 
 }
