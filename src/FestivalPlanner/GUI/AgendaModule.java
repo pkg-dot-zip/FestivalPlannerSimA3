@@ -41,6 +41,18 @@ public class AgendaModule {
 	private Button eventRemoveButton;
 
 
+	/**
+	 * Constructor of <code>AgendaModule</code>.
+	 * <p>
+	 * The given <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> will be stored
+	 * as a parameter so this stage can be refrenced as the main
+	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a>.
+	 * </p>
+	 * @param stage will be stored
+	 * as a parameter so this stage can be refrenced as the owner of the sub stages
+	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a>
+	 */
+
 	public AgendaModule(Stage stage) {
 		this.stage = stage;
 
@@ -71,6 +83,14 @@ public class AgendaModule {
 		this.eventRemoveButton = new Button("Remove");
 	}
 
+	/**
+	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a>
+	 * for the <a href="{@docRoot}/FestivalPlanner/GUI/MainGUI.html">MainGUI</a> that contains all the GUI components
+	 * by calling all the generate methods.
+	 * @return <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> with the layout
+	 * for the <a href="{@docRoot}/FestivalPlanner.GUI/MainGUI.html">MainGUI</a> class
+	 */
+
 	public Scene generateGUILayout() {
 		this.generalLayoutHBox.setSpacing(10);
 
@@ -78,12 +98,19 @@ public class AgendaModule {
 		this.artistRemoveButton.setMinWidth(30);
 
 		this.generalLayoutHBox.getChildren().addAll(generateCreationPanel(), generateTimeAndPopularityPanel(),
-				generateArtistsTable(), generateEventCreator(), generatePodiumSelector(), generateSaveAndRemovePanel());
+				generateArtistsTable(), generateArtistAtEventSetter(), generatePodiumSelector(), generateSaveAndRemovePanel());
 
 		initEvents();
 
 		return new Scene(this.generalLayoutHBox);
 	}
+
+	/**
+	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+	 * that contains the parts of the GUI responsible for saving and removing events.
+	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+	 * the parts of the GUI responsible for saving and removing events
+	 */
 
 	private VBox generateSaveAndRemovePanel() {
 		VBox saveAndRemovePanel = new VBox();
@@ -98,6 +125,13 @@ public class AgendaModule {
 		return saveAndRemovePanel;
 	}
 
+	/**
+	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+	 * that contains the parts of the GUI responsible for selecting a podium for an event.
+	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+	 *  the parts of the GUI responsible for selecting a podium for an event
+	 */
+
 	private VBox generatePodiumSelector() {
 		VBox podiumVBox = new VBox();
 
@@ -111,20 +145,34 @@ public class AgendaModule {
 		return podiumVBox;
 	}
 
-	private VBox generateEventCreator() {
-		VBox eventCreatorVBox = new VBox();
+	/**
+	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+	 * that contains the parts of the GUI responsible for adding artists to an event.
+	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+	 * the parts of the GUI responsible for adding artists to an event
+	 */
 
-		eventCreatorVBox.setSpacing(5);
+	private VBox generateArtistAtEventSetter() {
+		VBox ArtistAtEventSetterVBox = new VBox();
+
+		ArtistAtEventSetterVBox.setSpacing(5);
 		this.artistComboBoxCopy.setMinWidth(120);
 		this.artistComboBoxCopy.setMaxWidth(120);
 
 		this.eventArtistsAddButton.setMinWidth(112);
 
-		eventCreatorVBox.getChildren().addAll(new Label(""),this.artistComboBoxCopy,
+		ArtistAtEventSetterVBox.getChildren().addAll(new Label(""),this.artistComboBoxCopy,
 				this.eventArtistsAddButton, this.eventArtistsRemoveButton);
 
-		return eventCreatorVBox;
+		return ArtistAtEventSetterVBox;
 	}
+
+	/**
+	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+	 * that contains the parts of the GUI responsible for showing all of the artists in an event.
+	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+	 * the parts of the GUI responsible for showing all of the artists in an event
+	 */
 
 	private VBox generateArtistsTable() {
 		VBox artistVBox = new VBox();
@@ -139,6 +187,13 @@ public class AgendaModule {
 		artistVBox.getChildren().addAll(new Label("                  Artists:"), this.artistsList);
 		return artistVBox;
 	}
+
+	/**
+	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+	 * that contains the parts of the GUI responsible for selecting the time and popularity of an event.
+	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+	 * 	all the parts of the GUI responsible for selecting the time and popularity of an event
+	 */
 
 	private VBox generateTimeAndPopularityPanel() {
 		VBox timeAndPopularityVBox = new VBox();
@@ -157,6 +212,13 @@ public class AgendaModule {
 
 		return timeAndPopularityVBox;
 	}
+
+	/**
+	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+	 * that contains the parts of the GUI responsible for creating and removing artists and podiums.
+	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+	 * all the parts of the GUI responsible for creating and removing artists and podiums
+	 */
 
 	private VBox generateCreationPanel() {
 		VBox creationPanelVBox = new VBox();
@@ -182,11 +244,19 @@ public class AgendaModule {
 		return creationPanelVBox;
 	}
 
+	/** This method is a placeholder, it wil become a method to show the artists that are preforming at the
+	 * selected event in the artist list.
+	 */
+
 	//TODO Needs to be rewritten when the Rooster Class is done
 	private void updateArtistsList() {
 		this.artistsList.getItems().clear();
 		this.artistsList.getItems().add("");
 	}
+
+	/**
+	 * Initiates all the events that are used in the GUI.
+	 */
 
 	public void initEvents() {
 		this.artistAddButton.setOnAction(event -> {

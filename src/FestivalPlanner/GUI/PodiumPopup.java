@@ -11,6 +11,13 @@ import javafx.stage.Stage;
 
 public class PodiumPopup {
 
+	/**
+	 * Shows a sub <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> where you can
+	 * create a new podium. The primaryStage cannot be interacted with until this sub
+	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> has been closed.
+	 * @param primaryStage The stage that will become the owner of this stage.
+	 */
+
 	public static void show(Stage primaryStage) {
 
 		Stage stage = new Stage();
@@ -23,6 +30,13 @@ public class PodiumPopup {
 		stage.setTitle("Podium creator");
 		stage.show();
 	}
+
+	/**
+	 *  generates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> that is the
+	 * 	layout for the sub stage.
+	 * @return <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> that is the
+	 * layout for the sub stage
+	 */
 
 	private static Scene generateScene() {
 		VBox layoutVBox = new VBox();
