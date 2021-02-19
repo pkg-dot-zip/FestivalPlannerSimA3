@@ -6,6 +6,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+
 public class AgendaModule {
 
 	//private Rooster rooster = new Rooster();
@@ -18,6 +20,9 @@ public class AgendaModule {
 	private TextField endTimeTextField = new TextField("EndTime");
 
 	private Slider popularitySlider;
+
+	//TODO should be ListView<Artist>
+	private ListView<String> artistsList;
 
 	private Label errorLabel;
 	private Label artistsLabel;
@@ -38,9 +43,11 @@ public class AgendaModule {
 
 		this.errorLabel = new Label("");
 		this.errorLabel = new Label("No error;");
-		this.popularityLabel = new Label("Existing podiums and artists: 50");
+		this.popularityLabel = new Label(" Expected popularity: 50");
 
 		this.popularitySlider = new Slider();
+
+		this.artistsList = new ListView<>();
 
 		this.podiumAddButton = new Button("+");
 		this.artistAddButton = new Button("+");
@@ -54,11 +61,26 @@ public class AgendaModule {
 		this.podiumRemoveButton.setMinWidth(30);
 		this.artistRemoveButton.setMinWidth(30);
 
-		this.generalLayoutHBox.getChildren().addAll(generateCreationPanel(), generateTimeAndPopularityPanel());
+		this.generalLayoutHBox.getChildren().addAll(generateCreationPanel(), generateTimeAndPopularityPanel(),
+				generateArtistsTable());
 
 		initEvents();
 
 		return new Scene(this.generalLayoutHBox);
+	}
+
+	private VBox generateArtistsTable() {
+		VBox artistVBox = new VBox();
+
+		artistVBox.setSpacing(5);
+
+		this.artistsList.setMaxHeight(150);
+		this.artistsList.setMaxWidth(200);
+
+		updateArtistsList();
+
+		artistVBox.getChildren().addAll(new Label("                  Artists:"), this.artistsList);
+		return artistVBox;
 	}
 
 	private VBox generateTimeAndPopularityPanel() {
@@ -73,14 +95,13 @@ public class AgendaModule {
 		this.startTimeTextField.setMinWidth(220);
 		this.endTimeTextField.setMinWidth(220);
 
-		timeAndPopluarityVBox.getChildren().addAll(this.startTimeTextField, this.endTimeTextField,
-				this.popularityLabel, this.popularitySlider);
-
+		timeAndPopluarityVBox.getChildren().addAll(new Label(""), this.startTimeTextField,
+				this.endTimeTextField, this.popularityLabel, this.popularitySlider);
 
 		return timeAndPopluarityVBox;
 	}
 
-	public VBox generateCreationPanel() {
+	private VBox generateCreationPanel() {
 		VBox creationPanelVBox = new VBox();
 
 		HBox artistHbox = new HBox();
@@ -102,22 +123,35 @@ public class AgendaModule {
 		return creationPanelVBox;
 	}
 
+	//TODO Needs to be rewritten when the Rooster Class is done
+	private void updateArtistsList() {
+		ArrayList<String> strings = new ArrayList<>();
+
+		this.artistsList.getItems().clear();
+
+		this.artistsList.getItems().addAll(strings);
+		this.artistsList.getItems().add("");
+	}
 
 	public void initEvents() {
 		this.artistAddButton.setOnAction(event -> {
 			//need to make the secondary GUI
+			updateArtistsList();
 		});
 
 		this.podiumAddButton.setOnAction(event -> {
 			//need to make the secondary GUI
+			updateArtistsList();
 		});
 
 		this.artistRemoveButton.setOnAction(event -> {
 			this.artistComboBox.getItems().remove(this.artistComboBox.getValue());
+			updateArtistsList();
 		});
 
 		this.podiumRemoveButton.setOnAction(event -> {
 			this.podiumComboBox.getItems().remove(this.podiumComboBox.getValue());
+			updateArtistsList();
 		});
 
 		this.startTimeTextField.setOnMouseClicked(event -> {
@@ -133,7 +167,7 @@ public class AgendaModule {
 		});
 
 		this.popularitySlider.setOnMouseDragged(event -> {
-			this.popularityLabel.setText(" Existing podiums and artists: " + (int)this.popularitySlider.getValue());
+			this.popularityLabel.setText(" Expected popularity: " + (int)this.popularitySlider.getValue());
 		});
 
 	}
