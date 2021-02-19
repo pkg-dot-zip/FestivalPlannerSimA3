@@ -2,11 +2,11 @@ package FestivalPlanner.GUI;
 
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+
 
 public class AgendaModule {
 
@@ -14,7 +14,9 @@ public class AgendaModule {
 	private HBox generalLayoutHBox;
 
 	private ComboBox podiumComboBox;
+	private ComboBox podiumComboBoxCopy;
 	private ComboBox artistComboBox;
+	private ComboBox artistComboBoxCopy;
 
 	private TextField startTimeTextField = new TextField("StartTime");
 	private TextField endTimeTextField = new TextField("EndTime");
@@ -23,27 +25,35 @@ public class AgendaModule {
 
 	//TODO should be ListView<Artist>
 	private ListView<String> artistsList;
+	
 
 	private Label errorLabel;
-	private Label artistsLabel;
 	private Label popularityLabel;
+	private Label selectedLabel;
 
 	private Button podiumRemoveButton;
 	private Button artistRemoveButton;
 	private Button artistAddButton;
 	private Button podiumAddButton;
+	private Button eventArtistsAddButton;
+	private Button eventArtistsRemoveButton;
+	private Button eventSaveButton;
+	private Button eventRemoveButton;
 
 
 	public AgendaModule() {
 		//this.rooster = rooster
 		this.generalLayoutHBox = new HBox();
 
+		//Copies like this are data inefficient but necessary for design
 		this.podiumComboBox = new ComboBox<>();
+		this.podiumComboBoxCopy = new ComboBox<>();
 		this.artistComboBox = new ComboBox<>();
+		this.artistComboBoxCopy = new ComboBox<>();
 
-		this.errorLabel = new Label("");
 		this.errorLabel = new Label("No error;");
 		this.popularityLabel = new Label(" Expected popularity: 50");
+		this.selectedLabel = new Label("Selected: None");
 
 		this.popularitySlider = new Slider();
 
@@ -53,6 +63,10 @@ public class AgendaModule {
 		this.artistAddButton = new Button("+");
 		this.podiumRemoveButton = new Button("-");
 		this.artistRemoveButton = new Button("-");
+		this.eventArtistsAddButton = new Button("Add Artist");
+		this.eventArtistsRemoveButton = new Button("Remove Artist");
+		this.eventSaveButton = new Button("Save");
+		this.eventRemoveButton = new Button("Remove");
 	}
 
 	public Scene generateGUILayout() {
@@ -62,11 +76,48 @@ public class AgendaModule {
 		this.artistRemoveButton.setMinWidth(30);
 
 		this.generalLayoutHBox.getChildren().addAll(generateCreationPanel(), generateTimeAndPopularityPanel(),
-				generateArtistsTable());
+				generateArtistsTable(), generateEventCreator(), generatePodiumSelector(), generateSaveAndRemovePanel());
 
 		initEvents();
 
 		return new Scene(this.generalLayoutHBox);
+	}
+
+	private VBox generateSaveAndRemovePanel() {
+		VBox saveAndRemovePanel = new VBox();
+
+		saveAndRemovePanel.setSpacing(12);
+
+		saveAndRemovePanel.getChildren().addAll(new Label(""), this.selectedLabel,
+				this.eventRemoveButton, this.eventSaveButton);
+
+		return saveAndRemovePanel;
+	}
+
+	private VBox generatePodiumSelector() {
+		VBox podiumVBox = new VBox();
+
+		podiumVBox.setSpacing(5);
+
+		this.podiumComboBoxCopy.setMinWidth(120);
+		this.podiumComboBoxCopy.setMaxWidth(120);
+
+		podiumVBox.getChildren().addAll(new Label(""), this.podiumComboBoxCopy);
+
+		return podiumVBox;
+	}
+
+	private VBox generateEventCreator() {
+		VBox eventCreatorVBox = new VBox();
+
+		eventCreatorVBox.setSpacing(5);
+		this.artistComboBoxCopy.setMinWidth(120);
+		this.artistComboBoxCopy.setMaxWidth(120);
+
+		eventCreatorVBox.getChildren().addAll(new Label(""),this.artistComboBoxCopy,
+				this.eventArtistsAddButton, this.eventArtistsRemoveButton);
+
+		return eventCreatorVBox;
 	}
 
 	private VBox generateArtistsTable() {
@@ -104,21 +155,23 @@ public class AgendaModule {
 	private VBox generateCreationPanel() {
 		VBox creationPanelVBox = new VBox();
 
-		HBox artistHbox = new HBox();
-		HBox podiumHbox = new HBox();
+		HBox artistHBox = new HBox();
+		HBox podiumHBox = new HBox();
 
 		creationPanelVBox.setSpacing(5);
-		artistHbox.setSpacing(5);
-		podiumHbox.setSpacing(5);
+		artistHBox.setSpacing(5);
+		podiumHBox.setSpacing(5);
 
 		this.artistComboBox.setMinWidth(120);
+		this.artistComboBox.setMaxWidth(120);
 		this.podiumComboBox.setMinWidth(120);
+		this.podiumComboBox.setMaxWidth(120);
 
-		artistHbox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton);
-		podiumHbox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton);
+		artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton);
+		podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton);
 
 		creationPanelVBox.getChildren().addAll(this.errorLabel, new Label(" Existing podiums and artists: "),
-				artistHbox, podiumHbox);
+				artistHBox, podiumHBox);
 
 		return creationPanelVBox;
 	}
@@ -136,22 +189,22 @@ public class AgendaModule {
 	public void initEvents() {
 		this.artistAddButton.setOnAction(event -> {
 			//need to make the secondary GUI
-			updateArtistsList();
 		});
 
 		this.podiumAddButton.setOnAction(event -> {
 			//need to make the secondary GUI
-			updateArtistsList();
 		});
 
 		this.artistRemoveButton.setOnAction(event -> {
-			this.artistComboBox.getItems().remove(this.artistComboBox.getValue());
-			updateArtistsList();
+			Object selectedItem = this.artistComboBox.getValue();
+			this.artistComboBox.getItems().remove(selectedItem);
+			this.artistComboBoxCopy.getItems().remove(selectedItem);
 		});
 
 		this.podiumRemoveButton.setOnAction(event -> {
-			this.podiumComboBox.getItems().remove(this.podiumComboBox.getValue());
-			updateArtistsList();
+			Object selectedItem = this.podiumComboBox.getValue();
+			this.podiumComboBox.getItems().remove(selectedItem);
+			this.podiumComboBoxCopy.getItems().remove(selectedItem);
 		});
 
 		this.startTimeTextField.setOnMouseClicked(event -> {
