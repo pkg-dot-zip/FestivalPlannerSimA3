@@ -4,8 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.util.ArrayList;
+import javafx.stage.Stage;
 
 
 public class AgendaModule {
@@ -26,6 +25,7 @@ public class AgendaModule {
 	//TODO should be ListView<Artist>
 	private ListView<String> artistsList;
 
+	private Stage stage;
 
 	private Label errorLabel;
 	private Label popularityLabel;
@@ -41,7 +41,9 @@ public class AgendaModule {
 	private Button eventRemoveButton;
 
 
-	public AgendaModule() {
+	public AgendaModule(Stage stage) {
+		this.stage = stage;
+
 		//this.rooster = rooster
 		this.generalLayoutHBox = new HBox();
 
@@ -174,8 +176,8 @@ public class AgendaModule {
 		artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton);
 		podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton);
 
-		creationPanelVBox.getChildren().addAll(this.errorLabel, new Label(" Existing podiums and artists: "),
-				artistHBox, podiumHBox);
+		creationPanelVBox.getChildren().addAll(this.errorLabel,
+				new Label("Existing artists: "), artistHBox, new Label("Existing podiums: "), podiumHBox);
 
 		return creationPanelVBox;
 	}
@@ -191,9 +193,7 @@ public class AgendaModule {
 			//need to make the secondary GUI
 		});
 
-		this.podiumAddButton.setOnAction(event -> {
-			//need to make the secondary GUI
-		});
+		this.podiumAddButton.setOnAction(event -> PodiumPopup.show(this.stage));
 
 		this.artistRemoveButton.setOnAction(event -> {
 			Object selectedItem = this.artistComboBox.getValue();
