@@ -25,7 +25,7 @@ public class AgendaModule {
 
 	//TODO should be ListView<Artist>
 	private ListView<String> artistsList;
-	
+
 
 	private Label errorLabel;
 	private Label popularityLabel;
@@ -52,7 +52,7 @@ public class AgendaModule {
 		this.artistComboBoxCopy = new ComboBox<>();
 
 		this.errorLabel = new Label("No error;");
-		this.popularityLabel = new Label(" Expected popularity: 50");
+		this.popularityLabel = new Label(" Expected popularity: 50%");
 		this.selectedLabel = new Label("Selected: None");
 
 		this.popularitySlider = new Slider();
@@ -88,6 +88,8 @@ public class AgendaModule {
 
 		saveAndRemovePanel.setSpacing(12);
 
+		this.eventSaveButton.setMinWidth(74);
+
 		saveAndRemovePanel.getChildren().addAll(new Label(""), this.selectedLabel,
 				this.eventRemoveButton, this.eventSaveButton);
 
@@ -114,6 +116,8 @@ public class AgendaModule {
 		this.artistComboBoxCopy.setMinWidth(120);
 		this.artistComboBoxCopy.setMaxWidth(120);
 
+		this.eventArtistsAddButton.setMinWidth(112);
+
 		eventCreatorVBox.getChildren().addAll(new Label(""),this.artistComboBoxCopy,
 				this.eventArtistsAddButton, this.eventArtistsRemoveButton);
 
@@ -135,9 +139,9 @@ public class AgendaModule {
 	}
 
 	private VBox generateTimeAndPopularityPanel() {
-		VBox timeAndPopluarityVBox = new VBox();
+		VBox timeAndPopularityVBox = new VBox();
 
-		timeAndPopluarityVBox.setSpacing(5);
+		timeAndPopularityVBox.setSpacing(5);
 
 		this.popularitySlider.setMin(0);
 		this.popularitySlider.setMax(100);
@@ -146,10 +150,10 @@ public class AgendaModule {
 		this.startTimeTextField.setMinWidth(220);
 		this.endTimeTextField.setMinWidth(220);
 
-		timeAndPopluarityVBox.getChildren().addAll(new Label(""), this.startTimeTextField,
+		timeAndPopularityVBox.getChildren().addAll(new Label(""), this.startTimeTextField,
 				this.endTimeTextField, this.popularityLabel, this.popularitySlider);
 
-		return timeAndPopluarityVBox;
+		return timeAndPopularityVBox;
 	}
 
 	private VBox generateCreationPanel() {
@@ -178,11 +182,7 @@ public class AgendaModule {
 
 	//TODO Needs to be rewritten when the Rooster Class is done
 	private void updateArtistsList() {
-		ArrayList<String> strings = new ArrayList<>();
-
 		this.artistsList.getItems().clear();
-
-		this.artistsList.getItems().addAll(strings);
 		this.artistsList.getItems().add("");
 	}
 
@@ -220,7 +220,23 @@ public class AgendaModule {
 		});
 
 		this.popularitySlider.setOnMouseDragged(event -> {
-			this.popularityLabel.setText(" Expected popularity: " + (int)this.popularitySlider.getValue());
+			this.popularityLabel.setText(" Expected popularity: " + (int)this.popularitySlider.getValue() + "%");
+		});
+
+		this.eventArtistsAddButton.setOnAction(event -> {
+			//TODO Need the other classes to make this
+		});
+
+		this.eventArtistsRemoveButton.setOnAction(event -> {
+			this.artistsList.getItems().remove(this.artistComboBoxCopy.getValue());
+		});
+
+		this.eventRemoveButton.setOnAction(event -> {
+			//TODO Need the other classes to make this
+		});
+
+		this.eventSaveButton.setOnAction(event -> {
+			//TODO Need the other classes to make this
 		});
 
 	}
