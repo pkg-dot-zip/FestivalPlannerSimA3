@@ -10,6 +10,7 @@ public class MainGUI extends Application {
 
         AgendaModule agendaModule = new AgendaModule(stage);
         stage.setScene(agendaModule.generateGUILayout());
+        stage.setTitle("Agenda");
         stage.show();
     }
 

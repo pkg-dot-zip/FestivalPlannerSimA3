@@ -1,5 +1,7 @@
 package FestivalPlanner.GUI;
 
+import FestivalPlanner.Agenda.Podium;
+import FestivalPlanner.Agenda.PodiumManager;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,7 +20,7 @@ public class PodiumPopup {
 	 * @param primaryStage The stage that will become the owner of this stage.
 	 */
 
-	public static void show(Stage primaryStage) {
+	public static void show(Stage primaryStage, PodiumManager podiumManager, AgendaModule agendaModule) {
 
 		Stage stage = new Stage();
 		primaryStage.setResizable(false);
@@ -26,7 +28,7 @@ public class PodiumPopup {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.initOwner(primaryStage);
 
-		stage.setScene(generateScene());
+		stage.setScene(generateScene(podiumManager, stage, agendaModule));
 		stage.setTitle("Podium creator");
 		stage.show();
 	}
@@ -38,7 +40,7 @@ public class PodiumPopup {
 	 * layout for the sub stage
 	 */
 
-	private static Scene generateScene() {
+	private static Scene generateScene(PodiumManager podiumManager, Stage stage, AgendaModule agendaModule) {
 		VBox layoutVBox = new VBox();
 		layoutVBox.setSpacing(10);
 
@@ -62,8 +64,9 @@ public class PodiumPopup {
 
 		addButton.setOnAction(event -> {
 			if (!nameField.getText().isEmpty() && !locationField.getText().isEmpty()) {
-				//podiumManager.add()
-				//TODO
+				podiumManager.addPodium(new Podium(nameField.getText(),locationField.getText()));
+				agendaModule.updatePodiumComboBox();
+				stage.close();
 			}
 		});
 

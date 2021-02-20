@@ -1,6 +1,9 @@
 package FestivalPlanner.Agenda;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 //TODO: Improve documentation.
 
@@ -12,6 +15,10 @@ import java.util.HashMap;
 public class PodiumManager {
 
     private HashMap<String, Podium> podiums;
+
+    public PodiumManager() {
+        this.podiums = new HashMap<>();
+    }
 
     /**
      * Returns true if the podiums HashMap contains the parameter's value. If it does not contain
@@ -27,7 +34,7 @@ public class PodiumManager {
      * Adds the <code>Podium</code> object to the podiums ArrayList if the list doesn't contain the value already.
      * @param podium  instance of <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> used to check whether the Hashmap already contains it or not.
      */
-    public void addArtist(Podium podium){
+    public void addPodium(Podium podium){
         if (!this.podiums.containsKey(podium.getName())){ //Checks whether the podium already exists or not.
             this.podiums.put(podium.getName(), podium);
         }
@@ -41,4 +48,11 @@ public class PodiumManager {
         this.podiums.remove(podiumName);
     }
 
+    public Podium getPodium(String name) {
+        return this.podiums.get(name);
+    }
+
+    public Set<String> getAllPodiumNames() {
+        return this.podiums.keySet();
+    }
 }

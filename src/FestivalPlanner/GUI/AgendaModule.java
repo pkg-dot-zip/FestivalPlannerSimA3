@@ -1,13 +1,16 @@
 package FestivalPlanner.GUI;
 
-import FestivalPlanner.Agenda.Agenda;
-import FestivalPlanner.Agenda.ArtistManager;
-import FestivalPlanner.Agenda.PodiumManager;
+import FestivalPlanner.Agenda.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 
 public class AgendaModule {
@@ -18,10 +21,10 @@ public class AgendaModule {
 
 	private HBox generalLayoutHBox;
 
-	private ComboBox podiumComboBox;
-	private ComboBox podiumComboBoxCopy;
-	private ComboBox artistComboBox;
-	private ComboBox artistComboBoxCopy;
+	private ComboBox<String> podiumComboBox;
+	private ComboBox<String> podiumComboBoxCopy;
+	private ComboBox<String> artistComboBox;
+	private ComboBox<String> artistComboBoxCopy;
 
 	private TextField startTimeTextField = new TextField("StartTime");
 	private TextField endTimeTextField = new TextField("EndTime");
@@ -29,7 +32,12 @@ public class AgendaModule {
 	private Slider popularitySlider;
 
 	//TODO should be ListView<Artist>
-	private ListView<String> artistsList;
+	private ListView<Artist> artistsList;
+
+	private ObservableList<String> observablePodiumList;
+	private ObservableList<String> observableArtistList;
+
+	private ArrayList<Artist> artistsFromCurrentShow;
 
 	private Stage stage;
 
@@ -70,10 +78,16 @@ public class AgendaModule {
 		this.generalLayoutHBox = new HBox();
 
 		//Copies like this are data inefficient but necessary for design
-		this.podiumComboBox = new ComboBox<>();
-		this.podiumComboBoxCopy = new ComboBox<>();
-		this.artistComboBox = new ComboBox<>();
-		this.artistComboBoxCopy = new ComboBox<>();
+
+		this.observablePodiumList = FXCollections.observableArrayList();
+		this.observableArtistList = FXCollections.observableArrayList();
+
+		this.artistsFromCurrentShow = new ArrayList<>();
+
+		this.podiumComboBox = new ComboBox<>(this.observablePodiumList);
+		this.podiumComboBoxCopy = new ComboBox<>(this.observablePodiumList);
+		this.artistComboBox = new ComboBox<>(this.observableArtistList);
+		this.artistComboBoxCopy = new ComboBox<>(this.observableArtistList);
 
 		this.errorLabel = new Label("No error;");
 		this.popularityLabel = new Label(" Expected popularity: 50%");
@@ -82,6 +96,7 @@ public class AgendaModule {
 		this.popularitySlider = new Slider();
 
 		this.artistsList = new ListView<>();
+
 
 		this.podiumAddButton = new Button("+");
 		this.artistAddButton = new Button("+");
@@ -260,31 +275,40 @@ public class AgendaModule {
 
 	//TODO Needs to be rewritten when the Rooster Class is done
 	private void updateArtistsList() {
-		this.artistsList.getItems().clear();
-		this.artistsList.getItems().add("");
+		this.artistsList.getItems().setAll(this.artistsFromCurrentShow);
+	}
+
+	protected void updatePodiumComboBox() {
+		this.observablePodiumList.setAll(this.podiumManager.getAllPodiumNames());
+	}
+
+	protected void updateArtistComboBox() {
+		this.observablePodiumList.setAll(this.artistManager.getAllArtistNames());
 	}
 
 	/**
 	 * Initiates all the events that are used in the GUI.
 	 */
 
-	public void initEvents() {
+	private void initEvents() {
 		this.artistAddButton.setOnAction(event -> {
 			//need to make the secondary GUI
 		});
 
-		this.podiumAddButton.setOnAction(event -> PodiumPopup.show(this.stage));
+		this.podiumAddButton.setOnAction(event -> {
+			PodiumPopup.show(this.stage, this.podiumManager, this);
+		});
 
 		this.artistRemoveButton.setOnAction(event -> {
-			Object selectedItem = this.artistComboBox.getValue();
-			this.artistComboBox.getItems().remove(selectedItem);
-			this.artistComboBoxCopy.getItems().remove(selectedItem);
+			String selectedArtist = this.artistComboBox.getValue();
+			this.artistManager.removeArtist(selectedArtist);
+			updateArtistsList();
 		});
 
 		this.podiumRemoveButton.setOnAction(event -> {
-			Object selectedItem = this.podiumComboBox.getValue();
-			this.podiumComboBox.getItems().remove(selectedItem);
-			this.podiumComboBoxCopy.getItems().remove(selectedItem);
+			String selectedPodium = this.podiumComboBox.getValue();
+			this.podiumManager.removePodium(selectedPodium);
+			updatePodiumComboBox();
 		});
 
 		this.startTimeTextField.setOnMouseClicked(event -> {
@@ -305,18 +329,28 @@ public class AgendaModule {
 
 		this.eventArtistsAddButton.setOnAction(event -> {
 			//TODO Need the other classes to make this
+			this.artistsFromCurrentShow.add(this.artistManager.getArtist(this.artistComboBoxCopy.getValue()));
+			updateArtistsList();
 		});
 
 		this.eventArtistsRemoveButton.setOnAction(event -> {
-			this.artistsList.getItems().remove(this.artistComboBoxCopy.getValue());
+			Artist selectedArtist = this.artistManager.getArtist(artistComboBoxCopy.getValue());
+
+			if (selectedArtist != null)
+			{
+				this.artistsFromCurrentShow.remove(selectedArtist);
+			}
 		});
 
 		this.eventRemoveButton.setOnAction(event -> {
-			//TODO Need the other classes to make this
+			//TODO Need a way to select classes first
 		});
 
 		this.eventSaveButton.setOnAction(event -> {
-			//TODO Need the other classes to make this
+			agenda.addShow(new Show("", LocalDateTime.parse(startTimeTextField.getText()),
+					LocalDateTime.parse(endTimeTextField.getText()), (int)this.popularitySlider.getValue(),
+					this.podiumManager.getPodium(this.podiumComboBoxCopy.getValue()),
+					this.artistsFromCurrentShow));
 		});
 
 	}

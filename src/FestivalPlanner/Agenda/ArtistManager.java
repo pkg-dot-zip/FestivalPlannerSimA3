@@ -1,6 +1,7 @@
 package FestivalPlanner.Agenda;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Manages all artists used by <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a>.
@@ -58,4 +59,11 @@ public class ArtistManager {
         this.artists.remove(artistName);
     }
 
+    public Artist getArtist(String name) {
+        return this.artists.get(name);
+    }
+
+    public Set<String> getAllArtistNames() {
+        return this.artists.keySet();
+    }
 }

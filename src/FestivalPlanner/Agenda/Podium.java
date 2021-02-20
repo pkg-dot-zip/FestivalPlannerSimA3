@@ -33,4 +33,9 @@ public class Podium {
     public String getLocation() {
         return this.location;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
