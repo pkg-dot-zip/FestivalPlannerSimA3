@@ -12,6 +12,12 @@ import javafx.stage.Stage;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+//TODO The way you enter a time feels counterintuitive
+//TODO Artist popup hasn't been made yet
+
+/**
+ * Responsible for placing everything in the correct place in the GUI and making sure all the buttons work.
+ */
 
 public class AgendaModule {
 
@@ -31,7 +37,6 @@ public class AgendaModule {
 
 	private Slider popularitySlider;
 
-	//TODO should be ListView<Artist>
 	private ListView<Artist> artistsList;
 
 	private ObservableList<String> observablePodiumList;
@@ -112,7 +117,7 @@ public class AgendaModule {
 	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a>
 	 * for the <a href="{@docRoot}/FestivalPlanner/GUI/MainGUI.html">MainGUI</a> that contains all the GUI components
 	 * by calling all the generate methods.
-	 * @return <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> with the layout
+	 * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> with the layout
 	 * for the <a href="{@docRoot}/FestivalPlanner.GUI/MainGUI.html">MainGUI</a> class
 	 */
 
@@ -269,18 +274,29 @@ public class AgendaModule {
 		return creationPanelVBox;
 	}
 
-	/** This method is a placeholder, it wil become a method to show the artists that are preforming at the
-	 * selected event in the artist list.
+	/**
+	 * This method updates the
+	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/ListView.html">ListView</a>
+	 * containing all artists form the current show.
 	 */
 
-	//TODO Needs to be rewritten when the Rooster Class is done
 	private void updateArtistsList() {
 		this.artistsList.getItems().setAll(this.artistsFromCurrentShow);
 	}
 
+	/**
+	 *  Updates the <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/JComboBox.html">ComboBox</a>
+	 *  containing all the current podiums.
+	 */
+
 	protected void updatePodiumComboBox() {
 		this.observablePodiumList.setAll(this.podiumManager.getAllPodiumNames());
 	}
+
+	/**
+	 * Updates the <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/JComboBox.html">ComboBox</a>
+	 * containing all the current Artists.
+	 */
 
 	protected void updateArtistComboBox() {
 		this.observablePodiumList.setAll(this.artistManager.getAllArtistNames());
@@ -328,7 +344,6 @@ public class AgendaModule {
 		});
 
 		this.eventArtistsAddButton.setOnAction(event -> {
-			//TODO Need the other classes to make this
 			this.artistsFromCurrentShow.add(this.artistManager.getArtist(this.artistComboBoxCopy.getValue()));
 			updateArtistsList();
 		});

@@ -59,9 +59,24 @@ public class ArtistManager {
         this.artists.remove(artistName);
     }
 
+    /**
+     * Searches for an <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> with the given name, returns
+     * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> was not found.
+     * @param name String representing the name of the Artist that is being requested.
+     * @return <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> with the given name, returns
+     * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> was not found
+     */
+
     public Artist getArtist(String name) {
         return this.artists.get(name);
     }
+
+    /**
+     * Returns a <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html">Set</a> with all the
+     * names of the known Artists.
+     * @return <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html">Set</a> containing all the names
+     * of the known Artists
+     */
 
     public Set<String> getAllArtistNames() {
         return this.artists.keySet();

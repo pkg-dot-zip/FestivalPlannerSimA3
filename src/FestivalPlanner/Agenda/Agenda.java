@@ -30,6 +30,7 @@ public class Agenda {
      * <p>
      * Sets the name to the parameter's value and sets <code>this.shows</code> to the parameter's value.
      * @param name  changes <code>this.name</code> to the parameter's value
+     * @param shows contains all the shows that will happen
      */
     public Agenda(String name, ArrayList<Show> shows) {
         this.name = name;

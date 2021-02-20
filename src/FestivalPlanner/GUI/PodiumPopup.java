@@ -11,31 +11,39 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Is responsible for a small popup that where a new podium can be created.
+ */
+
 public class PodiumPopup {
 
 	/**
 	 * Shows a sub <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> where you can
 	 * create a new podium. The primaryStage cannot be interacted with until this sub
 	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> has been closed.
-	 * @param primaryStage The stage that will become the owner of this stage.
+	 * @param primaryStage the stage that will become the owner of this stage.
+	 * @param agendaModule this class has a method that needs to be called after the list has been updated
+	 * @param podiumManager the class that contains the list of podiums that will be updated
 	 */
 
 	public static void show(Stage primaryStage, PodiumManager podiumManager, AgendaModule agendaModule) {
 
 		Stage stage = new Stage();
-		primaryStage.setResizable(false);
 		stage.setResizable(false);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.initOwner(primaryStage);
 
 		stage.setScene(generateScene(podiumManager, stage, agendaModule));
 		stage.setTitle("Podium creator");
-		stage.show();
+		stage.showAndWait();
 	}
 
 	/**
 	 *  generates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> that is the
 	 * 	layout for the sub stage.
+	 * @param podiumManager the class that contains the list of podiums that will be updated
+	 * @param stage the stage that needs to be closed after a new Podium has been created
+	 * @param agendaModule this class has methods that neet to be called after the list has been updated
 	 * @return <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> that is the
 	 * layout for the sub stage
 	 */
