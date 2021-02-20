@@ -16,6 +16,12 @@ public class PodiumManager {
 
     private HashMap<String, Podium> podiums;
 
+    /**
+     * Empty constructor for the <code>PodiumManager</code>.
+     * <p>
+     * The empty constructor initialises the <code>this.podiums</code> HashMap.
+     */
+
     public PodiumManager() {
         this.podiums = new HashMap<>();
     }
