@@ -1,5 +1,8 @@
 package FestivalPlanner.GUI;
 
+import FestivalPlanner.Agenda.Agenda;
+import FestivalPlanner.Agenda.ArtistManager;
+import FestivalPlanner.Agenda.PodiumManager;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -9,7 +12,10 @@ import javafx.stage.Stage;
 
 public class AgendaModule {
 
-	//private Rooster rooster = new Rooster();
+	private Agenda agenda;
+	private ArtistManager artistManager;
+	private PodiumManager podiumManager;
+
 	private HBox generalLayoutHBox;
 
 	private ComboBox podiumComboBox;
@@ -44,17 +50,21 @@ public class AgendaModule {
 	/**
 	 * Constructor of <code>AgendaModule</code>.
 	 * <p>
-	 * The given <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> will be stored
+	 * The given <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> will be stored
 	 * as a parameter so this stage can be refrenced as the main
-	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a>.
+	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>.
 	 * </p>
 	 * @param stage will be stored
 	 * as a parameter so this stage can be refrenced as the owner of the sub stages
-	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a>
+	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
 	 */
 
 	public AgendaModule(Stage stage) {
 		this.stage = stage;
+
+		this.agenda = new Agenda();
+		this.podiumManager = new PodiumManager();
+		this.artistManager = new ArtistManager();
 
 		//this.rooster = rooster
 		this.generalLayoutHBox = new HBox();

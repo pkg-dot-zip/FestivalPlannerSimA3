@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 /**
- * Contains information about a show, such as the time, name, artist & stage.
+ * Contains information about a show, such as the time, name, artist & podium.
  * <p>
  * Show is used by <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> to collect all shows.
  * @see Agenda#getShows()
@@ -17,7 +17,7 @@ public class Show {
     private LocalDateTime endTime;
     private int expectedPopularity;
 
-    private Stage stage;
+    private Podium podium;
     private ArrayList<Artist> artists;
 
     /**
@@ -28,15 +28,15 @@ public class Show {
      * @param startTime  sets <code>this.startTime</code> to the given parameter
      * @param endTime  sets <code>this.endTime</code> to the given parameter
      * @param expectedPopularity  sets <code>this.expectedPopularity</code> to the given parameter
-     * @param stage  sets <code>this.stage</code> to the given parameter
+     * @param podium  sets <code>this.podium</code> to the given parameter
      * @param artists  sets <code>this.artists</code> to the given parameter
      */
-    public Show(String name, LocalDateTime startTime, LocalDateTime endTime, int expectedPopularity, Stage stage, ArrayList<Artist> artists) {
+    public Show(String name, LocalDateTime startTime, LocalDateTime endTime, int expectedPopularity, Podium podium, ArrayList<Artist> artists) {
         this.name = name;
         this.startTime = startTime;
         this.endTime = endTime;
         this.expectedPopularity = expectedPopularity;
-        this.stage = stage;
+        this.podium = podium;
         this.artists = artists;
     }
 
@@ -66,8 +66,8 @@ public class Show {
         return this.expectedPopularity;
     }
 
-    public Stage getStage() {
-        return this.stage;
+    public Podium getPodium() {
+        return this.podium;
     }
 
     public ArrayList<Artist> getArtists() {

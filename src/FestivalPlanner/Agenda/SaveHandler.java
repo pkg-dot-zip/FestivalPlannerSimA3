@@ -50,7 +50,7 @@ public class SaveHandler {
             + show.getExpectedPopularity() + ";";
 
             //Write stage
-            generatedData += show.getStage().getName() + ";" + show.getStage().getLocation() + ";";
+            generatedData += show.getPodium().getName() + ";" + show.getPodium().getLocation() + ";";
 
             //Write artists //TODO: Think of a way to save BufferedImages.
             for (Artist artist : show.getArtists()){

@@ -3,17 +3,17 @@ package FestivalPlanner.Agenda;
 /**
  * Contains all information relevant to a stage, such as the name and location.
  */
-public class Stage {
+public class Podium {
 
     private String name;
     private String location; //(!TODO) WARNING: Datatype might change in the future!
 
     /**
-     * Constructor for the <code>Stage</code> class.
+     * Constructor for the <code>Podium</code> class.
      * @param name  sets <code>this.name</code> to the given parameter's value
      * @param location  sets <code>this.location</code> to the given parameter's value
      */
-    public Stage(String name, String location) {
+    public Podium(String name, String location) {
         this.name = name;
         this.location = location;
     }
