@@ -1,4 +1,4 @@
-package FestivalPlanner.GUI;
+package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.Agenda.Show;

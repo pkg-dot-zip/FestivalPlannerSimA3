@@ -1,11 +1,12 @@
 package FestivalPlanner.Agenda;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
  * Contains all the data for an artist, such as the name, picture and sprite.
  */
-public class Artist {
+public class Artist implements Serializable {
 
     private String name;
     private BufferedImage picture;

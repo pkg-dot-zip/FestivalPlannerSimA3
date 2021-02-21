@@ -1,9 +1,11 @@
 package FestivalPlanner.Agenda;
 
+import java.io.Serializable;
+
 /**
  * Contains all information relevant to a stage, such as the name and location.
  */
-public class Podium {
+public class Podium implements Serializable {
 
     private String name;
     private String location; //(!TODO) WARNING: Datatype might change in the future!

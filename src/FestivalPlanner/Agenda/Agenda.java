@@ -1,5 +1,6 @@
 package FestivalPlanner.Agenda;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,7 +9,7 @@ import java.util.HashMap;
 /**
  * Top-class of the Agenda package; contains all the information needed for the GUI.
  */
-public class Agenda {
+public class Agenda implements Serializable {
 
     private String name;
     private ArrayList<Show> shows;

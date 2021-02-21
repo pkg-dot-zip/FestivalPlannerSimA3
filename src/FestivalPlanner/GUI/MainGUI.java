@@ -1,7 +1,7 @@
 package FestivalPlanner.GUI;
 
+import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MainGUI extends Application {
