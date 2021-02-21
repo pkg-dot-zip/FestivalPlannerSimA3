@@ -2,7 +2,7 @@ package FestivalPlanner.GUI;
 
 import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.Agenda.Show;
-import FestivalPlanner.Agenda.Stage;
+import FestivalPlanner.Agenda.Podium;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ScrollEvent;
@@ -35,7 +35,7 @@ public class AgendaCanvas {
     private int endY;
 
     private Agenda agenda;
-    private ArrayList<Stage> usedStages;
+    private ArrayList<Podium> usedStages;
 
     //TODO: Remember to remove Agenda package before merging since this one is temporary.
 
@@ -203,7 +203,7 @@ public class AgendaCanvas {
     private ShowRectangle2D createShowRectangle(Show show) {
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute() / 60f);
         double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute() / 60f);
-        int stageIndex = this.usedStages.indexOf(show.getStage());
+        int stageIndex = this.usedStages.indexOf(show.getPodium());
 
         return new ShowRectangle2D(startTime * 60, stageIndex * 60 + 5, (endTime * 60) - (startTime * 60), 50, show);
     }
@@ -226,11 +226,11 @@ public class AgendaCanvas {
      *
      * @return an ArrayList with all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>
      */
-    private ArrayList<Stage> calculateUsedStages() {
-        Set<Stage> stageSet = new HashSet<>();
+    private ArrayList<Podium> calculateUsedStages() {
+        Set<Podium> stageSet = new HashSet<>();
 
         for (Show show : this.agenda.getShows()) {
-            stageSet.add(show.getStage());
+            stageSet.add(show.getPodium());
         }
         return new ArrayList<>(stageSet);
     }
@@ -308,9 +308,9 @@ public class AgendaCanvas {
      */
     private void drawStages(FXGraphics2D graphics) {
         int stageHeight = 60;
-        ArrayList<Stage> usedStages1 = this.usedStages;
+        ArrayList<Podium> usedStages1 = this.usedStages;
         for (int i = 0; i < usedStages1.size(); i++) {
-            Stage stage = usedStages1.get(i);
+            Podium stage = usedStages1.get(i);
             graphics.drawLine(this.startX, stageHeight * (i + 1), this.endX, stageHeight * (i + 1));
             graphics.drawString(stage.getName(), this.startX + 10, stageHeight * (i + 1) - stageHeight / 2);
         }
