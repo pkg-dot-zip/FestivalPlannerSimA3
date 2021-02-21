@@ -5,11 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -27,10 +27,13 @@ public class AgendaModule {
 	private ArtistManager artistManager;
 	private PodiumManager podiumManager;
 
+	private AgendaCanvas agendaCanvas;
+
 	// Popups
 	private PodiumPopup podiumPopup;
 
 	// Layout components
+	private BorderPane mainLayoutPane;
 	private HBox generalLayoutHBox;
 
 	private ComboBox<String> podiumComboBox;
@@ -85,9 +88,15 @@ public class AgendaModule {
 		this.podiumManager = new PodiumManager();
 		this.artistManager = new ArtistManager();
 
+		this.agendaCanvas = new AgendaCanvas(this.agenda);
+
 		this.podiumPopup = new PodiumPopup(this.stage,this.podiumManager,this);
 
+		this.mainLayoutPane = new BorderPane();
 		this.generalLayoutHBox = new HBox();
+
+		this.mainLayoutPane.setTop(this.generalLayoutHBox);
+		this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
 
 		this.observablePodiumList = FXCollections.observableArrayList();
 		this.observableArtistList = FXCollections.observableArrayList();
@@ -139,7 +148,7 @@ public class AgendaModule {
 
 		this.podiumPopup.generateScene();
 
-		return new Scene(this.generalLayoutHBox);
+		return new Scene(this.mainLayoutPane);
 	}
 
 	/**

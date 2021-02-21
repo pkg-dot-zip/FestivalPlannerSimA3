@@ -126,6 +126,7 @@ public class AgendaCanvas {
      * @return this.mainPane
      */
     public Node getMainPane() {
+        buildAgendaCanvas();
         return mainPane;
     }
 
