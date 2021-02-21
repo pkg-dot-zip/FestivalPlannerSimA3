@@ -68,7 +68,7 @@ public class SaveHandler {
 
     //TODO: Consider changing file extension (currently .dat).
     public void writeAgendaToFile(String fileName, Agenda agenda){
-        try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(fileName + ".dat"))){
+        try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(fileName))){
             output.writeObject(new Agenda(agenda.getName(), agenda.getShows()));
         } catch (Exception e){
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class SaveHandler {
     public Agenda readAgendaFromFile(String fileName){
         Agenda agenda = new Agenda();
 
-        try(ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName + ".dat"))){
+        try(ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))){
 
             //Sets the new instance of Agenda to the one from the ObjectInputStream.
             agenda = (Agenda) (inputStream.readObject());

@@ -196,7 +196,7 @@ public class AgendaModule {
 	private void initEvents() {
 
 		this.fileDirTextField.setOnMouseClicked(e -> {
-			loadAgenda();
+			saveAgenda();
 		});
 
 		this.loadAgendaButton.setOnAction(e -> {
@@ -205,6 +205,7 @@ public class AgendaModule {
 				loadAgenda();
 			}
 			this.agenda = saveHandler.readAgendaFromFile(this.fileDirTextField.getText());
+			this.agendaCanvas.setAgenda(this.agenda);
 		});
 
 		this.saveAgendaButton.setOnAction(e -> {

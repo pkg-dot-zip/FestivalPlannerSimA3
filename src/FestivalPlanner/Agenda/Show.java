@@ -1,5 +1,6 @@
 package FestivalPlanner.Agenda;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  * Show is used by <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> to collect all shows.
  * @see Agenda#getShows()
  */
-public class Show {
+public class Show implements Serializable {
 
     private String name;
     private LocalTime startTime;
