@@ -148,8 +148,34 @@ public class AgendaCanvas {
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
+    /**
+     * Getters for <code>this.canvas</code>.
+     * @return <code>this.canvas</code>
+     */
     public Canvas getCanvas() {
         return canvas;
+    }
+
+    /**
+     * Looks if a <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> is displayed at the given <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a>.
+     * @param point  The point to check is there is a drawn <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a>
+     * @return The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> at the given
+     * <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a> represents.
+     * <p>
+     * Returns null when there is no <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a>
+     * at given <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a>
+     */
+    public Show showAtPoint(Point2D point) {
+        //Adjust the point to the cameratransform and startTranslate todo: doesn't account for zooming since it is not yet implemented
+        Point2D adjustedPoint = new Point2D.Double(point.getX() + this.startX - this.cameraTransform.getTranslateX(),
+                point.getY() + this.startY - this.cameraTransform.getTranslateY());
+
+        for (ShowRectangle2D showRectangle : this.showRectangles) {
+            if (showRectangle.getRectangle().contains(adjustedPoint)) {
+                return showRectangle.getShow();
+            }
+        }
+        return null;
     }
 
     /**
