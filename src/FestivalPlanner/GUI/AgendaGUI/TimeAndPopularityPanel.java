@@ -1,4 +1,4 @@
-package FestivalPlanner.GUI;
+package FestivalPlanner.GUI.AgendaGUI;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

@@ -1,4 +1,4 @@
-package FestivalPlanner.GUI;
+package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.Podium;
 import FestivalPlanner.Agenda.PodiumManager;
@@ -10,9 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.sql.Time;
-import java.time.LocalTime;
 
 /**
  * Is responsible for a small popup that where a new <a href="{@docRoot}/FestivalPlanner/GUI/Podium.html">podium</a>

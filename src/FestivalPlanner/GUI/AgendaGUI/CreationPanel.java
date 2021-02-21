@@ -1,4 +1,4 @@
-package FestivalPlanner.GUI;
+package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.ArtistManager;
 import FestivalPlanner.Agenda.PodiumManager;

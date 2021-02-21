@@ -1,17 +1,13 @@
-package FestivalPlanner.GUI;
+package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 //TODO The way you enter a time feels counterintuitive
 //TODO Artist popup hasn't been made yet
