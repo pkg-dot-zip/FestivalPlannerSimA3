@@ -36,9 +36,9 @@ public class AgendaModule {
 	private BorderPane mainLayoutPane;
 	private HBox generalLayoutHBox;
 
-	private ComboBox<String> podiumComboBox;
+	private CreationPanel creationPanel;
+
 	private ComboBox<String> podiumComboBoxCopy;
-	private ComboBox<String> artistComboBox;
 	private ComboBox<String> artistComboBoxCopy;
 
 	private TextField startTimeTextField = new TextField("StartTime");
@@ -48,9 +48,6 @@ public class AgendaModule {
 
 	private ListView<Artist> artistsList;
 
-	private ObservableList<String> observablePodiumList;
-	private ObservableList<String> observableArtistList;
-
 	private ArrayList<Artist> artistsFromCurrentShow;
 
 	private Stage stage;
@@ -59,10 +56,6 @@ public class AgendaModule {
 	private Label popularityLabel;
 	private Label selectedLabel;
 
-	private Button podiumRemoveButton;
-	private Button artistRemoveButton;
-	private Button artistAddButton;
-	private Button podiumAddButton;
 	private Button eventArtistsAddButton;
 	private Button eventArtistsRemoveButton;
 	private Button eventSaveButton;
@@ -90,23 +83,20 @@ public class AgendaModule {
 
 		this.agendaCanvas = new AgendaCanvas(this.agenda);
 
-		this.podiumPopup = new PodiumPopup(this.stage,this.podiumManager,this);
-
 		this.mainLayoutPane = new BorderPane();
 		this.generalLayoutHBox = new HBox();
+
+		this.creationPanel = new CreationPanel(this, this.podiumManager, this.artistManager);
+
+		this.podiumPopup = new PodiumPopup(this.stage,this.podiumManager,this.creationPanel);
+
+		this.podiumComboBoxCopy = new ComboBox<>(this.creationPanel.getObservablePodiumList());
+		this.artistComboBoxCopy = new ComboBox<>(this.creationPanel.getObservableArtistList());
 
 		this.mainLayoutPane.setTop(this.generalLayoutHBox);
 		this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
 
-		this.observablePodiumList = FXCollections.observableArrayList();
-		this.observableArtistList = FXCollections.observableArrayList();
-
 		this.artistsFromCurrentShow = new ArrayList<>();
-
-		this.podiumComboBox = new ComboBox<>(this.observablePodiumList);
-		this.podiumComboBoxCopy = new ComboBox<>(this.observablePodiumList);
-		this.artistComboBox = new ComboBox<>(this.observableArtistList);
-		this.artistComboBoxCopy = new ComboBox<>(this.observableArtistList);
 
 		this.errorLabel = new Label("No error;");
 		this.popularityLabel = new Label(" Expected popularity: 50%");
@@ -116,11 +106,6 @@ public class AgendaModule {
 
 		this.artistsList = new ListView<>();
 
-
-		this.podiumAddButton = new Button("+");
-		this.artistAddButton = new Button("+");
-		this.podiumRemoveButton = new Button("-");
-		this.artistRemoveButton = new Button("-");
 		this.eventArtistsAddButton = new Button("Add Artist");
 		this.eventArtistsRemoveButton = new Button("Remove Artist");
 		this.eventSaveButton = new Button("Save");
@@ -138,10 +123,7 @@ public class AgendaModule {
 	public Scene generateGUILayout() {
 		this.generalLayoutHBox.setSpacing(10);
 
-		this.podiumRemoveButton.setMinWidth(30);
-		this.artistRemoveButton.setMinWidth(30);
-
-		this.generalLayoutHBox.getChildren().addAll(generateCreationPanel(), generateTimeAndPopularityPanel(),
+		this.generalLayoutHBox.getChildren().addAll(this.creationPanel.getMainPane(), generateTimeAndPopularityPanel(),
 				generateArtistsTable(), generateArtistAtEventSetter(), generatePodiumSelector(), generateSaveAndRemovePanel());
 
 		initEvents();
@@ -261,37 +243,6 @@ public class AgendaModule {
 		return timeAndPopularityVBox;
 	}
 
-	/**
-	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-	 * that contains the parts of the GUI responsible for creating and removing artists and podiums.
-	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-	 * all the parts of the GUI responsible for creating and removing artists and podiums
-	 */
-
-	private VBox generateCreationPanel() {
-		VBox creationPanelVBox = new VBox();
-
-		HBox artistHBox = new HBox();
-		HBox podiumHBox = new HBox();
-
-		creationPanelVBox.setSpacing(5);
-		artistHBox.setSpacing(5);
-		podiumHBox.setSpacing(5);
-
-		this.artistComboBox.setMinWidth(120);
-		this.artistComboBox.setMaxWidth(120);
-		this.podiumComboBox.setMinWidth(120);
-		this.podiumComboBox.setMaxWidth(120);
-
-
-		artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton);
-		podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton);
-
-		creationPanelVBox.getChildren().addAll(this.errorLabel,
-				new Label("Existing artists: "), artistHBox, new Label("Existing podiums: "), podiumHBox);
-
-		return creationPanelVBox;
-	}
 
 	/**
 	 * This method updates the
@@ -303,48 +254,20 @@ public class AgendaModule {
 		this.artistsList.getItems().setAll(this.artistsFromCurrentShow);
 	}
 
-	/**
-	 *  Updates the <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/JComboBox.html">ComboBox</a>
-	 *  containing all the current podiums.
-	 */
 
-	protected void updatePodiumComboBox() {
-		this.observablePodiumList.setAll(this.podiumManager.getAllPodiumNames());
+	public void artistPopupCallBack(){
+		//need to make the secondary GUI
 	}
 
-	/**
-	 * Updates the <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/JComboBox.html">ComboBox</a>
-	 * containing all the current Artists.
-	 */
-
-	protected void updateArtistComboBox() {
-		this.observablePodiumList.setAll(this.artistManager.getAllArtistNames());
+	public void podiumPopupCallBack(){
+		this.podiumPopup.show();
 	}
+
 
 	/**
 	 * Initiates all the events that are used in the GUI.
 	 */
-
 	private void initEvents() {
-		this.artistAddButton.setOnAction(event -> {
-			//need to make the secondary GUI
-		});
-
-		this.podiumAddButton.setOnAction(event -> {
-			this.podiumPopup.show();
-		});
-
-		this.artistRemoveButton.setOnAction(event -> {
-			String selectedArtist = this.artistComboBox.getValue();
-			this.artistManager.removeArtist(selectedArtist);
-			updateArtistsList();
-		});
-
-		this.podiumRemoveButton.setOnAction(event -> {
-			String selectedPodium = this.podiumComboBox.getValue();
-			this.podiumManager.removePodium(selectedPodium);
-			updatePodiumComboBox();
-		});
 
 		this.startTimeTextField.setOnMouseClicked(event -> {
 			if (this.startTimeTextField.getText().equals("StartTime")) {

@@ -23,7 +23,7 @@ public class PodiumPopup {
 
 	private Stage primaryStage;
 	private PodiumManager podiumManager;
-	private AgendaModule agendaModule;
+	private CreationPanel creationPanel;
 	private Stage popupStage;
 
 	private Button addButton;
@@ -34,13 +34,13 @@ public class PodiumPopup {
 	 *
 	 * @param primaryStage the stage that will become the owner of this stage
 	 * @param podiumManager this class has a method that needs to be called after the list has been updated
-	 * @param agendaModule the class that contains the list of podiums that will be updated
+	 * @param creationPanel the class that contains the list of podiums that will be updated
 	 */
 
-	protected PodiumPopup(Stage primaryStage, PodiumManager podiumManager, AgendaModule agendaModule) {
+	protected PodiumPopup(Stage primaryStage, PodiumManager podiumManager, CreationPanel creationPanel) {
 		this.primaryStage = primaryStage;
 		this.podiumManager = podiumManager;
-		this.agendaModule = agendaModule;
+		this.creationPanel = creationPanel;
 		this.popupStage = new Stage();
 
 		this.addButton = new Button("add");
@@ -101,7 +101,7 @@ public class PodiumPopup {
 		this.addButton.setOnAction(event -> {
 			if (!this.nameField.getText().isEmpty() && !this.locationField.getText().isEmpty()) {
 				this.podiumManager.addPodium(new Podium(this.nameField.getText(),this.locationField.getText()));
-				this.agendaModule.updatePodiumComboBox();
+				this.creationPanel.updatePodiumComboBox();
 
 				this.nameField.clear();
 				this.locationField.clear();
