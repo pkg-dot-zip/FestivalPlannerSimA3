@@ -128,6 +128,27 @@ public class AgendaCanvas {
     }
 
     /**
+     * Getter for <code>this.agenda</code>.
+     *
+     * @return Value of <code>this.agenda</code>
+     */
+    public Agenda getAgenda() {
+        return agenda;
+    }
+
+    /**
+     * Setter for <code>this.agenda</code>.
+     * <p>
+     *
+     * @param agenda sets <code>this.agenda</code> to this value.
+     */
+    public void setAgenda(Agenda agenda) {
+        this.agenda = agenda;
+        buildAgendaCanvas();
+        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
+    }
+
+    /**
      * Creates an ArrayList with a <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> for every <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
      * <p>
      *
@@ -180,26 +201,6 @@ public class AgendaCanvas {
             stageSet.add(show.getStage());
         }
         return new ArrayList<>(stageSet);
-    }
-
-    /**
-     * Getter for <code>this.agenda</code>.
-     *
-     * @return Value of <code>this.agenda</code>
-     */
-    public Agenda getAgenda() {
-        return agenda;
-    }
-
-    /**
-     * Setter for <code>this.agenda</code>.
-     * <p>
-     *
-     * @param agenda sets <code>this.agenda</code> to this value.
-     */
-    public void setAgenda(Agenda agenda) {
-        this.agenda = agenda;
-        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     /**
