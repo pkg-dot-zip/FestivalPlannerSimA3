@@ -11,73 +11,103 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.Time;
+import java.time.LocalTime;
+
 /**
- * Is responsible for a small popup that where a new podium can be created.
+ * Is responsible for a small popup that where a new <a href="{@docRoot}/FestivalPlanner/GUI/Podium.html">podium</a>
+ * can be created.
  */
 
 public class PodiumPopup {
+
+	private Stage primaryStage;
+	private PodiumManager podiumManager;
+	private AgendaModule agendaModule;
+	private Stage popupStage;
+
+	private Button addButton;
+	private TextField nameField;
+	private TextField locationField;
+
+	/**
+	 *
+	 * @param primaryStage the stage that will become the owner of this stage
+	 * @param podiumManager this class has a method that needs to be called after the list has been updated
+	 * @param agendaModule the class that contains the list of podiums that will be updated
+	 */
+
+	protected PodiumPopup(Stage primaryStage, PodiumManager podiumManager, AgendaModule agendaModule) {
+		this.primaryStage = primaryStage;
+		this.podiumManager = podiumManager;
+		this.agendaModule = agendaModule;
+		this.popupStage = new Stage();
+
+		this.addButton = new Button("add");
+	}
 
 	/**
 	 * Shows a sub <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> where you can
 	 * create a new podium. The primaryStage cannot be interacted with until this sub
 	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> has been closed.
-	 * @param primaryStage the stage that will become the owner of this stage.
-	 * @param agendaModule this class has a method that needs to be called after the list has been updated
-	 * @param podiumManager the class that contains the list of podiums that will be updated
 	 */
 
-	public static void show(Stage primaryStage, PodiumManager podiumManager, AgendaModule agendaModule) {
+	protected void show() {
 
-		Stage stage = new Stage();
-		stage.setResizable(false);
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.initOwner(primaryStage);
-
-		stage.setScene(generateScene(podiumManager, stage, agendaModule));
-		stage.setTitle("Podium creator");
-		stage.showAndWait();
+		this.popupStage.setTitle("Podium creator");
+		this.popupStage.showAndWait();
 	}
 
 	/**
-	 *  generates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> that is the
-	 * 	layout for the sub stage.
-	 * @param podiumManager the class that contains the list of podiums that will be updated
-	 * @param stage the stage that needs to be closed after a new Podium has been created
-	 * @param agendaModule this class has methods that neet to be called after the list has been updated
-	 * @return <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> that is the
-	 * layout for the sub stage
+	 *  Generates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> that is the
+	 * 	layout for the sub stage and sets it as the
+	 * 	<a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a>.
 	 */
 
-	private static Scene generateScene(PodiumManager podiumManager, Stage stage, AgendaModule agendaModule) {
+	protected void generateScene() {
+		this.popupStage.setResizable(false);
+		this.popupStage.initModality(Modality.APPLICATION_MODAL);
+		this.popupStage.initOwner(this.primaryStage);
+
 		VBox layoutVBox = new VBox();
 		layoutVBox.setSpacing(10);
 
 		HBox nameHBox = new HBox();
-		TextField nameField = new TextField();
-		nameHBox.getChildren().addAll(new Label("Name:     "), nameField);
+		this.nameField = new TextField();
+		nameHBox.getChildren().addAll(new Label("Name:     "), this.nameField);
 
 		HBox locationHBox = new HBox();
-		TextField locationField = new TextField();
+		this.locationField = new TextField();
 		locationHBox.getChildren().addAll(new Label("Location: "), locationField);
 
+		generateButton();
+
 		HBox buttonHBox = new HBox();
-		buttonHBox.setSpacing(100);
-		Button addButton = new Button("add");
-		addButton.setMinWidth(50);
-		buttonHBox.getChildren().addAll(new Label(""), addButton);
+		this.addButton.setMinWidth(50);
+		buttonHBox.getChildren().addAll(new Label(""), this.addButton);
 
 		layoutVBox.getChildren().addAll(nameHBox, locationHBox, buttonHBox);
 
+		this.popupStage.setScene(new Scene(layoutVBox,250,125));
+	}
 
+	/**
+	 * Generates the button responsible for adding the <a href="{@docRoot}/FestivalPlanner/GUI/Podium.html">podium</a>.
+	 */
 
-		addButton.setOnAction(event -> {
-			if (!nameField.getText().isEmpty() && !locationField.getText().isEmpty()) {
-				podiumManager.addPodium(new Podium(nameField.getText(),locationField.getText()));
-				agendaModule.updatePodiumComboBox();
-				stage.close();
+	private void generateButton() {
+		this.addButton.setMinWidth(50);
+
+		this.addButton.setOnAction(event -> {
+			if (!this.nameField.getText().isEmpty() && !this.locationField.getText().isEmpty()) {
+				this.podiumManager.addPodium(new Podium(this.nameField.getText(),this.locationField.getText()));
+				this.agendaModule.updatePodiumComboBox();
+
+				this.nameField.clear();
+				this.locationField.clear();
+
+				this.popupStage.close();
 			}
 		});
-
-		return new Scene(layoutVBox,250,125);
 	}
 }

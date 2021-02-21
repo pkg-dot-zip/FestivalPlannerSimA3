@@ -1,6 +1,7 @@
 package FestivalPlanner.Agenda;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
@@ -13,8 +14,8 @@ import java.util.ArrayList;
 public class Show {
 
     private String name;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private int expectedPopularity;
 
     private Podium podium;
@@ -31,7 +32,7 @@ public class Show {
      * @param podium  sets <code>this.podium</code> to the given parameter
      * @param artists  sets <code>this.artists</code> to the given parameter
      */
-    public Show(String name, LocalDateTime startTime, LocalDateTime endTime, int expectedPopularity, Podium podium, ArrayList<Artist> artists) {
+    public Show(String name, LocalTime startTime, LocalTime endTime, int expectedPopularity, Podium podium, ArrayList<Artist> artists) {
         this.name = name;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -54,11 +55,11 @@ public class Show {
         return this.name;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return this.startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return this.endTime;
     }
 

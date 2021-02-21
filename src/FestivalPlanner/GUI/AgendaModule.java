@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 //TODO The way you enter a time feels counterintuitive
@@ -24,6 +25,8 @@ public class AgendaModule {
 	private Agenda agenda;
 	private ArtistManager artistManager;
 	private PodiumManager podiumManager;
+
+	private PodiumPopup podiumPopup;
 
 	private HBox generalLayoutHBox;
 
@@ -79,10 +82,9 @@ public class AgendaModule {
 		this.podiumManager = new PodiumManager();
 		this.artistManager = new ArtistManager();
 
-		//this.rooster = rooster
-		this.generalLayoutHBox = new HBox();
+		this.podiumPopup = new PodiumPopup(this.stage,this.podiumManager,this);
 
-		//Copies like this are data inefficient but necessary for design
+		this.generalLayoutHBox = new HBox();
 
 		this.observablePodiumList = FXCollections.observableArrayList();
 		this.observableArtistList = FXCollections.observableArrayList();
@@ -132,6 +134,8 @@ public class AgendaModule {
 
 		initEvents();
 
+		this.podiumPopup.generateScene();
+
 		return new Scene(this.generalLayoutHBox);
 	}
 
@@ -169,6 +173,7 @@ public class AgendaModule {
 
 		this.podiumComboBoxCopy.setMinWidth(120);
 		this.podiumComboBoxCopy.setMaxWidth(120);
+		this.podiumComboBoxCopy.setPromptText("Podium:");
 
 		podiumVBox.getChildren().addAll(new Label(""), this.podiumComboBoxCopy);
 
@@ -188,6 +193,7 @@ public class AgendaModule {
 		ArtistAtEventSetterVBox.setSpacing(5);
 		this.artistComboBoxCopy.setMinWidth(120);
 		this.artistComboBoxCopy.setMaxWidth(120);
+		this.artistComboBoxCopy.setPromptText("Artist:");
 
 		this.eventArtistsAddButton.setMinWidth(112);
 
@@ -265,6 +271,7 @@ public class AgendaModule {
 		this.podiumComboBox.setMinWidth(120);
 		this.podiumComboBox.setMaxWidth(120);
 
+
 		artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton);
 		podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton);
 
@@ -312,7 +319,7 @@ public class AgendaModule {
 		});
 
 		this.podiumAddButton.setOnAction(event -> {
-			PodiumPopup.show(this.stage, this.podiumManager, this);
+			this.podiumPopup.show();
 		});
 
 		this.artistRemoveButton.setOnAction(event -> {
@@ -329,13 +336,13 @@ public class AgendaModule {
 
 		this.startTimeTextField.setOnMouseClicked(event -> {
 			if (this.startTimeTextField.getText().equals("StartTime")) {
-				this.startTimeTextField.clear();
+				this.startTimeTextField.setText("00:00");
 			}
 		});
 
 		this.endTimeTextField.setOnMouseClicked(event -> {
 			if (this.endTimeTextField.getText().equals("EndTime")) {
-				this.endTimeTextField.clear();
+				this.endTimeTextField.setText("24:00");
 			}
 		});
 
@@ -362,10 +369,16 @@ public class AgendaModule {
 		});
 
 		this.eventSaveButton.setOnAction(event -> {
-			agenda.addShow(new Show("", LocalDateTime.parse(startTimeTextField.getText()),
-					LocalDateTime.parse(endTimeTextField.getText()), (int)this.popularitySlider.getValue(),
-					this.podiumManager.getPodium(this.podiumComboBoxCopy.getValue()),
-					this.artistsFromCurrentShow));
+			LocalTime startTime = LocalTime.parse(this.startTimeTextField.getText());
+			LocalTime endTime = LocalTime.parse(this.endTimeTextField.getText());
+			Podium selectedPodium = this.podiumManager.getPodium(this.podiumComboBoxCopy.getValue());
+
+			if (startTime != null && endTime != null && selectedPodium != null && this.artistsFromCurrentShow.size() > 0) {
+
+				agenda.addShow(new Show("", LocalTime.parse(this.startTimeTextField.getText()),
+						LocalTime.parse(this.endTimeTextField.getText()), (int) this.popularitySlider.getValue(), selectedPodium,
+						this.artistsFromCurrentShow));
+			}
 		});
 
 	}
