@@ -126,7 +126,7 @@ public class ArtistAndPodiumPanel {
 
         artistVBox.setSpacing(5);
 
-        this.artistsList.setMaxHeight(150);
+        this.artistsList.setMaxHeight(130);
         this.artistsList.setMaxWidth(200);
 
         artistVBox.getChildren().addAll(this.artistsList);

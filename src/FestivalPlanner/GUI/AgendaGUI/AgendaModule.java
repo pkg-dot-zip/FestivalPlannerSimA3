@@ -2,9 +2,11 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
@@ -23,21 +25,20 @@ public class AgendaModule {
 	private ArtistManager artistManager;
 	private PodiumManager podiumManager;
 
-	private AgendaCanvas agendaCanvas;
-
 	// Popups
 	private PodiumPopup podiumPopup;
 
-	// Layout components
+	// Panes
 	private BorderPane mainLayoutPane;
 	private HBox generalLayoutHBox;
 
+	// Layout components
+	private AgendaCanvas agendaCanvas;
 	private CreationPanel creationPanel;
 	private TimeAndPopularityPanel timeAndPopularityPanel;
 	private ArtistAndPodiumPanel artistAndPodiumPanel;
 
-	private Stage stage;
-
+	private TextField showNameTextField;
 	private Label errorLabel;
 	private Label selectedLabel;
 
@@ -57,7 +58,7 @@ public class AgendaModule {
 	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
 	 */
 	public AgendaModule(Stage stage) {
-		this.stage = stage;
+		Stage stage1 = stage;
 
 		this.agenda = new Agenda();
 		this.podiumManager = new PodiumManager();
@@ -72,15 +73,16 @@ public class AgendaModule {
 		this.timeAndPopularityPanel = new TimeAndPopularityPanel();
 		this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
 
-		this.podiumPopup = new PodiumPopup(this.stage,this.podiumManager,this.creationPanel);
+		this.podiumPopup = new PodiumPopup(stage1,this.podiumManager,this.creationPanel);
 
 		this.mainLayoutPane.setTop(this.generalLayoutHBox);
 		this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
 
+		this.showNameTextField = new TextField();
 		this.errorLabel = new Label("No error;");
 		this.selectedLabel = new Label("Selected: None");
 
-		this.eventSaveButton = new Button("Save");
+		this.eventSaveButton = new Button("Save/Add Show");
 		this.eventRemoveButton = new Button("Remove");
 	}
 
@@ -99,6 +101,7 @@ public class AgendaModule {
 		this.generalLayoutHBox.getChildren().addAll(this.creationPanel.getMainPane(),
 				this.timeAndPopularityPanel.getMainPane(),
 				artistAndPodiumPanel.getMainPane(),
+				generateSavePanel(),
 				generateSaveAndRemovePanel());
 
 		initEvents();
@@ -114,7 +117,6 @@ public class AgendaModule {
 	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
 	 * the parts of the GUI responsible for saving and removing events
 	 */
-
 	private VBox generateSaveAndRemovePanel() {
 		VBox saveAndRemovePanel = new VBox();
 
@@ -123,9 +125,25 @@ public class AgendaModule {
 		this.eventSaveButton.setMinWidth(74);
 
 		saveAndRemovePanel.getChildren().addAll(new Label(""), this.selectedLabel,
-				this.eventRemoveButton, this.eventSaveButton);
+				this.eventRemoveButton);
 
 		return saveAndRemovePanel;
+	}
+
+	private VBox generateSavePanel() {
+		VBox savePanel = new VBox();
+		savePanel.setSpacing(5);
+		savePanel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
+		savePanel.setPadding(new Insets(0,2,10,2));
+		savePanel.setMaxHeight(150);
+		savePanel.setAlignment(Pos.BASELINE_CENTER);
+
+		savePanel.getChildren().addAll(new Label("Enter name and save"),
+				new Label("Enter show name:"),
+				this.showNameTextField,
+				new Label(""),
+				this.eventSaveButton);
+		return savePanel;
 	}
 
 	/**
@@ -159,7 +177,7 @@ public class AgendaModule {
 
 			if (startTime != null && endTime != null && selectedPodium != null && this.artistAndPodiumPanel.getSelectedArtists().size() > 0) {
 
-				agenda.addShow(new Show("",
+				agenda.addShow(new Show(this.showNameTextField.getText(),
 						startTime,
 						endTime,
 						this.timeAndPopularityPanel.getPopularity(),
