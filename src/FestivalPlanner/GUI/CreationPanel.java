@@ -4,11 +4,12 @@ import FestivalPlanner.Agenda.ArtistManager;
 import FestivalPlanner.Agenda.PodiumManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 public class CreationPanel {
 
@@ -79,6 +80,7 @@ public class CreationPanel {
      */
     private VBox generateCreationPanel() {
         VBox creationPanelVBox = new VBox();
+        creationPanelVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
 
         HBox artistHBox = new HBox();
         HBox podiumHBox = new HBox();
@@ -99,7 +101,8 @@ public class CreationPanel {
         artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton);
         podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton);
 
-        creationPanelVBox.getChildren().addAll(new Label("Existing artists: "),
+        creationPanelVBox.getChildren().addAll(new Label("Available Podiums & Artists"),
+                new Label("Existing artists: "),
                 artistHBox, new Label("Existing podiums: "),
                 podiumHBox);
 

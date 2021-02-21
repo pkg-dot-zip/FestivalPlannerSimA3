@@ -3,6 +3,7 @@ package FestivalPlanner.GUI;
 import FestivalPlanner.Agenda.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -125,6 +126,9 @@ public class AgendaModule {
 
 		this.generalLayoutHBox.getChildren().addAll(this.creationPanel.getMainPane(), generateTimeAndPopularityPanel(),
 				generateArtistsTable(), generateArtistAtEventSetter(), generatePodiumSelector(), generateSaveAndRemovePanel());
+
+		this.generalLayoutHBox.setSpacing(20);
+		this.generalLayoutHBox.setPadding(new Insets(0,10,0,10));
 
 		initEvents();
 
