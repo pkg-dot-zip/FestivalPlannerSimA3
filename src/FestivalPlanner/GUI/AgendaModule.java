@@ -390,6 +390,7 @@ public class AgendaModule {
 				agenda.addShow(new Show("", LocalTime.parse(this.startTimeTextField.getText()),
 						LocalTime.parse(this.endTimeTextField.getText()), (int) this.popularitySlider.getValue(), selectedPodium,
 						this.artistsFromCurrentShow));
+				this.agendaCanvas.reBuildAgendaCanvas();
 			}
 		});
 

@@ -98,26 +98,14 @@ public class AgendaCanvas {
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         draw(graphics);
     }
-
     /**
-     * When this method is called it calculates and sets the following attributes:
+     * Public method that builds the AgendaCanvas and then redraws.
      * <p>
-     * <ul>
-     * <li>{@link #calculateBounds()}</li>
-     * <li>{@link #calculateUsedStages()}</li>
-     * <li>{@link #showRectanglesToArrayList()}</li>
-     * </ul>
-     * <p>
-     * When an update has been made to <code>this.agenda</code> this method will make the canvas recalculate the
-     * things linked above.
-     * <p>
-     * This method wil also be called in the constructor of this object and after setting <code>this.agenda</code>.
-     * After these actions it is unnecessary to call this method.
+     * See {@link #buildAgendaCanvas()}.
      */
-    public void buildAgendaCanvas() {
-        calculateBounds();
-        this.usedStages = calculateUsedStages();
-        this.showRectangles = showRectanglesToArrayList();
+    public void reBuildAgendaCanvas() {
+        buildAgendaCanvas();
+        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     /**
@@ -179,6 +167,27 @@ public class AgendaCanvas {
             }
         }
         return null;
+    }
+
+    /**
+     * When this method is called it calculates and sets the following attributes:
+     * <p>
+     * <ul>
+     * <li>{@link #calculateBounds()}</li>
+     * <li>{@link #calculateUsedStages()}</li>
+     * <li>{@link #showRectanglesToArrayList()}</li>
+     * </ul>
+     * <p>
+     * When an update has been made to <code>this.agenda</code> this method will make the canvas recalculate the
+     * things linked above.
+     * <p>
+     * This method wil also be called in the constructor of this object and after setting <code>this.agenda</code>.
+     * After these actions it is unnecessary to call this method.
+     */
+    private void buildAgendaCanvas() {
+        calculateBounds();
+        this.usedStages = calculateUsedStages();
+        this.showRectangles = showRectanglesToArrayList();
     }
 
     /**
