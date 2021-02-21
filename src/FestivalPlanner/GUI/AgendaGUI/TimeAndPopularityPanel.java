@@ -101,4 +101,16 @@ public class TimeAndPopularityPanel {
     public VBox getMainPane() {
         return mainPane;
     }
+
+    public void setStartTimeText(String startTimeTextField) {
+        this.startTimeTextField.setText(startTimeTextField);
+    }
+
+    public void setEndTimeText(String endTimeTextField) {
+        this.endTimeTextField.setText(endTimeTextField);
+    }
+
+    public void setPopularitySlider(int popularity) {
+        this.popularitySlider.setValue(popularity);
+    }
 }

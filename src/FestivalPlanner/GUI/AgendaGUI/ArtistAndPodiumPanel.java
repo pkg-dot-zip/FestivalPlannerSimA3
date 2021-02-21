@@ -156,4 +156,12 @@ public class ArtistAndPodiumPanel {
     public ArrayList<Artist> getSelectedArtists() {
            return new ArrayList<>(this.artistsList.getItems());
     }
+
+    public void setArtistsList(ListView<Artist> artistsList) {
+        this.artistsList = artistsList;
+    }
+
+    public void setSelectedPodium(String podium) {
+        this.podiumComboBox.getSelectionModel().select(podium);
+    }
 }
