@@ -38,21 +38,13 @@ public class AgendaModule {
 
 	private CreationPanel creationPanel;
 	private TimeAndPopularityPanel timeAndPopularityPanel;
-
-	private ComboBox<String> podiumComboBoxCopy;
-	private ComboBox<String> artistComboBoxCopy;
-
-	private ListView<Artist> artistsList;
-
-	private ArrayList<Artist> artistsFromCurrentShow;
+	private ArtistAndPodiumPanel artistAndPodiumPanel;
 
 	private Stage stage;
 
 	private Label errorLabel;
 	private Label selectedLabel;
 
-	private Button eventArtistsAddButton;
-	private Button eventArtistsRemoveButton;
 	private Button eventSaveButton;
 	private Button eventRemoveButton;
 
@@ -83,24 +75,16 @@ public class AgendaModule {
 
 		this.creationPanel = new CreationPanel(this, this.podiumManager, this.artistManager);
 		this.timeAndPopularityPanel = new TimeAndPopularityPanel();
+		this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
 
 		this.podiumPopup = new PodiumPopup(this.stage,this.podiumManager,this.creationPanel);
-
-		this.podiumComboBoxCopy = new ComboBox<>(this.creationPanel.getObservablePodiumList());
-		this.artistComboBoxCopy = new ComboBox<>(this.creationPanel.getObservableArtistList());
 
 		this.mainLayoutPane.setTop(this.generalLayoutHBox);
 		this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
 
-		this.artistsFromCurrentShow = new ArrayList<>();
-
 		this.errorLabel = new Label("No error;");
 		this.selectedLabel = new Label("Selected: None");
 
-		this.artistsList = new ListView<>();
-
-		this.eventArtistsAddButton = new Button("Add Artist");
-		this.eventArtistsRemoveButton = new Button("Remove Artist");
 		this.eventSaveButton = new Button("Save");
 		this.eventRemoveButton = new Button("Remove");
 	}
@@ -119,9 +103,7 @@ public class AgendaModule {
 
 		this.generalLayoutHBox.getChildren().addAll(this.creationPanel.getMainPane(),
 				this.timeAndPopularityPanel.getMainPane(),
-				generateArtistsTable(),
-				generateArtistAtEventSetter(),
-				generatePodiumSelector(),
+				artistAndPodiumPanel.getMainPane(),
 				generateSaveAndRemovePanel());
 
 		initEvents();
@@ -151,82 +133,6 @@ public class AgendaModule {
 		return saveAndRemovePanel;
 	}
 
-	/**
-	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-	 * that contains the parts of the GUI responsible for selecting a podium for an event.
-	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-	 *  the parts of the GUI responsible for selecting a podium for an event
-	 */
-
-	private VBox generatePodiumSelector() {
-		VBox podiumVBox = new VBox();
-
-		podiumVBox.setSpacing(5);
-
-		this.podiumComboBoxCopy.setMinWidth(120);
-		this.podiumComboBoxCopy.setMaxWidth(120);
-		this.podiumComboBoxCopy.setPromptText("Podium:");
-
-		podiumVBox.getChildren().addAll(new Label(""), this.podiumComboBoxCopy);
-
-		return podiumVBox;
-	}
-
-	/**
-	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-	 * that contains the parts of the GUI responsible for adding artists to an event.
-	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-	 * the parts of the GUI responsible for adding artists to an event
-	 */
-
-	private VBox generateArtistAtEventSetter() {
-		VBox ArtistAtEventSetterVBox = new VBox();
-
-		ArtistAtEventSetterVBox.setSpacing(5);
-		this.artistComboBoxCopy.setMinWidth(120);
-		this.artistComboBoxCopy.setMaxWidth(120);
-		this.artistComboBoxCopy.setPromptText("Artist:");
-
-		this.eventArtistsAddButton.setMinWidth(112);
-
-		ArtistAtEventSetterVBox.getChildren().addAll(new Label(""),this.artistComboBoxCopy,
-				this.eventArtistsAddButton, this.eventArtistsRemoveButton);
-
-		return ArtistAtEventSetterVBox;
-	}
-
-	/**
-	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-	 * that contains the parts of the GUI responsible for showing all of the artists in an event.
-	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-	 * the parts of the GUI responsible for showing all of the artists in an event
-	 */
-
-	private VBox generateArtistsTable() {
-		VBox artistVBox = new VBox();
-
-		artistVBox.setSpacing(5);
-
-		this.artistsList.setMaxHeight(150);
-		this.artistsList.setMaxWidth(200);
-
-		updateArtistsList();
-
-		artistVBox.getChildren().addAll(new Label("                  Artists:"), this.artistsList);
-		return artistVBox;
-	}
-
-	/**
-	 * This method updates the
-	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/ListView.html">ListView</a>
-	 * containing all artists form the current show.
-	 */
-
-	private void updateArtistsList() {
-		this.artistsList.getItems().setAll(this.artistsFromCurrentShow);
-	}
-
-
 	public void artistPopupCallBack(){
 		//need to make the secondary GUI
 	}
@@ -241,20 +147,6 @@ public class AgendaModule {
 	 */
 	private void initEvents() {
 
-		this.eventArtistsAddButton.setOnAction(event -> {
-			this.artistsFromCurrentShow.add(this.artistManager.getArtist(this.artistComboBoxCopy.getValue()));
-			updateArtistsList();
-		});
-
-		this.eventArtistsRemoveButton.setOnAction(event -> {
-			Artist selectedArtist = this.artistManager.getArtist(artistComboBoxCopy.getValue());
-
-			if (selectedArtist != null)
-			{
-				this.artistsFromCurrentShow.remove(selectedArtist);
-			}
-		});
-
 		this.eventRemoveButton.setOnAction(event -> {
 			//TODO Need a way to select classes first
 		});
@@ -262,16 +154,16 @@ public class AgendaModule {
 		this.eventSaveButton.setOnAction(event -> {
 			LocalTime startTime = this.timeAndPopularityPanel.getStartTime();
 			LocalTime endTime = this.timeAndPopularityPanel.getEndTime();
-			Podium selectedPodium = this.podiumManager.getPodium(this.podiumComboBoxCopy.getValue());
+			Podium selectedPodium = this.podiumManager.getPodium(this.artistAndPodiumPanel.getSelectedPodium());
 
-			if (startTime != null && endTime != null && selectedPodium != null && this.artistsFromCurrentShow.size() > 0) {
+			if (startTime != null && endTime != null && selectedPodium != null && this.artistAndPodiumPanel.getSelectedArtists().size() > 0) {
 
 				agenda.addShow(new Show("",
 						startTime,
 						endTime,
 						this.timeAndPopularityPanel.getPopularity(),
 						selectedPodium,
-						this.artistsFromCurrentShow));
+						this.artistAndPodiumPanel.getSelectedArtists()));
 				this.agendaCanvas.reBuildAgendaCanvas();
 			}
 		});

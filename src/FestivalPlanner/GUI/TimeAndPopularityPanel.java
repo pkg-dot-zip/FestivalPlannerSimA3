@@ -1,9 +1,15 @@
 package FestivalPlanner.GUI;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -51,8 +57,10 @@ public class TimeAndPopularityPanel {
      */
     private VBox generateTimeAndPopularityPanel() {
         VBox timeAndPopularityVBox = new VBox();
-
-        timeAndPopularityVBox.setSpacing(5);
+        timeAndPopularityVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
+        timeAndPopularityVBox.setMaxHeight(150);
+        timeAndPopularityVBox.setAlignment(Pos.BASELINE_CENTER);
+        timeAndPopularityVBox.setSpacing(10);
 
         this.popularitySlider.setMin(0);
         this.popularitySlider.setMax(100);
@@ -61,7 +69,7 @@ public class TimeAndPopularityPanel {
         this.startTimeTextField.setMinWidth(220);
         this.endTimeTextField.setMinWidth(220);
 
-        timeAndPopularityVBox.getChildren().addAll(new Label(""), this.startTimeTextField,
+        timeAndPopularityVBox.getChildren().addAll(new Label("Select Time"), this.startTimeTextField,
                 this.endTimeTextField, this.popularityLabel, this.popularitySlider);
 
         return timeAndPopularityVBox;

@@ -5,6 +5,7 @@ import FestivalPlanner.Agenda.PodiumManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -81,7 +82,8 @@ public class CreationPanel {
     private VBox generateCreationPanel() {
         VBox creationPanelVBox = new VBox();
         creationPanelVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        creationPanelVBox.setMaxHeight(130);
+        creationPanelVBox.setMaxHeight(150);
+        creationPanelVBox.setAlignment(Pos.BASELINE_CENTER);
 
         HBox artistHBox = new HBox();
         HBox podiumHBox = new HBox();
