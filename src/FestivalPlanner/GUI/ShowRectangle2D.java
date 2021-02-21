@@ -36,7 +36,7 @@ public class ShowRectangle2D{
     public ShowRectangle2D(Rectangle2D rectangle, Show show) {
         this.rectangle = rectangle;
         this.show = show;
-        this.color = Color.GREEN;
+        this.color = Color.getHSBColor(190/360f, .7f, .9f);
     }
 
     /**

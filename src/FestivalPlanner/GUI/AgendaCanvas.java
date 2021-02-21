@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-//todo: Class needs documentation.
+/**
+ * Class that will draw a Agenda to a canvas
+ */
 public class AgendaCanvas {
 
     private BorderPane mainPane;
@@ -254,7 +256,7 @@ public class AgendaCanvas {
             showRectangle.draw(graphics);
             Area overlap = getIntersectArea(showRectangle.getRectangle());
             if (overlap != null) {
-                graphics.setColor(Color.RED);
+                graphics.setColor(Color.getHSBColor(0, .7f, .9f));
                 graphics.fill(overlap);
                 graphics.setColor(Color.BLACK);
                 graphics.draw(overlap);
@@ -283,10 +285,18 @@ public class AgendaCanvas {
     private void drawTopBar(FXGraphics2D graphics) {
         graphics.drawLine(this.startX, 0, this.endX, 0);
         graphics.drawLine(0, this.startY, 0, this.endY);
+
+        graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
+        graphics.fill(new Rectangle2D.Double(0, 0, 30, this.canvas.getHeight()));
+        graphics.setColor(Color.BLACK);
+
         for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
-            graphics.drawString(i + ".00", i * 60 + 10, -25); //magic numbers will later be based on cameraTransform etc.
+            int x = i * 60 + 60;
+            graphics.drawString(i + ".00", x - 50, -25); //numbers will later be based on cameraTransform etc.
             graphics.setColor(Color.lightGray);
-            graphics.drawLine(i * 60 + 60, this.startY, i * 60 + 60, this.endY);
+            graphics.drawLine(x, this.startY, x, this.endY);
+            graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
+            graphics.fill(new Rectangle2D.Double(x, 0, 30, this.canvas.getHeight()));
             graphics.setColor(Color.BLACK);
         }
     }
