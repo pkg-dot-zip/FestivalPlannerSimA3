@@ -30,6 +30,12 @@ public class ArtistAndPodiumPanel {
 
     private ListView<Artist> artistsList;
 
+    /**
+     * Constructor for ArtistAndPodiumPanel
+     * @param podiumComboBox  Combobox where the podiums are stored
+     * @param artistComboBox  Combobox where the artists are stored
+     * @param artistManager  The <a href="{@docRoot}/FestivalPlanner/Agenda/ArtistManager.html">ArtistManager</a> used in the GUI
+     */
     public ArtistAndPodiumPanel(ComboBox<String> podiumComboBox, ComboBox<String> artistComboBox, ArtistManager artistManager) {
         this.podiumComboBox = podiumComboBox;
         this.artistComboBox = artistComboBox;
@@ -127,15 +133,26 @@ public class ArtistAndPodiumPanel {
         return artistVBox;
     }
 
-
+    /**
+     * Getter for <code>this.mainPane</code>.
+     * @return  <code>this.maiPane</code>
+     */
     public VBox getMainPane() {
         return mainPane;
     }
 
+    /**
+     * Getter for the selected podium in <code>this.podiumComboBox</code>.
+     * @return Current value in <code>this.podiumComboBox</code>
+     */
     public String getSelectedPodium(){
         return this.podiumComboBox.getValue();
     }
 
+    /**
+     * Getter for all the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a> selected.
+     * @return Returns an ArrayList with all the selected <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a>
+     */
     public ArrayList<Artist> getSelectedArtists() {
            return new ArrayList<>(this.artistsList.getItems());
     }

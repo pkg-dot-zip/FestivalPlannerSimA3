@@ -56,7 +56,6 @@ public class AgendaModule {
 	 * as a parameter so this stage can be refrenced as the owner of the sub stages
 	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
 	 */
-
 	public AgendaModule(Stage stage) {
 		this.stage = stage;
 
@@ -129,10 +128,16 @@ public class AgendaModule {
 		return saveAndRemovePanel;
 	}
 
+	/**
+	 * CallBack method to open <code>this.artistPopup</code>
+	 */
 	public void artistPopupCallBack(){
 		//need to make the secondary GUI
 	}
 
+	/**
+	 * CallBack mehtod to open <code>this.podiumCallBack</code>
+	 */
 	public void podiumPopupCallBack(){
 		this.podiumPopup.show();
 	}

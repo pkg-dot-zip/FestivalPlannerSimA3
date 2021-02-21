@@ -112,22 +112,41 @@ public class CreationPanel {
         return creationPanelVBox;
     }
 
+    /**
+     * Getter for <code>this.mainPane</code>.
+     * @return <code>this.mainPane</code>
+     */
     public VBox getMainPane() {
         return mainPane;
     }
 
+    /**
+     * Getter for <code>this.observablePodiumList</code>
+     * @return <code>this.observablePodiumList</code>
+     */
     public ObservableList<String> getObservablePodiumList() {
         return observablePodiumList;
     }
 
+    /**
+     * Getter for <code>this.observableArtistList</code>
+     * @return <code>this.observableArtistList</code>
+     */
     public ObservableList<String> getObservableArtistList() {
         return observableArtistList;
     }
 
+    /**
+     * Getter for <code>this.artistComboBox</code>
+     * @return
+     */
     public ComboBox<String> getArtistComboBox() {
         return artistComboBox;
     }
 
+    /**
+     * Updates <code>this.artistComboBoc</code> to the correct value.
+     */
     public void updatePodiumComboBox() {
         this.observablePodiumList.setAll(this.podiumManager.getAllPodiumNames());
     }
@@ -136,7 +155,6 @@ public class CreationPanel {
      * Updates the <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/JComboBox.html">ComboBox</a>
      * containing all the current Artists.
      */
-
     public void updateArtistComboBox() {
         this.observablePodiumList.setAll(this.artistManager.getAllArtistNames());
     }
