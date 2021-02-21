@@ -22,12 +22,15 @@ import java.util.ArrayList;
 
 public class AgendaModule {
 
+	// Agenda variables
 	private Agenda agenda;
 	private ArtistManager artistManager;
 	private PodiumManager podiumManager;
 
+	// Popups
 	private PodiumPopup podiumPopup;
 
+	// Layout components
 	private HBox generalLayoutHBox;
 
 	private ComboBox<String> podiumComboBox;
