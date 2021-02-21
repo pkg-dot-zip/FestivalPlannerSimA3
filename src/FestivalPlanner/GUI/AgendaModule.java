@@ -6,9 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
@@ -38,14 +37,10 @@ public class AgendaModule {
 	private HBox generalLayoutHBox;
 
 	private CreationPanel creationPanel;
+	private TimeAndPopularityPanel timeAndPopularityPanel;
 
 	private ComboBox<String> podiumComboBoxCopy;
 	private ComboBox<String> artistComboBoxCopy;
-
-	private TextField startTimeTextField = new TextField("StartTime");
-	private TextField endTimeTextField = new TextField("EndTime");
-
-	private Slider popularitySlider;
 
 	private ListView<Artist> artistsList;
 
@@ -54,7 +49,6 @@ public class AgendaModule {
 	private Stage stage;
 
 	private Label errorLabel;
-	private Label popularityLabel;
 	private Label selectedLabel;
 
 	private Button eventArtistsAddButton;
@@ -88,6 +82,7 @@ public class AgendaModule {
 		this.generalLayoutHBox = new HBox();
 
 		this.creationPanel = new CreationPanel(this, this.podiumManager, this.artistManager);
+		this.timeAndPopularityPanel = new TimeAndPopularityPanel();
 
 		this.podiumPopup = new PodiumPopup(this.stage,this.podiumManager,this.creationPanel);
 
@@ -100,10 +95,7 @@ public class AgendaModule {
 		this.artistsFromCurrentShow = new ArrayList<>();
 
 		this.errorLabel = new Label("No error;");
-		this.popularityLabel = new Label(" Expected popularity: 50%");
 		this.selectedLabel = new Label("Selected: None");
-
-		this.popularitySlider = new Slider();
 
 		this.artistsList = new ListView<>();
 
@@ -122,13 +114,15 @@ public class AgendaModule {
 	 */
 
 	public Scene generateGUILayout() {
-		this.generalLayoutHBox.setSpacing(10);
-
-		this.generalLayoutHBox.getChildren().addAll(this.creationPanel.getMainPane(), generateTimeAndPopularityPanel(),
-				generateArtistsTable(), generateArtistAtEventSetter(), generatePodiumSelector(), generateSaveAndRemovePanel());
-
 		this.generalLayoutHBox.setSpacing(20);
 		this.generalLayoutHBox.setPadding(new Insets(0,10,0,10));
+
+		this.generalLayoutHBox.getChildren().addAll(this.creationPanel.getMainPane(),
+				this.timeAndPopularityPanel.getMainPane(),
+				generateArtistsTable(),
+				generateArtistAtEventSetter(),
+				generatePodiumSelector(),
+				generateSaveAndRemovePanel());
 
 		initEvents();
 
@@ -223,32 +217,6 @@ public class AgendaModule {
 	}
 
 	/**
-	 * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-	 * that contains the parts of the GUI responsible for selecting the time and popularity of an event.
-	 * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-	 * 	all the parts of the GUI responsible for selecting the time and popularity of an event
-	 */
-
-	private VBox generateTimeAndPopularityPanel() {
-		VBox timeAndPopularityVBox = new VBox();
-
-		timeAndPopularityVBox.setSpacing(5);
-
-		this.popularitySlider.setMin(0);
-		this.popularitySlider.setMax(100);
-		this.popularitySlider.setValue(50);
-
-		this.startTimeTextField.setMinWidth(220);
-		this.endTimeTextField.setMinWidth(220);
-
-		timeAndPopularityVBox.getChildren().addAll(new Label(""), this.startTimeTextField,
-				this.endTimeTextField, this.popularityLabel, this.popularitySlider);
-
-		return timeAndPopularityVBox;
-	}
-
-
-	/**
 	 * This method updates the
 	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/ListView.html">ListView</a>
 	 * containing all artists form the current show.
@@ -273,22 +241,6 @@ public class AgendaModule {
 	 */
 	private void initEvents() {
 
-		this.startTimeTextField.setOnMouseClicked(event -> {
-			if (this.startTimeTextField.getText().equals("StartTime")) {
-				this.startTimeTextField.setText("00:00");
-			}
-		});
-
-		this.endTimeTextField.setOnMouseClicked(event -> {
-			if (this.endTimeTextField.getText().equals("EndTime")) {
-				this.endTimeTextField.setText("24:00");
-			}
-		});
-
-		this.popularitySlider.setOnMouseDragged(event -> {
-			this.popularityLabel.setText(" Expected popularity: " + (int)this.popularitySlider.getValue() + "%");
-		});
-
 		this.eventArtistsAddButton.setOnAction(event -> {
 			this.artistsFromCurrentShow.add(this.artistManager.getArtist(this.artistComboBoxCopy.getValue()));
 			updateArtistsList();
@@ -308,14 +260,17 @@ public class AgendaModule {
 		});
 
 		this.eventSaveButton.setOnAction(event -> {
-			LocalTime startTime = LocalTime.parse(this.startTimeTextField.getText());
-			LocalTime endTime = LocalTime.parse(this.endTimeTextField.getText());
+			LocalTime startTime = this.timeAndPopularityPanel.getStartTime();
+			LocalTime endTime = this.timeAndPopularityPanel.getEndTime();
 			Podium selectedPodium = this.podiumManager.getPodium(this.podiumComboBoxCopy.getValue());
 
 			if (startTime != null && endTime != null && selectedPodium != null && this.artistsFromCurrentShow.size() > 0) {
 
-				agenda.addShow(new Show("", LocalTime.parse(this.startTimeTextField.getText()),
-						LocalTime.parse(this.endTimeTextField.getText()), (int) this.popularitySlider.getValue(), selectedPodium,
+				agenda.addShow(new Show("",
+						startTime,
+						endTime,
+						this.timeAndPopularityPanel.getPopularity(),
+						selectedPodium,
 						this.artistsFromCurrentShow));
 				this.agendaCanvas.reBuildAgendaCanvas();
 			}

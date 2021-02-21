@@ -81,6 +81,7 @@ public class CreationPanel {
     private VBox generateCreationPanel() {
         VBox creationPanelVBox = new VBox();
         creationPanelVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
+        creationPanelVBox.setMaxHeight(130);
 
         HBox artistHBox = new HBox();
         HBox podiumHBox = new HBox();
