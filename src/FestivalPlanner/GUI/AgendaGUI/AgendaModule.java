@@ -7,8 +7,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.time.LocalTime;
 
 //TODO The way you enter a time feels counterintuitive
@@ -39,11 +41,15 @@ public class AgendaModule {
 	private ArtistAndPodiumPanel artistAndPodiumPanel;
 
 	private TextField showNameTextField;
+	private TextField fileDirTextField;
 	private Label errorLabel;
-	private Label selectedLabel;
 
+	private Button loadAgendaButton;
+	private Button saveAgendaButton;
 	private Button eventSaveButton;
 	private Button eventRemoveButton;
+
+	private File selectedAgendaFile;
 
 
 	/**
@@ -58,8 +64,6 @@ public class AgendaModule {
 	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
 	 */
 	public AgendaModule(Stage stage) {
-		Stage stage1 = stage;
-
 		this.agenda = new Agenda();
 		this.podiumManager = new PodiumManager();
 		this.artistManager = new ArtistManager();
@@ -73,15 +77,17 @@ public class AgendaModule {
 		this.timeAndPopularityPanel = new TimeAndPopularityPanel();
 		this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
 
-		this.podiumPopup = new PodiumPopup(stage1,this.podiumManager,this.creationPanel);
+		this.podiumPopup = new PodiumPopup(stage,this.podiumManager,this.creationPanel);
 
 		this.mainLayoutPane.setTop(this.generalLayoutHBox);
 		this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
 
 		this.showNameTextField = new TextField();
+		this.fileDirTextField = new TextField();
 		this.errorLabel = new Label("No error;");
-		this.selectedLabel = new Label("Selected: None");
 
+		this.loadAgendaButton = new Button("Load Agenda");
+		this.saveAgendaButton = new Button("Save Agenda");
 		this.eventSaveButton = new Button("Save/Add Show");
 		this.eventRemoveButton = new Button("Remove");
 	}
@@ -118,16 +124,26 @@ public class AgendaModule {
 	 * the parts of the GUI responsible for saving and removing events
 	 */
 	private VBox generateSaveAndRemovePanel() {
-		VBox saveAndRemovePanel = new VBox();
+		VBox saveLoadPanel = new VBox();
+		saveLoadPanel.setSpacing(5);
+		saveLoadPanel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
+		saveLoadPanel.setPadding(new Insets(0,2,10,2));
+		saveLoadPanel.setMaxHeight(150);
+		saveLoadPanel.setAlignment(Pos.BASELINE_CENTER);
 
-		saveAndRemovePanel.setSpacing(12);
+		HBox hBox = new HBox();
+		hBox.setSpacing(3);
+		hBox.getChildren().addAll(this.saveAgendaButton, this.loadAgendaButton);
 
-		this.eventSaveButton.setMinWidth(74);
+		this.fileDirTextField.setEditable(false);
 
-		saveAndRemovePanel.getChildren().addAll(new Label(""), this.selectedLabel,
-				this.eventRemoveButton);
+		saveLoadPanel.getChildren().addAll(new Label("Save/Load Agenda"),
+				new Label("Select file: "),
+				this.fileDirTextField,
+				new Label(""),
+				hBox);
 
-		return saveAndRemovePanel;
+		return saveLoadPanel;
 	}
 
 	private VBox generateSavePanel() {
@@ -160,11 +176,40 @@ public class AgendaModule {
 		this.podiumPopup.show();
 	}
 
+	private void loadAgenda(){
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
+		this.fileDirTextField.setText(fileChooser.showOpenDialog(new Stage()).getAbsolutePath());
+	}
+
+	private void saveAgenda() {
+		FileChooser fileChooser = new FileChooser();
+		SaveHandler saveHandler = new SaveHandler();
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
+		this.fileDirTextField.setText(fileChooser.showSaveDialog(new Stage()).getAbsolutePath());
+		saveHandler.writeAgendaToFile(this.fileDirTextField.getText(), this.agenda);
+	}
 
 	/**
 	 * Initiates all the events that are used in the GUI.
 	 */
 	private void initEvents() {
+
+		this.fileDirTextField.setOnMouseClicked(e -> {
+			loadAgenda();
+		});
+
+		this.loadAgendaButton.setOnAction(e -> {
+			SaveHandler saveHandler = new SaveHandler();
+			if(this.fileDirTextField.getText().equals("")) {
+				loadAgenda();
+			}
+			this.agenda = saveHandler.readAgendaFromFile(this.fileDirTextField.getText());
+		});
+
+		this.saveAgendaButton.setOnAction(e -> {
+			saveAgenda();
+		});
 
 		this.eventRemoveButton.setOnAction(event -> {
 			//TODO Need a way to select classes first
