@@ -148,6 +148,10 @@ public class AgendaCanvas {
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
     /**
      * Creates an ArrayList with a <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> for every <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
      * <p>
