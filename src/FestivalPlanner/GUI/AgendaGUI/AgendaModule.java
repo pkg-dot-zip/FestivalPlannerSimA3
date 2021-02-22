@@ -98,6 +98,7 @@ public class AgendaModule {
         this.eventSaveButton = new Button("Save/Add Show");
         this.eventRemoveButton = new Button("Remove");
 
+        
         this.artistManager.addArtist(new Artist("Peter Gabriel", null, null));
         this.artistManager.addArtist(new Artist("Frans Bauer", null, null));
         this.artistManager.addArtist(new Artist("The Police", null, null));
