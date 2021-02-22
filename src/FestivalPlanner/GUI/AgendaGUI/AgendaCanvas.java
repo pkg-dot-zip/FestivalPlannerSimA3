@@ -109,6 +109,13 @@ public class AgendaCanvas {
     }
 
     /**
+     * Redraws the AgendaCanvas without recalculating All the Rectangle2Ds
+     */
+    public void reDrawCanvas() {
+        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
+    }
+
+    /**
      * Getter for <code>this.mainPane</code>.
      *
      * @return this.mainPane
@@ -164,6 +171,21 @@ public class AgendaCanvas {
         for (ShowRectangle2D showRectangle : this.showRectangles) {
             if (showRectangle.getRectangle().contains(adjustedPoint)) {
                 return showRectangle.getShow();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> that represents the given
+     * <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
+     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> to look for
+     * @return  <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> that represents the show.
+     */
+    public ShowRectangle2D rectangleOnShow(Show show) {
+        for (ShowRectangle2D showRectangle2D : this.showRectangles) {
+            if (showRectangle2D.getShow().equals(show)) {
+                return showRectangle2D;
             }
         }
         return null;

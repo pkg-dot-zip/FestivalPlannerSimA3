@@ -156,7 +156,7 @@ public class CreationPanel {
      * containing all the current Artists.
      */
     public void updateArtistComboBox() {
-        this.observablePodiumList.setAll(this.artistManager.getAllArtistNames());
+        this.observableArtistList.setAll(this.artistManager.getAllArtistNames());
     }
 
 

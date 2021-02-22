@@ -97,6 +97,14 @@ public class AgendaModule {
         this.saveAgendaButton = new Button("Save Agenda");
         this.eventSaveButton = new Button("Save/Add Show");
         this.eventRemoveButton = new Button("Remove");
+
+        this.artistManager.addArtist(new Artist("Peter Gabriel", null, null));
+        this.artistManager.addArtist(new Artist("Frans Bauer", null, null));
+        this.artistManager.addArtist(new Artist("The Police", null, null));
+        this.artistManager.addArtist(new Artist("Elton John", null, null));
+        this.artistManager.addArtist(new Artist("Fleetwood Mac", null, null));
+        this.artistManager.addArtist(new Artist("Fools Garden", null, null));
+        this.creationPanel.updateArtistComboBox();
     }
 
     /**
@@ -242,12 +250,20 @@ public class AgendaModule {
             Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
             if (selectedShow != null) {
                 this.currentShow = selectedShow;
+                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .9f));
+                this.agendaCanvas.reDrawCanvas();
                 this.showNameTextField.setText(currentShow.getName());
                 this.artistAndPodiumPanel.setArtistsList(new ListView<>(FXCollections.observableArrayList(this.currentShow.getArtists())));
                 this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());
                 this.timeAndPopularityPanel.setStartTimeText(this.currentShow.getStartTime().toString());
                 this.timeAndPopularityPanel.setEndTimeText(this.currentShow.getEndTime().toString());
                 this.timeAndPopularityPanel.setPopularitySlider(this.currentShow.getExpectedPopularity());
+            } else {
+                if (this.currentShow != null) {
+                    this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+                    this.agendaCanvas.reDrawCanvas();
+                    this.currentShow = null;
+                }
             }
         });
 
