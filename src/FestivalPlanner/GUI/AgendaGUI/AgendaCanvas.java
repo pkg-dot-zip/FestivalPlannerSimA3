@@ -25,7 +25,7 @@ public class AgendaCanvas {
 
     private Canvas canvas;
     private BorderPane mainPane = new BorderPane();
-    private AffineTransform cameraTransform = new AffineTransform();
+    private AffineTransform cameraTransform;
     private ArrayList<ShowRectangle2D> showRectangles;
 
     private int startX;
@@ -84,6 +84,7 @@ public class AgendaCanvas {
 
         buildAgendaCanvas();
 
+        this.cameraTransform = new AffineTransform();
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
         this.canvas.setHeight(height);
         this.canvas.setWidth(width);
@@ -157,7 +158,7 @@ public class AgendaCanvas {
      */
     @Nullable
     public Show showAtPoint(Point2D point) {
-        //Adjust the point to the cameratransform and startTranslate. //TODO: doesn't account for zooming since it is not yet implemented.
+        //Adjust the point to the cameratransform and startTranslate.
         Point2D adjustedPoint = new Point2D.Double(point.getX() + this.startX - this.cameraTransform.getTranslateX(),
                 point.getY() + this.startY - this.cameraTransform.getTranslateY());
 
@@ -232,12 +233,11 @@ public class AgendaCanvas {
     }
 
     /**
-     * Calculates the boundaries of the canvas based on stages and shows in the Agenda. (not yet implemented) //TODO?!?!??!?!
+     * Sets the boundaries of the agendaCanvas.
      * <p>
      * Initializes <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
      */
     private void calculateBounds() {
-        //TODO: Will later calculate these value's based on current Agenda.
         this.startX = -100;
         this.endX = 1440;
         this.startY = -50;
@@ -309,7 +309,7 @@ public class AgendaCanvas {
         graphics.drawLine(0, this.startY, 0, this.endY);
 
         graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
-        graphics.fill(new Rectangle2D.Double(0, 0, 30, this.canvas.getHeight()));
+        graphics.fill(new Rectangle2D.Double(0, 0, 30, this.endY));
         graphics.setColor(Color.BLACK);
 
         for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
@@ -318,7 +318,7 @@ public class AgendaCanvas {
             graphics.setColor(Color.lightGray);
             graphics.drawLine(x, this.startY, x, this.endY);
             graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
-            graphics.fill(new Rectangle2D.Double(x, 0, 30, this.canvas.getHeight()));
+            graphics.fill(new Rectangle2D.Double(x, 0, 30, this.endY));
             graphics.setColor(Color.BLACK);
         }
     }
@@ -338,15 +338,16 @@ public class AgendaCanvas {
     }
 
     /**
-     * Makes scrolling possible by translating <code>this.cameraTransform</code>.
+     * Handles the ScrollEvent for vertical and horizontal scrolling.
      * @param scrollEvent is the eventhandler for scrolling
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
-        double scrollPixels = scrollEvent.getDeltaY() / 1.5;
+        double scrollPixelsY = scrollEvent.getDeltaY() / 1.5;
+        double scrollPixelsX = scrollEvent.getDeltaX() / 1.5;
         AffineTransform translate = new AffineTransform();
-        translate.translate(scrollPixels, 0);
+        translate.translate(scrollPixelsX, scrollPixelsY);
         if (cameraInBounds(translate)) {
-            this.cameraTransform.translate(scrollPixels, 0);
+            this.cameraTransform.translate(scrollPixelsX, scrollPixelsY);
             draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         }
     }
