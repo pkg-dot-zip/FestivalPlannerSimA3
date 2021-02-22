@@ -5,6 +5,11 @@ import FestivalPlanner.Util.SoundHandling.WindowsSystemSoundHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Optional;
 
 /**
@@ -39,6 +44,29 @@ public abstract class AbstractDialogPopUp {
         alert.setHeaderText("Missing values");
         alert.setContentText("Please fill in the required textfields.");
         WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
+        alert.showAndWait();
+    }
+
+    public void showExceptionPopUp(Exception e){
+        GridPane exceptionGridpane = new GridPane();
+
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        e.printStackTrace(printWriter);
+
+        TextArea textArea = new TextArea(stringWriter.toString());
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Exception");
+        alert.setHeaderText("Program interrupted");
+        alert.setContentText("An exception has occurred. Apologies for the inconvenience.");
+        WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
+
+        exceptionGridpane.setMaxWidth(Double.MAX_VALUE);
+        exceptionGridpane.addRow(0, textArea);
+
+        alert.getDialogPane().setExpandableContent(exceptionGridpane);
+
         alert.showAndWait();
     }
 }

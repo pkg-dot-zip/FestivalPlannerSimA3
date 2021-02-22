@@ -180,17 +180,26 @@ public class AgendaModule {
 
     private void loadAgenda() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
-        this.fileDirTextField.setText(fileChooser.showOpenDialog(new Stage()).getAbsolutePath());
+        try {
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
+            this.fileDirTextField.setText(fileChooser.showOpenDialog(new Stage()).getAbsolutePath());
+        } catch (NullPointerException e){
+            EmptyPopUp emptyPopUp = new EmptyPopUp();
+            emptyPopUp.showExceptionPopUp(e);
+        }
     }
 
     private void saveAgenda() {
         FileChooser fileChooser = new FileChooser();
         SaveHandler saveHandler = new SaveHandler();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
-        this.fileDirTextField.setText(fileChooser.showSaveDialog(new Stage()).getAbsolutePath());
-        saveHandler.writeAgendaToFile(this.fileDirTextField.getText(), this.agenda);
-        //TODO: Fix NullPointerException on cancel button in the Dialog.
+        try {
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
+            this.fileDirTextField.setText(fileChooser.showSaveDialog(new Stage()).getAbsolutePath());
+            saveHandler.writeAgendaToFile(this.fileDirTextField.getText(), this.agenda);
+        } catch (NullPointerException e){
+            EmptyPopUp emptyPopUp = new EmptyPopUp();
+            emptyPopUp.showExceptionPopUp(e);
+        }
     }
 
     /**
