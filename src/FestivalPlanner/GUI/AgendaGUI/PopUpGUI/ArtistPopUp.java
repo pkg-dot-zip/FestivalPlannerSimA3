@@ -9,6 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+/**
+ * Contains a PopUp used for creating a new <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a>.
+ */
 public class ArtistPopUp extends AbstractCreationPopUp{
 
     private ArtistManager artistManager;
@@ -42,6 +45,9 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         gridPane.addRow(1, buttonHBox);
     }
 
+    /**
+     * Empty method; this class has no additional Action Handling.
+     */
     @Override
     public void additionalActionHandlingSetup() {
 

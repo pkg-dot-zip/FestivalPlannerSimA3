@@ -10,8 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
- * Is responsible for a small popup that where a new <a href="{@docRoot}/FestivalPlanner/GUI/Podium.html">podium</a>
- * can be created.
+ * Contains a PopUp used for creating a new <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>.
  */
 public class PodiumPopup extends AbstractCreationPopUp{
 
