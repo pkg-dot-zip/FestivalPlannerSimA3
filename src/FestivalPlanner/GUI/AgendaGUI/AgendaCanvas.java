@@ -333,17 +333,44 @@ public class AgendaCanvas {
     }
 
     /**
-     * Makes scrolling possible by translating <code>this.cameraTransform</code>.
+     * Handles the ScrollEvent and makes sure the correct scrolling function is called
      * @param scrollEvent is the eventhandler for scrolling
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
-        double scrollPixels = scrollEvent.getDeltaY() / 1.5;
+
+        if(scrollEvent.isAltDown()) {
+            controlScroll();
+        } else {
+            onScroll(scrollEvent);
+        }
+
+    }
+
+    /**
+     * Makes vertical and horizontal scrolling possible by translating <code>this.cameraTransform</code>.
+     * @param scrollEvent  The ScrollEvent passed in {@link #setOnScroll(ScrollEvent)}
+     */
+    private void onScroll(ScrollEvent scrollEvent) {
+        double scrollPixelsY = scrollEvent.getDeltaY() / 1.5;
+        double scrollPixelsX = scrollEvent.getDeltaX() / 1.5;
         AffineTransform translate = new AffineTransform();
-        translate.translate(scrollPixels, 0);
+        translate.translate(scrollPixelsX, scrollPixelsY);
         if (cameraInBounds(translate)) {
-            this.cameraTransform.translate(scrollPixels, 0);
+            this.cameraTransform.translate(scrollPixelsX, scrollPixelsY);
             draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         }
+    }
+
+    private void controlScroll() {
+
+    }
+
+    /**
+     * Makes vertivcal scrolling possible by translating <code>this.cameraTransform</code>.
+     * @param scrollEvent  The ScrollEvent passed in {@link #setOnScroll(ScrollEvent)}
+     */
+    private void normalScroll(ScrollEvent scrollEvent) {
+
     }
 
     /**
