@@ -264,7 +264,7 @@ public class AgendaModule {
                     }
                 }
             } else if (e.getButton() == MouseButton.SECONDARY){
-                contextMenu.show(agendaCanvas.getMainPane(), e.getX(), e.getY());
+                contextMenu.show(agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
             }
         });
 
