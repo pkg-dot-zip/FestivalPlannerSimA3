@@ -26,8 +26,6 @@ public abstract class AbstractDialogPopUp {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
             Platform.exit();
-        } else {
-            // ... user chose CANCEL or closed the dialog
         }
     }
 

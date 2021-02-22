@@ -47,7 +47,7 @@ public class AgendaModule {
     private MenuItem exitMenuItem = new MenuItem("Exit");
         //EditMenu
     private Menu editMenu = new Menu("Edit");
-    //TODO: Create EditMenu MenuItems.
+    private MenuItem preferencesMenuItem = new MenuItem("Preferences");
         //HelpMenu
     private Menu helpMenu = new Menu("Help");
     private MenuItem helpGuideMenuItem = new MenuItem("Help Guide");
@@ -329,7 +329,7 @@ public class AgendaModule {
         //Adding all the children
             //MenuBar
         fileMenu.getItems().addAll(exitMenuItem);
-        editMenu.getItems().addAll(); //TODO: Add MenuItems when it's programmed.
+        editMenu.getItems().addAll(preferencesMenuItem);
         helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
             //ContextMenu

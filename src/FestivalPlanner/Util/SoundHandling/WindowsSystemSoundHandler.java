@@ -1,5 +1,7 @@
 package FestivalPlanner.Util.SoundHandling;
 
+import com.sun.istack.internal.NotNull;
+
 import java.awt.*;
 
 /**
@@ -33,8 +35,9 @@ public class WindowsSystemSoundHandler {
      * @param systemSoundEnum  enumerator referring to a native Windows sound
      * @return  reference to a sound from the Windows Operating System
      */
+    @NotNull
     private static String findSoundWithEnum(SystemSoundEnum systemSoundEnum){
-        String stringToReturn = "";
+        String stringToReturn;
         switch(systemSoundEnum){
             case DEFAULT:
                 stringToReturn = "win.sound.default";
