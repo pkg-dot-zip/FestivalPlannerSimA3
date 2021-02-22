@@ -29,9 +29,9 @@ public class PodiumPopup {
 
 	/**
 	 *
-	 * @param primaryStage the stage that will become the owner of this stage
-	 * @param podiumManager this class has a method that needs to be called after the list has been updated
-	 * @param creationPanel the class that contains the list of podiums that will be updated
+	 * @param primaryStage  the stage that will become the owner of this stage
+	 * @param podiumManager  this class has a method that needs to be called after the list has been updated
+	 * @param creationPanel  the class that contains the list of podiums that will be updated
 	 */
 
 	protected PodiumPopup(Stage primaryStage, PodiumManager podiumManager, CreationPanel creationPanel) {
@@ -48,7 +48,6 @@ public class PodiumPopup {
 	 * create a new podium. The primaryStage cannot be interacted with until this sub
 	 * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> has been closed.
 	 */
-
 	protected void show() {
 
 		this.popupStage.setTitle("Podium creator");
@@ -60,7 +59,6 @@ public class PodiumPopup {
 	 * 	layout for the sub stage and sets it as the
 	 * 	<a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a>.
 	 */
-
 	protected void generateScene() {
 		this.popupStage.setResizable(false);
 		this.popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -91,7 +89,6 @@ public class PodiumPopup {
 	/**
 	 * Generates the button responsible for adding the <a href="{@docRoot}/FestivalPlanner/GUI/Podium.html">podium</a>.
 	 */
-
 	private void generateButton() {
 		this.addButton.setMinWidth(50);
 

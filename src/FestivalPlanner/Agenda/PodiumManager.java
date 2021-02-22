@@ -1,7 +1,5 @@
 package FestivalPlanner.Agenda;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -57,11 +55,10 @@ public class PodiumManager {
     /**
      * Searches for a <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> was not found.
-     * @param name String representing the name of the podium that is being requested.
-     * @return <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> with the given name, returns
+     * @param name  String representing the name of the podium that is being requested.
+     * @return <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html"> Podium</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> was not found
      */
-
     public Podium getPodium(String name) {
         return this.podiums.get(name);
     }
@@ -69,10 +66,9 @@ public class PodiumManager {
     /**
      * Returns a <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html">Set</a> with all the
      * names of the known podiums.
-     * @return <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html">Set</a> containing all the names
+     * @return <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html"> Set</a> containing all the names
      * of the known podiums
      */
-
     public Set<String> getAllPodiumNames() {
         return this.podiums.keySet();
     }

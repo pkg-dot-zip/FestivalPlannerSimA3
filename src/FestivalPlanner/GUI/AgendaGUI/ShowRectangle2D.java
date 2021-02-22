@@ -1,13 +1,11 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
-import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.Show;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import org.jfree.fx.FXGraphics2D;
 
-//Todo: Class needs documentation
+//TODO: Add documentation.
 public class ShowRectangle2D{
 
     private Rectangle2D rectangle;
@@ -17,11 +15,12 @@ public class ShowRectangle2D{
     /**
      * Constructor for <code>ShowRectangle2D</code>.
      * <p>
-     * creates new <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> based on given parameters
+     * Creates a new <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> instance based on the
+     * given parameters.
      * @param minX  Start x-coordinate for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
      * @param minY  Start y-coordinate for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
      * @param width  Width for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
-     * @param height Height for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
+     * @param height  Height for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
      * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
      */
     public ShowRectangle2D(double minX, double minY, double width, double height, Show show) {
@@ -49,7 +48,7 @@ public class ShowRectangle2D{
 
     /**
      * Getter for <code>this.Color</code>
-     * @return <code>this.Color</code>
+     * @return  <code>this.Color</code>
      */
     public Color getColor() {
         return color;
