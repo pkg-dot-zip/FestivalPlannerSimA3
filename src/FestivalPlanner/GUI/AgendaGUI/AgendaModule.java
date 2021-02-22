@@ -4,11 +4,11 @@ import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
-import com.sun.istack.internal.NotNull;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -69,6 +69,16 @@ public class AgendaModule {
     private Button eventRemoveButton = new Button("Remove");
 
     private File selectedAgendaFile;
+
+    //ContextMenu
+    private ContextMenu contextMenu = new ContextMenu();
+    private MenuItem swapContextItem = new MenuItem("Swap"); //TODO: Allow multiple items to be selected. Only swap if 2 are selected.
+    private Menu rearrangeContextItem = new Menu("Rearrange"); //TODO: Shuffle (random), order in alphabetical order, reverse alphabetical order etc. This only switches the Artist & Podium (?).
+    private MenuItem shuffleRearrangeContextItem = new MenuItem("Shuffle (Random)");
+    private MenuItem alphabeticalRearrangeContextItem = new MenuItem("Alphabetical order");
+    private MenuItem reverseAlphabeticalContextItem = new MenuItem("Reverse Alphabetical order");
+    private MenuItem editContextItem = new MenuItem("Edit");
+    private MenuItem removeContextItem = new MenuItem("Remove");
 
 
     /**
@@ -222,29 +232,36 @@ public class AgendaModule {
         });
 
         this.agendaCanvas.getCanvas().setOnMouseClicked(e -> {
-            Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
-            if (selectedShow != null) {
-                //Reset old show.
-                if (this.currentShow != null)
-                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+            if (e.getButton() == MouseButton.PRIMARY){ //You can only select with a left-click.
+                Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
+                //In case it still shows it should be hidden, since a new item is selected and some
+                //actions executed by the ContextMenu depend on selected items.
+                contextMenu.hide();
+                if (selectedShow != null) {
+                    //Reset old show.
+                    if (this.currentShow != null)
+                        this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
 
-                //Starting on new selected.
-                this.currentShow = selectedShow;
+                    //Starting on new selected.
+                    this.currentShow = selectedShow;
 
-                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
-                this.agendaCanvas.reDrawCanvas();
-                this.showNameTextField.setText(currentShow.getName());
-                this.artistAndPodiumPanel.setArtistsList(this.currentShow.getArtists());
-                this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());
-                this.timeAndPopularityPanel.setStartTimeText(this.currentShow.getStartTime().toString());
-                this.timeAndPopularityPanel.setEndTimeText(this.currentShow.getEndTime().toString());
-                this.timeAndPopularityPanel.setPopularitySlider(this.currentShow.getExpectedPopularity());
-            } else {
-                if (this.currentShow != null) {
-                    this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+                    this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
                     this.agendaCanvas.reDrawCanvas();
-                    this.currentShow = null;
+                    this.showNameTextField.setText(currentShow.getName());
+                    this.artistAndPodiumPanel.setArtistsList(this.currentShow.getArtists());
+                    this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());
+                    this.timeAndPopularityPanel.setStartTimeText(this.currentShow.getStartTime().toString());
+                    this.timeAndPopularityPanel.setEndTimeText(this.currentShow.getEndTime().toString());
+                    this.timeAndPopularityPanel.setPopularitySlider(this.currentShow.getExpectedPopularity());
+                } else {
+                    if (this.currentShow != null) {
+                        this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+                        this.agendaCanvas.reDrawCanvas();
+                        this.currentShow = null;
+                    }
                 }
+            } else if (e.getButton() == MouseButton.SECONDARY){
+                contextMenu.show(agendaCanvas.getMainPane(), e.getX(), e.getY());
             }
         });
 
@@ -307,11 +324,16 @@ public class AgendaModule {
         this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
         this.podiumPopup = new PodiumPopup(stage, this.podiumManager, this.creationPanel);
         this.artistPopUp = new ArtistPopUp(stage, this.artistManager, this.creationPanel);
+
+        //Adding all the children
             //MenuBar
         fileMenu.getItems().addAll(exitMenuItem);
         editMenu.getItems().addAll(); //TODO: Add MenuItems when it's programmed.
         helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
+            //ContextMenu
+        rearrangeContextItem.getItems().addAll(alphabeticalRearrangeContextItem, reverseAlphabeticalContextItem, new SeparatorMenuItem(), shuffleRearrangeContextItem);
+        contextMenu.getItems().addAll(swapContextItem, rearrangeContextItem, editContextItem, new SeparatorMenuItem(), removeContextItem);
     }
 
     public void load(){
@@ -321,8 +343,6 @@ public class AgendaModule {
         tempVBox.getChildren().addAll(this.menuBar, this.generalLayoutHBox);
         this.mainLayoutPane.setTop(tempVBox);
         this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
-//        this.mainLayoutPane.setTop(this.generalLayoutHBox);
-//        this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
     }
 
     public void actionHandlingSetup(){
