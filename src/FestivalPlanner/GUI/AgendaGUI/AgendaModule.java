@@ -2,9 +2,13 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
+
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.EmptyPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
 import animatefx.animation.JackInTheBox;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -31,10 +35,6 @@ public class AgendaModule {
     private ArtistManager artistManager = new ArtistManager();
     private PodiumManager podiumManager = new PodiumManager();
     private Show currentShow = null;
-
-    // Popups
-    private PodiumPopup podiumPopup;
-    private ArtistPopUp artistPopUp;
 
     // Panes
     private BorderPane mainLayoutPane = new BorderPane();
@@ -167,14 +167,16 @@ public class AgendaModule {
      * CallBack method to open <code>this.artistPopup</code>.
      */
     public void artistPopupCallBack() {
-        this.artistPopUp.load();
+        ArtistPopUp artistPopUp = new ArtistPopUp(this.stage, this.artistManager, this.creationPanel);
+        artistPopUp.load();
     }
 
     /**
      * CallBack method to open <code>this.podiumCallBack</code>.
      */
     public void podiumPopupCallBack() {
-        this.podiumPopup.load();
+        PodiumPopup podiumPopup = new PodiumPopup(this.stage, this.podiumManager, this.creationPanel);
+        podiumPopup.load();
     }
 
     private void loadAgenda() {
@@ -323,8 +325,6 @@ public class AgendaModule {
         this.agendaCanvas = new AgendaCanvas(this.agenda);
         this.creationPanel = new CreationPanel(this, this.podiumManager, this.artistManager);
         this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
-        this.podiumPopup = new PodiumPopup(stage, this.podiumManager, this.creationPanel);
-        this.artistPopUp = new ArtistPopUp(stage, this.artistManager, this.creationPanel);
 
         //Adding all the children
             //MenuBar
@@ -348,8 +348,24 @@ public class AgendaModule {
     }
 
     public void actionHandlingSetup(){
+        this.stage.setOnCloseRequest(e -> { //When the main window is closed -> Close the entire program.
+            Platform.exit();
+        });
+
+        //MenuBar
+            //FileMenu
         exitMenuItem.setOnAction(e -> {
-            podiumPopup.showExitConfirmationPopUp();
+            EmptyPopUp emptyPopUp = new EmptyPopUp();
+            emptyPopUp.showExitConfirmationPopUp();
+        });
+            //EditMenu
+        preferencesMenuItem.setOnAction(e -> {
+            //TODO: Make preferences screen.
+        });
+            //HelpMenu
+        aboutMenuItem.setOnAction(e -> {
+            AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
+            aboutPopUp.load();
         });
     }
 }
