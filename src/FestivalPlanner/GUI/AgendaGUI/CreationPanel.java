@@ -17,60 +17,33 @@ public class CreationPanel {
     private AgendaModule agendaModule;
     private VBox mainPane;
 
+    private VBox creationPanelVBox = new VBox();
+    private HBox artistHBox = new HBox();
+    private HBox podiumHBox = new HBox();
+
     private PodiumManager podiumManager;
     private ArtistManager artistManager;
 
-    private ObservableList<String> observablePodiumList;
-    private ObservableList<String> observableArtistList;
+    private ObservableList<String> observablePodiumList = FXCollections.observableArrayList();
+    private ObservableList<String> observableArtistList = FXCollections.observableArrayList();
 
-    private ComboBox<String> podiumComboBox;
-    private ComboBox<String> artistComboBox;
+    private ComboBox<String> podiumComboBox = new ComboBox<>(this.observablePodiumList);
+    private ComboBox<String> artistComboBox = new ComboBox<>(this.observableArtistList);
 
-    private Button podiumRemoveButton;
-    private Button artistRemoveButton;
-    private Button artistAddButton;
-    private Button podiumAddButton;
+    private Button podiumRemoveButton = new Button("-");
+    private Button artistRemoveButton = new Button("-");
+    private Button artistAddButton = new Button("+");
+    private Button podiumAddButton = new Button("+");
 
 
     public CreationPanel(AgendaModule agendaModule, PodiumManager podiumManager, ArtistManager artistManager) {
         this.agendaModule = agendaModule;
-
         this.podiumManager = podiumManager;
         this.artistManager = artistManager;
-
-        this.observablePodiumList = FXCollections.observableArrayList();
-        this.observableArtistList = FXCollections.observableArrayList();
-
-        this.podiumComboBox = new ComboBox<>(this.observablePodiumList);
-        this.artistComboBox = new ComboBox<>(this.observableArtistList);
-
-        this.podiumAddButton = new Button("+");
-        this.artistAddButton = new Button("+");
-        this.podiumRemoveButton = new Button("-");
-        this.artistRemoveButton = new Button("-");
-
         this.mainPane = generateCreationPanel();
 
-        this.artistAddButton.setOnAction(event -> {
-            agendaModule.artistPopupCallBack();
-        });
-
-        this.podiumAddButton.setOnAction(event -> {
-            agendaModule.podiumPopupCallBack();
-        });
-
-        this.artistRemoveButton.setOnAction(event -> {
-            String selectedArtist = this.artistComboBox.getValue();
-            this.artistManager.removeArtist(selectedArtist);
-            //updateArtistsList();
-        });
-
-        this.podiumRemoveButton.setOnAction(event -> {
-            String selectedPodium = this.podiumComboBox.getValue();
-            this.podiumManager.removePodium(selectedPodium);
-            updatePodiumComboBox();
-        });
-
+        //Setup methods
+        this.actionHandlingSetup();
     }
 
     /**
@@ -80,34 +53,8 @@ public class CreationPanel {
      * all the parts of the GUI responsible for creating and removing artists and podiums
      */
     private VBox generateCreationPanel() {
-        VBox creationPanelVBox = new VBox();
-        creationPanelVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        creationPanelVBox.setMaxHeight(150);
-        creationPanelVBox.setAlignment(Pos.BASELINE_CENTER);
-
-        HBox artistHBox = new HBox();
-        HBox podiumHBox = new HBox();
-
-        this.podiumRemoveButton.setMinWidth(30);
-        this.artistRemoveButton.setMinWidth(30);
-
-        creationPanelVBox.setSpacing(5);
-        artistHBox.setSpacing(5);
-        podiumHBox.setSpacing(5);
-
-        this.artistComboBox.setMinWidth(120);
-        this.artistComboBox.setMaxWidth(120);
-        this.podiumComboBox.setMinWidth(120);
-        this.podiumComboBox.setMaxWidth(120);
-
-
-        artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton);
-        podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton);
-
-        creationPanelVBox.getChildren().addAll(new Label("Available Podiums & Artists"),
-                new Label("Existing artists: "),
-                artistHBox, new Label("Existing podiums: "),
-                podiumHBox);
+        this.setup();
+        this.actionHandlingSetup();
 
         return creationPanelVBox;
     }
@@ -159,6 +106,58 @@ public class CreationPanel {
         this.observableArtistList.setAll(this.artistManager.getAllArtistNames());
     }
 
+    /**
+     * Sets EventHandling of JavaFX <code>Nodes</code>.
+     */
+    public void actionHandlingSetup(){
+        this.artistAddButton.setOnAction(event -> {
+            agendaModule.artistPopupCallBack();
+        });
 
+        this.podiumAddButton.setOnAction(event -> {
+            agendaModule.podiumPopupCallBack();
+        });
 
+        this.artistRemoveButton.setOnAction(event -> {
+            String selectedArtist = this.artistComboBox.getValue();
+            this.artistManager.removeArtist(selectedArtist);
+            //updateArtistsList();
+        });
+
+        this.podiumRemoveButton.setOnAction(event -> {
+            String selectedPodium = this.podiumComboBox.getValue();
+            this.podiumManager.removePodium(selectedPodium);
+            updatePodiumComboBox();
+        });
+    }
+
+    /**
+     * Sets alignment and spacing of JavaFX <code>Nodes</code>, and sets the children for panes.
+     */
+    public void setup(){
+        creationPanelVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
+
+        //Alignment & Spacing.
+        creationPanelVBox.setMaxHeight(150);
+        creationPanelVBox.setAlignment(Pos.BASELINE_CENTER);
+        creationPanelVBox.setSpacing(5);
+        artistHBox.setSpacing(5);
+        podiumHBox.setSpacing(5);
+        this.podiumRemoveButton.setMinWidth(30);
+        this.artistRemoveButton.setMinWidth(30);
+        this.artistComboBox.setMinWidth(120);
+        this.artistComboBox.setMaxWidth(120);
+        this.podiumComboBox.setMinWidth(120);
+        this.podiumComboBox.setMaxWidth(120);
+
+        //Adding all the Children.
+        artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton);
+        podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton);
+
+        //Adding everything together.
+        creationPanelVBox.getChildren().addAll(new Label("Available Podiums & Artists"),
+                new Label("Existing artists: "),
+                artistHBox, new Label("Existing podiums: "),
+                podiumHBox);
+    }
 }

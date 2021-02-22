@@ -73,16 +73,16 @@ public abstract class AbstractCreationPopUp {
     private void setup(){
         additionalSetup();
 
-        //Initialise values
+        //Initialise values.
         //Nothing here because this is an abstract class.
 
         //Alignment & Spacing.
-            //Buttons
+            //Buttons.
         this.addButton.setMinWidth(50);
-            //HBox
+            //HBox.
         this.buttonHBox.setSpacing(5);
         this.buttonHBox.setAlignment(Pos.CENTER);
-            //GridPane
+            //GridPane.
         this.gridPane.setVgap(10);
         this.gridPane.setAlignment(Pos.CENTER);
 

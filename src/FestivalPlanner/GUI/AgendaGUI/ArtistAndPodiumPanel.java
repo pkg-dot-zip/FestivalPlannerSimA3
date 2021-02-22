@@ -30,7 +30,7 @@ public class ArtistAndPodiumPanel {
     private ListView<String> artistsList;
 
     /**
-     * Constructor for ArtistAndPodiumPanel
+     * Constructor for ArtistAndPodiumPanel.
      * @param podiumComboBox  Combobox where the podiums are stored
      * @param artistComboBox  Combobox where the artists are stored
      * @param artistManager  The <a href="{@docRoot}/FestivalPlanner/Agenda/ArtistManager.html">ArtistManager</a> used in the GUI

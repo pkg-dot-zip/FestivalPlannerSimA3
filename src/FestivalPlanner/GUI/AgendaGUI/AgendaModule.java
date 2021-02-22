@@ -27,33 +27,33 @@ import java.time.LocalTime;
 public class AgendaModule {
 
     // Agenda variables
-    private Agenda agenda;
-    private ArtistManager artistManager;
-    private PodiumManager podiumManager;
-    private Show currentShow;
+    private Agenda agenda = new Agenda();
+    private ArtistManager artistManager = new ArtistManager();
+    private PodiumManager podiumManager = new PodiumManager();
+    private Show currentShow = null;
 
     // Popups
     private PodiumPopup podiumPopup;
     private ArtistPopUp artistPopUp;
 
     // Panes
-    private BorderPane mainLayoutPane;
-    private HBox generalLayoutHBox;
+    private BorderPane mainLayoutPane = new BorderPane();
+    private HBox generalLayoutHBox = new HBox();
 
     // Layout components
     private AgendaCanvas agendaCanvas;
     private CreationPanel creationPanel;
-    private TimeAndPopularityPanel timeAndPopularityPanel;
+    private TimeAndPopularityPanel timeAndPopularityPanel = new TimeAndPopularityPanel();
     private ArtistAndPodiumPanel artistAndPodiumPanel;
 
-    private TextField showNameTextField;
-    private TextField fileDirTextField;
-    private Label errorLabel;
+    private TextField showNameTextField = new TextField();
+    private TextField fileDirTextField = new TextField();
+    private Label errorLabel = new Label("No error;");
 
-    private Button loadAgendaButton;
-    private Button saveAgendaButton;
-    private Button eventSaveButton;
-    private Button eventRemoveButton;
+    private Button loadAgendaButton = new Button("Load Agenda");
+    private Button saveAgendaButton = new Button("Save Agenda");
+    private Button eventSaveButton = new Button("Save/Add Show");
+    private Button eventRemoveButton = new Button("Remove");
 
     private File selectedAgendaFile;
 
@@ -71,42 +71,16 @@ public class AgendaModule {
      *              <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
      */
     public AgendaModule(Stage stage) {
-        this.agenda = new Agenda();
-        this.podiumManager = new PodiumManager();
-        this.artistManager = new ArtistManager();
-        this.currentShow = null;
-
         this.agendaCanvas = new AgendaCanvas(this.agenda);
-
-        this.mainLayoutPane = new BorderPane();
-        this.generalLayoutHBox = new HBox();
-
         this.creationPanel = new CreationPanel(this, this.podiumManager, this.artistManager);
-        this.timeAndPopularityPanel = new TimeAndPopularityPanel();
         this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
-
         this.podiumPopup = new PodiumPopup(stage, this.podiumManager, this.creationPanel);
         this.artistPopUp = new ArtistPopUp(stage, this.artistManager, this.creationPanel);
 
         this.mainLayoutPane.setTop(this.generalLayoutHBox);
         this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
 
-        this.showNameTextField = new TextField();
-        this.fileDirTextField = new TextField();
-        this.errorLabel = new Label("No error;");
-
-        this.loadAgendaButton = new Button("Load Agenda");
-        this.saveAgendaButton = new Button("Save Agenda");
-        this.eventSaveButton = new Button("Save/Add Show");
-        this.eventRemoveButton = new Button("Remove");
-
-
-        this.artistManager.addArtist(new Artist("Peter Gabriel", null, null));
-        this.artistManager.addArtist(new Artist("Frans Bauer", null, null));
-        this.artistManager.addArtist(new Artist("The Police", null, null));
-        this.artistManager.addArtist(new Artist("Elton John", null, null));
-        this.artistManager.addArtist(new Artist("Fleetwood Mac", null, null));
-        this.artistManager.addArtist(new Artist("Fools Garden", null, null));
+        setupExampleAgenda();
         this.creationPanel.updateArtistComboBox();
     }
 
@@ -141,12 +115,7 @@ public class AgendaModule {
      * the parts of the GUI responsible for saving and removing events
      */
     private VBox generateSaveAndRemovePanel() {
-        VBox saveLoadPanel = new VBox();
-        saveLoadPanel.setSpacing(5);
-        saveLoadPanel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        saveLoadPanel.setPadding(new Insets(0, 2, 10, 2));
-        saveLoadPanel.setMaxHeight(150);
-        saveLoadPanel.setAlignment(Pos.BASELINE_CENTER);
+        VBox saveLoadPanel = genericVBox();
 
         HBox hBox = new HBox();
         hBox.setSpacing(3);
@@ -164,12 +133,7 @@ public class AgendaModule {
     }
 
     private VBox generateSavePanel() {
-        VBox savePanel = new VBox();
-        savePanel.setSpacing(5);
-        savePanel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        savePanel.setPadding(new Insets(0, 2, 10, 2));
-        savePanel.setMaxHeight(150);
-        savePanel.setAlignment(Pos.BASELINE_CENTER);
+        VBox savePanel = genericVBox();
 
         savePanel.getChildren().addAll(new Label("Enter name and save"),
                 new Label("Enter show name:"),
@@ -299,6 +263,24 @@ public class AgendaModule {
 
             this.currentShow = null;
         });
+    }
 
+    public void setupExampleAgenda(){
+        this.artistManager.addArtist(new Artist("Peter Gabriel", null, null));
+        this.artistManager.addArtist(new Artist("Frans Bauer", null, null));
+        this.artistManager.addArtist(new Artist("The Police", null, null));
+        this.artistManager.addArtist(new Artist("Elton John", null, null));
+        this.artistManager.addArtist(new Artist("Fleetwood Mac", null, null));
+        this.artistManager.addArtist(new Artist("Fools Garden", null, null));
+    }
+
+    public VBox genericVBox(){
+        VBox vBoxToReturn = new VBox();
+        vBoxToReturn.setSpacing(5);
+        vBoxToReturn.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
+        vBoxToReturn.setPadding(new Insets(0, 2, 10, 2));
+        vBoxToReturn.setMaxHeight(150);
+        vBoxToReturn.setAlignment(Pos.BASELINE_CENTER);
+        return vBoxToReturn;
     }
 }

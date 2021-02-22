@@ -22,9 +22,9 @@ import java.util.Set;
  */
 public class AgendaCanvas {
 
-    private BorderPane mainPane;
     private Canvas canvas;
-    private AffineTransform cameraTransform;
+    private BorderPane mainPane = new BorderPane();
+    private AffineTransform cameraTransform = new AffineTransform();
     private ArrayList<ShowRectangle2D> showRectangles;
 
     private int startX;
@@ -80,8 +80,6 @@ public class AgendaCanvas {
      */
     public AgendaCanvas(Agenda agenda, double width, double height) {
         this.agenda = agenda;
-        this.cameraTransform = new AffineTransform();
-        this.mainPane = new BorderPane();
 
         buildAgendaCanvas();
 
