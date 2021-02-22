@@ -294,6 +294,8 @@ public class AgendaModule {
 
                 this.agendaCanvas.reBuildAgendaCanvas();
             }
+
+            this.currentShow = null;
         });
 
     }
