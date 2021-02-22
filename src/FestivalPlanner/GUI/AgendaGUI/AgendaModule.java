@@ -98,7 +98,7 @@ public class AgendaModule {
         this.eventSaveButton = new Button("Save/Add Show");
         this.eventRemoveButton = new Button("Remove");
 
-        
+
         this.artistManager.addArtist(new Artist("Peter Gabriel", null, null));
         this.artistManager.addArtist(new Artist("Frans Bauer", null, null));
         this.artistManager.addArtist(new Artist("The Police", null, null));
@@ -250,8 +250,13 @@ public class AgendaModule {
         this.agendaCanvas.getCanvas().setOnMouseClicked(e -> {
             Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
             if (selectedShow != null) {
+                //reset old show
+                if (this.currentShow != null)
+                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+
+                //starting on new selected
                 this.currentShow = selectedShow;
-                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .9f));
+                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
                 this.agendaCanvas.reDrawCanvas();
                 this.showNameTextField.setText(currentShow.getName());
                 this.artistAndPodiumPanel.setArtistsList(new ListView<>(FXCollections.observableArrayList(this.currentShow.getArtists())));
