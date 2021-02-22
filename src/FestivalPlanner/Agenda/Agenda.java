@@ -2,7 +2,6 @@ package FestivalPlanner.Agenda;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 //TODO: Improve documentation.
 

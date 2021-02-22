@@ -52,7 +52,7 @@ public class TimeAndPopularityPanel {
     /**
      * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
      * that contains the parts of the GUI responsible for selecting the time and popularity of an event.
-     * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
      * 	all the parts of the GUI responsible for selecting the time and popularity of an event
      */
     private VBox generateTimeAndPopularityPanel() {

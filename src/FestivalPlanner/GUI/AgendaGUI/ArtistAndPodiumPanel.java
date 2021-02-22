@@ -2,8 +2,6 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.ArtistManager;
-import FestivalPlanner.Agenda.Podium;
-import FestivalPlanner.Agenda.PodiumManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -66,7 +64,7 @@ public class ArtistAndPodiumPanel {
     /**
      * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
      * that contains the parts of the GUI responsible for selecting a podium for an event.
-     * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
      *  the parts of the GUI responsible for selecting a podium for an event
      */
     private VBox generateMainPane() {
@@ -118,7 +116,7 @@ public class ArtistAndPodiumPanel {
     /**
      * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
      * that contains the parts of the GUI responsible for showing all of the artists in an event.
-     * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
      * the parts of the GUI responsible for showing all of the artists in an event
      */
     private VBox generateArtistsTable() {
@@ -135,7 +133,7 @@ public class ArtistAndPodiumPanel {
 
     /**
      * Getter for <code>this.mainPane</code>.
-     * @return  <code>this.maiPane</code>
+     * @return  <code>this.mainPane</code>
      */
     public VBox getMainPane() {
         return mainPane;
@@ -143,7 +141,7 @@ public class ArtistAndPodiumPanel {
 
     /**
      * Getter for the selected podium in <code>this.podiumComboBox</code>.
-     * @return Current value in <code>this.podiumComboBox</code>
+     * @return  Current value in <code>this.podiumComboBox</code>
      */
     public String getSelectedPodium(){
         return this.podiumComboBox.getValue();
@@ -151,7 +149,7 @@ public class ArtistAndPodiumPanel {
 
     /**
      * Getter for all the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a> selected.
-     * @return Returns an ArrayList with all the selected <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a>
+     * @return  Returns an ArrayList with all the selected <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a>
      */
     public ArrayList<Artist> getSelectedArtists() {
            return new ArrayList<>(this.artistsList.getItems());

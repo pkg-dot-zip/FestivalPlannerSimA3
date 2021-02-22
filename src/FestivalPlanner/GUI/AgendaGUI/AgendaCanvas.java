@@ -9,9 +9,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
-
 import java.awt.geom.*;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -20,7 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Class that will draw a Agenda to a canvas
+ * Class that will draw a Agenda to a canvas.
  */
 public class AgendaCanvas {
 
@@ -50,8 +48,7 @@ public class AgendaCanvas {
      * Constructor of <code>AgendaCanvas</code>.
      * <p>
      * Uses the Agenda given as parameter for <code>this.agenda</code>.
-     *
-     * @param agenda sets <code>this.agenda</code> to this object
+     * @param agenda  sets <code>this.agenda</code> to this object
      */
     public AgendaCanvas(Agenda agenda) {
         this(agenda, 1920 / 4f, 1080 / 3f);
@@ -64,7 +61,7 @@ public class AgendaCanvas {
      * respectively. It creates a new blank Agenda for <code>this.agenda</code>.
      *
      * @param width  sets <code>this.canvas.setWidth</code> to this value
-     * @param height sets <code>this.canvas.setHeight</code> to this value
+     * @param height  sets <code>this.canvas.setHeight</code> to this value
      */
     public AgendaCanvas(double width, double height) {
         this(new Agenda(), width, height);
@@ -79,7 +76,7 @@ public class AgendaCanvas {
      * so the canvas will be drawn after initialisation of <code>AgendaCanvas</code>.
      *
      * @param width  sets <code>this.canvas.setWidth</code> to this value
-     * @param height sets <code>this.canvas.setHeight</code> to this value
+     * @param height  sets <code>this.canvas.setHeight</code> to this value
      */
     public AgendaCanvas(Agenda agenda, double width, double height) {
         this.agenda = agenda;
@@ -109,7 +106,7 @@ public class AgendaCanvas {
     }
 
     /**
-     * Redraws the AgendaCanvas without recalculating All the Rectangle2Ds
+     * Redraws the AgendaCanvas without recalculating all the Rectangle2Ds.
      */
     public void reDrawCanvas() {
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
@@ -117,8 +114,7 @@ public class AgendaCanvas {
 
     /**
      * Getter for <code>this.mainPane</code>.
-     *
-     * @return this.mainPane
+     * @return  this.mainPane
      */
     public Node getMainPane() {
         buildAgendaCanvas();
@@ -127,8 +123,7 @@ public class AgendaCanvas {
 
     /**
      * Getter for <code>this.agenda</code>.
-     *
-     * @return Value of <code>this.agenda</code>
+     * @return  Value of <code>this.agenda</code>
      */
     public Agenda getAgenda() {
         return agenda;
@@ -137,8 +132,7 @@ public class AgendaCanvas {
     /**
      * Setter for <code>this.agenda</code>.
      * <p>
-     *
-     * @param agenda sets <code>this.agenda</code> to this value.
+     * @param agenda  sets <code>this.agenda</code> to this value.
      */
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
@@ -148,23 +142,23 @@ public class AgendaCanvas {
 
     /**
      * Getters for <code>this.canvas</code>.
-     * @return <code>this.canvas</code>
+     * @return  <code>this.canvas</code>
      */
     public Canvas getCanvas() {
         return canvas;
     }
 
     /**
-     * Looks if a <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> is displayed at the given <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a>.
-     * @param point  The point to check is there is a drawn <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a>
-     * @return The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> at the given
-     * <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a> represents.
-     * <p>
+     * Looks if a <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> is displayed at the given
+     * <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a>.
      * Returns null when there is no <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a>
      * at given <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a>
+     * @param point  The point to check is there is a drawn <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a>
+     * @return  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> at the given
+     * <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a> represents.
      */
     public Show showAtPoint(Point2D point) {
-        //Adjust the point to the cameratransform and startTranslate todo: doesn't account for zooming since it is not yet implemented
+        //Adjust the point to the cameratransform and startTranslate. //TODO: doesn't account for zooming since it is not yet implemented.
         Point2D adjustedPoint = new Point2D.Double(point.getX() + this.startX - this.cameraTransform.getTranslateX(),
                 point.getY() + this.startY - this.cameraTransform.getTranslateY());
 
@@ -180,7 +174,7 @@ public class AgendaCanvas {
      * Returns the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> that represents the given
      * <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
      * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> to look for
-     * @return  <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> that represents the show.
+     * @return <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html"> ShowRectangle2D</a> that represents the show.
      */
     public ShowRectangle2D rectangleOnShow(Show show) {
         for (ShowRectangle2D showRectangle2D : this.showRectangles) {
@@ -214,9 +208,7 @@ public class AgendaCanvas {
 
     /**
      * Creates an ArrayList with a <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> for every <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
-     * <p>
-     *
-     * @return ArrayList with all the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangles</a> from the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">shows</a>
+     * @return  ArrayList with all the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangles</a> from the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">shows</a>
      */
     private ArrayList<ShowRectangle2D> showRectanglesToArrayList() {
         ArrayList<ShowRectangle2D> rectangles = new ArrayList<>();
@@ -228,9 +220,8 @@ public class AgendaCanvas {
 
     /**
      * Creates an Rectangle that represents the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>.
-     *
-     * @param show The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that the returned <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle</a> is based on
-     * @return a rectangle, this rectangle isn't shown yet but has a size and location based on the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>
+     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that the returned <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle</a> is based on
+     * @return  a rectangle, this rectangle isn't shown yet but has a size and location based on the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>
      */
     private ShowRectangle2D createShowRectangle(Show show) {
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute() / 60f);
@@ -241,12 +232,12 @@ public class AgendaCanvas {
     }
 
     /**
-     * Calculates the boundaries of the canvas based on stages and shows in the Agenda. (not yet implemented)
+     * Calculates the boundaries of the canvas based on stages and shows in the Agenda. (not yet implemented) //TODO?!?!??!?!
      * <p>
      * Initializes <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
      */
     private void calculateBounds() {
-        //Todo: Will later calculate these value's based on current Agenda.
+        //TODO: Will later calculate these value's based on current Agenda.
         this.startX = -100;
         this.endX = 1440;
         this.startY = -50;
@@ -254,9 +245,8 @@ public class AgendaCanvas {
     }
 
     /**
-     * Gets a list of all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>, duplicates won't show up
-     *
-     * @return an ArrayList with all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>
+     * Gets a list of all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>, duplicates won't show up.
+     * @return  an ArrayList with all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>
      */
     private ArrayList<Podium> calculateUsedStages() {
         Set<Podium> stageSet = new HashSet<>();
@@ -268,12 +258,11 @@ public class AgendaCanvas {
     }
 
     /**
-     * Main method to draw everything on <code>this.canvas</code>.
-     *
-     * @param graphics object that draws on <code>this.canvas</code>
+     * Draws everything on <code>this.canvas</code>.
+     * @param graphics  object that draws on <code>this.canvas</code>
      */
     private void draw(FXGraphics2D graphics) {
-        //resetting the screen
+        //Resetting the screen.
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
@@ -311,8 +300,7 @@ public class AgendaCanvas {
 
     /**
      * Draws the time information on the horizontal axis to <code>this.canvas</code>.
-     *
-     * @param graphics object to draw on
+     * @param graphics  object to draw on
      */
     private void drawTopBar(FXGraphics2D graphics) {
         graphics.drawLine(this.startX, 0, this.endX, 0);
@@ -334,9 +322,8 @@ public class AgendaCanvas {
     }
 
     /**
-     * Draws the lines and names for all <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">stages</a> in <code>this.usedStages</code>
-     *
-     * @param graphics object to draw on
+     * Draws the lines and names for all <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">stages</a> in <code>this.usedStages</code>.
+     * @param graphics  object to draw on
      */
     private void drawStages(FXGraphics2D graphics) {
         int stageHeight = 60;
@@ -350,7 +337,6 @@ public class AgendaCanvas {
 
     /**
      * Makes scrolling possible by translating <code>this.cameraTransform</code>.
-     *
      * @param scrollEvent is the eventhandler for scrolling
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
@@ -367,9 +353,8 @@ public class AgendaCanvas {
      * Calculates if the given translate will fit within the set bounds.
      * <p>
      * Currently only works on translations, scale not yet implemented.
-     *
-     * @param transform AffineTransform that is proposed
-     * @return returns true if the given translate is in bounds
+     * @param transform  AffineTransform that is proposed
+     * @return  true if the given translate is in bounds
      */
     private boolean cameraInBounds(AffineTransform transform) {
         return (this.cameraTransform.getTranslateX() + transform.getTranslateX() <= 1 &&

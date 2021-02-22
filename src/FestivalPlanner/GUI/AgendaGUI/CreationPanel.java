@@ -76,7 +76,7 @@ public class CreationPanel {
     /**
      * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
      * that contains the parts of the GUI responsible for creating and removing artists and podiums.
-     * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
      * all the parts of the GUI responsible for creating and removing artists and podiums
      */
     private VBox generateCreationPanel() {
@@ -122,7 +122,7 @@ public class CreationPanel {
 
     /**
      * Getter for <code>this.observablePodiumList</code>
-     * @return <code>this.observablePodiumList</code>
+     * @return  <code>this.observablePodiumList</code>
      */
     public ObservableList<String> getObservablePodiumList() {
         return observablePodiumList;
@@ -130,7 +130,7 @@ public class CreationPanel {
 
     /**
      * Getter for <code>this.observableArtistList</code>
-     * @return <code>this.observableArtistList</code>
+     * @return  <code>this.observableArtistList</code>
      */
     public ObservableList<String> getObservableArtistList() {
         return observableArtistList;

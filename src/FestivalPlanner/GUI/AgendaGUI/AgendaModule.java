@@ -1,9 +1,7 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
-
 import java.awt.geom.*;
-
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,12 +11,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.time.LocalTime;
 
-//TODO The way you enter a time feels counterintuitive
-//TODO Artist popup hasn't been made yet
+//TODO: The way you enter a time feels counter-intuitive.
+//TODO: Artist popup hasn't been made yet.
 
 /**
  * Responsible for placing everything in the correct place in the GUI and making sure all the buttons work.
@@ -61,12 +58,12 @@ public class AgendaModule {
      * Constructor of <code>AgendaModule</code>.
      * <p>
      * The given <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> will be stored
-     * as a parameter so this stage can be refrenced as the main
+     * as a parameter so this stage can be referenced as the main
      * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>.
      * </p>
      *
-     * @param stage will be stored
-     *              as a parameter so this stage can be refrenced as the owner of the sub stages
+     * @param stage  will be stored
+     *              as a parameter so this stage can be referenced as the owner of the sub stages
      *              <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
      */
     public AgendaModule(Stage stage) {
@@ -113,7 +110,7 @@ public class AgendaModule {
      * for the <a href="{@docRoot}/FestivalPlanner/GUI/MainGUI.html">MainGUI</a> that contains all the GUI components
      * by calling all the generate methods.
      *
-     * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> with the layout
+     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> with the layout
      * for the <a href="{@docRoot}/FestivalPlanner.GUI/MainGUI.html">MainGUI</a> class
      */
 
@@ -138,7 +135,7 @@ public class AgendaModule {
      * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
      * that contains the parts of the GUI responsible for saving and removing events.
      *
-     * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
      * the parts of the GUI responsible for saving and removing events
      */
     private VBox generateSaveAndRemovePanel() {
@@ -181,14 +178,14 @@ public class AgendaModule {
     }
 
     /**
-     * CallBack method to open <code>this.artistPopup</code>
+     * CallBack method to open <code>this.artistPopup</code>.
      */
     public void artistPopupCallBack() {
-        //need to make the secondary GUI
+        //TODO: Make the secondary GUI.
     }
 
     /**
-     * CallBack mehtod to open <code>this.podiumCallBack</code>
+     * CallBack method to open <code>this.podiumCallBack</code>.
      */
     public void podiumPopupCallBack() {
         this.podiumPopup.show();
@@ -206,6 +203,7 @@ public class AgendaModule {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
         this.fileDirTextField.setText(fileChooser.showSaveDialog(new Stage()).getAbsolutePath());
         saveHandler.writeAgendaToFile(this.fileDirTextField.getText(), this.agenda);
+        //TODO: Fix NullPointerException on cancel button in the Dialog.
     }
 
     /**
@@ -225,7 +223,7 @@ public class AgendaModule {
             this.agenda = saveHandler.readAgendaFromFile(this.fileDirTextField.getText());
             this.agendaCanvas.setAgenda(this.agenda);
 
-            //update podiumManager and ArtistManager TODO werk niet helemaal
+            //Update podiumManager and ArtistManager. TODO: Fix this, since it isn't fully functional.
             for (Show show : this.agenda.getShows()) {
                 if (show != null && show.getPodium() != null) {
                     if (!this.podiumManager.containsPodium(show.getPodium().getName()))
@@ -250,11 +248,11 @@ public class AgendaModule {
         this.agendaCanvas.getCanvas().setOnMouseClicked(e -> {
             Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
             if (selectedShow != null) {
-                //reset old show
+                //Reset old show.
                 if (this.currentShow != null)
                 this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
 
-                //starting on new selected
+                //Starting on new selected.
                 this.currentShow = selectedShow;
                 this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
                 this.agendaCanvas.reDrawCanvas();
@@ -274,7 +272,7 @@ public class AgendaModule {
         });
 
         this.eventRemoveButton.setOnAction(event -> {
-            //TODO Need a way to select classes first
+            //TODO: Need a way to select classes first.
         });
 
         this.eventSaveButton.setOnAction(event -> {
