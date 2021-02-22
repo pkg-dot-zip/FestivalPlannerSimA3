@@ -9,13 +9,25 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Abstract class used by creation window PopUps such as <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/PopUpGUI/ArtistPopUp.html">ArtistPopUp</a> and
+ * <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/PopUpGUI/PodiumPopUp.html">PodiumPopUp</a>.
+ * <p>
+ *  This class contains methods with filled bodies, whom call abstract methods. This way extending this class is quite flexible
+ *  to ensure an efficient and relatively fast workflow.
+ *  Examples:
+ *  <p><ul>
+ *  <li><code>load()</code> calls abstract method <code>additionalLoad()</code>.
+ *  <li><code>setup()</code> calls abstract method <code>additionalSetup()</code>.
+ *  <li><code>actionHandlingSetup()</code> calls abstract method <code>additionalActionHandlingSetup()</code>.
+ *  </ul>
+ */
 public abstract class AbstractCreationPopUp {
 
     //TODO: Fix method order to make functionality more clear.
-    //TODO: Add documentation (currently the old one is still in place).
 
-    final int STAGE_WIDTH = 275;
-    final int STAGE_HEIGHT = 200;
+    private final int STAGE_WIDTH = 275;
+    private final int STAGE_HEIGHT = 200;
 
     Stage primaryStage;
     Stage popupStage = new Stage();
@@ -27,17 +39,16 @@ public abstract class AbstractCreationPopUp {
     GridPane gridPane = new GridPane();
 
     /**
-     *
-     * @param primaryStage  the stage that will become the owner of this stage
+     * Constructor for <code>AbstractCreationPopUp</code>.
+     * @param primaryStage  <code>Stage</code> set as the <i>initial owner</i> of the class
      */
     public AbstractCreationPopUp(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
     /**
-     * Shows a sub <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> where you can
-     * create a new podium. The primaryStage cannot be interacted with until this sub
-     * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> has been closed.
+     * Runs initialisation methods and sets general stage settings. Calls abstract method <code>additionalLoad()</code>.
+     * @see #additionalLoad()
      */
     public void load() {
         //Setup methods.
@@ -55,7 +66,11 @@ public abstract class AbstractCreationPopUp {
         this.popupStage.showAndWait();
     }
 
-    public void setup(){
+    /**
+     * Sets alignment and spacing of JavaFX <code>Nodes</code> and adds the buttons to this buttonsHBox.
+     * @see #additionalSetup()
+     */
+    private void setup(){
         additionalSetup();
 
         //Initialise values
@@ -78,9 +93,24 @@ public abstract class AbstractCreationPopUp {
         //Nothing here because this is an abstract class.
     }
 
+    /**
+     * Abstract method that runs additional setup code.
+     * @see #setup()
+     */
     public abstract void additionalSetup();
 
-    public void actionHandlingSetup(){
+    /**
+     * Sets EventHandling of JavaFX <code>Nodes</code> used by all subclasses of this class (<code>AbstractCreationPopUp</code>),
+     * and runs the abstract method <code>additionalActionHandlingSetup()</code>.
+     * <p>
+     * Sets two <code>setOnAction()</code> lambda expressions. Does this for:
+     * <p><ul>
+     * <li>addButton -> <code>onAddButtonPress</code>, an abstract method in this class.
+     * <li>closeButton -> <code>this.popStage.close();</code>
+     * </ul>
+     * @see #additionalActionHandlingSetup()
+     */
+    private void actionHandlingSetup(){
         additionalActionHandlingSetup();
 
         this.addButton.setOnAction(e -> {
@@ -92,10 +122,22 @@ public abstract class AbstractCreationPopUp {
         });
     }
 
+    /**
+     * Abstract method that runs additional ActionHandlingSetup code.
+     * @see #actionHandlingSetup()
+     */
     public abstract void additionalActionHandlingSetup();
 
+    /**
+     * Abstract method that runs when this addButton is pressed. This is automatically handled by actionHandlingSetup().
+     * @see #actionHandlingSetup()
+     */
     public abstract void onAddButtonPress();
 
+    /**
+     * Opens a window containing a message, with the goal of informing the user that <code>TextFields</code> are
+     * empty and should be filled in.
+     */
     public void showEmptyTextFieldsPopUp(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Empty Textfields");
@@ -104,5 +146,9 @@ public abstract class AbstractCreationPopUp {
         alert.showAndWait();
     }
 
+    /**
+     * Abstract method used by subclasses to set additional Stage Settings. Automatically called in <code>load()</code>.
+     * @see #load()
+     */
     public abstract void additionalLoad();
 }
