@@ -304,7 +304,7 @@ public class AgendaCanvas {
         graphics.drawLine(0, this.startY, 0, this.endY);
 
         graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
-        graphics.fill(new Rectangle2D.Double(0, 0, 30, this.canvas.getHeight()));
+        graphics.fill(new Rectangle2D.Double(0, 0, 30, this.endY));
         graphics.setColor(Color.BLACK);
 
         for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
@@ -313,7 +313,7 @@ public class AgendaCanvas {
             graphics.setColor(Color.lightGray);
             graphics.drawLine(x, this.startY, x, this.endY);
             graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
-            graphics.fill(new Rectangle2D.Double(x, 0, 30, this.canvas.getHeight()));
+            graphics.fill(new Rectangle2D.Double(x, 0, 30, this.endY));
             graphics.setColor(Color.BLACK);
         }
     }
@@ -333,24 +333,10 @@ public class AgendaCanvas {
     }
 
     /**
-     * Handles the ScrollEvent and makes sure the correct scrolling function is called
+     * Handles the ScrollEvent for vertical and horizontal scrolling.
      * @param scrollEvent is the eventhandler for scrolling
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
-
-        if(scrollEvent.isAltDown()) {
-            controlScroll();
-        } else {
-            onScroll(scrollEvent);
-        }
-
-    }
-
-    /**
-     * Makes vertical and horizontal scrolling possible by translating <code>this.cameraTransform</code>.
-     * @param scrollEvent  The ScrollEvent passed in {@link #setOnScroll(ScrollEvent)}
-     */
-    private void onScroll(ScrollEvent scrollEvent) {
         double scrollPixelsY = scrollEvent.getDeltaY() / 1.5;
         double scrollPixelsX = scrollEvent.getDeltaX() / 1.5;
         AffineTransform translate = new AffineTransform();
@@ -359,18 +345,6 @@ public class AgendaCanvas {
             this.cameraTransform.translate(scrollPixelsX, scrollPixelsY);
             draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         }
-    }
-
-    private void controlScroll() {
-
-    }
-
-    /**
-     * Makes vertivcal scrolling possible by translating <code>this.cameraTransform</code>.
-     * @param scrollEvent  The ScrollEvent passed in {@link #setOnScroll(ScrollEvent)}
-     */
-    private void normalScroll(ScrollEvent scrollEvent) {
-
     }
 
     /**
