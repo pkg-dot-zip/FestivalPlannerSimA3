@@ -24,7 +24,7 @@ public class AgendaCanvas {
 
     private Canvas canvas;
     private BorderPane mainPane = new BorderPane();
-    private AffineTransform cameraTransform = new AffineTransform();
+    private AffineTransform cameraTransform;
     private ArrayList<ShowRectangle2D> showRectangles;
 
     private int startX;
@@ -83,6 +83,7 @@ public class AgendaCanvas {
 
         buildAgendaCanvas();
 
+        this.cameraTransform = new AffineTransform();
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
         this.canvas.setHeight(height);
         this.canvas.setWidth(width);
@@ -155,7 +156,7 @@ public class AgendaCanvas {
      * <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a> represents.
      */
     public Show showAtPoint(Point2D point) {
-        //Adjust the point to the cameratransform and startTranslate. //TODO: doesn't account for zooming since it is not yet implemented.
+        //Adjust the point to the cameratransform and startTranslate.
         Point2D adjustedPoint = new Point2D.Double(point.getX() + this.startX - this.cameraTransform.getTranslateX(),
                 point.getY() + this.startY - this.cameraTransform.getTranslateY());
 
@@ -229,12 +230,11 @@ public class AgendaCanvas {
     }
 
     /**
-     * Calculates the boundaries of the canvas based on stages and shows in the Agenda. (not yet implemented) //TODO?!?!??!?!
+     * Sets the boundaries of the agendaCanvas.
      * <p>
      * Initializes <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
      */
     private void calculateBounds() {
-        //TODO: Will later calculate these value's based on current Agenda.
         this.startX = -100;
         this.endX = 1440;
         this.startY = -50;
