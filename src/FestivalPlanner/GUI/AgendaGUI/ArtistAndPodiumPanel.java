@@ -28,7 +28,8 @@ public class ArtistAndPodiumPanel {
     private Button eventArtistsAddButton;
     private Button eventArtistsRemoveButton;
 
-    private ListView<Artist> artistsList;
+    private ArrayList<Artist> artistsArrayList;
+    private ListView<String> artistsList;
 
     /**
      * Constructor for ArtistAndPodiumPanel
@@ -45,20 +46,26 @@ public class ArtistAndPodiumPanel {
         this.eventArtistsAddButton = new Button("Add Artist");
         this.eventArtistsRemoveButton = new Button("Remove Artist");
 
+        this.artistsArrayList = new ArrayList<>();
         this.artistsList = new ListView<>();
 
         this.mainPane = generateMainPane();
 
         this.eventArtistsAddButton.setOnAction(event -> {
             Artist selectedArtist = this.artistManager.getArtist(this.artistComboBox.getValue());
-            this.artistsList.getItems().add(selectedArtist);
+            if (selectedArtist != null) {
+                this.artistsArrayList.add(selectedArtist);
+                this.artistsList.getItems().add(selectedArtist.getName());
+                this.artistsList.refresh();
+            }
         });
 
         this.eventArtistsRemoveButton.setOnAction(event -> {
-            Artist selectedArtist = this.artistManager.getArtist(artistComboBox.getValue());
-            if (selectedArtist != null)
-            {
-                this.artistsList.getItems().remove(selectedArtist);
+            Artist selectedArtist = this.artistManager.getArtist(this.artistsList.getSelectionModel().getSelectedItem());
+            if (selectedArtist != null) {
+                this.artistsArrayList.remove(selectedArtist);
+                this.artistsList.getItems().remove(selectedArtist.getName());
+                this.artistsList.refresh();
             }
         });
     }
@@ -154,11 +161,18 @@ public class ArtistAndPodiumPanel {
      * @return Returns an ArrayList with all the selected <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a>
      */
     public ArrayList<Artist> getSelectedArtists() {
-           return new ArrayList<>(this.artistsList.getItems());
+           return this.artistsArrayList;
     }
 
-    public void setArtistsList(ListView<Artist> artistsList) {
-        this.artistsList = artistsList;
+    public void setArtistsList(ArrayList<Artist> artistsList) {
+        this.artistsArrayList = artistsList;
+        this.artistsList.getItems().clear();
+        for (Artist artist : artistsList) {
+            if (artist != null) {
+                System.out.println(artist);
+                this.artistsList.getItems().add(artist.getName());
+            }
+        }
     }
 
     public void setSelectedPodium(String podium) {

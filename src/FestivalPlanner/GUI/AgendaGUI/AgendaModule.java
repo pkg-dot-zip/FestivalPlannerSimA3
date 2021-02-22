@@ -224,6 +224,7 @@ public class AgendaModule {
             }
             this.agenda = saveHandler.readAgendaFromFile(this.fileDirTextField.getText());
             this.agendaCanvas.setAgenda(this.agenda);
+            this.currentShow = null;
 
             //update podiumManager and ArtistManager TODO werk niet helemaal
             for (Show show : this.agenda.getShows()) {
@@ -256,10 +257,11 @@ public class AgendaModule {
 
                 //starting on new selected
                 this.currentShow = selectedShow;
+
                 this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
                 this.agendaCanvas.reDrawCanvas();
                 this.showNameTextField.setText(currentShow.getName());
-                this.artistAndPodiumPanel.setArtistsList(new ListView<>(FXCollections.observableArrayList(this.currentShow.getArtists())));
+                this.artistAndPodiumPanel.setArtistsList(this.currentShow.getArtists());
                 this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());
                 this.timeAndPopularityPanel.setStartTimeText(this.currentShow.getStartTime().toString());
                 this.timeAndPopularityPanel.setEndTimeText(this.currentShow.getEndTime().toString());
