@@ -4,6 +4,7 @@ import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
+import animatefx.animation.JackInTheBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -343,6 +344,7 @@ public class AgendaModule {
         tempVBox.getChildren().addAll(this.menuBar, this.generalLayoutHBox);
         this.mainLayoutPane.setTop(tempVBox);
         this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
+        new JackInTheBox(this.mainLayoutPane).play();
     }
 
     public void actionHandlingSetup(){
