@@ -15,6 +15,8 @@ import javafx.stage.Stage;
  */
 public class PodiumPopup extends AbstractCreationPopUp{
 
+	//TODO: Rename this since I made a typo; PodiumPopup -> PodiumPopUp
+
 	private PodiumManager podiumManager;
 	private CreationPanel creationPanel;
 
