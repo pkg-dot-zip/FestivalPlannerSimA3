@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 /**
- * Contains information about a show, such as the time, name, artist & podium.
+ * Contains information about a show, such as the time, name, artist and podium.
  * <p>
  * Show is used by <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> to collect all shows.
  * @see Agenda#getShows()
@@ -42,7 +42,7 @@ public class Show implements Serializable {
     }
 
     /**
-     * Returns the amount of seconds between <code>this.startTime</code> & <code>this.startTime</code> in a long.
+     * Returns the amount of seconds between <code>this.startTime</code> and <code>this.startTime</code> in a long.
      * @return  long, amount of seconds between the start and end of a show
      */
     public long getDuration(){
