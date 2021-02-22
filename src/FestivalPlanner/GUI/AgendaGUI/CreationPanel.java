@@ -41,9 +41,6 @@ public class CreationPanel {
         this.podiumManager = podiumManager;
         this.artistManager = artistManager;
         this.mainPane = generateCreationPanel();
-
-        //Setup methods
-        this.actionHandlingSetup();
     }
 
     /**
@@ -53,6 +50,7 @@ public class CreationPanel {
      * all the parts of the GUI responsible for creating and removing artists and podiums
      */
     private VBox generateCreationPanel() {
+        //Setup methods
         this.setup();
         this.actionHandlingSetup();
 

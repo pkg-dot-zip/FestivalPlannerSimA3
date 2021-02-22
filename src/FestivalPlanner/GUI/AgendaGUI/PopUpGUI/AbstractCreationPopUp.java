@@ -22,7 +22,7 @@ import javafx.stage.Stage;
  *  <li><code>actionHandlingSetup()</code> calls abstract method <code>additionalActionHandlingSetup()</code>.
  *  </ul>
  */
-public abstract class AbstractCreationPopUp {
+public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
 
     //TODO: Fix method order to make functionality more clear.
 
@@ -134,17 +134,7 @@ public abstract class AbstractCreationPopUp {
      */
     public abstract void onAddButtonPress();
 
-    /**
-     * Opens a window containing a message, with the goal of informing the user that <code>TextFields</code> are
-     * empty and should be filled in.
-     */
-    public void showEmptyTextFieldsPopUp(){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Empty Textfields");
-        alert.setHeaderText("Missing values");
-        alert.setContentText("Please fill in the required textfields.");
-        alert.showAndWait();
-    }
+
 
     /**
      * Abstract method used by subclasses to set additional Stage Settings. Automatically called in <code>load()</code>.

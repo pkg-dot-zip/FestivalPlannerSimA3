@@ -86,7 +86,6 @@ public class AgendaCanvas {
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
         this.canvas.setHeight(height);
         this.canvas.setWidth(width);
-
         this.canvas.setOnScroll(this::setOnScroll);
 
         this.mainPane.setCenter(this.canvas);

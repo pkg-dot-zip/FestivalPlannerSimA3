@@ -2,10 +2,8 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
-
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,13 +16,13 @@ import java.io.File;
 import java.time.LocalTime;
 
 //TODO: The way you enter a time feels counter-intuitive.
-//TODO: Artist popup hasn't been made yet.
 
 /**
  * Responsible for placing everything in the correct place in the GUI and making sure all the buttons work.
  */
-
 public class AgendaModule {
+
+    private Stage stage;
 
     // Agenda variables
     private Agenda agenda = new Agenda();
@@ -39,6 +37,20 @@ public class AgendaModule {
     // Panes
     private BorderPane mainLayoutPane = new BorderPane();
     private HBox generalLayoutHBox = new HBox();
+
+    // MenuBar
+    private MenuBar menuBar = new MenuBar();
+        //FileMenu
+    private Menu fileMenu = new Menu("File");
+    private MenuItem exitMenuItem = new MenuItem("Exit");
+        //EditMenu
+    private Menu editMenu = new Menu("Edit");
+    //TODO: Create EditMenu MenuItems.
+        //HelpMenu
+    private Menu helpMenu = new Menu("Help");
+    private MenuItem helpGuideMenuItem = new MenuItem("Help Guide");
+    private MenuItem javaDocMenuItem = new MenuItem("JavaDoc");
+    private MenuItem aboutMenuItem = new MenuItem("About");
 
     // Layout components
     private AgendaCanvas agendaCanvas;
@@ -71,15 +83,11 @@ public class AgendaModule {
      *              <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
      */
     public AgendaModule(Stage stage) {
-        this.agendaCanvas = new AgendaCanvas(this.agenda);
-        this.creationPanel = new CreationPanel(this, this.podiumManager, this.artistManager);
-        this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
-        this.podiumPopup = new PodiumPopup(stage, this.podiumManager, this.creationPanel);
-        this.artistPopUp = new ArtistPopUp(stage, this.artistManager, this.creationPanel);
+        this.stage = stage;
 
-        this.mainLayoutPane.setTop(this.generalLayoutHBox);
-        this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
-
+        setup();
+        actionHandlingSetup();
+        load();
         setupExampleAgenda();
         this.creationPanel.updateArtistComboBox();
     }
@@ -176,7 +184,7 @@ public class AgendaModule {
      * Initiates all the events that are used in the GUI.
      */
     private void initEvents() {
-
+//TODO: Move to actionHandlingSetup()!!!!!!!!!!!!!
         this.fileDirTextField.setOnMouseClicked(e -> {
             saveAgenda();
         });
@@ -282,5 +290,36 @@ public class AgendaModule {
         vBoxToReturn.setMaxHeight(150);
         vBoxToReturn.setAlignment(Pos.BASELINE_CENTER);
         return vBoxToReturn;
+    }
+
+    public void setup(){
+        //Initialise values.
+        this.agendaCanvas = new AgendaCanvas(this.agenda);
+        this.creationPanel = new CreationPanel(this, this.podiumManager, this.artistManager);
+        this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
+        this.podiumPopup = new PodiumPopup(stage, this.podiumManager, this.creationPanel);
+        this.artistPopUp = new ArtistPopUp(stage, this.artistManager, this.creationPanel);
+            //MenuBar
+        fileMenu.getItems().addAll(exitMenuItem);
+        editMenu.getItems().addAll(); //TODO: Add MenuItems when it's programmed.
+        helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
+        menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
+    }
+
+    public void load(){
+        //Adding it all together.
+        //TODO: Put this elsewhere:
+        VBox tempVBox = new VBox();
+        tempVBox.getChildren().addAll(this.menuBar, this.generalLayoutHBox);
+        this.mainLayoutPane.setTop(tempVBox);
+        this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
+//        this.mainLayoutPane.setTop(this.generalLayoutHBox);
+//        this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
+    }
+
+    public void actionHandlingSetup(){
+        exitMenuItem.setOnAction(e -> {
+            podiumPopup.showExitConfirmationPopUp();
+        });
     }
 }
