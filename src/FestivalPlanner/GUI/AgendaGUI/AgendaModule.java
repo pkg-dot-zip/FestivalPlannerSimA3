@@ -112,7 +112,6 @@ public class AgendaModule {
      * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> with the layout
      * for the <a href="{@docRoot}/FestivalPlanner.GUI/MainGUI.html">MainGUI</a> class
      */
-
     public Scene generateGUILayout() {
         this.generalLayoutHBox.setSpacing(20);
         this.generalLayoutHBox.setPadding(new Insets(0, 10, 0, 10));
