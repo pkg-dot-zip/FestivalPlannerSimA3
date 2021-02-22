@@ -1,5 +1,7 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
+import animatefx.animation.Bounce;
+import animatefx.animation.FadeIn;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,7 +25,7 @@ import javafx.stage.Stage;
  */
 public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
 
-    //TODO: Fix method order to make functionality more clear.
+    //TODO: Change method order to make functionality more clear.
 
     private final int STAGE_WIDTH = 275;
     private final int STAGE_HEIGHT = 200;
@@ -53,6 +55,9 @@ public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
         //Setup methods.
         this.setup();
         this.actionHandlingSetup();
+
+        //Animation to play on launch.
+        new FadeIn(gridPane).play();
 
         //Stage Settings.
         this.additionalLoad();
