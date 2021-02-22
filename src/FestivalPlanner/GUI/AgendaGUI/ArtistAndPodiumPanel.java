@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class ArtistAndPodiumPanel {
 
-
     private VBox mainPane;
 
     private ArtistManager artistManager;

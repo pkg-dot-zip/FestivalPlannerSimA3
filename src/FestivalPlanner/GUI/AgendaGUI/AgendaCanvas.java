@@ -3,6 +3,7 @@ package FestivalPlanner.GUI.AgendaGUI;
 import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.Agenda.Podium;
+import com.sun.istack.internal.Nullable;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ScrollEvent;
@@ -154,6 +155,7 @@ public class AgendaCanvas {
      * @return  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> at the given
      * <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a> represents.
      */
+    @Nullable
     public Show showAtPoint(Point2D point) {
         //Adjust the point to the cameratransform and startTranslate. //TODO: doesn't account for zooming since it is not yet implemented.
         Point2D adjustedPoint = new Point2D.Double(point.getX() + this.startX - this.cameraTransform.getTranslateX(),
@@ -173,6 +175,7 @@ public class AgendaCanvas {
      * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> to look for
      * @return <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html"> ShowRectangle2D</a> that represents the show.
      */
+    @Nullable
     public ShowRectangle2D rectangleOnShow(Show show) {
         for (ShowRectangle2D showRectangle2D : this.showRectangles) {
             if (showRectangle2D.getShow().equals(show)) {
@@ -283,6 +286,8 @@ public class AgendaCanvas {
 
     }
 
+    //TODO: Add documentation.
+    @Nullable
     private Area getIntersectArea(Rectangle2D mainRect) {
         for (ShowRectangle2D otherShowRect : this.showRectangles) {
             if (otherShowRect.getRectangle() != mainRect && mainRect.intersects(otherShowRect.getRectangle())) {

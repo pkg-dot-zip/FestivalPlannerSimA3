@@ -4,6 +4,7 @@ import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
+import com.sun.istack.internal.NotNull;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -186,7 +187,7 @@ public class AgendaModule {
     private void initEvents() {
 //TODO: Move to actionHandlingSetup()!!!!!!!!!!!!!
         this.fileDirTextField.setOnMouseClicked(e -> {
-            saveAgenda();
+            //Removed saveAgenda(); here since we have a method for that.
         });
 
         this.loadAgendaButton.setOnAction(e -> {
@@ -273,6 +274,9 @@ public class AgendaModule {
         });
     }
 
+    /**
+     * Adds example artists to this <code>ArtistManager</code> for debugging purposes.
+     */
     public void setupExampleAgenda(){
         this.artistManager.addArtist(new Artist("Peter Gabriel", null, null));
         this.artistManager.addArtist(new Artist("Frans Bauer", null, null));
@@ -282,6 +286,10 @@ public class AgendaModule {
         this.artistManager.addArtist(new Artist("Fools Garden", null, null));
     }
 
+    /**
+     * Returns a VBox with pre-configured settings. This method was made to avoid duplicate code.
+     * @return  VBox.
+     */
     public VBox genericVBox(){
         VBox vBoxToReturn = new VBox();
         vBoxToReturn.setSpacing(5);

@@ -78,7 +78,7 @@ public class TimeAndPopularityPanel {
     }
 
     public VBox getMainPane() {
-        return mainPane;
+        return this.mainPane;
     }
 
     public void setStartTimeText(String startTimeTextField) {

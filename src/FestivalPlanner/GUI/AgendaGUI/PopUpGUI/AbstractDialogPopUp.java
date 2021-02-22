@@ -6,8 +6,14 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
+/**
+ * Contains methods for all PopUps used in the program.
+ */
 public abstract class AbstractDialogPopUp {
 
+    /**
+     * Prompts the user with the choice to exit the program or cancel this operation.
+     */
     public void showExitConfirmationPopUp(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit Confirmation");

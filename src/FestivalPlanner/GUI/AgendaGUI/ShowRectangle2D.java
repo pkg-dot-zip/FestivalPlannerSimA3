@@ -43,7 +43,7 @@ public class ShowRectangle2D{
      * @return <code>this.show</code>
      */
     public Show getShow() {
-        return show;
+        return this.show;
     }
 
     /**
@@ -51,7 +51,7 @@ public class ShowRectangle2D{
      * @return  <code>this.Color</code>
      */
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     /**

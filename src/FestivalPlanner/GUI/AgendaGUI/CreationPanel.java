@@ -36,6 +36,12 @@ public class CreationPanel {
     private Button podiumAddButton = new Button("+");
 
 
+    /**
+     * Constuctor for the <code>CreationPanel</code> class.
+     * @param agendaModule  <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/AgendaModule.html"> AgendaModule</a>
+     * @param podiumManager  <a href="{@docRoot}/FestivalPlanner/Agenda/PodiumManager.html"> PodiumManager</a>
+     * @param artistManager  <a href="{@docRoot}/FestivalPlanner/Agenda/ArtistManager.html"> ArtistManager</a>
+     */
     public CreationPanel(AgendaModule agendaModule, PodiumManager podiumManager, ArtistManager artistManager) {
         this.agendaModule = agendaModule;
         this.podiumManager = podiumManager;
@@ -50,7 +56,7 @@ public class CreationPanel {
      * all the parts of the GUI responsible for creating and removing artists and podiums
      */
     private VBox generateCreationPanel() {
-        //Setup methods
+        //Setup methods.
         this.setup();
         this.actionHandlingSetup();
 
@@ -62,7 +68,7 @@ public class CreationPanel {
      * @return <code>this.mainPane</code>
      */
     public VBox getMainPane() {
-        return mainPane;
+        return this.mainPane;
     }
 
     /**
@@ -70,7 +76,7 @@ public class CreationPanel {
      * @return  <code>this.observablePodiumList</code>
      */
     public ObservableList<String> getObservablePodiumList() {
-        return observablePodiumList;
+        return this.observablePodiumList;
     }
 
     /**
@@ -78,7 +84,7 @@ public class CreationPanel {
      * @return  <code>this.observableArtistList</code>
      */
     public ObservableList<String> getObservableArtistList() {
-        return observableArtistList;
+        return this.observableArtistList;
     }
 
     /**
@@ -86,7 +92,7 @@ public class CreationPanel {
      * @return
      */
     public ComboBox<String> getArtistComboBox() {
-        return artistComboBox;
+        return this.artistComboBox;
     }
 
     /**

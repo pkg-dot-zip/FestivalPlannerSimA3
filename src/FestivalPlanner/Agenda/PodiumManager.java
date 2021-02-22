@@ -1,5 +1,7 @@
 package FestivalPlanner.Agenda;
 
+import com.sun.istack.internal.Nullable;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -17,9 +19,8 @@ public class PodiumManager {
     /**
      * Empty constructor for the <code>PodiumManager</code>.
      * <p>
-     * The empty constructor initialises the <code>this.podiums</code> HashMap.
+     * This empty constructor initialises the <code>this.podiums</code> HashMap.
      */
-
     public PodiumManager() {
         this.podiums = new HashMap<>();
     }
@@ -36,7 +37,7 @@ public class PodiumManager {
 
     /**
      * Adds the <code>Podium</code> object to the podiums ArrayList if the list doesn't contain the value already.
-     * @param podium  instance of <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> used to check whether the Hashmap already contains it or not.
+     * @param podium  instance of <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> used to check whether the HashMap already contains it or not.
      */
     public void addPodium(Podium podium){
         if (!this.podiums.containsKey(podium.getName())){ //Checks whether the podium already exists or not.
@@ -59,6 +60,7 @@ public class PodiumManager {
      * @return <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html"> Podium</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> was not found
      */
+    @Nullable
     public Podium getPodium(String name) {
         return this.podiums.get(name);
     }
