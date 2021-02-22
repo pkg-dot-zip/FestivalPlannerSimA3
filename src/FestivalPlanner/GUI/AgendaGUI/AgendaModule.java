@@ -7,6 +7,7 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.EmptyPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
+import FestivalPlanner.GUI.PreferencesGUI;
 import animatefx.animation.JackInTheBox;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -359,7 +360,8 @@ public class AgendaModule {
         });
             //EditMenu
         preferencesMenuItem.setOnAction(e -> {
-            //TODO: Make preferences screen.
+            PreferencesGUI preferencesGUI = new PreferencesGUI(this.stage);
+            preferencesGUI.load();
         });
             //HelpMenu
         aboutMenuItem.setOnAction(e -> {
