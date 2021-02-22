@@ -1,8 +1,11 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
+import animatefx.animation.GlowText;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.text.Text;
 
 import java.util.Optional;
 
