@@ -3,6 +3,7 @@ package FestivalPlanner.GUI.AgendaGUI;
 import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
 
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -33,6 +34,7 @@ public class AgendaModule {
 
     // Popups
     private PodiumPopup podiumPopup;
+    private ArtistPopUp artistPopUp;
 
     // Panes
     private BorderPane mainLayoutPane;
@@ -84,6 +86,7 @@ public class AgendaModule {
         this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
 
         this.podiumPopup = new PodiumPopup(stage, this.podiumManager, this.creationPanel);
+        this.artistPopUp = new ArtistPopUp(stage, this.artistManager, this.creationPanel);
 
         this.mainLayoutPane.setTop(this.generalLayoutHBox);
         this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
@@ -180,7 +183,7 @@ public class AgendaModule {
      * CallBack method to open <code>this.artistPopup</code>.
      */
     public void artistPopupCallBack() {
-        //TODO: Make the secondary GUI.
+        this.artistPopUp.load();
     }
 
     /**

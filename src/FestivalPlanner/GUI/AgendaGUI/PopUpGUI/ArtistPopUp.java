@@ -53,7 +53,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             //Add the podium to the list and then update the ComboBox.
             //TODO: Replace null for actual values
             this.artistManager.addArtist(new Artist(this.nameField.getText(), null, null));
-            this.creationPanel.updatePodiumComboBox();
+            this.creationPanel.updateArtistComboBox();
 
             //Exit stage.
             this.popupStage.close();

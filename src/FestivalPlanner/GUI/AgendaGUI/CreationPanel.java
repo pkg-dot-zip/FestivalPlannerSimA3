@@ -52,7 +52,7 @@ public class CreationPanel {
         this.mainPane = generateCreationPanel();
 
         this.artistAddButton.setOnAction(event -> {
-            //need to make the secondary GUI
+            agendaModule.artistPopupCallBack();
         });
 
         this.podiumAddButton.setOnAction(event -> {
