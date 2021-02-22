@@ -166,7 +166,6 @@ public class ArtistAndPodiumPanel {
         this.artistsList.getItems().clear();
         for (Artist artist : artistsList) {
             if (artist != null) {
-                System.out.println(artist);
                 this.artistsList.getItems().add(artist.getName());
             }
         }

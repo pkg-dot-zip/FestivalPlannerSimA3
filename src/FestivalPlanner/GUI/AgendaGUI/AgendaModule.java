@@ -100,7 +100,6 @@ public class AgendaModule {
         setup();
         actionHandlingSetup();
         load();
-        setupExampleAgenda();
         this.creationPanel.updateArtistComboBox();
     }
 
@@ -211,7 +210,7 @@ public class AgendaModule {
             this.agendaCanvas.setAgenda(this.agenda);
             this.currentShow = null;
 
-            //Update podiumManager and ArtistManager. TODO: Fix this, since it isn't fully functional.
+            //Update podiumManager and ArtistManager.
             for (Show show : this.agenda.getShows()) {
                 if (show != null && show.getPodium() != null) {
                     if (!this.podiumManager.containsPodium(show.getPodium().getName()))
@@ -279,7 +278,7 @@ public class AgendaModule {
             if (startTime != null && endTime != null && selectedPodium != null && this.artistAndPodiumPanel.getSelectedArtists().size() > 0) {
 
                 this.agenda.getShows().remove(this.currentShow);
-                agenda.addShow(new Show(this.showNameTextField.getText(),
+                this.agenda.addShow(new Show(this.showNameTextField.getText(),
                         startTime,
                         endTime,
                         this.timeAndPopularityPanel.getPopularity(),
@@ -291,18 +290,6 @@ public class AgendaModule {
 
             this.currentShow = null;
         });
-    }
-
-    /**
-     * Adds example artists to this <code>ArtistManager</code> for debugging purposes.
-     */
-    public void setupExampleAgenda(){
-        this.artistManager.addArtist(new Artist("Peter Gabriel", null, null));
-        this.artistManager.addArtist(new Artist("Frans Bauer", null, null));
-        this.artistManager.addArtist(new Artist("The Police", null, null));
-        this.artistManager.addArtist(new Artist("Elton John", null, null));
-        this.artistManager.addArtist(new Artist("Fleetwood Mac", null, null));
-        this.artistManager.addArtist(new Artist("Fools Garden", null, null));
     }
 
     /**
