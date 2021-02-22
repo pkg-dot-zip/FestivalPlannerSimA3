@@ -1,5 +1,6 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.EmptyPopUp;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -59,7 +60,8 @@ public class TimeAndPopularityPanel {
         try {
             return LocalTime.parse(this.startTimeTextField.getText());
         } catch (Exception e) {
-            e.printStackTrace();
+            EmptyPopUp emptyPopUp = new EmptyPopUp();
+            emptyPopUp.showExceptionPopUp(e);
         }
         return null;
     }
@@ -68,7 +70,8 @@ public class TimeAndPopularityPanel {
         try {
             return LocalTime.parse(this.endTimeTextField.getText());
         } catch (Exception e) {
-            e.printStackTrace();
+            EmptyPopUp emptyPopUp = new EmptyPopUp();
+            emptyPopUp.showExceptionPopUp(e);
         }
         return null;
     }

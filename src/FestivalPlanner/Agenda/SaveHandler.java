@@ -1,5 +1,7 @@
 package FestivalPlanner.Agenda;
 
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.EmptyPopUp;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -25,7 +27,8 @@ public class SaveHandler {
             printWriter.println(generateData(agenda.getShows()));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            EmptyPopUp emptyPopUp = new EmptyPopUp();
+            emptyPopUp.showExceptionPopUp(e);
         }
 
         return file;
@@ -71,7 +74,8 @@ public class SaveHandler {
         try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(fileName))){
             output.writeObject(new Agenda(agenda.getName(), agenda.getShows()));
         } catch (Exception e){
-            e.printStackTrace();
+            EmptyPopUp emptyPopUp = new EmptyPopUp();
+            emptyPopUp.showExceptionPopUp(e);
         }
     }
 
@@ -87,7 +91,8 @@ public class SaveHandler {
             //TODO: Check whether this system is already optimized and functional.
 
         } catch (Exception e){
-            e.printStackTrace();
+            EmptyPopUp emptyPopUp = new EmptyPopUp();
+            emptyPopUp.showExceptionPopUp(e);
         }
 
         return agenda;
