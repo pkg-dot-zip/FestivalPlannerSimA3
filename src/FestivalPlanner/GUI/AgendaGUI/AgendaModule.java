@@ -2,6 +2,8 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
+
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -125,9 +127,6 @@ public class AgendaModule {
                 generateSaveAndRemovePanel());
 
         initEvents();
-
-        this.podiumPopup.generateScene();
-
         return new Scene(this.mainLayoutPane);
     }
 
@@ -188,7 +187,7 @@ public class AgendaModule {
      * CallBack method to open <code>this.podiumCallBack</code>.
      */
     public void podiumPopupCallBack() {
-        this.podiumPopup.show();
+        this.podiumPopup.load();
     }
 
     private void loadAgenda() {
