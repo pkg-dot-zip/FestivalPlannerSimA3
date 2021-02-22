@@ -16,7 +16,7 @@ public class WindowsSystemSoundHandler {
      * running a version of Windows on his/her/theirs/its computer.
      * @param systemSoundEnum  enumerator referring to a native Windows sound
      */
-    public void load(SystemSoundEnum systemSoundEnum){
+    public static void load(SystemSoundEnum systemSoundEnum){
         if (System.getProperty("os.name").contains("Windows")) {
             String propertyName = findSoundWithEnum(systemSoundEnum);
 
@@ -33,7 +33,7 @@ public class WindowsSystemSoundHandler {
      * @param systemSoundEnum  enumerator referring to a native Windows sound
      * @return  reference to a sound from the Windows Operating System
      */
-    private String findSoundWithEnum(SystemSoundEnum systemSoundEnum){
+    private static String findSoundWithEnum(SystemSoundEnum systemSoundEnum){
         String stringToReturn = "";
         switch(systemSoundEnum){
             case DEFAULT:
@@ -88,5 +88,4 @@ public class WindowsSystemSoundHandler {
 
         return stringToReturn;
     }
-
 }

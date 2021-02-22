@@ -1,12 +1,10 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
-import animatefx.animation.GlowText;
+import FestivalPlanner.Util.SoundHandling.SystemSoundEnum;
+import FestivalPlanner.Util.SoundHandling.WindowsSystemSoundHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.text.Text;
-
 import java.util.Optional;
 
 /**
@@ -22,6 +20,8 @@ public abstract class AbstractDialogPopUp {
         alert.setTitle("Exit Confirmation");
         alert.setHeaderText("Are you sure you want to exit?");
         alert.setContentText("Any unsaved changes will be lost!");
+
+        WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
@@ -40,8 +40,7 @@ public abstract class AbstractDialogPopUp {
         alert.setTitle("Empty Textfields");
         alert.setHeaderText("Missing values");
         alert.setContentText("Please fill in the required textfields.");
+        WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
         alert.showAndWait();
     }
-
-
 }

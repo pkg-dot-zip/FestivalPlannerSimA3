@@ -1,5 +1,8 @@
 package FestivalPlanner.Util.SoundHandling;
 
+/**
+ * Contains enumerators referring to Windows operating System sounds.
+ */
 public enum SystemSoundEnum {
     DEFAULT,
     CLOSE,
