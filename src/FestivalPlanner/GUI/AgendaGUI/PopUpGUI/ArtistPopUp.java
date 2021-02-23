@@ -22,10 +22,21 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     private TextField nameField = new TextField();
     //TODO: Add sprite & picture functionality.
 
+    /**
+     * Constructor for the <code>ArtistPopUp</code> class.
+     * @param primaryStage  stage calling the superclass
+     * @param artistManager  artistManager to receive and send information to
+     * @param creationPanel  //TODO: Describe this.
+     */
     public ArtistPopUp(Stage primaryStage, ArtistManager artistManager, CreationPanel creationPanel) {
         super(primaryStage);
         this.artistManager = artistManager;
         this.creationPanel = creationPanel;
+    }
+
+    @Override
+    public void additionalLoad() {
+        this.popupStage.setTitle("Artist Editor");
     }
 
     @Override
@@ -66,10 +77,5 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         } else {
             showEmptyTextFieldsPopUp();
         }
-    }
-
-    @Override
-    public void additionalLoad() {
-        this.popupStage.setTitle("Artist Editor");
     }
 }

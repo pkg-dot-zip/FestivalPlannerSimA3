@@ -1,6 +1,5 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
-import animatefx.animation.Bounce;
 import animatefx.animation.FadeIn;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -98,12 +97,6 @@ public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
     }
 
     /**
-     * Abstract method that runs additional setup code.
-     * @see #setup()
-     */
-    public abstract void additionalSetup();
-
-    /**
      * Sets EventHandling of JavaFX <code>Nodes</code> used by all subclasses of this class (<code>AbstractCreationPopUp</code>),
      * and runs the abstract method <code>additionalActionHandlingSetup()</code>.
      * <p>
@@ -127,6 +120,18 @@ public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
     }
 
     /**
+     * Abstract method used by subclasses to set additional Stage Settings. Automatically called in <code>load()</code>.
+     * @see #load()
+     */
+    public abstract void additionalLoad();
+
+    /**
+     * Abstract method that runs additional setup code.
+     * @see #setup()
+     */
+    public abstract void additionalSetup();
+
+    /**
      * Abstract method that runs additional ActionHandlingSetup code.
      * @see #actionHandlingSetup()
      */
@@ -137,12 +142,4 @@ public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
      * @see #actionHandlingSetup()
      */
     public abstract void onAddButtonPress();
-
-
-
-    /**
-     * Abstract method used by subclasses to set additional Stage Settings. Automatically called in <code>load()</code>.
-     * @see #load()
-     */
-    public abstract void additionalLoad();
 }

@@ -7,7 +7,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
@@ -65,8 +64,13 @@ public abstract class AbstractDialogPopUp {
         alert.showAndWait();
     }
 
+    /**
+     * Opens a dialog window with a text area, with its text being set to the <code>printStackTrace()</code> method
+     * from the exception received as a parameter.
+     * @param e  exception to get the text from
+     */
     public void showExceptionPopUp(Exception e){
-        GridPane exceptionGridpane = new GridPane();
+        GridPane exceptionGridPane = new GridPane();
 
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
@@ -80,10 +84,10 @@ public abstract class AbstractDialogPopUp {
         alert.setContentText("An exception has occurred. Apologies for the inconvenience.");
         WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
 
-        exceptionGridpane.setMaxWidth(Double.MAX_VALUE);
-        exceptionGridpane.addRow(0, textArea);
+        exceptionGridPane.setMaxWidth(Double.MAX_VALUE);
+        exceptionGridPane.addRow(0, textArea);
 
-        alert.getDialogPane().setExpandableContent(exceptionGridpane);
+        alert.getDialogPane().setExpandableContent(exceptionGridPane);
 
         alert.showAndWait();
     }

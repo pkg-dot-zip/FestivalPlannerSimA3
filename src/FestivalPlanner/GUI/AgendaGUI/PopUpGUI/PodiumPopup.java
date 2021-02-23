@@ -26,7 +26,7 @@ public class PodiumPopup extends AbstractCreationPopUp{
 	private TextField locationField = new TextField();
 
 	/**
-	 *
+	 * Constructor for the <code>PodiumPopUp</code> class.
 	 * @param primaryStage  the stage that will become the owner of this stage
 	 * @param podiumManager  this class has a method that needs to be called after the list has been updated
 	 * @param creationPanel  the class that contains the list of podiums that will be updated
@@ -35,6 +35,11 @@ public class PodiumPopup extends AbstractCreationPopUp{
 		super(primaryStage);
 		this.podiumManager = podiumManager;
 		this.creationPanel = creationPanel;
+	}
+	
+	@Override
+	public void additionalLoad() {
+		this.popupStage.setTitle("Podium Editor");
 	}
 
 	@Override
@@ -75,10 +80,5 @@ public class PodiumPopup extends AbstractCreationPopUp{
 		} else {
 			showEmptyTextFieldsPopUp();
 		}
-	}
-
-	@Override
-	public void additionalLoad() {
-		this.popupStage.setTitle("Podium Editor");
 	}
 }
