@@ -1,11 +1,10 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
+import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.ArtistManager;
-import FestivalPlanner.Agenda.PodiumManager;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -34,7 +33,13 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
     private VBox showNameVBox = genericVBox();
     private TextField showNameTextField = new TextField();
 
-
+    //ArtistsAndPodiumPanel
+    private ArtistManager artistManager;
+    private ComboBox<String> podiumComboBox;
+    private ComboBox<String> artistComboBox;
+    private Button eventArtistsAddButton;
+    private Button eventArtistsRemoveButton;
+    private ListView<Artist> artistsList;
 
     //Generic
     private GridPane gridPane = new GridPane();
@@ -53,13 +58,6 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
     }
 
     public void load(){
-        //If no layer is selected, create a new one.
-        if (this.agendaModule.getCurrentShow() != null) {
-            isNewShow = false;
-        } else {
-            isNewShow = true;
-        }
-
         this.setup();
         this.actionHandlingSetup();
 
@@ -77,6 +75,12 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
 
     public void setup(){
         //Value init
+        //If no layer is selected, create a new one.
+        if (this.agendaModule.getCurrentShow() != null) {
+            isNewShow = false;
+        } else {
+            isNewShow = true;
+        }
         loadPropertiesFromShow();
 
         //Alignment & Spacing
@@ -136,6 +140,23 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
             this.popularityLabel.setText(" Expected popularity: " + (int)this.popularitySlider.getValue() + "%");
         });
 
+        //ArtistsAndPodiumPanel
+        this.eventArtistsAddButton.setOnAction(event -> {
+            Artist selectedArtist = this.artistManager.getArtist(this.artistComboBox.getValue());
+            if (selectedArtist != null) {
+                this.artistsList.getItems().add(selectedArtist);
+                this.artistsList.refresh();
+            }
+        });
+
+        this.eventArtistsRemoveButton.setOnAction(event -> {
+            Artist selectedArtist = this.artistsList.getSelectionModel().getSelectedItem();
+            if (selectedArtist != null) {
+                this.artistsList.getItems().remove(selectedArtist);
+                this.artistsList.refresh();
+            }
+        });
+
         /*
         * GENERIC :
         * */
@@ -162,7 +183,6 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
             } else {
                 this.agendaModule.setCurrentShow(selectedShow);
             }
-
         });
 
         closeButton.setOnAction(e -> {
@@ -183,8 +203,13 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         this.endTimeTextField.setText(selectedShow.getEndTime().toString());
         //ShowName
         this.showNameTextField.setText(selectedShow.getName());
+        //ArtistAndPodiumPanel
+        this.artistsList.getItems().clear();
+        this.artistsList.setItems(FXCollections.observableArrayList(selectedShow.getArtists()));
+        this.podiumComboBox.getSelectionModel().select(selectedShow.getPodium().getName());
     }
 
+    //TODO: Embed all code under this line into other methods.
     public VBox genericVBox(){
         VBox vBoxToReturn = new VBox();
         vBoxToReturn.setSpacing(5);
@@ -193,6 +218,77 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         vBoxToReturn.setMaxHeight(150);
         vBoxToReturn.setAlignment(Pos.BASELINE_CENTER);
         return vBoxToReturn;
+    }
+
+
+    /**
+     * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+     * that contains the parts of the GUI responsible for selecting a podium for an event.
+     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+     *  the parts of the GUI responsible for selecting a podium for an event
+     */
+    private VBox generateMainPane() {
+        VBox mainVBox = new VBox();
+        mainVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
+        mainVBox.setMaxHeight(150);
+        mainVBox.setPadding(new Insets(0,2,10,2));
+        mainVBox.setAlignment(Pos.BASELINE_CENTER);
+        mainVBox.setSpacing(5);
+
+        HBox hBox = new HBox();
+        hBox.setSpacing(5);
+        hBox.getChildren().addAll(generateArtistsTable(), generateArtistAtEventSetter());
+
+        mainVBox.getChildren().addAll(new Label("Select Artists and podium"), hBox);
+        return mainVBox;
+    }
+
+    /**
+     * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+     * that contains the parts of the GUI responsible for adding artists to an event.
+     * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+     * the parts of the GUI responsible for adding artists to an event
+     */
+    private VBox generateArtistAtEventSetter() {
+        VBox ArtistAtEventSetterVBox = new VBox();
+
+        ArtistAtEventSetterVBox.setSpacing(5);
+        this.artistComboBox.setMinWidth(120);
+        this.artistComboBox.setMaxWidth(120);
+        this.artistComboBox.setPromptText("Artist:");
+
+        this.podiumComboBox.setMinWidth(120);
+        this.podiumComboBox.setMaxWidth(120);
+        this.podiumComboBox.setPromptText("Podium:");
+
+        this.eventArtistsAddButton.setPrefWidth(120);
+        this.eventArtistsRemoveButton.setPrefWidth(120);
+
+        ArtistAtEventSetterVBox.getChildren().addAll(this.artistComboBox,
+                this.eventArtistsAddButton,
+                this.eventArtistsRemoveButton,
+                new Label("Select podium: "),
+                this.podiumComboBox);
+
+        return ArtistAtEventSetterVBox;
+    }
+
+    /**
+     * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+     * that contains the parts of the GUI responsible for showing all of the artists in an event.
+     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+     * the parts of the GUI responsible for showing all of the artists in an event
+     */
+    private VBox generateArtistsTable() {
+        VBox artistVBox = new VBox();
+
+        artistVBox.setSpacing(5);
+
+        this.artistsList.setMaxHeight(130);
+        this.artistsList.setMaxWidth(200);
+
+        artistVBox.getChildren().addAll(this.artistsList);
+        return artistVBox;
     }
 
 

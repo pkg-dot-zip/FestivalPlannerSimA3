@@ -15,11 +15,11 @@ import javafx.stage.Stage;
 
 public class ArtistAndPodiumEditorGUI {
 
-    Stage stage = new Stage();
-    Scene scene;
+    private Stage stage = new Stage();
+    private Scene scene;
 
-    GridPane gridPane = new GridPane();
-    AgendaModule agendaModule;
+    private GridPane gridPane = new GridPane();
+    private AgendaModule agendaModule;
 
     private VBox creationPanelVBox = new VBox();
     private HBox artistHBox = new HBox();

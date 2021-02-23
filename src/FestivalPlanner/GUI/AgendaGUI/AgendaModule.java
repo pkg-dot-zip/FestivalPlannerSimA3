@@ -298,8 +298,8 @@ public class AgendaModule {
 
             //Setting all the stored information to the GUI
             this.showNameTextField.setText(currentShow.getName());
-            this.artistAndPodiumPanel.setArtistsList(this.currentShow.getArtists());
-            this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());
+//            this.artistAndPodiumPanel.setArtistsList(this.currentShow.getArtists());
+//            this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());
         } else {
             if (this.currentShow != null) {
                 this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
