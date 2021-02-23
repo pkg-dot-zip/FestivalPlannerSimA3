@@ -256,8 +256,11 @@ public class AgendaModule {
                     //Starting on new selected.
                     this.currentShow = selectedShow;
 
+                    //Setting correct color
                     this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
                     this.agendaCanvas.reDrawCanvas();
+
+                    //Setting all the stored information to the GUI
                     this.showNameTextField.setText(currentShow.getName());
                     this.artistAndPodiumPanel.setArtistsList(this.currentShow.getArtists());
                     this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());

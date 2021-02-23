@@ -93,6 +93,7 @@ public class TimeAndPopularityPanel {
     }
 
     public void setPopularitySlider(int popularity) {
+        this.popularityLabel.setText(" Expected popularity: " + popularity+ "%");
         this.popularitySlider.setValue(popularity);
     }
 
