@@ -19,7 +19,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.File;
+
 import java.time.LocalTime;
 
 //TODO: The way you enter a time feels counter-intuitive.
@@ -62,15 +62,12 @@ public class AgendaModule {
     private ArtistAndPodiumPanel artistAndPodiumPanel;
 
     private TextField showNameTextField = new TextField();
-    private TextField fileDirTextField = new TextField();
     private Label errorLabel = new Label("No error;");
 
     private Button loadAgendaButton = new Button("Load Agenda");
     private Button saveAgendaButton = new Button("Save Agenda");
     private Button eventSaveButton = new Button("Save/Add Show");
     private Button eventRemoveButton = new Button("Remove");
-
-    private File selectedAgendaFile;
 
     //ContextMenu
     private ContextMenu contextMenu = new ContextMenu();
@@ -120,7 +117,7 @@ public class AgendaModule {
                 this.timeAndPopularityPanel.getMainPane(),
                 artistAndPodiumPanel.getMainPane(),
                 generateSavePanel(),
-                generateSaveAndRemovePanel());
+                generateSaveAndLoadPanel());
 
         initEvents();
         return new Scene(this.mainLayoutPane);
@@ -133,20 +130,14 @@ public class AgendaModule {
      * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
      * the parts of the GUI responsible for saving and removing events
      */
-    private VBox generateSaveAndRemovePanel() {
+    private VBox generateSaveAndLoadPanel() {
         VBox saveLoadPanel = genericVBox();
 
-        HBox hBox = new HBox();
-        hBox.setSpacing(3);
-        hBox.getChildren().addAll(this.saveAgendaButton, this.loadAgendaButton);
-
-        this.fileDirTextField.setEditable(false);
-
         saveLoadPanel.getChildren().addAll(new Label("Save/Load Agenda"),
-                new Label("Select file: "),
-                this.fileDirTextField,
                 new Label(""),
-                hBox);
+                this.saveAgendaButton,
+                new Label(""),
+                this.loadAgendaButton);
 
         return saveLoadPanel;
     }
@@ -178,15 +169,40 @@ public class AgendaModule {
         podiumPopup.load();
     }
 
-    private void loadAgenda() {
+    private String getLoadAgendaPath() {
         FileChooser fileChooser = new FileChooser();
         try {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
-            this.fileDirTextField.setText(fileChooser.showOpenDialog(new Stage()).getAbsolutePath());
+            return fileChooser.showOpenDialog(new Stage()).getAbsolutePath();
         } catch (NullPointerException e){
             EmptyPopUp emptyPopUp = new EmptyPopUp();
             emptyPopUp.showExceptionPopUp(e);
         }
+        return null;
+    }
+
+    private void loadAgenda() {
+        SaveHandler saveHandler = new SaveHandler();
+        this.agenda = saveHandler.readAgendaFromFile(getLoadAgendaPath());
+        this.agendaCanvas.setAgenda(this.agenda);
+        this.currentShow = null;
+
+        //Update podiumManager and ArtistManager.
+        for (Show show : this.agenda.getShows()) {
+            if (show != null && show.getPodium() != null) {
+                if (!this.podiumManager.containsPodium(show.getPodium().getName()))
+                    this.podiumManager.addPodium(show.getPodium());
+            }
+
+            if (show != null && show.getArtists() != null) {
+                for (Artist artist : show.getArtists()) {
+                    if (artist != null && !this.artistManager.containsArtist(artist.getName()))
+                        this.artistManager.addArtist(artist);
+                }
+            }
+        }
+        this.creationPanel.updatePodiumComboBox();
+        this.creationPanel.updateArtistComboBox();
     }
 
     private void saveAgenda() {
@@ -194,8 +210,8 @@ public class AgendaModule {
         SaveHandler saveHandler = new SaveHandler();
         try {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
-            this.fileDirTextField.setText(fileChooser.showSaveDialog(new Stage()).getAbsolutePath());
-            saveHandler.writeAgendaToFile(this.fileDirTextField.getText(), this.agenda);
+            String path = fileChooser.showSaveDialog(new Stage()).getAbsolutePath();
+            saveHandler.writeAgendaToFile(path, this.agenda);
         } catch (NullPointerException e){
             EmptyPopUp emptyPopUp = new EmptyPopUp();
             emptyPopUp.showExceptionPopUp(e);
@@ -207,35 +223,8 @@ public class AgendaModule {
      */
     private void initEvents() {
 //TODO: Move to actionHandlingSetup()!!!!!!!!!!!!!
-        this.fileDirTextField.setOnMouseClicked(e -> {
-            //Removed saveAgenda(); here since we have a method for that.
-        });
-
         this.loadAgendaButton.setOnAction(e -> {
-            SaveHandler saveHandler = new SaveHandler();
-            if (this.fileDirTextField.getText().equals("")) {
-                loadAgenda();
-            }
-            this.agenda = saveHandler.readAgendaFromFile(this.fileDirTextField.getText());
-            this.agendaCanvas.setAgenda(this.agenda);
-            this.currentShow = null;
-
-            //Update podiumManager and ArtistManager.
-            for (Show show : this.agenda.getShows()) {
-                if (show != null && show.getPodium() != null) {
-                    if (!this.podiumManager.containsPodium(show.getPodium().getName()))
-                        this.podiumManager.addPodium(show.getPodium());
-                }
-
-                if (show != null && show.getArtists() != null) {
-                    for (Artist artist : show.getArtists()) {
-                        if (artist != null && !this.artistManager.containsArtist(artist.getName()))
-                            this.artistManager.addArtist(artist);
-                    }
-                }
-            }
-            this.creationPanel.updatePodiumComboBox();
-            this.creationPanel.updateArtistComboBox();
+            loadAgenda();
         });
 
         this.saveAgendaButton.setOnAction(e -> {
