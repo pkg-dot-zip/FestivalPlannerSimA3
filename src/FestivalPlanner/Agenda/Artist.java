@@ -47,4 +47,9 @@ public class Artist implements Serializable {
     public BufferedImage getSprite() {
         return this.sprite;
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

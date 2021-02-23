@@ -2,6 +2,8 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.ArtistManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -25,8 +27,7 @@ public class ArtistAndPodiumPanel {
     private Button eventArtistsAddButton;
     private Button eventArtistsRemoveButton;
 
-    private ArrayList<Artist> artistsArrayList;
-    private ListView<String> artistsList;
+    private ListView<Artist> artistsList;
 
     /**
      * Constructor for ArtistAndPodiumPanel.
@@ -43,7 +44,6 @@ public class ArtistAndPodiumPanel {
         this.eventArtistsAddButton = new Button("Add Artist");
         this.eventArtistsRemoveButton = new Button("Remove Artist");
 
-        this.artistsArrayList = new ArrayList<>();
         this.artistsList = new ListView<>();
 
         this.mainPane = generateMainPane();
@@ -51,17 +51,15 @@ public class ArtistAndPodiumPanel {
         this.eventArtistsAddButton.setOnAction(event -> {
             Artist selectedArtist = this.artistManager.getArtist(this.artistComboBox.getValue());
             if (selectedArtist != null) {
-                this.artistsArrayList.add(selectedArtist);
-                this.artistsList.getItems().add(selectedArtist.getName());
+                this.artistsList.getItems().add(selectedArtist);
                 this.artistsList.refresh();
             }
         });
 
         this.eventArtistsRemoveButton.setOnAction(event -> {
-            Artist selectedArtist = this.artistManager.getArtist(this.artistsList.getSelectionModel().getSelectedItem());
+            Artist selectedArtist = this.artistsList.getSelectionModel().getSelectedItem();
             if (selectedArtist != null) {
-                this.artistsArrayList.remove(selectedArtist);
-                this.artistsList.getItems().remove(selectedArtist.getName());
+                this.artistsList.getItems().remove(selectedArtist);
                 this.artistsList.refresh();
             }
         });
@@ -158,17 +156,12 @@ public class ArtistAndPodiumPanel {
      * @return  Returns an ArrayList with all the selected <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a>
      */
     public ArrayList<Artist> getSelectedArtists() {
-           return this.artistsArrayList;
+           return new ArrayList<>(this.artistsList.getItems());
     }
 
     public void setArtistsList(ArrayList<Artist> artistsList) {
-        this.artistsArrayList = artistsList;
         this.artistsList.getItems().clear();
-        for (Artist artist : artistsList) {
-            if (artist != null) {
-                this.artistsList.getItems().add(artist.getName());
-            }
-        }
+        this.artistsList.setItems(FXCollections.observableArrayList(artistsList));
     }
 
     public void setSelectedPodium(String podium) {
