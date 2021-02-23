@@ -151,6 +151,7 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
             } else {
                 this.agendaModule.getCurrentShow().replaceShow(selectedShow);
             }
+
         });
 
         closeButton.setOnAction(e -> {

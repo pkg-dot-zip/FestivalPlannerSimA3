@@ -394,5 +394,11 @@ public class AgendaModule {
      */
     public void setCurrentShow(Show show){
         this.currentShow = show;
+
+        if(this.agenda.getShows().contains(show)){
+            this.agenda.getShows().remove(show);
+        }
+        this.agenda.addShow(show);
+        this.agendaCanvas.reBuildAgendaCanvas();
     }
 }
