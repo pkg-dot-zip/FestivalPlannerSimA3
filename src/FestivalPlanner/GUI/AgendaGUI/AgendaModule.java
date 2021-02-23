@@ -255,8 +255,12 @@ public class AgendaModule {
         });
 
         this.eventRemoveButton.setOnMouseClicked(e -> {
-            this.agenda.getShows().remove(this.currentShow);
-            this.agendaCanvas.reBuildAgendaCanvas();
+            EmptyPopUp popUp = new EmptyPopUp();
+            if (popUp.showDeleteConfirmationPopUp()) {
+                this.agenda.getShows().remove(this.currentShow);
+                this.agendaCanvas.reBuildAgendaCanvas();
+                this.currentShow = null;
+            }
         });
 
         this.eventSaveButton.setOnAction(event -> {

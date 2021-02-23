@@ -35,6 +35,24 @@ public abstract class AbstractDialogPopUp {
     }
 
     /**
+     * Prompts the user with the choice to delete a show or cancel this operation.
+     */
+    public boolean showDeleteConfirmationPopUp(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Remove Confirmation");
+        alert.setHeaderText("Are you sure you want to remove this show?");
+        alert.setContentText("The show will be lost");
+
+        WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Opens a window containing a message, with the goal of informing the user that <code>TextFields</code> are
      * empty and should be filled in.
      */
