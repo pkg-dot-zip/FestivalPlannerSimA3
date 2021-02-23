@@ -15,6 +15,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -125,7 +126,7 @@ public class AgendaModule {
 
     /**
      * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-     * that contains the parts of the GUI responsible for saving and removing events.
+     * that contains the parts of the GUI responsible for saving and loading a Agenda.
      *
      * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
      * the parts of the GUI responsible for saving and removing events
@@ -142,14 +143,25 @@ public class AgendaModule {
         return saveLoadPanel;
     }
 
+    /**
+     * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+     * that contains the parts of the GUI responsible for saving and removing events.
+     *
+     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+     * the parts of the GUI responsible for saving and removing events
+     */
     private VBox generateSavePanel() {
         VBox savePanel = genericVBox();
+
+        HBox hbox = new HBox();
+        hbox.setSpacing(5);
+        hbox.getChildren().addAll(this.eventSaveButton, this.eventRemoveButton);
 
         savePanel.getChildren().addAll(new Label("Enter name and save"),
                 new Label("Enter show name:"),
                 this.showNameTextField,
                 new Label(""),
-                this.eventSaveButton);
+                hbox);
         return savePanel;
     }
 
@@ -233,36 +245,10 @@ public class AgendaModule {
 
         this.agendaCanvas.getCanvas().setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY){ //You can only select with a left-click.
-                Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
                 //In case it still shows it should be hidden, since a new item is selected and some
                 //actions executed by the ContextMenu depend on selected items.
                 contextMenu.hide();
-                if (selectedShow != null) {
-                    //Reset old show.
-                    if (this.currentShow != null)
-                        this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
-
-                    //Starting on new selected.
-                    this.currentShow = selectedShow;
-
-                    //Setting correct color
-                    this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
-                    this.agendaCanvas.reDrawCanvas();
-
-                    //Setting all the stored information to the GUI
-                    this.showNameTextField.setText(currentShow.getName());
-                    this.artistAndPodiumPanel.setArtistsList(this.currentShow.getArtists());
-                    this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());
-                    this.timeAndPopularityPanel.setStartTimeText(this.currentShow.getStartTime().toString());
-                    this.timeAndPopularityPanel.setEndTimeText(this.currentShow.getEndTime().toString());
-                    this.timeAndPopularityPanel.setPopularitySlider(this.currentShow.getExpectedPopularity());
-                } else {
-                    if (this.currentShow != null) {
-                        this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
-                        this.agendaCanvas.reDrawCanvas();
-                        this.currentShow = null;
-                    }
-                }
+                onPrimaryButton(e);
             } else if (e.getButton() == MouseButton.SECONDARY){
                 contextMenu.show(agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
             }
@@ -292,6 +278,41 @@ public class AgendaModule {
 
             this.currentShow = null;
         });
+    }
+
+    /**
+     * Handles the selecting of <a href="{@docRoot}/FestivalPlanner/AgendaGUI/ShowRectangle2D.html">Rectangle2D</a> in
+     * <code>this.agendaCanvas</code>.
+     *  @param e  MouseEvent that was set on the mouseButtonClick
+     */
+    private void onPrimaryButton(MouseEvent e) {
+        Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
+        if (selectedShow != null) {
+            //Reset old show.
+            if (this.currentShow != null)
+                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+
+            //Starting on new selected.
+            this.currentShow = selectedShow;
+
+            //Setting correct color
+            this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
+            this.agendaCanvas.reDrawCanvas();
+
+            //Setting all the stored information to the GUI
+            this.showNameTextField.setText(currentShow.getName());
+            this.artistAndPodiumPanel.setArtistsList(this.currentShow.getArtists());
+            this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());
+            this.timeAndPopularityPanel.setStartTimeText(this.currentShow.getStartTime().toString());
+            this.timeAndPopularityPanel.setEndTimeText(this.currentShow.getEndTime().toString());
+            this.timeAndPopularityPanel.setPopularitySlider(this.currentShow.getExpectedPopularity());
+        } else {
+            if (this.currentShow != null) {
+                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+                this.agendaCanvas.reDrawCanvas();
+                this.currentShow = null;
+            }
+        }
     }
 
     /**
