@@ -254,8 +254,9 @@ public class AgendaModule {
             }
         });
 
-        this.eventRemoveButton.setOnAction(event -> {
-            //TODO: Need a way to select classes first.
+        this.eventRemoveButton.setOnMouseClicked(e -> {
+            this.agenda.getShows().remove(this.currentShow);
+            this.agendaCanvas.reBuildAgendaCanvas();
         });
 
         this.eventSaveButton.setOnAction(event -> {
