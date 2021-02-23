@@ -9,6 +9,7 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.EmptyPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
 import FestivalPlanner.GUI.PreferencesGUI;
 import animatefx.animation.JackInTheBox;
+import com.sun.istack.internal.Nullable;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -49,6 +50,7 @@ public class AgendaModule {
     private MenuItem exitMenuItem = new MenuItem("Exit");
         //EditMenu
     private Menu editMenu = new Menu("Edit");
+    private MenuItem editCurrentlySelectedShow = new MenuItem("Currently Selected Show");
     private MenuItem preferencesMenuItem = new MenuItem("Preferences");
         //HelpMenu
     private Menu helpMenu = new Menu("Help");
@@ -59,7 +61,6 @@ public class AgendaModule {
     // Layout components
     private AgendaCanvas agendaCanvas;
     private CreationPanel creationPanel;
-    private TimeAndPopularityPanel timeAndPopularityPanel = new TimeAndPopularityPanel();
     private ArtistAndPodiumPanel artistAndPodiumPanel;
 
     private TextField showNameTextField = new TextField();
@@ -98,7 +99,7 @@ public class AgendaModule {
 
         setup();
         actionHandlingSetup();
-        load();
+        load(); //TODO: Fix order.
         this.creationPanel.updateArtistComboBox();
     }
 
@@ -115,9 +116,7 @@ public class AgendaModule {
         this.generalLayoutHBox.setPadding(new Insets(0, 10, 0, 10));
 
         this.generalLayoutHBox.getChildren().addAll(this.creationPanel.getMainPane(),
-                this.timeAndPopularityPanel.getMainPane(),
                 artistAndPodiumPanel.getMainPane(),
-                generateSavePanel(),
                 generateSaveAndLoadPanel());
 
         initEvents();
@@ -150,20 +149,21 @@ public class AgendaModule {
      * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
      * the parts of the GUI responsible for saving and removing events
      */
-    private VBox generateSavePanel() {
-        VBox savePanel = genericVBox();
-
-        HBox hbox = new HBox();
-        hbox.setSpacing(5);
-        hbox.getChildren().addAll(this.eventSaveButton, this.eventRemoveButton);
-
-        savePanel.getChildren().addAll(new Label("Enter name and save"),
-                new Label("Enter show name:"),
-                this.showNameTextField,
-                new Label(""),
-                hbox);
-        return savePanel;
-    }
+    //TODO: NOTE: now referred to as "name" instead of "save".
+//    private VBox generateSavePanel() {
+//        VBox savePanel = genericVBox();
+//
+//        HBox hbox = new HBox();
+//        hbox.setSpacing(5);
+//        hbox.getChildren().addAll(this.eventSaveButton, this.eventRemoveButton);
+//
+//        savePanel.getChildren().addAll(new Label("Enter name and save"),
+//                new Label("Enter show name:"),
+//                this.showNameTextField,
+//                new Label(""),
+//                hbox);
+//        return savePanel;
+//    }
 
     /**
      * CallBack method to open <code>this.artistPopup</code>.
@@ -264,19 +264,12 @@ public class AgendaModule {
         });
 
         this.eventSaveButton.setOnAction(event -> {
-            LocalTime startTime = this.timeAndPopularityPanel.getStartTime();
-            LocalTime endTime = this.timeAndPopularityPanel.getEndTime();
             Podium selectedPodium = this.podiumManager.getPodium(this.artistAndPodiumPanel.getSelectedPodium());
 
-            if (startTime != null && endTime != null && selectedPodium != null && this.artistAndPodiumPanel.getSelectedArtists().size() > 0) {
+            if (selectedPodium != null && this.artistAndPodiumPanel.getSelectedArtists().size() > 0) {
 
                 this.agenda.getShows().remove(this.currentShow);
-                this.agenda.addShow(new Show(this.showNameTextField.getText(),
-                        startTime,
-                        endTime,
-                        this.timeAndPopularityPanel.getPopularity(),
-                        selectedPodium,
-                        this.artistAndPodiumPanel.getSelectedArtists()));
+                this.agenda.addShow(new Show());
 
                 this.agendaCanvas.reBuildAgendaCanvas();
             }
@@ -308,9 +301,6 @@ public class AgendaModule {
             this.showNameTextField.setText(currentShow.getName());
             this.artistAndPodiumPanel.setArtistsList(this.currentShow.getArtists());
             this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());
-            this.timeAndPopularityPanel.setStartTimeText(this.currentShow.getStartTime().toString());
-            this.timeAndPopularityPanel.setEndTimeText(this.currentShow.getEndTime().toString());
-            this.timeAndPopularityPanel.setPopularitySlider(this.currentShow.getExpectedPopularity());
         } else {
             if (this.currentShow != null) {
                 this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
@@ -343,7 +333,7 @@ public class AgendaModule {
         //Adding all the children
             //MenuBar
         fileMenu.getItems().addAll(exitMenuItem);
-        editMenu.getItems().addAll(preferencesMenuItem);
+        editMenu.getItems().addAll(editCurrentlySelectedShow, new SeparatorMenuItem(), preferencesMenuItem);
         helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
             //ContextMenu
@@ -373,6 +363,11 @@ public class AgendaModule {
             emptyPopUp.showExitConfirmationPopUp();
         });
             //EditMenu
+        editCurrentlySelectedShow.setOnAction(e -> {
+            ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
+            showEditorGUI.load();
+        });
+
         preferencesMenuItem.setOnAction(e -> {
             PreferencesGUI preferencesGUI = new PreferencesGUI(this.stage);
             preferencesGUI.load();
@@ -382,5 +377,22 @@ public class AgendaModule {
             AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
             aboutPopUp.load();
         });
+    }
+
+    /**
+     * Returns the <code>this.currentShow</code> attribute.
+     * @return  this.currentShow
+     */
+    @Nullable
+    public Show getCurrentShow(){
+        return this.currentShow;
+    }
+
+    /**
+     * Sets the <code>this.currentShow</code> attribute to the parameter's value.
+     * @return  this.currentShow
+     */
+    public void setCurrentShow(Show show){
+        this.currentShow = show;
     }
 }

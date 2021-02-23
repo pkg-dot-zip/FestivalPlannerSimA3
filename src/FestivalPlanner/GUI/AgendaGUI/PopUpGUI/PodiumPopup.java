@@ -36,7 +36,7 @@ public class PodiumPopup extends AbstractCreationPopUp{
 		this.podiumManager = podiumManager;
 		this.creationPanel = creationPanel;
 	}
-	
+
 	@Override
 	public void additionalLoad() {
 		this.popupStage.setTitle("Podium Editor");

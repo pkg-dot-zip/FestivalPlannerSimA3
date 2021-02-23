@@ -3,7 +3,6 @@ package FestivalPlanner.GUI.AgendaGUI;
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.ArtistManager;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

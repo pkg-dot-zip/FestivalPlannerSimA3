@@ -41,6 +41,18 @@ public class Show implements Serializable {
         this.artists = artists;
     }
 
+    //Used in the ShowEditorGUI
+    public Show() {
+        this.name = "New Show";
+        this.startTime = LocalTime.parse("00:00");
+        this.endTime = LocalTime.parse("23:00");
+        this.expectedPopularity = 50;
+        this.podium = new Podium("a", "a");
+        ArrayList<Artist> arrayList = new ArrayList<>();
+        arrayList.add(new Artist("Frans Bauer", null, null));
+        this.artists = arrayList;
+    }
+
     /**
      * Returns the amount of seconds between <code>this.startTime</code> and <code>this.startTime</code> in a long.
      * @return  long, amount of seconds between the start and end of a show
@@ -73,5 +85,41 @@ public class Show implements Serializable {
 
     public ArrayList<Artist> getArtists() {
         return this.artists;
+    }
+
+    //TODO: Write documentation for all setters below this line.
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setExpectedPopularity(int expectedPopularity) {
+        this.expectedPopularity = expectedPopularity;
+    }
+
+    public void setPodium(Podium podium) {
+        this.podium = podium;
+    }
+
+    public void setArtists(ArrayList<Artist> artists) {
+        this.artists = artists;
+    }
+
+    public void replaceShow(Show show){
+        this.name = show.getName();
+        this.startTime = show.getStartTime();
+        this.endTime = show.getEndTime();
+        this.expectedPopularity = show.getExpectedPopularity();
+        this.podium = show.getPodium();
+        this.artists = show.getArtists();
     }
 }

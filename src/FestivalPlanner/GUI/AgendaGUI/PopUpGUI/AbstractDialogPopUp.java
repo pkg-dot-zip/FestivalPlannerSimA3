@@ -91,4 +91,17 @@ public abstract class AbstractDialogPopUp {
 
         alert.showAndWait();
     }
+
+    /**
+     * Opens a window containing a message, with the goal of informing the user that <code>this.currentShow</code> in
+     * <code>AgendaModule</code> is equal to <i>Null</i>.
+     */
+    public void showNoLayerSelectedPopUp(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Can't get selected show");
+        alert.setHeaderText("No selected layer");
+        alert.setContentText("Please select a show and try again.");
+        WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
+        alert.showAndWait();
+    }
 }
