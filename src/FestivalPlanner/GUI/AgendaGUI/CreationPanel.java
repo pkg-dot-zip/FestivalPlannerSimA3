@@ -37,7 +37,7 @@ public class CreationPanel {
 
 
     /**
-     * Constuctor for the <code>CreationPanel</code> class.
+     * Constructor for the <code>CreationPanel</code> class.
      * @param agendaModule  <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/AgendaModule.html"> AgendaModule</a>
      * @param podiumManager  <a href="{@docRoot}/FestivalPlanner/Agenda/PodiumManager.html"> PodiumManager</a>
      * @param artistManager  <a href="{@docRoot}/FestivalPlanner/Agenda/ArtistManager.html"> ArtistManager</a>

@@ -22,8 +22,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.time.LocalTime;
-
 //TODO: The way you enter a time feels counter-intuitive.
 
 /**
@@ -50,7 +48,8 @@ public class AgendaModule {
     private MenuItem exitMenuItem = new MenuItem("Exit");
         //EditMenu
     private Menu editMenu = new Menu("Edit");
-    private MenuItem editCurrentlySelectedShow = new MenuItem("Currently Selected Show");
+    private MenuItem editCurrentlySelectedShow = new MenuItem("Edit Show");
+    private MenuItem editArtistsAndPodiumsMenuItem = new MenuItem("Edit Artists & Podiums");
     private MenuItem preferencesMenuItem = new MenuItem("Preferences");
         //HelpMenu
     private Menu helpMenu = new Menu("Help");
@@ -333,7 +332,7 @@ public class AgendaModule {
         //Adding all the children
             //MenuBar
         fileMenu.getItems().addAll(exitMenuItem);
-        editMenu.getItems().addAll(editCurrentlySelectedShow, new SeparatorMenuItem(), preferencesMenuItem);
+        editMenu.getItems().addAll(editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), editCurrentlySelectedShow, new SeparatorMenuItem(), preferencesMenuItem);
         helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
             //ContextMenu
@@ -363,6 +362,11 @@ public class AgendaModule {
             emptyPopUp.showExitConfirmationPopUp();
         });
             //EditMenu
+        editArtistsAndPodiumsMenuItem.setOnAction(e -> {
+            ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this);
+            artistAndPodiumEditorGUI.load();
+        });
+
         editCurrentlySelectedShow.setOnAction(e -> {
             ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
             showEditorGUI.load();
@@ -400,5 +404,17 @@ public class AgendaModule {
         }
         this.agenda.addShow(show);
         this.agendaCanvas.reBuildAgendaCanvas();
+    }
+
+    public Agenda getAgenda(){
+        return this.agenda;
+    }
+
+    public ArtistManager getArtistManager(){
+        return this.artistManager;
+    }
+
+    public PodiumManager getPodiumManager(){
+        return this.podiumManager;
     }
 }

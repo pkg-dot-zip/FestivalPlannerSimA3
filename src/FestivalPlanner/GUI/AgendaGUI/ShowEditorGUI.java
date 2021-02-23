@@ -1,7 +1,11 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
+import FestivalPlanner.Agenda.ArtistManager;
+import FestivalPlanner.Agenda.PodiumManager;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,8 +20,8 @@ import java.time.LocalTime;
 public class ShowEditorGUI extends AbstractDialogPopUp {
 
     //Main Scene Components.
-    Stage stage = new Stage();
-    Scene scene;
+    private Stage stage = new Stage();
+    private Scene scene;
 
     //TimeAndPopularity
     private VBox timeAndPopularityVBox = new VBox();
@@ -29,6 +33,8 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
     //ShowName
     private VBox showNameVBox = genericVBox();
     private TextField showNameTextField = new TextField();
+
+
 
     //Generic
     private GridPane gridPane = new GridPane();
@@ -87,9 +93,10 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         timeAndPopularityVBox.setMaxHeight(150);
         timeAndPopularityVBox.setAlignment(Pos.BASELINE_CENTER);
         timeAndPopularityVBox.setSpacing(10);
+
             //GridPane
-        gridPane.setVgap(10);
-        gridPane.setHgap(10);
+        gridPane.setVgap(50);
+        gridPane.setHgap(50);
         gridPane.setAlignment(Pos.CENTER);
 
         //Adding all the children
@@ -129,7 +136,11 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
             this.popularityLabel.setText(" Expected popularity: " + (int)this.popularitySlider.getValue() + "%");
         });
 
-        //Generic
+        /*
+        * GENERIC :
+        * */
+
+        //
         applyButton.setOnAction(e -> {
             //TODO: If isNewShow, add selectedShow to the list.
 
@@ -149,7 +160,7 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
             if (isNewShow){
                 this.agendaModule.setCurrentShow(selectedShow);
             } else {
-                this.agendaModule.getCurrentShow().replaceShow(selectedShow);
+                this.agendaModule.setCurrentShow(selectedShow);
             }
 
         });
@@ -183,4 +194,6 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         vBoxToReturn.setAlignment(Pos.BASELINE_CENTER);
         return vBoxToReturn;
     }
+
+
 }
