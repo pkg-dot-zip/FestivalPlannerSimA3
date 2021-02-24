@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -47,26 +48,26 @@ public class ShowEditorGUI extends AbstractGUI {
     private VBox artistVBox = new VBox();
     private ComboBox<String> podiumComboBox = new ComboBox<>();
     private ComboBox<String> artistComboBox = new ComboBox<>();
-    private Button eventArtistsAddButton = new Button( messages.getString("add_artist"));
+    private Button eventArtistsAddButton = new Button(messages.getString("add_artist"));
     private Button eventArtistsRemoveButton = new Button(messages.getString("remove_artist"));
     private ListView<Artist> artistsList = new ListView<>();
 
     //Generic
-        //Buttons
+    //Buttons
     private Button applyButton = new Button(messages.getString("apply"));
     private Button closeButton = new Button(messages.getString("close"));
 
-        //Non-node attributes.
+    //Non-node attributes.
     private AgendaModule agendaModule;
     private Show selectedShow;
     private boolean isNewShow;
 
-    public ShowEditorGUI(AgendaModule agendaModule){
+    public ShowEditorGUI(AgendaModule agendaModule) {
         this.agendaModule = agendaModule;
     }
 
     @Override
-    public void load(){
+    public void load() {
         this.setup();
         this.actionHandlingSetup();
 
@@ -83,27 +84,27 @@ public class ShowEditorGUI extends AbstractGUI {
     }
 
     @Override
-    public void setup(){
+    public void setup() {
         //Value init
         //If no layer is selected, create a new one.
         isNewShow = this.agendaModule.getCurrentShow() == null;
         loadPropertiesFromShow();
 
         //Alignment & Spacing
-            //TimeAndPopularity
-                //Slider
+        //TimeAndPopularity
+        //Slider
         this.popularitySlider.setMin(0);
         this.popularitySlider.setMax(100);
         this.popularitySlider.setValue(50);
-                //TextFields
+        //TextFields
         this.startTimeTextField.setMinWidth(220);
         this.endTimeTextField.setMinWidth(220);
-                //VBox
+        //VBox
         timeAndPopularityVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
         timeAndPopularityVBox.setMaxHeight(150);
         timeAndPopularityVBox.setAlignment(Pos.BASELINE_CENTER);
         timeAndPopularityVBox.setSpacing(10);
-            //ArtistAndPodiumPanel
+        //ArtistAndPodiumPanel
         artistVBox.setSpacing(5);
         ArtistAtEventSetterVBox.setSpacing(5);
         this.artistsList.setMaxHeight(130);
@@ -117,20 +118,20 @@ public class ShowEditorGUI extends AbstractGUI {
         this.eventArtistsAddButton.setPrefWidth(120);
         this.eventArtistsRemoveButton.setPrefWidth(120);
 
-            //GridPane
+        //GridPane
         gridPane.setVgap(50);
         gridPane.setHgap(50);
         gridPane.setAlignment(Pos.CENTER);
 
         //Adding all the children
-            //TimeAndPopularity
+        //TimeAndPopularity
         timeAndPopularityVBox.getChildren().addAll(new Label(messages.getString("select_time")), this.startTimeTextField,
                 this.endTimeTextField, this.popularityLabel, this.popularitySlider);
-            //ShowName
+        //ShowName
         showNameVBox.getChildren().addAll(new Label(messages.getString("enter_name_and_save")),
                 new Label(messages.getString("enter_show_name") + ":"),
                 this.showNameTextField);
-            //ArtistAndPodiumPanel
+        //ArtistAndPodiumPanel
         artistVBox.getChildren().addAll(this.artistsList);
         ArtistAtEventSetterVBox.getChildren().addAll(this.artistComboBox,
                 this.eventArtistsAddButton,
@@ -138,11 +139,11 @@ public class ShowEditorGUI extends AbstractGUI {
                 new Label(messages.getString("select_podium") + ": "),
                 this.podiumComboBox);
 
-            //Generic
+        //Generic
         buttonHBox.getChildren().addAll(applyButton, closeButton);
 
         //Adding it all together
-            //TimeAndPopularity
+        //TimeAndPopularity
         gridPane.addRow(0, timeAndPopularityVBox);
         gridPane.addRow(1, showNameVBox);
         gridPane.addRow(2, generateMainPane());
@@ -150,7 +151,7 @@ public class ShowEditorGUI extends AbstractGUI {
     }
 
     @Override
-    public void actionHandlingSetup(){
+    public void actionHandlingSetup() {
         //TODO: Remove if unused.
 //        //TimeAndPopularity
 //        this.startTimeTextField.setOnMouseClicked(event -> {
@@ -166,7 +167,7 @@ public class ShowEditorGUI extends AbstractGUI {
 //        });
 
         this.popularitySlider.setOnMouseDragged(event -> {
-            this.popularityLabel.setText(" " + messages.getString("expected_popularity") + ": " + (int)this.popularitySlider.getValue() + "%");
+            this.popularityLabel.setText(" " + messages.getString("expected_popularity") + ": " + (int) this.popularitySlider.getValue() + "%");
         });
 
         //ArtistsAndPodiumPanel
@@ -187,19 +188,19 @@ public class ShowEditorGUI extends AbstractGUI {
         });
 
         /*
-        * GENERIC :
-        * */
+         * GENERIC :
+         * */
 
         //
         applyButton.setOnAction(e -> {
             //TODO: If isNewShow, add selectedShow to the list.
-            if (isAllowedToApply()){
+            if (isAllowedToApply()) {
                 //TimeAndPopularityPanel
-                selectedShow.setExpectedPopularity((int)this.popularitySlider.getValue());
+                selectedShow.setExpectedPopularity((int) this.popularitySlider.getValue());
                 try {
                     selectedShow.setStartTime(LocalTime.parse(this.startTimeTextField.getText()));
                     selectedShow.setEndTime(LocalTime.parse(this.endTimeTextField.getText()));
-                } catch (Exception ex){ //"e" Is already in use.
+                } catch (Exception ex) { //"e" Is already in use.
                     showExceptionPopUp(ex);
                 }
 
@@ -213,7 +214,7 @@ public class ShowEditorGUI extends AbstractGUI {
                 selectedShow.setPodium(this.agendaModule.getPodiumManager().getPodium(this.podiumComboBox.getSelectionModel().getSelectedItem()));
 
                 //Apply to AgendaModule
-                if (isNewShow){
+                if (isNewShow) {
                     this.agendaModule.setCurrentShow(selectedShow);
                 } else {
                     this.agendaModule.setCurrentShow(selectedShow);
@@ -229,10 +230,11 @@ public class ShowEditorGUI extends AbstractGUI {
     /**
      * Executes all code you would normally find in a <code>setup()</code> method under the
      * <i>//Initialising values.</i> comment.
+     *
      * @see AbstractGUI#setup()
      */
-    private void loadPropertiesFromShow(){
-        if (isNewShow){
+    private void loadPropertiesFromShow() {
+        if (isNewShow) {
             selectedShow = new Show();
         } else {
             selectedShow = this.agendaModule.getCurrentShow();
@@ -248,15 +250,15 @@ public class ShowEditorGUI extends AbstractGUI {
         this.artistsList.getItems().clear();
         this.artistComboBox.setItems(FXCollections.observableArrayList(this.agendaModule.getArtistManager().getAllArtistNames()));
         this.podiumComboBox.setItems(FXCollections.observableArrayList(this.agendaModule.getPodiumManager().getAllPodiumNames()));
-            //When getArtists() == null, the list in the GUI should not contain ANY names. This should
-            //only occur when the show is new, but we check it like this to avoid this issue in all cases.
-        if (selectedShow.getArtists() != null){
+        //When getArtists() == null, the list in the GUI should not contain ANY names. This should
+        //only occur when the show is new, but we check it like this to avoid this issue in all cases.
+        if (selectedShow.getArtists() != null) {
             this.artistsList.setItems(FXCollections.observableArrayList(selectedShow.getArtists()));
         } else {
             this.artistsList.setItems(FXCollections.observableArrayList());
         }
-            //Same applies here.
-        if (selectedShow.getPodium() != null){
+        //Same applies here.
+        if (selectedShow.getPodium() != null) {
             this.podiumComboBox.getSelectionModel().select(selectedShow.getPodium().getName());
         }
     }
@@ -266,23 +268,25 @@ public class ShowEditorGUI extends AbstractGUI {
      * <p>
      * It checks for empty textfields and list selections. If any of these checks return false this method
      * itself will return false and the configured values will <b>not</b> be applied.
-     * @return  boolean to check whether we set the current show's values to the ones in the GUI
+     *
+     * @return boolean to check whether we set the current show's values to the ones in the GUI
      */
-    private boolean isAllowedToApply(){
+    private boolean isAllowedToApply() {
         if (
-                //TimeAndPopularityPane
-                startTimeTextField.getText().isEmpty() ||
-                endTimeTextField.getText().isEmpty() ||
+            //TimeAndPopularityPane
+            startTimeTextField.getText().isEmpty() ||
+            endTimeTextField.getText().isEmpty() ||
 
-                //ShowName
-                showNameTextField.getText().isEmpty() ||
+             //ShowName
+            showNameTextField.getText().isEmpty() ||
 
-                //ArtistAndPodiumPanel
-                artistsList.getItems().isEmpty() ||
-                podiumComboBox.getItems().isEmpty() ||
-                podiumComboBox.getSelectionModel().getSelectedItem().isEmpty()
+            //ArtistAndPodiumPanel
+            artistsList.getItems().isEmpty() ||
+            podiumComboBox.getItems().isEmpty() ||
+            podiumComboBox.getSelectionModel().isEmpty() ||
+            podiumComboBox.getSelectionModel().getSelectedItem().isEmpty()
 
-        ){
+        ) {
             showEmptyTextFieldsPopUp();
             return false;
         } else {
@@ -291,7 +295,7 @@ public class ShowEditorGUI extends AbstractGUI {
     }
 
     //TODO: Embed all code under this line into other methods.
-    private VBox genericVBox(){
+    private VBox genericVBox() {
         VBox vBoxToReturn = new VBox();
         vBoxToReturn.setSpacing(5);
         vBoxToReturn.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
@@ -305,14 +309,15 @@ public class ShowEditorGUI extends AbstractGUI {
     /**
      * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
      * that contains the parts of the GUI responsible for selecting a podium for an event.
-     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-     *  the parts of the GUI responsible for selecting a podium for an event
+     *
+     * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
+     * the parts of the GUI responsible for selecting a podium for an event
      */
     private VBox generateMainPane() {
         VBox mainVBox = new VBox();
         mainVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
         mainVBox.setMaxHeight(150);
-        mainVBox.setPadding(new Insets(0,2,10,2));
+        mainVBox.setPadding(new Insets(0, 2, 10, 2));
         mainVBox.setAlignment(Pos.BASELINE_CENTER);
         mainVBox.setSpacing(5);
 
