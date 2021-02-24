@@ -32,7 +32,6 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
     Stage popupStage = new Stage();
 
     Button addButton = new Button("Add");
-    Button closeButton = new Button("Close");
 
     /**
      * Constructor for <code>AbstractCreationPopUp</code>.

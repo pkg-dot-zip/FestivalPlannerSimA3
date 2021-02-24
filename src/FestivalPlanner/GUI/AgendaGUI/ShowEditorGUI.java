@@ -77,11 +77,7 @@ public class ShowEditorGUI extends AbstractGUI {
     public void setup(){
         //Value init
         //If no layer is selected, create a new one.
-        if (this.agendaModule.getCurrentShow() != null) {
-            isNewShow = false;
-        } else {
-            isNewShow = true;
-        }
+        isNewShow = this.agendaModule.getCurrentShow() != null;
         loadPropertiesFromShow();
 
         //Alignment & Spacing
@@ -254,7 +250,14 @@ public class ShowEditorGUI extends AbstractGUI {
             this.podiumComboBox.getSelectionModel().select(selectedShow.getPodium().getName());
         }
     }
-    
+
+    /**
+     * Returns a boolean to check whether we set the current show's values to the ones in the GUI.
+     * <p>
+     * It checks for empty textfields and list selections. If any of these checks return false this method
+     * itself will return false and the configured values will <b>not</b> be applied.
+     * @return  boolean to check whether we set the current show's values to the ones in the GUI
+     */
     private boolean isAllowedToApply(){
         if (
                 //TimeAndPopularityPane
@@ -265,7 +268,7 @@ public class ShowEditorGUI extends AbstractGUI {
                 showNameTextField.getText().isEmpty() ||
 
                 //ArtistAndPodiumPanel
-                artistsList.getItems().isEmpty() || //TODO: Remove "None" in list
+                artistsList.getItems().isEmpty() ||
                 podiumComboBox.getItems().isEmpty() ||
                 podiumComboBox.getSelectionModel().getSelectedItem().isEmpty()
 

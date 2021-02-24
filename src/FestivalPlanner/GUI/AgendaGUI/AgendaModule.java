@@ -90,6 +90,7 @@ public class AgendaModule extends AbstractGUI {
         //Stage Settings.
         stage.setScene(new Scene(this.mainLayoutPane));
         stage.setTitle("Agenda");
+        stage.setMaximized(true);
         stage.show();
         //Play animation AFTER the show() method has been called, since the animation would
         //otherwise ot be fully visible for the user.

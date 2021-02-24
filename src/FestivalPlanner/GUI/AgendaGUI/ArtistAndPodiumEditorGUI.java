@@ -50,8 +50,8 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         this.stage.setTitle("Artists and Podiums Editor");
         this.stage.setScene(scene);
         this.stage.setResizable(false);
-        this.stage.setWidth(400);
-        this.stage.setHeight(400);
+        this.stage.setWidth(250);
+        this.stage.setHeight(250);
         this.stage.setIconified(false);
         this.stage.initModality(Modality.APPLICATION_MODAL);
         this.stage.showAndWait();
@@ -81,6 +81,10 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         this.artistComboBox.setMaxWidth(120);
         this.podiumComboBox.setMinWidth(120);
         this.podiumComboBox.setMaxWidth(120);
+        buttonHBox.setSpacing(5);
+        buttonHBox.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
         gridPane.setAlignment(Pos.CENTER);
 
         //Adding all the children.
@@ -90,9 +94,11 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
                 existingArtistsLabel,
                 artistHBox, existingPodiumsLabel,
                 podiumHBox);
+        buttonHBox.getChildren().add(closeButton);
 
         //Adding it all together.
         gridPane.addRow(0, creationPanelVBox);
+        gridPane.addRow(1, buttonHBox);
     }
 
     @Override
@@ -120,6 +126,10 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
             String selectedPodium = this.podiumComboBox.getValue();
             this.agendaModule.getPodiumManager().removePodium(selectedPodium);
             updatePodiumComboBox();
+        });
+
+        this.closeButton.setOnAction(e -> {
+            this.stage.close();
         });
     }
 
