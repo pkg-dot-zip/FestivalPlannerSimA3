@@ -58,6 +58,9 @@ public class PodiumPopup extends AbstractCreationPopUp{
 		gridPane.addRow(2, buttonHBox);
 	}
 
+	/**
+	 * Empty method; this class has no additional Action Handling.
+	 */
 	@Override
 	public void additionalActionHandlingSetup() {
 

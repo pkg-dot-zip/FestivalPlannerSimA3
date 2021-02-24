@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+//TODO: Remove class since it's not used anymore
 public class CreationPanel {
 
     private AgendaModule agendaModule;
@@ -98,7 +99,7 @@ public class CreationPanel {
     /**
      * Updates <code>this.artistComboBoc</code> to the correct value.
      */
-    public void updatePodiumComboBox() {
+    private void updatePodiumComboBox() {
         this.observablePodiumList.setAll(this.podiumManager.getAllPodiumNames());
     }
 
@@ -113,7 +114,7 @@ public class CreationPanel {
     /**
      * Sets EventHandling of JavaFX <code>Nodes</code>.
      */
-    public void actionHandlingSetup(){
+    private void actionHandlingSetup(){
         this.artistAddButton.setOnAction(event -> {
             agendaModule.artistPopupCallBack();
         });
@@ -138,7 +139,7 @@ public class CreationPanel {
     /**
      * Sets alignment and spacing of JavaFX <code>Nodes</code>, and sets the children for panes.
      */
-    public void setup(){
+    private void setup(){
         creationPanelVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
 
         //Alignment & Spacing.

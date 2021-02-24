@@ -38,7 +38,6 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     @Override
     public void additionalSetup() {
         //Initialise values.
-        //TODO: Make this work in case of editing a podium.
         this.nameField.clear();
 
         //Alignment & Spacing.

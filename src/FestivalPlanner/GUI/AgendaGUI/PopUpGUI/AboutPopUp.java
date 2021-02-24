@@ -9,17 +9,28 @@ import javafx.util.Duration;
 
 import java.util.Random;
 
-public class AboutPopUp extends AbstractCreationPopUp{
+/**
+ * Contains everything related to the AboutPopUp you get when clicking the About option in the
+ * MenuBar of the <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/AgendaModule.html">AgendaModule</a>.
+ * <p>
+ * The PopUp contains 3 text <code>Node</code>s and a button. The text elements show:
+ * <p><ul>
+ * <li> The software's author.
+ * <li> The author's motto.
+ * <li> The software's version.
+ * <p></ul>
+ * The button closes this window.
+ */
+public class AboutPopUp extends AbstractCreationPopUp {
 
     private Text authorLabel = new Text("Projectgroep A3");
     private Text mottoLabel = new Text("Altijd een stap verder©");
     private Text versionLabel = new Text("0.0.1");
-
     private VBox aboutVBox = new VBox();
 
     /**
      * Constructor for <code>AbstractCreationPopUp</code>.
-     * @param primaryStage <code>Stage</code> set as the <i>initial owner</i> of the class
+     * @param primaryStage  <code>Stage</code> set as the <i>initial owner</i> of the class
      */
     public AboutPopUp(Stage primaryStage) {
         super(primaryStage);
@@ -51,19 +62,25 @@ public class AboutPopUp extends AbstractCreationPopUp{
         //Adding it all together
         this.gridPane.addRow(0, aboutVBox);
         this.gridPane.addRow(1, this.buttonHBox);
-
     }
 
+    /**
+     * Empty method; this class has no additional Action Handling.
+     */
     @Override
     public void additionalActionHandlingSetup() {
-
     }
 
+    /**
+     * Empty method; this class contains no addButton {@link #additionalLoad()}.
+     */
     @Override
     public void onAddButtonPress() {
-
     }
 
+    /**
+     * Removes the addButton from the buttonHBox, and sets the stage's title.
+     */
     @Override
     public void additionalLoad() {
         buttonHBox.getChildren().remove(this.addButton); //Remove the apply button on load, so that we only have the close button.

@@ -23,8 +23,6 @@ import javafx.stage.Stage;
  */
 public abstract class AbstractCreationPopUp extends AbstractGUI {
 
-    //TODO: Change method order to make functionality more clear.
-
     private final int STAGE_WIDTH = 275;
     private final int STAGE_HEIGHT = 200;
 

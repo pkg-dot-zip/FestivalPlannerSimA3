@@ -41,15 +41,26 @@ public class Show implements Serializable {
         this.artists = artists;
     }
 
-    //Used in the ShowEditorGUI
+    /**
+     * Constructor containing no parameters, used by
+     * the <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/ShowEditorGUI.html">ShowEditorGUI</a>.
+     * <p>
+     * This constructor sets:
+     * <p><ul>
+     * <li>This name to "New Show".
+     * <li>This startTime to "00:00".
+     * <li>This endTime to "23:00".
+     * <li>This expectedPopularity to 50.
+     * <li>This podium to null.
+     * <li>This artists to null.
+     * </ul>
+     */
     public Show() {
         this.name = "New Show";
         this.startTime = LocalTime.parse("00:00");
         this.endTime = LocalTime.parse("23:00");
         this.expectedPopularity = 50;
         this.podium = null;
-//        ArrayList<Artist> arrayList = new ArrayList<>();
-//        arrayList.add(new Artist("None", null, null));
         this.artists = null;
     }
 
@@ -61,55 +72,98 @@ public class Show implements Serializable {
         return ChronoUnit.SECONDS.between(startTime, endTime);
     }
 
-    //TODO: Write documentation for all getters below this line.
-
+    /**
+     * Returns this show's name.
+     * @return  this.name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Returns this show's startTime.
+     * @return  this.startTime
+     */
     public LocalTime getStartTime() {
         return this.startTime;
     }
 
+    /**
+     * Returns this show's endTime.
+     * @return  this.endTime
+     */
     public LocalTime getEndTime() {
         return this.endTime;
     }
 
+    /**
+     * Returns this show's expectedPopularity.
+     * @return  this.expectedPopularity
+     */
     public int getExpectedPopularity() {
         return this.expectedPopularity;
     }
 
+    /**
+     * Returns this show's podium.
+     * @return  this.podium
+     */
     public Podium getPodium() {
         return this.podium;
     }
 
+    /**
+     * Returns this show's artists.
+     * @return  this.artists
+     */
     public ArrayList<Artist> getArtists() {
         return this.artists;
     }
 
-    //TODO: Write documentation for all setters below this line.
-
-
+    /**
+     * Sets <code>this.name</code> to the parameter's value.
+     * @param name  the new name for this show
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Sets <code>this.startTime</code> to the parameter's value.
+     * @param startTime  the new start-time for this show
+     */
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
+    /**
+     * Sets <code>this.endTime</code> to the parameter's value.
+     * @param endTime  the new end-time for this show
+     */
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 
+    /**
+     * Sets <code>this.expectedPopularity</code> to the parameter's value.
+     * @param expectedPopularity  the new expected popularity for this show
+     */
     public void setExpectedPopularity(int expectedPopularity) {
         this.expectedPopularity = expectedPopularity;
     }
 
+    /**
+     * Sets <code>this.podium</code> to the parameter's value.
+     * @param podium  the new podium for this show
+     */
     public void setPodium(Podium podium) {
         this.podium = podium;
     }
 
+    /**
+     * Sets <code>this.artists</code> to the parameter's value.
+     * @param artists  the new artists for this show
+     */
     public void setArtists(ArrayList<Artist> artists) {
         this.artists = artists;
     }

@@ -1,3 +1,7 @@
+//TODO: Remove class since it's not used anymore.
+// In fact, it's not even able to function as a class
+// since all the lines are commented out.
+
 //package FestivalPlanner.GUI.AgendaGUI;
 //
 //import FestivalPlanner.Agenda.Artist;

@@ -45,10 +45,7 @@ public abstract class AbstractDialogPopUp {
         WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            return true;
-        }
-        return false;
+        return result.get() == ButtonType.OK;
     }
 
     /**

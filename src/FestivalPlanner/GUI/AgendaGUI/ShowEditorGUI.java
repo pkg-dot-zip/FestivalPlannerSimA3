@@ -12,10 +12,14 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+/**
+ * Contains all elements and methods seen and used in the edit window of the GUI.
+ * <p>
+ * //TODO: More detailed description.
+ */
 public class ShowEditorGUI extends AbstractGUI {
 
     //Main Scene Components.

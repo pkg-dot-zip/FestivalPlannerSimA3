@@ -14,6 +14,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Contains all elements and methods seen in used in the artist and podium creation/removal window.
+ * <p>
+ * //TODO: More detailed description.
+ */
 public class ArtistAndPodiumEditorGUI extends AbstractGUI {
 
     private Stage stage = new Stage();
@@ -62,7 +67,6 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         //Initialising Values.
         updateArtistComboBox();
         updatePodiumComboBox();
-        //TODO: Consider removing this block if we decide this is not improving the user's experience.
         if (!this.agendaModule.getArtistManager().getAllArtistNames().isEmpty() && !this.agendaModule.getPodiumManager().getAllPodiumNames().isEmpty()){
             this.artistComboBox.getSelectionModel().select(0);
             this.podiumComboBox.getSelectionModel().select(0);

@@ -21,11 +21,10 @@ public class ShowRectangle2D {
      * <p>
      * Creates a new <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> instance based on the
      * given parameters.
-     *
      * @param minX   Start x-coordinate for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
      * @param minY   Start y-coordinate for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
      * @param width  Width for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
-     * @param height Height for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
+     * @param height  Height for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
      * @param show   The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
      */
     public ShowRectangle2D(double minX, double minY, double width, double height, Show show) {
@@ -38,7 +37,7 @@ public class ShowRectangle2D {
      * @param rectangle The <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a> that is given
      * @param show      The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
      */
-    public ShowRectangle2D(Rectangle2D rectangle, Show show) {
+    private ShowRectangle2D(Rectangle2D rectangle, Show show) {
         this.rectangle = rectangle;
         this.show = show;
         this.color = Color.getHSBColor(190 / 360f, .7f, .9f);
@@ -110,8 +109,8 @@ public class ShowRectangle2D {
     }
 
     private String getString(FXGraphics2D graphics, String string) {
-        double stringLenght = graphics.getFontMetrics().stringWidth(string);
-        if (stringLenght >= this.rectangle.getWidth() - 20) {
+        double stringLength = graphics.getFontMetrics().stringWidth(string);
+        if (stringLength >= this.rectangle.getWidth() - 20) {
             string = string.substring(0, string.length() - 1);
             getString(graphics, string);
         }

@@ -82,6 +82,7 @@ public class AgendaModule extends AbstractGUI {
         this.stage = stage;
     }
 
+    @Override
     public void load(){
         //Setup methods.
         setup();
