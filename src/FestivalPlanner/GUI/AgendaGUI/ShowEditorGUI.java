@@ -223,6 +223,7 @@ public class ShowEditorGUI extends AbstractGUI {
         });
 
         closeButton.setOnAction(e -> {
+            this.agendaModule.setCurrentShow(null);
             this.stage.close();
         });
     }

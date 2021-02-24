@@ -1,8 +1,10 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
+
 import java.awt.geom.*;
 import java.util.ResourceBundle;
+
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
@@ -42,17 +44,17 @@ public class AgendaModule extends AbstractGUI {
 
     // MenuBar
     private MenuBar menuBar = new MenuBar();
-        //FileMenu
+    //FileMenu
     private Menu fileMenu = new Menu(messages.getString("file"));
     private MenuItem loadAgendaMenuItem = new MenuItem(messages.getString("load"));
     private MenuItem saveAgendaMenuItem = new MenuItem(messages.getString("save"));
     private MenuItem exitMenuItem = new MenuItem(messages.getString("exit"));
-        //EditMenu
+    //EditMenu
     private Menu editMenu = new Menu(messages.getString("edit"));
     private MenuItem editCurrentlySelectedShow = new MenuItem(messages.getString("edit_show"));
     private MenuItem editArtistsAndPodiumsMenuItem = new MenuItem(messages.getString("edit_artists_and_podiums"));
     private MenuItem preferencesMenuItem = new MenuItem(messages.getString("preferences"));
-        //HelpMenu
+    //HelpMenu
     private Menu helpMenu = new Menu(messages.getString("help"));
     private MenuItem helpGuideMenuItem = new MenuItem(messages.getString("help_guide"));
     private MenuItem javaDocMenuItem = new MenuItem(messages.getString("javadoc"));
@@ -68,7 +70,6 @@ public class AgendaModule extends AbstractGUI {
     private MenuItem removeContextItem = new MenuItem(messages.getString("remove"));
 
 
-
     /**
      * Constructor of <code>AgendaModule</code>.
      * <p>
@@ -77,7 +78,7 @@ public class AgendaModule extends AbstractGUI {
      * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>.
      * </p>
      *
-     * @param stage  will be stored
+     * @param stage will be stored
      *              as a parameter so this stage can be referenced as the owner of the sub stages
      *              <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
      */
@@ -86,7 +87,7 @@ public class AgendaModule extends AbstractGUI {
     }
 
     @Override
-    public void load(){
+    public void load() {
         //Setup methods.
         setup();
         actionHandlingSetup();
@@ -102,7 +103,7 @@ public class AgendaModule extends AbstractGUI {
     }
 
     @Override
-    public void setup(){
+    public void setup() {
         //Initialise values.
         this.agendaCanvas = new AgendaCanvas(this.agenda);
 
@@ -121,7 +122,7 @@ public class AgendaModule extends AbstractGUI {
     }
 
     @Override
-    public void actionHandlingSetup(){
+    public void actionHandlingSetup() {
         //Generic
         this.stage.setOnCloseRequest(e -> { //When the main window is closed -> Close the entire program.
             Platform.exit();
@@ -129,12 +130,12 @@ public class AgendaModule extends AbstractGUI {
 
         //Canvas
         this.agendaCanvas.getCanvas().setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.PRIMARY){ //You can only select with a left-click.
+            if (e.getButton() == MouseButton.PRIMARY) { //You can only select with a left-click.
                 //In case it still shows it should be hidden, since a new item is selected and some
                 //actions executed by the ContextMenu depend on selected items.
                 contextMenu.hide();
                 onPrimaryButton(e);
-            } else if (e.getButton() == MouseButton.SECONDARY){
+            } else if (e.getButton() == MouseButton.SECONDARY) {
                 contextMenu.show(agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
             }
         });
@@ -161,7 +162,7 @@ public class AgendaModule extends AbstractGUI {
 
         editCurrentlySelectedShow.setOnAction(e -> {
             ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
-            if (!this.artistManager.getAllArtistNames().isEmpty() && !this.podiumManager.getAllPodiumNames().isEmpty()){
+            if (!this.artistManager.getAllArtistNames().isEmpty() && !this.podiumManager.getAllPodiumNames().isEmpty()) {
                 showEditorGUI.load();
             } else {
                 showEditorGUI.showNoArtistsOrPodiumsPopUp();
@@ -182,7 +183,7 @@ public class AgendaModule extends AbstractGUI {
         //Edit
         editContextItem.setOnAction(e -> {
             ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
-            if (this.currentShow != null){
+            if (this.currentShow != null) {
                 showEditorGUI.load();
             } else {
                 showEditorGUI.showNoLayerSelectedPopUp();
@@ -195,7 +196,7 @@ public class AgendaModule extends AbstractGUI {
      * <a href="https://javadoc.io/doc/io.github.typhon0/AnimateFX/latest/animatefx/animation/JackInTheBox.html">JackInTheBox</a>
      * animation after all other methods in {@link #load()} have been called.
      */
-    private void playAnimation(){
+    private void playAnimation() {
         new JackInTheBox(this.mainLayoutPane).play();
     }
 
@@ -221,7 +222,7 @@ public class AgendaModule extends AbstractGUI {
         try {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
             return fileChooser.showOpenDialog(new Stage()).getAbsolutePath();
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             EmptyPopUp emptyPopUp = new EmptyPopUp();
             emptyPopUp.showExceptionPopUp(e);
         }
@@ -257,7 +258,7 @@ public class AgendaModule extends AbstractGUI {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
             String path = fileChooser.showSaveDialog(new Stage()).getAbsolutePath();
             saveHandler.writeAgendaToFile(path, this.agenda);
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             EmptyPopUp emptyPopUp = new EmptyPopUp();
             emptyPopUp.showExceptionPopUp(e);
         }
@@ -266,25 +267,26 @@ public class AgendaModule extends AbstractGUI {
     /**
      * Handles the selecting of <a href="{@docRoot}/FestivalPlanner/AgendaGUI/ShowRectangle2D.html">Rectangle2D</a> in
      * <code>this.agendaCanvas</code>.
-     *  @param e  MouseEvent that was set on the mouseButtonClick
+     *
+     * @param e MouseEvent that was set on the mouseButtonClick
      */
     private void onPrimaryButton(MouseEvent e) {
         Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
         if (selectedShow != null) {
             //Reset old show.
             if (this.currentShow != null)
-                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190 / 360f, .7f, .9f));
 
             //Starting on new selected.
             this.currentShow = selectedShow;
 
             //Setting correct color
-            this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
+            this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
             this.agendaCanvas.reDrawCanvas();
 
         } else {
             if (this.currentShow != null) {
-                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190 / 360f, .7f, .9f));
                 this.agendaCanvas.reDrawCanvas();
                 this.currentShow = null;
             }
@@ -293,36 +295,40 @@ public class AgendaModule extends AbstractGUI {
 
     /**
      * Returns the <code>this.currentShow</code> attribute.
-     * @return  this.currentShow
+     *
+     * @return this.currentShow
      */
     @Nullable
-    public Show getCurrentShow(){
+    public Show getCurrentShow() {
         return this.currentShow;
     }
 
     /**
      * Sets the <code>this.currentShow</code> attribute to the parameter's value.
-     * @return  this.currentShow
+     *
+     * @return this.currentShow
      */
-    public void setCurrentShow(Show show){
+    public void setCurrentShow(Show show) {
         this.currentShow = show;
 
-        if(this.agenda.getShows().contains(show)){
-            this.agenda.getShows().remove(show);
+        if (show != null) {
+            if (this.agenda.getShows().contains(show)) {
+                this.agenda.getShows().remove(show);
+            }
+            this.agenda.addShow(show);
+            this.agendaCanvas.reBuildAgendaCanvas();
         }
-        this.agenda.addShow(show);
-        this.agendaCanvas.reBuildAgendaCanvas();
     }
 
-    public Agenda getAgenda(){
+    public Agenda getAgenda() {
         return this.agenda;
     }
 
-    public ArtistManager getArtistManager(){
+    public ArtistManager getArtistManager() {
         return this.artistManager;
     }
 
-    public PodiumManager getPodiumManager(){
+    public PodiumManager getPodiumManager() {
         return this.podiumManager;
     }
 
