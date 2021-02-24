@@ -1,6 +1,7 @@
 package FestivalPlanner.GUI;
 
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
