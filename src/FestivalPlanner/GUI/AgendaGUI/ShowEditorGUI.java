@@ -2,7 +2,7 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.Show;
-import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
+import FestivalPlanner.GUI.AbstractGUI;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class ShowEditorGUI extends AbstractDialogPopUp {
+public class ShowEditorGUI extends AbstractGUI {
 
     //Main Scene Components.
     private Stage stage = new Stage();
@@ -43,9 +43,7 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
     private ListView<Artist> artistsList = new ListView<>();
 
     //Generic
-    private GridPane gridPane = new GridPane();
         //Buttons
-    private HBox buttonHBox = new HBox();
     private Button applyButton = new Button("Apply");
     private Button closeButton = new Button("Close");
 
@@ -58,6 +56,7 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         this.agendaModule = agendaModule;
     }
 
+    @Override
     public void load(){
         this.setup();
         this.actionHandlingSetup();
@@ -74,6 +73,7 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         this.stage.showAndWait();
     }
 
+    @Override
     public void setup(){
         //Value init
         //If no layer is selected, create a new one.
@@ -144,6 +144,7 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         gridPane.addRow(3, buttonHBox);
     }
 
+    @Override
     public void actionHandlingSetup(){
         //TimeAndPopularity
         this.startTimeTextField.setOnMouseClicked(event -> {
@@ -219,7 +220,7 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         });
     }
 
-    public void loadPropertiesFromShow(){
+    private void loadPropertiesFromShow(){
         if (isNewShow){
             selectedShow = new Show();
         } else {
@@ -240,7 +241,7 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         this.podiumComboBox.getSelectionModel().select(selectedShow.getPodium().getName());
     }
 
-    public boolean isAllowedToApply(){
+    private boolean isAllowedToApply(){
         if (
                 //TimeAndPopularityPane
                 startTimeTextField.getText().isEmpty() ||
@@ -263,7 +264,7 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
     }
 
     //TODO: Embed all code under this line into other methods.
-    public VBox genericVBox(){
+    private VBox genericVBox(){
         VBox vBoxToReturn = new VBox();
         vBoxToReturn.setSpacing(5);
         vBoxToReturn.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));

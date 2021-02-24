@@ -1,5 +1,6 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
+import FestivalPlanner.GUI.AbstractGUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -13,12 +14,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ArtistAndPodiumEditorGUI {
+public class ArtistAndPodiumEditorGUI extends AbstractGUI {
 
     private Stage stage = new Stage();
     private Scene scene;
 
-    private GridPane gridPane = new GridPane();
     private AgendaModule agendaModule;
 
     private VBox creationPanelVBox = new VBox();
@@ -40,6 +40,7 @@ public class ArtistAndPodiumEditorGUI {
         this.agendaModule = agendaModule;
     }
 
+    @Override
     public void load(){
         this.setup();
         this.actionHandlingSetup();
@@ -56,6 +57,7 @@ public class ArtistAndPodiumEditorGUI {
         this.stage.showAndWait();
     }
 
+    @Override
     public void setup(){
         //Alignment & Spacing
         creationPanelVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
@@ -84,6 +86,7 @@ public class ArtistAndPodiumEditorGUI {
         gridPane.addRow(0, creationPanelVBox);
     }
 
+    @Override
     public void actionHandlingSetup(){
         //CreationPanel
         this.artistAddButton.setOnAction(event -> {
@@ -112,7 +115,7 @@ public class ArtistAndPodiumEditorGUI {
     /**
      * Updates <code>this.artistComboBoc</code> to the correct value.
      */
-    public void updatePodiumComboBox() {
+    private void updatePodiumComboBox() {
         this.observablePodiumList.setAll(this.agendaModule.getPodiumManager().getAllPodiumNames());
     }
 
@@ -120,7 +123,7 @@ public class ArtistAndPodiumEditorGUI {
      * Updates the <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/JComboBox.html">ComboBox</a>
      * containing all the current Artists.
      */
-    public void updateArtistComboBox() {
+    private void updateArtistComboBox() {
         this.observableArtistList.setAll(this.agendaModule.getArtistManager().getAllArtistNames());
     }
 }

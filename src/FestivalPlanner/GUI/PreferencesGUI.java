@@ -5,7 +5,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class PreferencesGUI {
+public class PreferencesGUI extends AbstractGUI{
 
     private final int STAGE_WIDTH = 275;
     private final int STAGE_HEIGHT = 200;
@@ -14,12 +14,11 @@ public class PreferencesGUI {
     private Stage stage = new Stage();
     private Scene scene;
 
-    private GridPane gridPane = new GridPane();
-
     public PreferencesGUI(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
+    @Override
     public void load(){
         this.stage.setScene(scene);
         this.stage.setScene(new Scene(this.gridPane));
@@ -31,7 +30,13 @@ public class PreferencesGUI {
         this.stage.showAndWait();
     }
 
+    @Override
     public void setup(){
+
+    }
+
+    @Override
+    public void actionHandlingSetup() {
 
     }
 }

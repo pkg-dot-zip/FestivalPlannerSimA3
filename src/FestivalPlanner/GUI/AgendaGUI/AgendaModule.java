@@ -2,6 +2,8 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
+
+import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.EmptyPopUp;
@@ -23,7 +25,7 @@ import javafx.stage.Stage;
 /**
  * Responsible for placing everything in the correct place in the GUI and making sure all the buttons work.
  */
-public class AgendaModule {
+public class AgendaModule extends AbstractGUI {
 
     private Stage stage;
 
@@ -80,18 +82,117 @@ public class AgendaModule {
         this.stage = stage;
     }
 
+    public void load(){
+        //Setup methods.
+        setup();
+        actionHandlingSetup();
+
+        //Stage Settings.
+        stage.setScene(new Scene(this.mainLayoutPane));
+        stage.setTitle("Agenda");
+        stage.show();
+        //Play animation AFTER the show() method has been called, since the animation would
+        //otherwise ot be fully visible for the user.
+        playAnimation();
+    }
+
+    @Override
+    public void setup(){
+        //Initialise values.
+        this.agendaCanvas = new AgendaCanvas(this.agenda);
+
+        //Adding all the children.
+        //MenuBar
+        fileMenu.getItems().addAll(loadAgendaMenuItem, saveAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
+        editMenu.getItems().addAll(editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), editCurrentlySelectedShow, new SeparatorMenuItem(), preferencesMenuItem);
+        helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
+        menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
+        //ContextMenu
+        contextMenu.getItems().addAll(swapContextItem, editContextItem, new SeparatorMenuItem(), removeContextItem);
+
+        //Adding it all together.
+        this.mainLayoutPane.setTop(this.menuBar);
+        this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
+    }
+
+    @Override
+    public void actionHandlingSetup(){
+        //Generic
+        this.stage.setOnCloseRequest(e -> { //When the main window is closed -> Close the entire program.
+            Platform.exit();
+        });
+
+        //Canvas
+        this.agendaCanvas.getCanvas().setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY){ //You can only select with a left-click.
+                //In case it still shows it should be hidden, since a new item is selected and some
+                //actions executed by the ContextMenu depend on selected items.
+                contextMenu.hide();
+                onPrimaryButton(e);
+            } else if (e.getButton() == MouseButton.SECONDARY){
+                contextMenu.show(agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
+            }
+        });
+
+        //MenuBar
+        //FileMenu
+        loadAgendaMenuItem.setOnAction(e -> {
+            loadAgenda();
+        });
+
+        saveAgendaMenuItem.setOnAction(e -> {
+            saveAgenda();
+        });
+
+        exitMenuItem.setOnAction(e -> {
+            EmptyPopUp emptyPopUp = new EmptyPopUp();
+            emptyPopUp.showExitConfirmationPopUp();
+        });
+        //EditMenu
+        editArtistsAndPodiumsMenuItem.setOnAction(e -> {
+            ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this);
+            artistAndPodiumEditorGUI.load();
+        });
+
+        editCurrentlySelectedShow.setOnAction(e -> {
+            ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
+            if (!this.artistManager.getAllArtistNames().isEmpty() && !this.podiumManager.getAllPodiumNames().isEmpty()){
+                showEditorGUI.load();
+            } else {
+                showEditorGUI.showNoArtistsOrPodiumsPopUp();
+            }
+        });
+
+        preferencesMenuItem.setOnAction(e -> {
+            PreferencesGUI preferencesGUI = new PreferencesGUI(this.stage);
+            preferencesGUI.load();
+        });
+        //HelpMenu
+        aboutMenuItem.setOnAction(e -> {
+            AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
+            aboutPopUp.load();
+        });
+
+        //ContextMenu
+        //Edit
+        editContextItem.setOnAction(e -> {
+            ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
+            if (this.currentShow != null){
+                showEditorGUI.load();
+            } else {
+                showEditorGUI.showNoLayerSelectedPopUp();
+            }
+        });
+    }
+
     /**
-     * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a>
-     * for the <a href="{@docRoot}/FestivalPlanner/GUI/MainGUI.html">MainGUI</a> that contains all the GUI components
-     * by calling all the generate methods.
-     *
-     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> with the layout
-     * for the <a href="{@docRoot}/FestivalPlanner.GUI/MainGUI.html">MainGUI</a> class
+     * Plays a simple
+     * <a href="https://javadoc.io/doc/io.github.typhon0/AnimateFX/latest/animatefx/animation/JackInTheBox.html">JackInTheBox</a>
+     * animation after all other methods in {@link #load()} have been called.
      */
-//    public Scene generateGUILayout() {
-//        //TODO: Refactor to load(), and call load() in MainGUI.
-//        return new Scene(this.mainLayoutPane);
-//    }
+    private void playAnimation(){
+        new JackInTheBox(this.mainLayoutPane).play();
+    }
 
     /**
      * CallBack method to open <code>this.artistPopup</code>.
@@ -155,111 +256,6 @@ public class AgendaModule {
             EmptyPopUp emptyPopUp = new EmptyPopUp();
             emptyPopUp.showExceptionPopUp(e);
         }
-    }
-
-    public void load(){
-        //Setup methods.
-        setup();
-        actionHandlingSetup();
-
-        //Stage Settings.
-        stage.setScene(new Scene(this.mainLayoutPane));
-        stage.setTitle("Agenda");
-        stage.show();
-        //Play animation AFTER the show() method has been called, since the animation would
-        //otherwise ot be fully visible for the user.
-        playAnimation();
-    }
-
-    private void setup(){
-        //Initialise values.
-        this.agendaCanvas = new AgendaCanvas(this.agenda);
-
-        //Adding all the children.
-            //MenuBar
-        fileMenu.getItems().addAll(loadAgendaMenuItem, saveAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
-        editMenu.getItems().addAll(editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), editCurrentlySelectedShow, new SeparatorMenuItem(), preferencesMenuItem);
-        helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
-        menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
-            //ContextMenu
-        contextMenu.getItems().addAll(swapContextItem, editContextItem, new SeparatorMenuItem(), removeContextItem);
-
-        //Adding it all together.
-        this.mainLayoutPane.setTop(this.menuBar);
-        this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
-    }
-
-    private void actionHandlingSetup(){
-        //Generic
-        this.stage.setOnCloseRequest(e -> { //When the main window is closed -> Close the entire program.
-            Platform.exit();
-        });
-
-        //Canvas
-        this.agendaCanvas.getCanvas().setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.PRIMARY){ //You can only select with a left-click.
-                //In case it still shows it should be hidden, since a new item is selected and some
-                //actions executed by the ContextMenu depend on selected items.
-                contextMenu.hide();
-                onPrimaryButton(e);
-            } else if (e.getButton() == MouseButton.SECONDARY){
-                contextMenu.show(agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
-            }
-        });
-
-        //MenuBar
-            //FileMenu
-        loadAgendaMenuItem.setOnAction(e -> {
-            loadAgenda();
-        });
-
-        saveAgendaMenuItem.setOnAction(e -> {
-            saveAgenda();
-        });
-
-        exitMenuItem.setOnAction(e -> {
-            EmptyPopUp emptyPopUp = new EmptyPopUp();
-            emptyPopUp.showExitConfirmationPopUp();
-        });
-            //EditMenu
-        editArtistsAndPodiumsMenuItem.setOnAction(e -> {
-            ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this);
-            artistAndPodiumEditorGUI.load();
-        });
-
-        editCurrentlySelectedShow.setOnAction(e -> {
-            ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
-            if (!this.artistManager.getAllArtistNames().isEmpty() && !this.podiumManager.getAllPodiumNames().isEmpty()){
-                showEditorGUI.load();
-            } else {
-                showEditorGUI.showNoArtistsOrPodiumsPopUp();
-            }
-        });
-
-        preferencesMenuItem.setOnAction(e -> {
-            PreferencesGUI preferencesGUI = new PreferencesGUI(this.stage);
-            preferencesGUI.load();
-        });
-            //HelpMenu
-        aboutMenuItem.setOnAction(e -> {
-            AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
-            aboutPopUp.load();
-        });
-
-        //ContextMenu
-            //Edit
-        editContextItem.setOnAction(e -> {
-            ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
-            if (this.currentShow != null){
-                showEditorGUI.load();
-            } else {
-                showEditorGUI.showNoLayerSelectedPopUp();
-            }
-        });
-    }
-
-    private void playAnimation(){
-        new JackInTheBox(this.mainLayoutPane).play();
     }
 
     /**

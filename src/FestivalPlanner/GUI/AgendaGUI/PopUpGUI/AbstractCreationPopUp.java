@@ -1,11 +1,10 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
+import FestivalPlanner.GUI.AbstractGUI;
 import animatefx.animation.FadeIn;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -22,7 +21,7 @@ import javafx.stage.Stage;
  *  <li><code>actionHandlingSetup()</code> calls abstract method <code>additionalActionHandlingSetup()</code>.
  *  </ul>
  */
-public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
+public abstract class AbstractCreationPopUp extends AbstractGUI {
 
     //TODO: Change method order to make functionality more clear.
 
@@ -32,11 +31,8 @@ public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
     Stage primaryStage;
     Stage popupStage = new Stage();
 
-    HBox buttonHBox = new HBox();
     Button addButton = new Button("Add");
     Button closeButton = new Button("Close");
-
-    GridPane gridPane = new GridPane();
 
     /**
      * Constructor for <code>AbstractCreationPopUp</code>.
@@ -50,11 +46,13 @@ public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
      * Runs initialisation methods and sets general stage settings. Calls abstract method <code>additionalLoad()</code>.
      * @see #additionalLoad()
      */
+    @Override
     public void load() {
         //Setup methods.
         this.setup();
         this.actionHandlingSetup();
 
+        //TODO: Play after show() for full effect.
         //Animation to play on launch.
         new FadeIn(gridPane).play();
 
@@ -73,7 +71,8 @@ public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
      * Sets alignment and spacing of JavaFX <code>Nodes</code> and adds the buttons to this buttonsHBox.
      * @see #additionalSetup()
      */
-    private void setup(){
+    @Override
+    public void setup(){
         additionalSetup();
 
         //Initialise values.
@@ -107,7 +106,8 @@ public abstract class AbstractCreationPopUp extends AbstractDialogPopUp {
      * </ul>
      * @see #additionalActionHandlingSetup()
      */
-    private void actionHandlingSetup(){
+    @Override
+    public void actionHandlingSetup(){
         additionalActionHandlingSetup();
 
         this.addButton.setOnAction(e -> {
