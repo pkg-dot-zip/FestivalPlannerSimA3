@@ -1,12 +1,15 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
 import FestivalPlanner.GUI.AbstractGUI;
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import animatefx.animation.FadeIn;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.ResourceBundle;
 
 /**
  * Abstract class used by creation window PopUps such as <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/PopUpGUI/ArtistPopUp.html">ArtistPopUp</a> and
@@ -23,13 +26,15 @@ import javafx.stage.Stage;
  */
 public abstract class AbstractCreationPopUp extends AbstractGUI {
 
+    private ResourceBundle messages = LanguageHandler.getMessages();
+
     private final int STAGE_WIDTH = 275;
     private final int STAGE_HEIGHT = 200;
 
     Stage primaryStage;
     Stage popupStage = new Stage();
 
-    Button addButton = new Button("Add");
+    Button addButton = new Button(messages.getString("Add"));
 
     /**
      * Constructor for <code>AbstractCreationPopUp</code>.

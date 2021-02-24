@@ -1,6 +1,7 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.GUI.AbstractGUI;
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -14,12 +15,16 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ResourceBundle;
+
 /**
  * Contains all elements and methods seen in used in the artist and podium creation/removal window.
  * <p>
  * //TODO: More detailed description.
  */
 public class ArtistAndPodiumEditorGUI extends AbstractGUI {
+
+    private ResourceBundle messages = LanguageHandler.getMessages();
 
     private Stage stage = new Stage();
     private Scene scene;
@@ -33,9 +38,9 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
     private ObservableList<String> observableArtistList = FXCollections.observableArrayList();
     private ComboBox<String> podiumComboBox = new ComboBox<>(this.observablePodiumList);
     private ComboBox<String> artistComboBox = new ComboBox<>(this.observableArtistList);
-    private Label availablePodiumsAndArtistsLabel = new Label("Available Podiums & Artists");
-    private Label existingArtistsLabel = new Label("Existing artists: ");
-    private Label existingPodiumsLabel = new Label("Existing podiums: ");
+    private Label availablePodiumsAndArtistsLabel = new Label(messages.getString("available_podiums_and_artists"));
+    private Label existingArtistsLabel = new Label(messages.getString("existing_artists") + ": ");
+    private Label existingPodiumsLabel = new Label(messages.getString("existing_podiums") + ": ");
     private Button podiumRemoveButton = new Button("-");
     private Button artistRemoveButton = new Button("-");
     private Button artistAddButton = new Button("+");
@@ -52,7 +57,7 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
 
         //Stage Settings.
         this.scene = new Scene(gridPane);
-        this.stage.setTitle("Artists and Podiums Editor");
+        this.stage.setTitle(messages.getString("artists_and_podiums_editor"));
         this.stage.setScene(scene);
         this.stage.setResizable(false);
         this.stage.setWidth(250);

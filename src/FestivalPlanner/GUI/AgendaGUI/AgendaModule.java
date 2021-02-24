@@ -21,8 +21,6 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-//TODO: The way you enter a time feels counter-intuitive.
-
 /**
  * Responsible for placing everything in the correct place in the GUI and making sure all the buttons work.
  */
@@ -31,7 +29,7 @@ public class AgendaModule extends AbstractGUI {
     private Stage stage;
 
     //LanguageHandling
-    public ResourceBundle messages = LanguageHandler.getMessages();
+    private ResourceBundle messages = LanguageHandler.getMessages();
 
     // Agenda variables
     private Agenda agenda = new Agenda();

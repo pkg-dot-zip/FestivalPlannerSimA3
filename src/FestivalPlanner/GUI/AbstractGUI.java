@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
  */
 public abstract class AbstractGUI extends AbstractDialogPopUp {
 
-    public ResourceBundle messages = LanguageHandler.getMessages();
+    private ResourceBundle messages = LanguageHandler.getMessages();
 
     public GridPane gridPane = new GridPane();
     public HBox buttonHBox = new HBox();
