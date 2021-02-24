@@ -1,11 +1,10 @@
 package FestivalPlanner.GUI;
 
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -13,9 +12,7 @@ import java.util.ResourceBundle;
  */
 public abstract class AbstractGUI extends AbstractDialogPopUp {
 
-    Locale aLocale = new Locale("en","US");
-    Locale nlLocale = new Locale("nl","NL");
-    ResourceBundle messages = ResourceBundle.getBundle("lang", nlLocale);
+    public ResourceBundle messages = LanguageHandler.getMessages();
 
     public GridPane gridPane = new GridPane();
     public HBox buttonHBox = new HBox();

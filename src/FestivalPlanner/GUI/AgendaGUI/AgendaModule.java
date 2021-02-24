@@ -2,13 +2,14 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
-
+import java.util.ResourceBundle;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.EmptyPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
 import FestivalPlanner.GUI.PreferencesGUI;
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import animatefx.animation.JackInTheBox;
 import com.sun.istack.internal.Nullable;
 import javafx.application.Platform;
@@ -29,6 +30,9 @@ public class AgendaModule extends AbstractGUI {
 
     private Stage stage;
 
+    //LanguageHandling
+    public ResourceBundle messages = LanguageHandler.getMessages();
+
     // Agenda variables
     private Agenda agenda = new Agenda();
     private ArtistManager artistManager = new ArtistManager();
@@ -41,29 +45,30 @@ public class AgendaModule extends AbstractGUI {
     // MenuBar
     private MenuBar menuBar = new MenuBar();
         //FileMenu
-    private Menu fileMenu = new Menu("File");
-    private MenuItem loadAgendaMenuItem = new MenuItem("Load");
-    private MenuItem saveAgendaMenuItem = new MenuItem("Save");
-    private MenuItem exitMenuItem = new MenuItem("Exit");
+    private Menu fileMenu = new Menu(messages.getString("file"));
+    private MenuItem loadAgendaMenuItem = new MenuItem(messages.getString("load"));
+    private MenuItem saveAgendaMenuItem = new MenuItem(messages.getString("save"));
+    private MenuItem exitMenuItem = new MenuItem(messages.getString("exit"));
         //EditMenu
-    private Menu editMenu = new Menu("Edit");
-    private MenuItem editCurrentlySelectedShow = new MenuItem("Edit Show");
-    private MenuItem editArtistsAndPodiumsMenuItem = new MenuItem("Edit Artists & Podiums");
-    private MenuItem preferencesMenuItem = new MenuItem("Preferences");
+    private Menu editMenu = new Menu(messages.getString("edit"));
+    private MenuItem editCurrentlySelectedShow = new MenuItem(messages.getString("edit_show"));
+    private MenuItem editArtistsAndPodiumsMenuItem = new MenuItem(messages.getString("edit_artists_and_podiums"));
+    private MenuItem preferencesMenuItem = new MenuItem(messages.getString("preferences"));
         //HelpMenu
-    private Menu helpMenu = new Menu("Help");
-    private MenuItem helpGuideMenuItem = new MenuItem("Help Guide");
-    private MenuItem javaDocMenuItem = new MenuItem("JavaDoc");
-    private MenuItem aboutMenuItem = new MenuItem("About");
+    private Menu helpMenu = new Menu(messages.getString("help"));
+    private MenuItem helpGuideMenuItem = new MenuItem(messages.getString("help_guide"));
+    private MenuItem javaDocMenuItem = new MenuItem(messages.getString("javadoc"));
+    private MenuItem aboutMenuItem = new MenuItem(messages.getString("about"));
 
     // Layout components
     private AgendaCanvas agendaCanvas;
 
     //ContextMenu
     private ContextMenu contextMenu = new ContextMenu();
-    private MenuItem swapContextItem = new MenuItem("Swap"); //TODO: Allow multiple items to be selected. Only swap if 2 are selected.
-    private MenuItem editContextItem = new MenuItem("Edit");
-    private MenuItem removeContextItem = new MenuItem("Remove");
+    private MenuItem swapContextItem = new MenuItem(messages.getString("swap")); //TODO: Allow multiple items to be selected. Only swap if 2 are selected.
+    private MenuItem editContextItem = new MenuItem(messages.getString("edit"));
+    private MenuItem removeContextItem = new MenuItem(messages.getString("remove"));
+
 
 
     /**
@@ -90,7 +95,7 @@ public class AgendaModule extends AbstractGUI {
 
         //Stage Settings.
         stage.setScene(new Scene(this.mainLayoutPane));
-        stage.setTitle("Agenda");
+        stage.setTitle(messages.getString("agenda"));
         stage.setMaximized(true);
         stage.show();
         //Play animation AFTER the show() method has been called, since the animation would
@@ -322,4 +327,6 @@ public class AgendaModule extends AbstractGUI {
     public PodiumManager getPodiumManager(){
         return this.podiumManager;
     }
+
+
 }
