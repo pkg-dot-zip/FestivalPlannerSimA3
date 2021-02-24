@@ -15,9 +15,8 @@ public class MainGUI extends Application {
     public void start(Stage stage) throws Exception {
 
         AgendaModule agendaModule = new AgendaModule(stage);
-        stage.setScene(agendaModule.generateGUILayout());
-        stage.setTitle("Agenda");
-        stage.show();
+        agendaModule.load();
+
     }
 
 

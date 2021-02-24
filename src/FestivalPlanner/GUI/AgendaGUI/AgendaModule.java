@@ -78,10 +78,6 @@ public class AgendaModule {
      */
     public AgendaModule(Stage stage) {
         this.stage = stage;
-
-        setup();
-        actionHandlingSetup();
-        load(); //TODO: Fix order.
     }
 
     /**
@@ -92,10 +88,10 @@ public class AgendaModule {
      * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> with the layout
      * for the <a href="{@docRoot}/FestivalPlanner.GUI/MainGUI.html">MainGUI</a> class
      */
-    public Scene generateGUILayout() {
-        //TODO: Refactor to load(), and call load() in MainGUI.
-        return new Scene(this.mainLayoutPane);
-    }
+//    public Scene generateGUILayout() {
+//        //TODO: Refactor to load(), and call load() in MainGUI.
+//        return new Scene(this.mainLayoutPane);
+//    }
 
     /**
      * CallBack method to open <code>this.artistPopup</code>.
@@ -161,39 +157,25 @@ public class AgendaModule {
         }
     }
 
-    /**
-     * Handles the selecting of <a href="{@docRoot}/FestivalPlanner/AgendaGUI/ShowRectangle2D.html">Rectangle2D</a> in
-     * <code>this.agendaCanvas</code>.
-     *  @param e  MouseEvent that was set on the mouseButtonClick
-     */
-    private void onPrimaryButton(MouseEvent e) {
-        Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
-        if (selectedShow != null) {
-            //Reset old show.
-            if (this.currentShow != null)
-                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+    public void load(){
+        //Setup methods.
+        setup();
+        actionHandlingSetup();
 
-            //Starting on new selected.
-            this.currentShow = selectedShow;
-
-            //Setting correct color
-            this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
-            this.agendaCanvas.reDrawCanvas();
-
-        } else {
-            if (this.currentShow != null) {
-                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
-                this.agendaCanvas.reDrawCanvas();
-                this.currentShow = null;
-            }
-        }
+        //Stage Settings.
+        stage.setScene(new Scene(this.mainLayoutPane));
+        stage.setTitle("Agenda");
+        stage.show();
+        //Play animation AFTER the show() method has been called, since the animation would
+        //otherwise ot be fully visible for the user.
+        playAnimation();
     }
 
-    public void setup(){
+    private void setup(){
         //Initialise values.
         this.agendaCanvas = new AgendaCanvas(this.agenda);
 
-        //Adding all the children
+        //Adding all the children.
             //MenuBar
         fileMenu.getItems().addAll(loadAgendaMenuItem, saveAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
         editMenu.getItems().addAll(editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), editCurrentlySelectedShow, new SeparatorMenuItem(), preferencesMenuItem);
@@ -201,16 +183,13 @@ public class AgendaModule {
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
             //ContextMenu
         contextMenu.getItems().addAll(swapContextItem, editContextItem, new SeparatorMenuItem(), removeContextItem);
-    }
 
-    public void load(){
         //Adding it all together.
         this.mainLayoutPane.setTop(this.menuBar);
         this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
-        new JackInTheBox(this.mainLayoutPane).play();
     }
 
-    public void actionHandlingSetup(){
+    private void actionHandlingSetup(){
         //Generic
         this.stage.setOnCloseRequest(e -> { //When the main window is closed -> Close the entire program.
             Platform.exit();
@@ -277,6 +256,38 @@ public class AgendaModule {
                 showEditorGUI.showNoLayerSelectedPopUp();
             }
         });
+    }
+
+    private void playAnimation(){
+        new JackInTheBox(this.mainLayoutPane).play();
+    }
+
+    /**
+     * Handles the selecting of <a href="{@docRoot}/FestivalPlanner/AgendaGUI/ShowRectangle2D.html">Rectangle2D</a> in
+     * <code>this.agendaCanvas</code>.
+     *  @param e  MouseEvent that was set on the mouseButtonClick
+     */
+    private void onPrimaryButton(MouseEvent e) {
+        Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
+        if (selectedShow != null) {
+            //Reset old show.
+            if (this.currentShow != null)
+                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+
+            //Starting on new selected.
+            this.currentShow = selectedShow;
+
+            //Setting correct color
+            this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
+            this.agendaCanvas.reDrawCanvas();
+
+        } else {
+            if (this.currentShow != null) {
+                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
+                this.agendaCanvas.reDrawCanvas();
+                this.currentShow = null;
+            }
+        }
     }
 
     /**
