@@ -60,7 +60,7 @@ public class AgendaModule {
     // Layout components
     private AgendaCanvas agendaCanvas;
     private CreationPanel creationPanel;
-    private ArtistAndPodiumPanel artistAndPodiumPanel;
+//    private ArtistAndPodiumPanel artistAndPodiumPanel;
 
     private TextField showNameTextField = new TextField();
     private Label errorLabel = new Label("No error;");
@@ -115,7 +115,7 @@ public class AgendaModule {
         this.generalLayoutHBox.setPadding(new Insets(0, 10, 0, 10));
 
         this.generalLayoutHBox.getChildren().addAll(this.creationPanel.getMainPane(),
-                artistAndPodiumPanel.getMainPane(),
+//                artistAndPodiumPanel.getMainPane(),
                 generateSaveAndLoadPanel());
 
         initEvents();
@@ -263,15 +263,17 @@ public class AgendaModule {
         });
 
         this.eventSaveButton.setOnAction(event -> {
-            Podium selectedPodium = this.podiumManager.getPodium(this.artistAndPodiumPanel.getSelectedPodium());
+//            Podium selectedPodium = this.podiumManager.getPodium(this.artistAndPodiumPanel.getSelectedPodium());
 
-            if (selectedPodium != null && this.artistAndPodiumPanel.getSelectedArtists().size() > 0) {
+//            if (selectedPodium != null
+//                    && this.artistAndPodiumPanel.getSelectedArtists().size() > 0
+//            ) {
 
                 this.agenda.getShows().remove(this.currentShow);
                 this.agenda.addShow(new Show());
 
                 this.agendaCanvas.reBuildAgendaCanvas();
-            }
+//            }
 
             this.currentShow = null;
         });
@@ -327,7 +329,7 @@ public class AgendaModule {
         //Initialise values.
         this.agendaCanvas = new AgendaCanvas(this.agenda);
         this.creationPanel = new CreationPanel(this, this.podiumManager, this.artistManager);
-        this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
+//        this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
 
         //Adding all the children
             //MenuBar

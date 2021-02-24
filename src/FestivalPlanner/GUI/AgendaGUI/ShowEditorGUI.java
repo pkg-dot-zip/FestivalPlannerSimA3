@@ -34,12 +34,11 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
     private TextField showNameTextField = new TextField();
 
     //ArtistsAndPodiumPanel
-    private ArtistManager artistManager;
-    private ComboBox<String> podiumComboBox;
-    private ComboBox<String> artistComboBox;
-    private Button eventArtistsAddButton;
-    private Button eventArtistsRemoveButton;
-    private ListView<Artist> artistsList;
+    private ComboBox<String> podiumComboBox = new ComboBox<>();
+    private ComboBox<String> artistComboBox = new ComboBox<>();
+    private Button eventArtistsAddButton = new Button("Add Artist");
+    private Button eventArtistsRemoveButton = new Button("Remove Artist");
+    private ListView<Artist> artistsList = new ListView<>();
 
     //Generic
     private GridPane gridPane = new GridPane();
@@ -65,9 +64,9 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         this.scene = new Scene(gridPane);
         this.stage.setTitle("Show Editor");
         this.stage.setScene(scene);
-        this.stage.setResizable(false);
-        this.stage.setWidth(600);
-        this.stage.setHeight(600);
+        this.stage.setResizable(true);
+        this.stage.setWidth(900);
+        this.stage.setHeight(900);
         this.stage.setIconified(false);
         this.stage.initModality(Modality.APPLICATION_MODAL);
         this.stage.showAndWait();
@@ -119,7 +118,8 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
             //TimeAndPopularity
         gridPane.addRow(0, timeAndPopularityVBox);
         gridPane.addRow(1, showNameVBox);
-        gridPane.addRow(2, buttonHBox);
+        gridPane.addRow(2, generateMainPane());
+        gridPane.addRow(3, buttonHBox);
     }
 
     public void actionHandlingSetup(){
@@ -142,7 +142,7 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
 
         //ArtistsAndPodiumPanel
         this.eventArtistsAddButton.setOnAction(event -> {
-            Artist selectedArtist = this.artistManager.getArtist(this.artistComboBox.getValue());
+            Artist selectedArtist = this.agendaModule.getArtistManager().getArtist(this.artistComboBox.getValue());
             if (selectedArtist != null) {
                 this.artistsList.getItems().add(selectedArtist);
                 this.artistsList.refresh();
@@ -206,6 +206,8 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         //ArtistAndPodiumPanel
         this.artistsList.getItems().clear();
         this.artistsList.setItems(FXCollections.observableArrayList(selectedShow.getArtists()));
+        this.artistComboBox.setItems(FXCollections.observableArrayList(this.agendaModule.getArtistManager().getAllArtistNames()));
+        this.podiumComboBox.setItems(FXCollections.observableArrayList(this.agendaModule.getPodiumManager().getAllPodiumNames()));
         this.podiumComboBox.getSelectionModel().select(selectedShow.getPodium().getName());
     }
 
