@@ -49,7 +49,7 @@ public class Show implements Serializable {
         this.expectedPopularity = 50;
         this.podium = new Podium("a", "a");
         ArrayList<Artist> arrayList = new ArrayList<>();
-        arrayList.add(new Artist("Frans Bauer", null, null));
+        arrayList.add(new Artist("None", null, null));
         this.artists = arrayList;
     }
 
@@ -112,14 +112,5 @@ public class Show implements Serializable {
 
     public void setArtists(ArrayList<Artist> artists) {
         this.artists = artists;
-    }
-
-    public void replaceShow(Show show){
-        this.name = show.getName();
-        this.startTime = show.getStartTime();
-        this.endTime = show.getEndTime();
-        this.expectedPopularity = show.getExpectedPopularity();
-        this.podium = show.getPodium();
-        this.artists = show.getArtists();
     }
 }

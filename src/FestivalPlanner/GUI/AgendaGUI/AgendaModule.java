@@ -370,6 +370,7 @@ public class AgendaModule {
         });
 
         editCurrentlySelectedShow.setOnAction(e -> {
+            //TODO: Don't allow this if there are no artists & podiums available.
             ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
             showEditorGUI.load();
         });
@@ -382,6 +383,17 @@ public class AgendaModule {
         aboutMenuItem.setOnAction(e -> {
             AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
             aboutPopUp.load();
+        });
+
+        //ContextMenu
+            //Edit
+        editContextItem.setOnAction(e -> {
+            ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
+            if (this.currentShow != null){
+                showEditorGUI.load();
+            } else {
+                showEditorGUI.showNoLayerSelectedPopUp();
+            }
         });
     }
 

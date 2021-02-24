@@ -1,7 +1,6 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.Artist;
-import FestivalPlanner.Agenda.ArtistManager;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import javafx.collections.FXCollections;
@@ -35,6 +34,8 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
     private TextField showNameTextField = new TextField();
 
     //ArtistsAndPodiumPanel
+    private VBox ArtistAtEventSetterVBox = new VBox();
+    private VBox artistVBox = new VBox();
     private ComboBox<String> podiumComboBox = new ComboBox<>();
     private ComboBox<String> artistComboBox = new ComboBox<>();
     private Button eventArtistsAddButton = new Button("Add Artist");
@@ -97,6 +98,19 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         timeAndPopularityVBox.setMaxHeight(150);
         timeAndPopularityVBox.setAlignment(Pos.BASELINE_CENTER);
         timeAndPopularityVBox.setSpacing(10);
+            //ArtistAndPodiumPanel
+        artistVBox.setSpacing(5);
+        ArtistAtEventSetterVBox.setSpacing(5);
+        this.artistsList.setMaxHeight(130);
+        this.artistsList.setMaxWidth(200);
+        this.artistComboBox.setMinWidth(120);
+        this.artistComboBox.setMaxWidth(120);
+        this.artistComboBox.setPromptText("Artist:");
+        this.podiumComboBox.setMinWidth(120);
+        this.podiumComboBox.setMaxWidth(120);
+        this.podiumComboBox.setPromptText("Podium:");
+        this.eventArtistsAddButton.setPrefWidth(120);
+        this.eventArtistsRemoveButton.setPrefWidth(120);
 
             //GridPane
         gridPane.setVgap(50);
@@ -111,6 +125,13 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         showNameVBox.getChildren().addAll(new Label("Enter name and save"),
                 new Label("Enter show name:"),
                 this.showNameTextField);
+            //ArtistAndPodiumPanel
+        artistVBox.getChildren().addAll(this.artistsList);
+        ArtistAtEventSetterVBox.getChildren().addAll(this.artistComboBox,
+                this.eventArtistsAddButton,
+                this.eventArtistsRemoveButton,
+                new Label("Select podium: "),
+                this.podiumComboBox);
 
             //Generic
         buttonHBox.getChildren().addAll(applyButton, closeButton);
@@ -165,30 +186,31 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         //
         applyButton.setOnAction(e -> {
             //TODO: If isNewShow, add selectedShow to the list.
+            if (isAllowedToApply()){
+                //TimeAndPopularityPanel
+                selectedShow.setExpectedPopularity((int)this.popularitySlider.getValue());
+                try {
+                    selectedShow.setStartTime(LocalTime.parse(this.startTimeTextField.getText()));
+                    selectedShow.setEndTime(LocalTime.parse(this.endTimeTextField.getText()));
+                } catch (Exception ex){ //"e" Is already in use.
+                    showExceptionPopUp(ex);
+                }
 
-            //TimeAndPopularityPanel
-            selectedShow.setExpectedPopularity((int)this.popularitySlider.getValue());
-            try {
-                selectedShow.setStartTime(LocalTime.parse(this.startTimeTextField.getText()));
-                selectedShow.setEndTime(LocalTime.parse(this.endTimeTextField.getText()));
-            } catch (Exception ex){ //"e" Is already in use.
-                showExceptionPopUp(ex);
-            }
+                //ShowName
+                selectedShow.setName(this.showNameTextField.getText());
 
-            //ShowName
-            selectedShow.setName(this.showNameTextField.getText());
+                //ArtistAndPodiumPane;
+                ArrayList<Artist> test = new ArrayList<>();
+                test.addAll(this.artistsList.getItems());
+                selectedShow.setArtists(test);
+                selectedShow.setPodium(this.agendaModule.getPodiumManager().getPodium(this.podiumComboBox.getSelectionModel().getSelectedItem()));
 
-            //ArtistAndPodiumPane;
-            ArrayList<Artist> test = new ArrayList<>();
-            test.addAll(this.artistsList.getItems());
-            selectedShow.setArtists(test);
-            selectedShow.setPodium(this.agendaModule.getPodiumManager().getPodium(this.podiumComboBox.getSelectionModel().getSelectedItem()));
-
-            //Apply to AgendaModule
-            if (isNewShow){
-                this.agendaModule.setCurrentShow(selectedShow);
-            } else {
-                this.agendaModule.setCurrentShow(selectedShow);
+                //Apply to AgendaModule
+                if (isNewShow){
+                    this.agendaModule.setCurrentShow(selectedShow);
+                } else {
+                    this.agendaModule.setCurrentShow(selectedShow);
+                }
             }
         });
 
@@ -216,6 +238,28 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
         this.artistComboBox.setItems(FXCollections.observableArrayList(this.agendaModule.getArtistManager().getAllArtistNames()));
         this.podiumComboBox.setItems(FXCollections.observableArrayList(this.agendaModule.getPodiumManager().getAllPodiumNames()));
         this.podiumComboBox.getSelectionModel().select(selectedShow.getPodium().getName());
+    }
+
+    public boolean isAllowedToApply(){
+        if (
+                //TimeAndPopularityPane
+                startTimeTextField.getText().isEmpty() ||
+                endTimeTextField.getText().isEmpty() ||
+
+                //ShowName
+                showNameTextField.getText().isEmpty() ||
+
+                //ArtistAndPodiumPanel
+                artistsList.getItems().isEmpty() || //TODO: Remove "None" in list
+                podiumComboBox.getItems().isEmpty() ||
+                podiumComboBox.getSelectionModel().getSelectedItem().isEmpty()
+
+        ){
+            showEmptyTextFieldsPopUp();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //TODO: Embed all code under this line into other methods.
@@ -246,59 +290,9 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
 
         HBox hBox = new HBox();
         hBox.setSpacing(5);
-        hBox.getChildren().addAll(generateArtistsTable(), generateArtistAtEventSetter());
+        hBox.getChildren().addAll(artistVBox, ArtistAtEventSetterVBox);
 
         mainVBox.getChildren().addAll(new Label("Select Artists and podium"), hBox);
         return mainVBox;
     }
-
-    /**
-     * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-     * that contains the parts of the GUI responsible for adding artists to an event.
-     * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-     * the parts of the GUI responsible for adding artists to an event
-     */
-    private VBox generateArtistAtEventSetter() {
-        VBox ArtistAtEventSetterVBox = new VBox();
-
-        ArtistAtEventSetterVBox.setSpacing(5);
-        this.artistComboBox.setMinWidth(120);
-        this.artistComboBox.setMaxWidth(120);
-        this.artistComboBox.setPromptText("Artist:");
-
-        this.podiumComboBox.setMinWidth(120);
-        this.podiumComboBox.setMaxWidth(120);
-        this.podiumComboBox.setPromptText("Podium:");
-
-        this.eventArtistsAddButton.setPrefWidth(120);
-        this.eventArtistsRemoveButton.setPrefWidth(120);
-
-        ArtistAtEventSetterVBox.getChildren().addAll(this.artistComboBox,
-                this.eventArtistsAddButton,
-                this.eventArtistsRemoveButton,
-                new Label("Select podium: "),
-                this.podiumComboBox);
-
-        return ArtistAtEventSetterVBox;
-    }
-
-    /**
-     * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-     * that contains the parts of the GUI responsible for showing all of the artists in an event.
-     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-     * the parts of the GUI responsible for showing all of the artists in an event
-     */
-    private VBox generateArtistsTable() {
-        VBox artistVBox = new VBox();
-
-        artistVBox.setSpacing(5);
-
-        this.artistsList.setMaxHeight(130);
-        this.artistsList.setMaxWidth(200);
-
-        artistVBox.getChildren().addAll(this.artistsList);
-        return artistVBox;
-    }
-
-
 }
