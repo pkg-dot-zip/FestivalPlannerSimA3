@@ -104,4 +104,18 @@ public abstract class AbstractDialogPopUp {
         WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
         alert.showAndWait();
     }
+
+    /**
+     * Opens a window containing a message, with the goal of informing the user that <code>this.currentShow</code> in
+     * <code>AgendaModule</code> is equal to <i>Null</i>.
+     */
+    public void showNoArtistsOrPodiumsPopUp(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Can't create show");
+        alert.setHeaderText("No Artists and/or podiums to choose from");
+        alert.setContentText("Please open the Artist & Podium editor and create artists and/or podiums" +
+                " before opening the show editor.");
+        WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
+        alert.showAndWait();
+    }
 }

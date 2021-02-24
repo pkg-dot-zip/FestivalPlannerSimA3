@@ -2,7 +2,6 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
-
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.EmptyPopUp;
@@ -11,7 +10,6 @@ import FestivalPlanner.GUI.PreferencesGUI;
 import animatefx.animation.JackInTheBox;
 import com.sun.istack.internal.Nullable;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
@@ -37,7 +35,6 @@ public class AgendaModule {
 
     // Panes
     private BorderPane mainLayoutPane = new BorderPane();
-    private HBox generalLayoutHBox = new HBox();
 
     // MenuBar
     private MenuBar menuBar = new MenuBar();
@@ -63,10 +60,6 @@ public class AgendaModule {
     //ContextMenu
     private ContextMenu contextMenu = new ContextMenu();
     private MenuItem swapContextItem = new MenuItem("Swap"); //TODO: Allow multiple items to be selected. Only swap if 2 are selected.
-    private Menu rearrangeContextItem = new Menu("Rearrange"); //TODO: Shuffle (random), order in alphabetical order, reverse alphabetical order etc. This only switches the Artist & Podium (?).
-    private MenuItem shuffleRearrangeContextItem = new MenuItem("Shuffle (Random)");
-    private MenuItem alphabeticalRearrangeContextItem = new MenuItem("Alphabetical order");
-    private MenuItem reverseAlphabeticalContextItem = new MenuItem("Reverse Alphabetical order");
     private MenuItem editContextItem = new MenuItem("Edit");
     private MenuItem removeContextItem = new MenuItem("Remove");
 
@@ -100,6 +93,7 @@ public class AgendaModule {
      * for the <a href="{@docRoot}/FestivalPlanner.GUI/MainGUI.html">MainGUI</a> class
      */
     public Scene generateGUILayout() {
+        //TODO: Refactor to load(), and call load() in MainGUI.
         return new Scene(this.mainLayoutPane);
     }
 
@@ -119,6 +113,7 @@ public class AgendaModule {
         podiumPopup.load();
     }
 
+    @Nullable
     private String getLoadAgendaPath() {
         FileChooser fileChooser = new FileChooser();
         try {
@@ -205,16 +200,12 @@ public class AgendaModule {
         helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
             //ContextMenu
-        rearrangeContextItem.getItems().addAll(alphabeticalRearrangeContextItem, reverseAlphabeticalContextItem, new SeparatorMenuItem(), shuffleRearrangeContextItem);
-        contextMenu.getItems().addAll(swapContextItem, rearrangeContextItem, editContextItem, new SeparatorMenuItem(), removeContextItem);
+        contextMenu.getItems().addAll(swapContextItem, editContextItem, new SeparatorMenuItem(), removeContextItem);
     }
 
     public void load(){
         //Adding it all together.
-        //TODO: Put this elsewhere:
-        VBox tempVBox = new VBox();
-        tempVBox.getChildren().add(this.menuBar);
-        this.mainLayoutPane.setTop(tempVBox);
+        this.mainLayoutPane.setTop(this.menuBar);
         this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
         new JackInTheBox(this.mainLayoutPane).play();
     }
@@ -258,9 +249,12 @@ public class AgendaModule {
         });
 
         editCurrentlySelectedShow.setOnAction(e -> {
-            //TODO: Don't allow this if there are no artists & podiums available.
             ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
-            showEditorGUI.load();
+            if (!this.artistManager.getAllArtistNames().isEmpty() && !this.podiumManager.getAllPodiumNames().isEmpty()){
+                showEditorGUI.load();
+            } else {
+                showEditorGUI.showNoArtistsOrPodiumsPopUp();
+            }
         });
 
         preferencesMenuItem.setOnAction(e -> {
