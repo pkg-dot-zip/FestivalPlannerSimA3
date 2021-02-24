@@ -12,13 +12,11 @@ import animatefx.animation.JackInTheBox;
 import com.sun.istack.internal.Nullable;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -45,6 +43,8 @@ public class AgendaModule {
     private MenuBar menuBar = new MenuBar();
         //FileMenu
     private Menu fileMenu = new Menu("File");
+    private MenuItem loadAgendaMenuItem = new MenuItem("Load");
+    private MenuItem saveAgendaMenuItem = new MenuItem("Save");
     private MenuItem exitMenuItem = new MenuItem("Exit");
         //EditMenu
     private Menu editMenu = new Menu("Edit");
@@ -59,14 +59,6 @@ public class AgendaModule {
 
     // Layout components
     private AgendaCanvas agendaCanvas;
-
-    private TextField showNameTextField = new TextField();
-    private Label errorLabel = new Label("No error;");
-
-    private Button loadAgendaButton = new Button("Load Agenda");
-    private Button saveAgendaButton = new Button("Save Agenda");
-    private Button eventSaveButton = new Button("Save/Add Show");
-    private Button eventRemoveButton = new Button("Remove");
 
     //ContextMenu
     private ContextMenu contextMenu = new ContextMenu();
@@ -108,32 +100,7 @@ public class AgendaModule {
      * for the <a href="{@docRoot}/FestivalPlanner.GUI/MainGUI.html">MainGUI</a> class
      */
     public Scene generateGUILayout() {
-        this.generalLayoutHBox.setSpacing(20);
-        this.generalLayoutHBox.setPadding(new Insets(0, 10, 0, 10));
-
-        this.generalLayoutHBox.getChildren().addAll(generateSaveAndLoadPanel());
-
-        initEvents();
         return new Scene(this.mainLayoutPane);
-    }
-
-    /**
-     * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-     * that contains the parts of the GUI responsible for saving and loading a Agenda.
-     *
-     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-     * the parts of the GUI responsible for saving and removing events
-     */
-    private VBox generateSaveAndLoadPanel() {
-        VBox saveLoadPanel = genericVBox();
-
-        saveLoadPanel.getChildren().addAll(new Label("Save/Load Agenda"),
-                new Label(""),
-                this.saveAgendaButton,
-                new Label(""),
-                this.loadAgendaButton);
-
-        return saveLoadPanel;
     }
 
     /**
@@ -200,50 +167,6 @@ public class AgendaModule {
     }
 
     /**
-     * Initiates all the events that are used in the GUI.
-     */
-    private void initEvents() {
-//TODO: Move to actionHandlingSetup()!!!!!!!!!!!!!
-        this.loadAgendaButton.setOnAction(e -> {
-            loadAgenda();
-        });
-
-        this.saveAgendaButton.setOnAction(e -> {
-            saveAgenda();
-        });
-
-        this.agendaCanvas.getCanvas().setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.PRIMARY){ //You can only select with a left-click.
-                //In case it still shows it should be hidden, since a new item is selected and some
-                //actions executed by the ContextMenu depend on selected items.
-                contextMenu.hide();
-                onPrimaryButton(e);
-            } else if (e.getButton() == MouseButton.SECONDARY){
-                contextMenu.show(agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
-            }
-        });
-
-        this.eventRemoveButton.setOnMouseClicked(e -> {
-            EmptyPopUp popUp = new EmptyPopUp();
-            if (popUp.showDeleteConfirmationPopUp()) {
-                this.agenda.getShows().remove(this.currentShow);
-                this.agendaCanvas.reBuildAgendaCanvas();
-                this.currentShow = null;
-            }
-        });
-
-        this.eventSaveButton.setOnAction(event -> {
-                this.agenda.getShows().remove(this.currentShow);
-                this.agenda.addShow(new Show());
-
-                this.agendaCanvas.reBuildAgendaCanvas();
-//            }
-
-            this.currentShow = null;
-        });
-    }
-
-    /**
      * Handles the selecting of <a href="{@docRoot}/FestivalPlanner/AgendaGUI/ShowRectangle2D.html">Rectangle2D</a> in
      * <code>this.agendaCanvas</code>.
      *  @param e  MouseEvent that was set on the mouseButtonClick
@@ -262,8 +185,6 @@ public class AgendaModule {
             this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100/360f, .7f, .7f));
             this.agendaCanvas.reDrawCanvas();
 
-            //Setting all the stored information to the GUI
-            this.showNameTextField.setText(currentShow.getName());
         } else {
             if (this.currentShow != null) {
                 this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
@@ -273,27 +194,13 @@ public class AgendaModule {
         }
     }
 
-    /**
-     * Returns a VBox with pre-configured settings. This method was made to avoid duplicate code.
-     * @return  VBox.
-     */
-    public VBox genericVBox(){
-        VBox vBoxToReturn = new VBox();
-        vBoxToReturn.setSpacing(5);
-        vBoxToReturn.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        vBoxToReturn.setPadding(new Insets(0, 2, 10, 2));
-        vBoxToReturn.setMaxHeight(150);
-        vBoxToReturn.setAlignment(Pos.BASELINE_CENTER);
-        return vBoxToReturn;
-    }
-
     public void setup(){
         //Initialise values.
         this.agendaCanvas = new AgendaCanvas(this.agenda);
 
         //Adding all the children
             //MenuBar
-        fileMenu.getItems().addAll(exitMenuItem);
+        fileMenu.getItems().addAll(loadAgendaMenuItem, saveAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
         editMenu.getItems().addAll(editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), editCurrentlySelectedShow, new SeparatorMenuItem(), preferencesMenuItem);
         helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
@@ -306,19 +213,40 @@ public class AgendaModule {
         //Adding it all together.
         //TODO: Put this elsewhere:
         VBox tempVBox = new VBox();
-        tempVBox.getChildren().addAll(this.menuBar, this.generalLayoutHBox);
+        tempVBox.getChildren().add(this.menuBar);
         this.mainLayoutPane.setTop(tempVBox);
         this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
         new JackInTheBox(this.mainLayoutPane).play();
     }
 
     public void actionHandlingSetup(){
+        //Generic
         this.stage.setOnCloseRequest(e -> { //When the main window is closed -> Close the entire program.
             Platform.exit();
         });
 
+        //Canvas
+        this.agendaCanvas.getCanvas().setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY){ //You can only select with a left-click.
+                //In case it still shows it should be hidden, since a new item is selected and some
+                //actions executed by the ContextMenu depend on selected items.
+                contextMenu.hide();
+                onPrimaryButton(e);
+            } else if (e.getButton() == MouseButton.SECONDARY){
+                contextMenu.show(agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
+            }
+        });
+
         //MenuBar
             //FileMenu
+        loadAgendaMenuItem.setOnAction(e -> {
+            loadAgenda();
+        });
+
+        saveAgendaMenuItem.setOnAction(e -> {
+            saveAgenda();
+        });
+
         exitMenuItem.setOnAction(e -> {
             EmptyPopUp emptyPopUp = new EmptyPopUp();
             emptyPopUp.showExitConfirmationPopUp();

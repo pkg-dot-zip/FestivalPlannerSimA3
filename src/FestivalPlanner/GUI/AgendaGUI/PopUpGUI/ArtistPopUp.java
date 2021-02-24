@@ -24,7 +24,6 @@ public class ArtistPopUp extends AbstractCreationPopUp{
      * Constructor for the <code>ArtistPopUp</code> class.
      * @param primaryStage  stage calling the superclass
      * @param artistManager  artistManager to receive and send information to
-     * @param creationPanel  //TODO: Describe this.
      */
     public ArtistPopUp(Stage primaryStage, ArtistManager artistManager) {
         super(primaryStage);

@@ -27,7 +27,6 @@ public class PodiumPopup extends AbstractCreationPopUp{
 	 * Constructor for the <code>PodiumPopUp</code> class.
 	 * @param primaryStage  the stage that will become the owner of this stage
 	 * @param podiumManager  this class has a method that needs to be called after the list has been updated
-	 * @param creationPanel  the class that contains the list of podiums that will be updated
 	 */
 	public PodiumPopup(Stage primaryStage, PodiumManager podiumManager) {
 		super(primaryStage);
@@ -42,7 +41,6 @@ public class PodiumPopup extends AbstractCreationPopUp{
 	@Override
 	public void additionalSetup() {
 		//Initialise values
-		//TODO: Make this work in case of editing a podium.
 		this.nameField.clear();
 		this.locationField.clear();
 
