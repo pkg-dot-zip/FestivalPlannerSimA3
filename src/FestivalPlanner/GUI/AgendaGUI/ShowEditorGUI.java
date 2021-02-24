@@ -81,7 +81,7 @@ public class ShowEditorGUI extends AbstractGUI {
     public void setup(){
         //Value init
         //If no layer is selected, create a new one.
-        isNewShow = this.agendaModule.getCurrentShow() != null;
+        isNewShow = this.agendaModule.getCurrentShow() == null;
         loadPropertiesFromShow();
 
         //Alignment & Spacing
