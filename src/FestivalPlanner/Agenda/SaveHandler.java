@@ -1,8 +1,6 @@
 package FestivalPlanner.Agenda;
 
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
-import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.EmptyPopUp;
-
 import java.io.*;
 import java.util.ArrayList;
 

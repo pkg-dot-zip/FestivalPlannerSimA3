@@ -1,13 +1,11 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
-
 import java.awt.geom.*;
 import java.util.ResourceBundle;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
-import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.EmptyPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
 import FestivalPlanner.GUI.PreferencesGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
