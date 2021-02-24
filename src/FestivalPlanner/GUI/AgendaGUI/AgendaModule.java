@@ -4,7 +4,6 @@ import FestivalPlanner.Agenda.*;
 
 import java.awt.geom.*;
 import java.util.ResourceBundle;
-
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
@@ -69,7 +68,6 @@ public class AgendaModule extends AbstractGUI {
     private MenuItem editContextItem = new MenuItem(messages.getString("edit"));
     private MenuItem removeContextItem = new MenuItem(messages.getString("remove"));
 
-
     /**
      * Constructor of <code>AgendaModule</code>.
      * <p>
@@ -95,7 +93,8 @@ public class AgendaModule extends AbstractGUI {
         //Stage Settings.
         stage.setScene(new Scene(this.mainLayoutPane));
         stage.setTitle(messages.getString("agenda"));
-        stage.setMaximized(true);
+        stage.setWidth(1450);
+        stage.setHeight(350);
         stage.show();
         //Play animation AFTER the show() method has been called, since the animation would
         //otherwise ot be fully visible for the user.
@@ -151,9 +150,9 @@ public class AgendaModule extends AbstractGUI {
         });
 
         exitMenuItem.setOnAction(e -> {
-            EmptyPopUp emptyPopUp = new EmptyPopUp();
-            emptyPopUp.showExitConfirmationPopUp();
+            showExitConfirmationPopUp();
         });
+
         //EditMenu
         editArtistsAndPodiumsMenuItem.setOnAction(e -> {
             ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this);
@@ -161,11 +160,11 @@ public class AgendaModule extends AbstractGUI {
         });
 
         editCurrentlySelectedShow.setOnAction(e -> {
-            ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
             if (!this.artistManager.getAllArtistNames().isEmpty() && !this.podiumManager.getAllPodiumNames().isEmpty()) {
+                ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
                 showEditorGUI.load();
             } else {
-                showEditorGUI.showNoArtistsOrPodiumsPopUp();
+                showNoArtistsOrPodiumsPopUp();
             }
         });
 
@@ -180,14 +179,18 @@ public class AgendaModule extends AbstractGUI {
         });
 
         //ContextMenu
-        //Edit
+            //Edit
         editContextItem.setOnAction(e -> {
-            ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
             if (this.currentShow != null) {
+                ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
                 showEditorGUI.load();
             } else {
-                showEditorGUI.showNoLayerSelectedPopUp();
+                showNoLayerSelectedPopUp();
             }
+        });
+            //Remove
+        removeContextItem.setOnAction(e -> {
+            removeCurrentShow();
         });
     }
 
@@ -223,8 +226,7 @@ public class AgendaModule extends AbstractGUI {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
             return fileChooser.showOpenDialog(new Stage()).getAbsolutePath();
         } catch (NullPointerException e) {
-            EmptyPopUp emptyPopUp = new EmptyPopUp();
-            emptyPopUp.showExceptionPopUp(e);
+            showExceptionPopUp(e);
         }
         return null;
     }
@@ -259,8 +261,7 @@ public class AgendaModule extends AbstractGUI {
             String path = fileChooser.showSaveDialog(new Stage()).getAbsolutePath();
             saveHandler.writeAgendaToFile(path, this.agenda);
         } catch (NullPointerException e) {
-            EmptyPopUp emptyPopUp = new EmptyPopUp();
-            emptyPopUp.showExceptionPopUp(e);
+            showExceptionPopUp(e);
         }
     }
 
@@ -318,6 +319,12 @@ public class AgendaModule extends AbstractGUI {
             this.agenda.addShow(show);
             this.agendaCanvas.reBuildAgendaCanvas();
         }
+    }
+
+    public void removeCurrentShow(){
+        this.agenda.getShows().remove(this.getCurrentShow());
+        this.setCurrentShow(null);
+        this.agendaCanvas.reBuildAgendaCanvas();
     }
 
     public Agenda getAgenda() {

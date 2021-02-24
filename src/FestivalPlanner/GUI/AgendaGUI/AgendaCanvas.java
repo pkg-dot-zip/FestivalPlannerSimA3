@@ -36,8 +36,6 @@ public class AgendaCanvas {
     private Agenda agenda;
     private ArrayList<Podium> usedStages;
 
-    //TODO: Remember to remove Agenda package before merging since this one is temporary.
-
     /**
      * Blank constructor of <code>AgendaCanvas</code>.
      */

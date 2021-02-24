@@ -116,13 +116,13 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         this.artistAddButton.setOnAction(event -> {
             agendaModule.artistPopupCallBack();
             updateArtistComboBox();
-            //TODO: Auto-select the newest addition to the list.
+            artistComboBox.getSelectionModel().selectLast();
         });
 
         this.podiumAddButton.setOnAction(event -> {
             agendaModule.podiumPopupCallBack();
             updatePodiumComboBox();
-            //TODO: Auto-select the newest addition to the list.
+            podiumComboBox.getSelectionModel().selectLast();
         });
 
         this.artistRemoveButton.setOnAction(event -> {

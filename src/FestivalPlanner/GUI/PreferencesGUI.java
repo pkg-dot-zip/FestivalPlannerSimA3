@@ -22,8 +22,8 @@ public class PreferencesGUI extends AbstractGUI{
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();
 
-    private final int STAGE_WIDTH = 700;
-    private final int STAGE_HEIGHT = 700;
+    private final int STAGE_WIDTH = 360;
+    private final int STAGE_HEIGHT = 240;
 
     private Stage primaryStage;
     private Stage stage = new Stage();

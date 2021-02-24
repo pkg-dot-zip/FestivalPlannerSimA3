@@ -146,10 +146,10 @@ public class ShowEditorGUI extends AbstractGUI {
         buttonHBox.getChildren().addAll(applyButton, closeButton);
 
         //Adding it all together
-        gridPane.addRow(0, timeAndPopularityVBox);
-        gridPane.addRow(1, showNameVBox);
-        gridPane.addRow(2, generateMainPane());
-        gridPane.addRow(3, buttonHBox);
+        gridPane.add(timeAndPopularityVBox, 0, 0);
+        gridPane.add(showNameVBox, 1, 0);
+        gridPane.add(generateMainPane(), 2, 0);
+        gridPane.add(buttonHBox, 1, 1);
     }
 
     @Override
@@ -182,7 +182,6 @@ public class ShowEditorGUI extends AbstractGUI {
 
         //
         applyButton.setOnAction(e -> {
-            //TODO: If isNewShow, add selectedShow to the list.
             if (isAllowedToApply()) {
                 //TimeAndPopularityPanel
                 selectedShow.setExpectedPopularity((int) this.popularitySlider.getValue());
@@ -197,9 +196,7 @@ public class ShowEditorGUI extends AbstractGUI {
                 selectedShow.setName(this.showNameTextField.getText());
 
                 //ArtistAndPodiumPane;
-                ArrayList<Artist> test = new ArrayList<>();
-                test.addAll(this.artistsList.getItems());
-                selectedShow.setArtists(test);
+                selectedShow.setArtists(new ArrayList<>(this.artistsList.getItems()));
                 selectedShow.setPodium(this.agendaModule.getPodiumManager().getPodium(this.podiumComboBox.getSelectionModel().getSelectedItem()));
 
                 //Apply to AgendaModule

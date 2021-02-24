@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Podium implements Serializable {
 
     private String name;
-    private String location; //(!TODO) WARNING: Datatype might change in the future!
+    private String location;
 
     /**
      * Constructor for the <code>Podium</code> class.

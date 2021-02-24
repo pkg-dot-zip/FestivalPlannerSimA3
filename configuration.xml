@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>Configuration file for the Profit System</comment>
+<comment>Configuration file for the Preference-System</comment>
 <entry key="Language">en-US</entry>
 </properties>
