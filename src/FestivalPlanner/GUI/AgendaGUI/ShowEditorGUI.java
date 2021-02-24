@@ -15,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class ShowEditorGUI extends AbstractDialogPopUp {
 
@@ -176,6 +177,12 @@ public class ShowEditorGUI extends AbstractDialogPopUp {
 
             //ShowName
             selectedShow.setName(this.showNameTextField.getText());
+
+            //ArtistAndPodiumPane;
+            ArrayList<Artist> test = new ArrayList<>();
+            test.addAll(this.artistsList.getItems());
+            selectedShow.setArtists(test);
+            selectedShow.setPodium(this.agendaModule.getPodiumManager().getPodium(this.podiumComboBox.getSelectionModel().getSelectedItem()));
 
             //Apply to AgendaModule
             if (isNewShow){
