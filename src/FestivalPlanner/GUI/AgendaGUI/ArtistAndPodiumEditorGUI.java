@@ -88,10 +88,12 @@ public class ArtistAndPodiumEditorGUI {
         //CreationPanel
         this.artistAddButton.setOnAction(event -> {
             agendaModule.artistPopupCallBack();
+            updateArtistComboBox();
         });
 
         this.podiumAddButton.setOnAction(event -> {
             agendaModule.podiumPopupCallBack();
+            updatePodiumComboBox();
         });
 
         this.artistRemoveButton.setOnAction(event -> {

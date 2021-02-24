@@ -59,8 +59,6 @@ public class AgendaModule {
 
     // Layout components
     private AgendaCanvas agendaCanvas;
-    private CreationPanel creationPanel;
-//    private ArtistAndPodiumPanel artistAndPodiumPanel;
 
     private TextField showNameTextField = new TextField();
     private Label errorLabel = new Label("No error;");
@@ -99,7 +97,6 @@ public class AgendaModule {
         setup();
         actionHandlingSetup();
         load(); //TODO: Fix order.
-        this.creationPanel.updateArtistComboBox();
     }
 
     /**
@@ -114,9 +111,7 @@ public class AgendaModule {
         this.generalLayoutHBox.setSpacing(20);
         this.generalLayoutHBox.setPadding(new Insets(0, 10, 0, 10));
 
-        this.generalLayoutHBox.getChildren().addAll(this.creationPanel.getMainPane(),
-//                artistAndPodiumPanel.getMainPane(),
-                generateSaveAndLoadPanel());
+        this.generalLayoutHBox.getChildren().addAll(generateSaveAndLoadPanel());
 
         initEvents();
         return new Scene(this.mainLayoutPane);
@@ -142,33 +137,10 @@ public class AgendaModule {
     }
 
     /**
-     * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-     * that contains the parts of the GUI responsible for saving and removing events.
-     *
-     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-     * the parts of the GUI responsible for saving and removing events
-     */
-    //TODO: NOTE: now referred to as "name" instead of "save".
-//    private VBox generateSavePanel() {
-//        VBox savePanel = genericVBox();
-//
-//        HBox hbox = new HBox();
-//        hbox.setSpacing(5);
-//        hbox.getChildren().addAll(this.eventSaveButton, this.eventRemoveButton);
-//
-//        savePanel.getChildren().addAll(new Label("Enter name and save"),
-//                new Label("Enter show name:"),
-//                this.showNameTextField,
-//                new Label(""),
-//                hbox);
-//        return savePanel;
-//    }
-
-    /**
      * CallBack method to open <code>this.artistPopup</code>.
      */
     public void artistPopupCallBack() {
-        ArtistPopUp artistPopUp = new ArtistPopUp(this.stage, this.artistManager, this.creationPanel);
+        ArtistPopUp artistPopUp = new ArtistPopUp(this.stage, this.artistManager);
         artistPopUp.load();
     }
 
@@ -176,7 +148,7 @@ public class AgendaModule {
      * CallBack method to open <code>this.podiumCallBack</code>.
      */
     public void podiumPopupCallBack() {
-        PodiumPopup podiumPopup = new PodiumPopup(this.stage, this.podiumManager, this.creationPanel);
+        PodiumPopup podiumPopup = new PodiumPopup(this.stage, this.podiumManager);
         podiumPopup.load();
     }
 
@@ -212,8 +184,6 @@ public class AgendaModule {
                 }
             }
         }
-        this.creationPanel.updatePodiumComboBox();
-        this.creationPanel.updateArtistComboBox();
     }
 
     private void saveAgenda() {
@@ -263,12 +233,6 @@ public class AgendaModule {
         });
 
         this.eventSaveButton.setOnAction(event -> {
-//            Podium selectedPodium = this.podiumManager.getPodium(this.artistAndPodiumPanel.getSelectedPodium());
-
-//            if (selectedPodium != null
-//                    && this.artistAndPodiumPanel.getSelectedArtists().size() > 0
-//            ) {
-
                 this.agenda.getShows().remove(this.currentShow);
                 this.agenda.addShow(new Show());
 
@@ -300,8 +264,6 @@ public class AgendaModule {
 
             //Setting all the stored information to the GUI
             this.showNameTextField.setText(currentShow.getName());
-//            this.artistAndPodiumPanel.setArtistsList(this.currentShow.getArtists());
-//            this.artistAndPodiumPanel.setSelectedPodium(this.currentShow.getPodium().getName());
         } else {
             if (this.currentShow != null) {
                 this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190/360f, .7f, .9f));
@@ -328,8 +290,6 @@ public class AgendaModule {
     public void setup(){
         //Initialise values.
         this.agendaCanvas = new AgendaCanvas(this.agenda);
-        this.creationPanel = new CreationPanel(this, this.podiumManager, this.artistManager);
-//        this.artistAndPodiumPanel = new ArtistAndPodiumPanel(new ComboBox<>(this.creationPanel.getObservablePodiumList()), new ComboBox<>(this.creationPanel.getObservableArtistList()), this.artistManager);
 
         //Adding all the children
             //MenuBar
