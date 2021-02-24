@@ -1,13 +1,14 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import animatefx.animation.*;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.util.Random;
+import java.util.ResourceBundle;
 
 /**
  * Contains everything related to the AboutPopUp you get when clicking the About option in the
@@ -23,9 +24,12 @@ import java.util.Random;
  */
 public class AboutPopUp extends AbstractCreationPopUp {
 
-    private Text authorLabel = new Text("Projectgroep A3");
-    private Text mottoLabel = new Text("Altijd een stap verder©");
-    private Text versionLabel = new Text("0.0.1");
+    //LanguageHandling
+    private ResourceBundle messages = LanguageHandler.getMessages();
+
+    private Text authorLabel = new Text(messages.getString("author"));
+    private Text mottoLabel = new Text(messages.getString("motto"));
+    private Text versionLabel = new Text(messages.getString("version"));
     private VBox aboutVBox = new VBox();
 
     /**
@@ -60,7 +64,7 @@ public class AboutPopUp extends AbstractCreationPopUp {
         });
 
         //Adding it all together
-        this.gridPane.addRow(0, aboutVBox);
+        this.gridPane.addRow(0, this.aboutVBox);
         this.gridPane.addRow(1, this.buttonHBox);
     }
 
@@ -84,6 +88,6 @@ public class AboutPopUp extends AbstractCreationPopUp {
     @Override
     public void additionalLoad() {
         buttonHBox.getChildren().remove(this.addButton); //Remove the apply button on load, so that we only have the close button.
-        this.popupStage.setTitle("About");
+        this.popupStage.setTitle(messages.getString("about"));
     }
 }

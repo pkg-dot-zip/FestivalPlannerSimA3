@@ -6,11 +6,15 @@ import FestivalPlanner.Agenda.Show;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import org.jfree.fx.FXGraphics2D;
 
 //TODO: Add documentation.
 public class ShowRectangle2D {
+
+    private ResourceBundle messages = LanguageHandler.getMessages();
 
     private Rectangle2D rectangle;
     private Show show;
@@ -93,9 +97,9 @@ public class ShowRectangle2D {
         graphics.setColor(Color.BLACK);
         graphics.setFont(new Font("TimesRoman", Font.PLAIN, 13));
 
-        String nameString = getString(graphics,"Name: " + this.show.getName());
+        String nameString = getString(graphics,messages.getString("name") + ": " + this.show.getName());
 
-        String artistsString = "Artists: ";
+        String artistsString = (messages.getString("artists") + ": ");
         ArrayList<Artist> artists = this.getShow().getArtists();
         artistsString += artists.get(0).getName();
         for (int i = 1; i < artists.size(); i++) {

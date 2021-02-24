@@ -2,11 +2,14 @@ package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
 import FestivalPlanner.Agenda.Podium;
 import FestivalPlanner.Agenda.PodiumManager;
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+
+import java.util.ResourceBundle;
 
 /**
  * Contains a PopUp used for creating a new <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>.
@@ -15,11 +18,12 @@ public class PodiumPopup extends AbstractCreationPopUp{
 
 	//TODO: Rename this since I made a typo; PodiumPopup -> PodiumPopUp
 
-	private PodiumManager podiumManager;
+	//LanguageHandling
+	private ResourceBundle messages = LanguageHandler.getMessages();
 
+	private PodiumManager podiumManager;
 	private HBox nameHBox = new HBox();
 	private HBox locationHBox = new HBox();
-
 	private TextField nameField = new TextField();
 	private TextField locationField = new TextField();
 
@@ -35,7 +39,7 @@ public class PodiumPopup extends AbstractCreationPopUp{
 
 	@Override
 	public void additionalLoad() {
-		this.popupStage.setTitle("Podium Editor");
+		this.popupStage.setTitle(messages.getString("podium_editor"));
 	}
 
 	@Override
@@ -49,8 +53,8 @@ public class PodiumPopup extends AbstractCreationPopUp{
 		locationHBox.setAlignment(Pos.CENTER);
 
 		//Adding all the children.
-		nameHBox.getChildren().addAll(new Label("Name:     "), this.nameField);
-		locationHBox.getChildren().addAll(new Label("Location: "), this.locationField);
+		nameHBox.getChildren().addAll(new Label(messages.getString("name") + ":     "), this.nameField);
+		locationHBox.getChildren().addAll(new Label(messages.getString("location") + ": "), this.locationField);
 
 		//Adding it all together.
 		gridPane.addRow(0, nameHBox);

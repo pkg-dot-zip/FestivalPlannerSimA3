@@ -3,6 +3,7 @@ package FestivalPlanner.GUI.AgendaGUI;
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.GUI.AbstractGUI;
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * Contains all elements and methods seen and used in the edit window of the GUI.
@@ -22,6 +24,9 @@ import java.util.ArrayList;
  */
 public class ShowEditorGUI extends AbstractGUI {
 
+    //LanguageHandling
+    private ResourceBundle messages = LanguageHandler.getMessages();
+
     //Main Scene Components.
     private Stage stage = new Stage();
     private Scene scene;
@@ -29,9 +34,9 @@ public class ShowEditorGUI extends AbstractGUI {
     //TimeAndPopularity
     private VBox timeAndPopularityVBox = new VBox();
     private Slider popularitySlider = new Slider();
-    private Label popularityLabel = new Label(" Expected popularity: 50%");
-    private TextField startTimeTextField = new TextField("StartTime");
-    private TextField endTimeTextField = new TextField("EndTime");
+    private Label popularityLabel = new Label(" " + messages.getString("expected_popularity") + " : 50%");
+    private TextField startTimeTextField = new TextField();
+    private TextField endTimeTextField = new TextField();
 
     //ShowName
     private VBox showNameVBox = genericVBox();
@@ -42,14 +47,14 @@ public class ShowEditorGUI extends AbstractGUI {
     private VBox artistVBox = new VBox();
     private ComboBox<String> podiumComboBox = new ComboBox<>();
     private ComboBox<String> artistComboBox = new ComboBox<>();
-    private Button eventArtistsAddButton = new Button("Add Artist");
-    private Button eventArtistsRemoveButton = new Button("Remove Artist");
+    private Button eventArtistsAddButton = new Button( messages.getString("add_artist"));
+    private Button eventArtistsRemoveButton = new Button(messages.getString("remove_artist"));
     private ListView<Artist> artistsList = new ListView<>();
 
     //Generic
         //Buttons
-    private Button applyButton = new Button("Apply");
-    private Button closeButton = new Button("Close");
+    private Button applyButton = new Button(messages.getString("apply"));
+    private Button closeButton = new Button(messages.getString("close"));
 
         //Non-node attributes.
     private AgendaModule agendaModule;
@@ -67,7 +72,7 @@ public class ShowEditorGUI extends AbstractGUI {
 
         //Stage Settings.
         this.scene = new Scene(gridPane);
-        this.stage.setTitle("Show Editor");
+        this.stage.setTitle(messages.getString("show_editor"));
         this.stage.setScene(scene);
         this.stage.setResizable(true);
         this.stage.setWidth(900);
@@ -105,10 +110,10 @@ public class ShowEditorGUI extends AbstractGUI {
         this.artistsList.setMaxWidth(200);
         this.artistComboBox.setMinWidth(120);
         this.artistComboBox.setMaxWidth(120);
-        this.artistComboBox.setPromptText("Artist:");
+        this.artistComboBox.setPromptText(messages.getString("artist") + ":");
         this.podiumComboBox.setMinWidth(120);
         this.podiumComboBox.setMaxWidth(120);
-        this.podiumComboBox.setPromptText("Podium:");
+        this.podiumComboBox.setPromptText(messages.getString("podium") + ":");
         this.eventArtistsAddButton.setPrefWidth(120);
         this.eventArtistsRemoveButton.setPrefWidth(120);
 
@@ -119,18 +124,18 @@ public class ShowEditorGUI extends AbstractGUI {
 
         //Adding all the children
             //TimeAndPopularity
-        timeAndPopularityVBox.getChildren().addAll(new Label("Select Time"), this.startTimeTextField,
+        timeAndPopularityVBox.getChildren().addAll(new Label(messages.getString("select_time")), this.startTimeTextField,
                 this.endTimeTextField, this.popularityLabel, this.popularitySlider);
             //ShowName
-        showNameVBox.getChildren().addAll(new Label("Enter name and save"),
-                new Label("Enter show name:"),
+        showNameVBox.getChildren().addAll(new Label(messages.getString("enter_name_and_save")),
+                new Label(messages.getString("enter_show_name") + ":"),
                 this.showNameTextField);
             //ArtistAndPodiumPanel
         artistVBox.getChildren().addAll(this.artistsList);
         ArtistAtEventSetterVBox.getChildren().addAll(this.artistComboBox,
                 this.eventArtistsAddButton,
                 this.eventArtistsRemoveButton,
-                new Label("Select podium: "),
+                new Label(messages.getString("select_podium") + ": "),
                 this.podiumComboBox);
 
             //Generic
@@ -146,21 +151,22 @@ public class ShowEditorGUI extends AbstractGUI {
 
     @Override
     public void actionHandlingSetup(){
-        //TimeAndPopularity
-        this.startTimeTextField.setOnMouseClicked(event -> {
-            if (this.startTimeTextField.getText().equals("StartTime")) {
-                this.startTimeTextField.setText("00:00");
-            }
-        });
-
-        this.endTimeTextField.setOnMouseClicked(event -> {
-            if (this.endTimeTextField.getText().equals("EndTime")) {
-                this.endTimeTextField.setText("24:00");
-            }
-        });
+        //TODO: Remove if unused.
+//        //TimeAndPopularity
+//        this.startTimeTextField.setOnMouseClicked(event -> {
+//            if (this.startTimeTextField.getText().equals("StartTime")) {
+//                this.startTimeTextField.setText("00:00");
+//            }
+//        });
+//
+//        this.endTimeTextField.setOnMouseClicked(event -> {
+//            if (this.endTimeTextField.getText().equals("EndTime")) {
+//                this.endTimeTextField.setText("24:00");
+//            }
+//        });
 
         this.popularitySlider.setOnMouseDragged(event -> {
-            this.popularityLabel.setText(" Expected popularity: " + (int)this.popularitySlider.getValue() + "%");
+            this.popularityLabel.setText(" " + messages.getString("expected_popularity") + ": " + (int)this.popularitySlider.getValue() + "%");
         });
 
         //ArtistsAndPodiumPanel
@@ -314,7 +320,7 @@ public class ShowEditorGUI extends AbstractGUI {
         hBox.setSpacing(5);
         hBox.getChildren().addAll(artistVBox, ArtistAtEventSetterVBox);
 
-        mainVBox.getChildren().addAll(new Label("Select Artists and podium"), hBox);
+        mainVBox.getChildren().addAll(new Label(messages.getString("select_artists_and_podium")), hBox);
         return mainVBox;
     }
 }

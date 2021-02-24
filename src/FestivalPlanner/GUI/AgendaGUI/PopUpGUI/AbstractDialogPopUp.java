@@ -1,5 +1,6 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import FestivalPlanner.Util.SoundHandling.SystemSoundEnum;
 import FestivalPlanner.Util.SoundHandling.WindowsSystemSoundHandler;
 import javafx.application.Platform;
@@ -7,23 +8,28 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 /**
  * Contains methods for all PopUps used in the program.
  */
 public abstract class AbstractDialogPopUp {
 
+    //LanguageHandling
+    private ResourceBundle messages = LanguageHandler.getMessages();
+
     /**
      * Prompts the user with the choice to exit the program or cancel this operation.
      */
     public void showExitConfirmationPopUp(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Exit Confirmation");
-        alert.setHeaderText("Are you sure you want to exit?");
-        alert.setContentText("Any unsaved changes will be lost!");
+        alert.setTitle(messages.getString("exit_confirmation"));
+        alert.setHeaderText(messages.getString("are_you_sure_you_want_to_exit"));
+        alert.setContentText(messages.getString("any_unsaved_changes_will_be_lost"));
 
         WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
 
@@ -38,9 +44,9 @@ public abstract class AbstractDialogPopUp {
      */
     public boolean showDeleteConfirmationPopUp(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Remove Confirmation");
-        alert.setHeaderText("Are you sure you want to remove this show?");
-        alert.setContentText("The show will be lost");
+        alert.setTitle(messages.getString("remove_confirmation"));
+        alert.setHeaderText(messages.getString("are_you_sure_you_want_to_remove_this_show"));
+        alert.setContentText(messages.getString("the_show_will_be_lost"));
 
         WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
 
@@ -54,9 +60,9 @@ public abstract class AbstractDialogPopUp {
      */
     public void showEmptyTextFieldsPopUp(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Empty Textfields");
-        alert.setHeaderText("Missing values");
-        alert.setContentText("Please fill in the required textfields.");
+        alert.setTitle(messages.getString("empty_textfields"));
+        alert.setHeaderText(messages.getString("missing_values"));
+        alert.setContentText(messages.getString("please_fill_in_the_required_textfields"));
         WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
         alert.showAndWait();
     }
@@ -76,9 +82,9 @@ public abstract class AbstractDialogPopUp {
         TextArea textArea = new TextArea(stringWriter.toString());
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Exception");
-        alert.setHeaderText("Program interrupted");
-        alert.setContentText("An exception has occurred. Apologies for the inconvenience.");
+        alert.setTitle(messages.getString("exception"));
+        alert.setHeaderText(messages.getString("program_interruped"));
+        alert.setContentText(messages.getString("an_exception_has_occured"));
         WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
 
         exceptionGridPane.setMaxWidth(Double.MAX_VALUE);
@@ -95,9 +101,9 @@ public abstract class AbstractDialogPopUp {
      */
     public void showNoLayerSelectedPopUp(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Can't get selected show");
-        alert.setHeaderText("No selected layer");
-        alert.setContentText("Please select a show and try again.");
+        alert.setTitle(messages.getString("cant_get_selected_show"));
+        alert.setHeaderText(messages.getString("no_selected_layer"));
+        alert.setContentText(messages.getString("please_select_a_show_and_try_again"));
         WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
         alert.showAndWait();
     }
@@ -108,10 +114,9 @@ public abstract class AbstractDialogPopUp {
      */
     public void showNoArtistsOrPodiumsPopUp(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Can't create show");
-        alert.setHeaderText("No Artists and/or podiums to choose from");
-        alert.setContentText("Please open the Artist & Podium editor and create artists and/or podiums" +
-                " before opening the show editor.");
+        alert.setTitle(messages.getString("cant_create_show"));
+        alert.setHeaderText(messages.getString("no_artists_and_or_podiums_to_choose_from"));
+        alert.setContentText(messages.getString("please_open_the_artist"));
         WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
         alert.showAndWait();
     }

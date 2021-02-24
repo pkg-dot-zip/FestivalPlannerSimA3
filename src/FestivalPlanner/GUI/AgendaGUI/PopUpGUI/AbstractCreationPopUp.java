@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.util.ResourceBundle;
 
 /**
@@ -34,7 +33,7 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
     Stage primaryStage;
     Stage popupStage = new Stage();
 
-    Button addButton = new Button(messages.getString("Add"));
+    Button addButton = new Button(messages.getString("add"));
 
     /**
      * Constructor for <code>AbstractCreationPopUp</code>.
