@@ -47,10 +47,10 @@ public class Show implements Serializable {
         this.startTime = LocalTime.parse("00:00");
         this.endTime = LocalTime.parse("23:00");
         this.expectedPopularity = 50;
-        this.podium = new Podium("a", "a");
-        ArrayList<Artist> arrayList = new ArrayList<>();
-        arrayList.add(new Artist("None", null, null));
-        this.artists = arrayList;
+        this.podium = null;
+//        ArrayList<Artist> arrayList = new ArrayList<>();
+//        arrayList.add(new Artist("None", null, null));
+        this.artists = null;
     }
 
     /**

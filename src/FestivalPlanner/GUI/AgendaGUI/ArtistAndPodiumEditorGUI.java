@@ -59,7 +59,16 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
 
     @Override
     public void setup(){
-        //Alignment & Spacing
+        //Initialising Values.
+        updateArtistComboBox();
+        updatePodiumComboBox();
+        //TODO: Consider removing this block if we decide this is not improving the user's experience.
+        if (!this.agendaModule.getArtistManager().getAllArtistNames().isEmpty() && !this.agendaModule.getPodiumManager().getAllPodiumNames().isEmpty()){
+            this.artistComboBox.getSelectionModel().select(0);
+            this.podiumComboBox.getSelectionModel().select(0);
+        }
+
+        //Alignment & Spacing.
         creationPanelVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
         creationPanelVBox.setMaxHeight(150);
         creationPanelVBox.setAlignment(Pos.CENTER);
@@ -92,11 +101,13 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         this.artistAddButton.setOnAction(event -> {
             agendaModule.artistPopupCallBack();
             updateArtistComboBox();
+            //TODO: Auto-select the newest addition to the list.
         });
 
         this.podiumAddButton.setOnAction(event -> {
             agendaModule.podiumPopupCallBack();
             updatePodiumComboBox();
+            //TODO: Auto-select the newest addition to the list.
         });
 
         this.artistRemoveButton.setOnAction(event -> {

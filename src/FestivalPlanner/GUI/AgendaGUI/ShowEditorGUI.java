@@ -220,6 +220,11 @@ public class ShowEditorGUI extends AbstractGUI {
         });
     }
 
+    /**
+     * Executes all code you would normally find in a <code>setup()</code> method under the
+     * <i>//Initialising values.</i> comment.
+     * @see AbstractGUI#setup()
+     */
     private void loadPropertiesFromShow(){
         if (isNewShow){
             selectedShow = new Show();
@@ -235,12 +240,21 @@ public class ShowEditorGUI extends AbstractGUI {
         this.showNameTextField.setText(selectedShow.getName());
         //ArtistAndPodiumPanel
         this.artistsList.getItems().clear();
-        this.artistsList.setItems(FXCollections.observableArrayList(selectedShow.getArtists()));
         this.artistComboBox.setItems(FXCollections.observableArrayList(this.agendaModule.getArtistManager().getAllArtistNames()));
         this.podiumComboBox.setItems(FXCollections.observableArrayList(this.agendaModule.getPodiumManager().getAllPodiumNames()));
-        this.podiumComboBox.getSelectionModel().select(selectedShow.getPodium().getName());
+            //When getArtists() == null, the list in the GUI should not contain ANY names. This should
+            //only occur when the show is new, but we check it like this to avoid this issue in all cases.
+        if (selectedShow.getArtists() != null){
+            this.artistsList.setItems(FXCollections.observableArrayList(selectedShow.getArtists()));
+        } else {
+            this.artistsList.setItems(FXCollections.observableArrayList());
+        }
+            //Same applies here.
+        if (selectedShow.getPodium() != null){
+            this.podiumComboBox.getSelectionModel().select(selectedShow.getPodium().getName());
+        }
     }
-
+    
     private boolean isAllowedToApply(){
         if (
                 //TimeAndPopularityPane
