@@ -133,7 +133,9 @@ public class AgendaModule extends AbstractGUI {
                 contextMenu.hide();
                 onPrimaryButton(e);
             } else if (e.getButton() == MouseButton.SECONDARY) {
-                contextMenu.show(agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
+                if (getCurrentShow() != null){
+                    contextMenu.show(agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
+                }
             }
         });
 
@@ -320,9 +322,13 @@ public class AgendaModule extends AbstractGUI {
     }
 
     public void removeCurrentShow(){
-        this.agenda.getShows().remove(this.getCurrentShow());
-        this.setCurrentShow(null);
-        this.agendaCanvas.reBuildAgendaCanvas();
+        if (getCurrentShow() != null){
+            if (showDeleteConfirmationPopUp()){
+                this.agenda.getShows().remove(this.getCurrentShow());
+                this.setCurrentShow(null);
+                this.agendaCanvas.reBuildAgendaCanvas();
+            }
+        }
     }
 
     public Agenda getAgenda() {
