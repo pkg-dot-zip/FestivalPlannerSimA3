@@ -26,6 +26,7 @@ public class AgendaCanvas {
     private Canvas canvas;
     private BorderPane mainPane = new BorderPane();
     private AffineTransform cameraTransform;
+    private double scale = 1.0;
     private ArrayList<ShowRectangle2D> showRectangles;
 
     private int startX;
@@ -87,6 +88,8 @@ public class AgendaCanvas {
         this.canvas.setHeight(height);
         this.canvas.setWidth(width);
         this.canvas.setOnScroll(this::setOnScroll);
+
+        calculateBounds();
 
         this.mainPane.setCenter(this.canvas);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
@@ -188,7 +191,6 @@ public class AgendaCanvas {
      * When this method is called it calculates and sets the following attributes:
      * <p>
      * <ul>
-     * <li>{@link #calculateBounds()}</li>
      * <li>{@link #calculateUsedStages()}</li>
      * <li>{@link #showRectanglesToArrayList()}</li>
      * </ul>
@@ -200,7 +202,6 @@ public class AgendaCanvas {
      * After these actions it is unnecessary to call this method.
      */
     private void buildAgendaCanvas() {
-        calculateBounds();
         this.usedStages = calculateUsedStages();
         this.showRectangles = showRectanglesToArrayList();
     }
@@ -223,11 +224,12 @@ public class AgendaCanvas {
      * @return  a rectangle, this rectangle isn't shown yet but has a size and location based on the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>
      */
     private ShowRectangle2D createShowRectangle(Show show) {
+        double hourLength = 60 * this.scale;
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute() / 60f);
         double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute() / 60f);
         int stageIndex = this.usedStages.indexOf(show.getPodium());
 
-        return new ShowRectangle2D(startTime * 60, stageIndex * 60 + 5, (endTime * 60) - (startTime * 60), 50, show);
+        return new ShowRectangle2D(startTime * hourLength, stageIndex * 80 + 5, (endTime * hourLength) - (startTime * hourLength), 70, show);
     }
 
     /**
@@ -236,10 +238,21 @@ public class AgendaCanvas {
      * Initializes <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
      */
     private void calculateBounds() {
+        double monitorToScale = (this.canvas.getWidth() + startX) / (24 * 60 * scale);
+        if (monitorToScale > 1 ) {
+            this.scale = (this.canvas.getWidth() + startX) / (24 * 60);
+        }
         this.startX = -100;
-        this.endX = 1440;
+        this.endX = (int)(60 * this.scale * 24);
+
         this.startY = -50;
-        this.endY = 400;
+        if (this.canvas.getHeight() > this.usedStages.size() * 80) {
+            this.endY = (int)this.canvas.getHeight();
+        } else {
+            this.endY = this.usedStages.size() * 80 + 50;
+        }
+
+
     }
 
     /**
@@ -264,6 +277,9 @@ public class AgendaCanvas {
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+
+        calculateBounds();
+        this.showRectangles = showRectanglesToArrayList();
 
         graphics.setTransform(this.cameraTransform);
         graphics.translate(-this.startX, -this.startY);
@@ -306,17 +322,19 @@ public class AgendaCanvas {
         graphics.drawLine(this.startX, 0, this.endX, 0);
         graphics.drawLine(0, this.startY, 0, this.endY);
 
+        double hourLenght = 60 * this.scale;
+
         graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
-        graphics.fill(new Rectangle2D.Double(0, 0, 30, this.endY));
+        graphics.fill(new Rectangle2D.Double(0, 0, hourLenght / 2, this.endY));
         graphics.setColor(Color.BLACK);
 
         for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
-            int x = i * 60 + 60;
-            graphics.drawString(i + ".00", x - 50, -25); //numbers will later be based on cameraTransform etc.
+            int x = (int)(i * hourLenght + hourLenght);
+            graphics.drawString(i + ".00", x - ((int)hourLenght / 2 ) - 5, -25); //numbers will later be based on cameraTransform etc.
             graphics.setColor(Color.lightGray);
             graphics.drawLine(x, this.startY, x, this.endY);
             graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
-            graphics.fill(new Rectangle2D.Double(x, 0, 30, this.endY));
+            graphics.fill(new Rectangle2D.Double(x, 0, hourLenght / 2, this.endY));
             graphics.setColor(Color.BLACK);
         }
     }
@@ -326,7 +344,7 @@ public class AgendaCanvas {
      * @param graphics  object to draw on
      */
     private void drawStages(FXGraphics2D graphics) {
-        int stageHeight = 60;
+        int stageHeight = 80;
         ArrayList<Podium> usedStages1 = this.usedStages;
         for (int i = 0; i < usedStages1.size(); i++) {
             Podium stage = usedStages1.get(i);
@@ -340,14 +358,24 @@ public class AgendaCanvas {
      * @param scrollEvent is the eventhandler for scrolling
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
-        double scrollPixelsY = scrollEvent.getDeltaY() / 1.5;
-        double scrollPixelsX = scrollEvent.getDeltaX() / 1.5;
-        AffineTransform translate = new AffineTransform();
-        translate.translate(scrollPixelsX, scrollPixelsY);
-        if (cameraInBounds(translate)) {
-            this.cameraTransform.translate(scrollPixelsX, scrollPixelsY);
-            draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
+        AffineTransform transform = new AffineTransform();
+
+        if (scrollEvent.isAltDown()) {
+            double zoomFactor = 1 + (scrollEvent.getDeltaY()/1000);
+            transform.scale(zoomFactor, 1);
+            this.scale *= zoomFactor;
+        } else {
+
+            double scrollPixelsY = scrollEvent.getDeltaY() / 1.5;
+            double scrollPixelsX = scrollEvent.getDeltaX() / 1.5;
+            transform.translate(scrollPixelsX, scrollPixelsY);
+            if (cameraInBounds(transform)) {
+                this.cameraTransform.translate(scrollPixelsX, scrollPixelsY);
+            }
+
         }
+
+        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     /**
@@ -358,6 +386,8 @@ public class AgendaCanvas {
      * @return  true if the given translate is in bounds
      */
     private boolean cameraInBounds(AffineTransform transform) {
+        double scaleX = this.cameraTransform.getScaleX() * transform.getScaleX();
+
         return (this.cameraTransform.getTranslateX() + transform.getTranslateX() <= 1 &&
                 this.cameraTransform.getTranslateX() + transform.getTranslateX() >= -(this.endX - this.startX - this.canvas.getWidth()) &&
                 this.cameraTransform.getTranslateY() + transform.getTranslateY() <= 1 &&
