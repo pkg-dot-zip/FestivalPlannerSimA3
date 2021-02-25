@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/src/FestivalPlanner/Util/LanguageHandling/lang_en_US.properties" />
+    <file url="file://$PROJECT_DIR$/src/lang.properties" />
+    <file url="file://$PROJECT_DIR$/src/lang_nl_NL.properties" />
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/lang.properties" />
+      <file value="file://$PROJECT_DIR$/src/lang_nl_NL.properties" />
+      <base-name>lang</base-name>
+    </custom-resource-bundle>
+  </component>
+</project>

@@ -1,19 +1,23 @@
 package FestivalPlanner.GUI;
 
+import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class MainGUI extends Application {
 
     /**
-     * Starts the MainGUI
+     * Starts the MainGUI.
      * @param stage  The stage that is shown on screen
-     * @throws Exception Standard exeption in<a href=”{javafx/application/Application.html”></a>
+     * @throws Exception Standard exception in <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/application/Application.html">Application</a>
      */
     @Override
     public void start(Stage stage) throws Exception {
 
-        stage.show();
+        AgendaModule agendaModule = new AgendaModule(stage);
+        agendaModule.load();
+
     }
 
 
