@@ -58,7 +58,7 @@ public class ShowEditorGUI extends AbstractGUI {
     private AgendaModule agendaModule;
     private Show selectedShow;
     private boolean isNewShow;
-    private ArrayList<Artist> selectedShowArtistArrayList;
+    private ArrayList<Artist> selectedShowArtistArrayList = new ArrayList<>();
     private LocalTime attemptedStartTime;
     private LocalTime attemptedEndTime;
 
@@ -293,7 +293,8 @@ public class ShowEditorGUI extends AbstractGUI {
 			showExceptionPopUp(ex);
 		}
 
-		this.selectedShowArtistArrayList = new ArrayList<>(this.artistsList.getItems());
+		this.selectedShowArtistArrayList.clear();
+		this.selectedShowArtistArrayList.addAll(this.artistsList.getItems());
 
 		for (Show show : this.agendaModule.getAgenda().getShows()) {
 			if (show.getStartTime().isBefore(this.selectedShow.getEndTime()) &&
