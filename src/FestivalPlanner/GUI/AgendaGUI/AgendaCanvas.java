@@ -23,6 +23,7 @@ import java.util.Set;
  */
 public class AgendaCanvas {
 
+    private AgendaModule agendaModule;
     private Canvas canvas;
     private BorderPane mainPane = new BorderPane();
     private AffineTransform cameraTransform;
@@ -40,8 +41,8 @@ public class AgendaCanvas {
     /**
      * Blank constructor of <code>AgendaCanvas</code>.
      */
-    public AgendaCanvas() {
-        this(new Agenda(), 1920 / 4f, 1080 / 3f);
+    public AgendaCanvas(AgendaModule agendaModule) {
+        this(new Agenda(), 1920 / 4f, 1080 / 3f, agendaModule);
     }
 
     /**
@@ -50,8 +51,8 @@ public class AgendaCanvas {
      * Uses the Agenda given as parameter for <code>this.agenda</code>.
      * @param agenda  sets <code>this.agenda</code> to this object
      */
-    public AgendaCanvas(Agenda agenda) {
-        this(agenda, 1920 / 4f, 1080 / 3f);
+    public AgendaCanvas(Agenda agenda, AgendaModule agendaModule) {
+        this(agenda, 1920 / 4f, 1080 / 3f, agendaModule);
     }
 
     /**
@@ -63,8 +64,8 @@ public class AgendaCanvas {
      * @param width  sets <code>this.canvas.setWidth</code> to this value
      * @param height  sets <code>this.canvas.setHeight</code> to this value
      */
-    public AgendaCanvas(double width, double height) {
-        this(new Agenda(), width, height);
+    public AgendaCanvas(double width, double height, AgendaModule agendaModule) {
+        this(new Agenda(), width, height, agendaModule);
     }
 
     /**
@@ -78,10 +79,12 @@ public class AgendaCanvas {
      * @param width  sets <code>this.canvas.setWidth</code> to this value
      * @param height  sets <code>this.canvas.setHeight</code> to this value
      */
-    public AgendaCanvas(Agenda agenda, double width, double height) {
+    public AgendaCanvas(Agenda agenda, double width, double height, AgendaModule agendaModule) {
+        this.agendaModule = agendaModule;
         this.agenda = agenda;
 
-        buildAgendaCanvas();
+        this.usedStages = calculateUsedStages();
+        this.showRectangles = showRectanglesToArrayList();
 
         this.cameraTransform = new AffineTransform();
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
@@ -102,13 +105,6 @@ public class AgendaCanvas {
      */
     public void reBuildAgendaCanvas() {
         buildAgendaCanvas();
-        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
-    }
-
-    /**
-     * Redraws the AgendaCanvas without recalculating all the Rectangle2Ds.
-     */
-    public void reDrawCanvas() {
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
@@ -170,27 +166,28 @@ public class AgendaCanvas {
         }
         return null;
     }
-
-    /**
-     * Returns the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> that represents the given
-     * <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
-     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> to look for
-     * @return <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html"> ShowRectangle2D</a> that represents the show.
-     */
-    @Nullable
-    public ShowRectangle2D rectangleOnShow(Show show) {
-        for (ShowRectangle2D showRectangle2D : this.showRectangles) {
-            if (showRectangle2D.getShow().equals(show)) {
-                return showRectangle2D;
-            }
-        }
-        return null;
-    }
+// @todo: remove
+//    /**
+//     * Returns the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> that represents the given
+//     * <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
+//     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> to look for
+//     * @return <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html"> ShowRectangle2D</a> that represents the show.
+//     */
+//    @Nullable
+//    public ShowRectangle2D rectangleOnShow(Show show) {
+//        for (ShowRectangle2D showRectangle2D : this.showRectangles) {
+//            if (showRectangle2D.getShow().equals(show)) {
+//                return showRectangle2D;
+//            }
+//        }
+//        return null;
+//    }
 
     /**
      * When this method is called it calculates and sets the following attributes:
      * <p>
      * <ul>
+     * <li>{@link #calculateBounds()}</li>
      * <li>{@link #calculateUsedStages()}</li>
      * <li>{@link #showRectanglesToArrayList()}</li>
      * </ul>
@@ -202,6 +199,7 @@ public class AgendaCanvas {
      * After these actions it is unnecessary to call this method.
      */
     private void buildAgendaCanvas() {
+        calculateBounds();
         this.usedStages = calculateUsedStages();
         this.showRectangles = showRectanglesToArrayList();
     }
@@ -224,12 +222,18 @@ public class AgendaCanvas {
      * @return  a rectangle, this rectangle isn't shown yet but has a size and location based on the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>
      */
     private ShowRectangle2D createShowRectangle(Show show) {
+        ArrayList<Show> selectedShows = this.agendaModule.getSelectedShows();
+
         double hourLength = 60 * this.scale;
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute() / 60f);
         double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute() / 60f);
         int stageIndex = this.usedStages.indexOf(show.getPodium());
 
-        return new ShowRectangle2D(startTime * hourLength, stageIndex * 80 + 5, (endTime * hourLength) - (startTime * hourLength), 70, show);
+        Rectangle2D rectangle2D = new Rectangle2D.Double(startTime * hourLength, stageIndex * 80 + 5, (endTime * hourLength) - (startTime * hourLength), 70);
+        if (selectedShows.contains(show)) {
+            return new ShowRectangle2D(rectangle2D, show, Color.getHSBColor(100 / 360f, .7f, .7f));
+        }
+        return new ShowRectangle2D(rectangle2D, show);
     }
 
     /**
@@ -238,21 +242,21 @@ public class AgendaCanvas {
      * Initializes <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
      */
     private void calculateBounds() {
+        this.startX = -100;
+        this.startY = -50;
+
         double monitorToScale = (this.canvas.getWidth() + startX) / (24 * 60 * scale);
         if (monitorToScale > 1 ) {
             this.scale = (this.canvas.getWidth() + startX) / (24 * 60);
         }
-        this.startX = -100;
-        this.endX = (int)(60 * this.scale * 24);
 
-        this.startY = -50;
         if (this.canvas.getHeight() > this.usedStages.size() * 80) {
             this.endY = (int)this.canvas.getHeight();
         } else {
             this.endY = this.usedStages.size() * 80 + 50;
         }
 
-
+        this.endX = (int)(60 * this.scale * 24);
     }
 
     /**
@@ -278,12 +282,10 @@ public class AgendaCanvas {
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
-        calculateBounds();
-        this.showRectangles = showRectanglesToArrayList();
-
         graphics.setTransform(this.cameraTransform);
         graphics.translate(-this.startX, -this.startY);
 
+        buildAgendaCanvas();
         drawTopBar(graphics);
         drawStages(graphics);
 
@@ -386,8 +388,6 @@ public class AgendaCanvas {
      * @return  true if the given translate is in bounds
      */
     private boolean cameraInBounds(AffineTransform transform) {
-        double scaleX = this.cameraTransform.getScaleX() * transform.getScaleX();
-
         return (this.cameraTransform.getTranslateX() + transform.getTranslateX() <= 1 &&
                 this.cameraTransform.getTranslateX() + transform.getTranslateX() >= -(this.endX - this.startX - this.canvas.getWidth()) &&
                 this.cameraTransform.getTranslateY() + transform.getTranslateY() <= 1 &&

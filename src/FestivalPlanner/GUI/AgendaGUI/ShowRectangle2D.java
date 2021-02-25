@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import javafx.scene.shape.Rectangle;
 import org.jfree.fx.FXGraphics2D;
 
 //TODO: Add documentation.
@@ -30,7 +31,11 @@ public class ShowRectangle2D {
      * @param show   The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
      */
     public ShowRectangle2D(double minX, double minY, double width, double height, Show show) {
-        this(new Rectangle2D.Double(minX, minY, width, height), show);
+        this(new Rectangle2D.Double(minX, minY, width, height), show, Color.getHSBColor(190 / 360f, .7f, .9f));
+    }
+
+    public ShowRectangle2D(Rectangle2D rectangle, Show show) {
+        this(rectangle, show, Color.getHSBColor(190 / 360f, .7f, .9f));
     }
 
     /**
@@ -39,10 +44,10 @@ public class ShowRectangle2D {
      * @param rectangle The <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a> that is given
      * @param show      The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
      */
-    private ShowRectangle2D(Rectangle2D rectangle, Show show) {
+    public ShowRectangle2D(Rectangle2D rectangle, Show show, Color color) {
         this.rectangle = rectangle;
         this.show = show;
-        this.color = Color.getHSBColor(190 / 360f, .7f, .9f);
+        this.color = color;
     }
 
     /**

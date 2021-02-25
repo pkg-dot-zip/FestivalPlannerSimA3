@@ -105,7 +105,7 @@ public class AgendaModule extends AbstractGUI {
     @Override
     public void setup() {
         //Initialise values.
-        this.agendaCanvas = new AgendaCanvas(this.agenda);
+        this.agendaCanvas = new AgendaCanvas(this.agenda, this);
 
         //Adding all the children.
         //MenuBar
@@ -298,17 +298,9 @@ public class AgendaModule extends AbstractGUI {
                 selectedShows.clear();
                 selectedShows.add(selectedShow);
             }
-
-//            this.agenda.getShows().forEach(show -> {
-//                if (selectedShows.contains(show)){
-//                    this.agendaCanvas.rectangleOnShow(show).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
-//                } else {
-//                    this.agendaCanvas.rectangleOnShow(show).setColor(java.awt.Color.getHSBColor(190 / 360f, .7f, .9f));
-//                }
-//            });
         }
         //Redraw canvas regardless of whether a show has been selected.
-        this.agendaCanvas.reDrawCanvas();
+        this.agendaCanvas.reBuildAgendaCanvas();
     }
 
     /**
