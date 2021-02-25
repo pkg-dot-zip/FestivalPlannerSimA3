@@ -99,7 +99,7 @@ public class AgendaCanvas {
         draw(graphics);
     }
     /**
-     * Public method that redraws the AgendaCanvas.
+     * Public method that builds the AgendaCanvas and then redraws.
      * <p>
      * See {@link #buildAgendaCanvas()}.
      */
@@ -165,6 +165,22 @@ public class AgendaCanvas {
         }
         return null;
     }
+// @todo: remove
+//    /**
+//     * Returns the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> that represents the given
+//     * <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
+//     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> to look for
+//     * @return <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html"> ShowRectangle2D</a> that represents the show.
+//     */
+//    @Nullable
+//    public ShowRectangle2D rectangleOnShow(Show show) {
+//        for (ShowRectangle2D showRectangle2D : this.showRectangles) {
+//            if (showRectangle2D.getShow().equals(show)) {
+//                return showRectangle2D;
+//            }
+//        }
+//        return null;
+//    }
 
     /**
      * When this method is called it calculates and sets the following attributes:
@@ -182,6 +198,8 @@ public class AgendaCanvas {
      * After these actions it is unnecessary to call this method.
      */
     private void buildAgendaCanvas() {
+        calculateBounds();
+        this.usedStages = calculateUsedStages();
         this.showRectangles = showRectanglesToArrayList();
     }
 
