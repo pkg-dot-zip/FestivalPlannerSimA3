@@ -283,6 +283,8 @@ public class AgendaModule extends AbstractGUI {
      */
     private void onPrimaryButton(MouseEvent e) {
         Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
+//        this.agendaCanvas.rectangleOnShow(selectedShow).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
+
         if (selectedShow != null) {
             //Allowing multiple shows to be selected.
                 //If the person has clicked on the show AND is holding ctrl ->
@@ -297,13 +299,13 @@ public class AgendaModule extends AbstractGUI {
                 selectedShows.add(selectedShow);
             }
 
-            this.agenda.getShows().forEach(show -> {
-                if (selectedShows.contains(show)){
-                    this.agendaCanvas.rectangleOnShow(show).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
-                } else {
-                    this.agendaCanvas.rectangleOnShow(show).setColor(java.awt.Color.getHSBColor(190 / 360f, .7f, .9f));
-                }
-            });
+//            this.agenda.getShows().forEach(show -> {
+//                if (selectedShows.contains(show)){
+//                    this.agendaCanvas.rectangleOnShow(show).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
+//                } else {
+//                    this.agendaCanvas.rectangleOnShow(show).setColor(java.awt.Color.getHSBColor(190 / 360f, .7f, .9f));
+//                }
+//            });
         }
         //Redraw canvas regardless of whether a show has been selected.
         this.agendaCanvas.reDrawCanvas();
@@ -360,6 +362,10 @@ public class AgendaModule extends AbstractGUI {
         } else {
             return null;
         }
+    }
+
+    public ArrayList<Show> getSelectedShows() {
+        return this.selectedShows;
     }
 
     /**
