@@ -34,7 +34,7 @@ public class AboutPopUp extends AbstractCreationPopUp {
     private Text mottoLabel = new Text(messages.getString("motto"));
     private Text versionLabel = new Text(messages.getString("version"));
     private VBox aboutVBox = new VBox();
-    private ArrayList<AnimationFX> animationFXES = new ArrayList<>();
+    private ArrayList<AnimationFX> animationFXES = new ArrayList<>(3);
 
     /**
      * Constructor for <code>AbstractCreationPopUp</code>.

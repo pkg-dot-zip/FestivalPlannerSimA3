@@ -29,7 +29,6 @@ public class ShowEditorGUI extends AbstractGUI {
 
     //Main Scene Components.
     private Stage stage = new Stage();
-    private Scene scene;
 
     //TimeAndPopularity
     private VBox timeAndPopularityVBox = new VBox();
@@ -54,7 +53,6 @@ public class ShowEditorGUI extends AbstractGUI {
     //Generic
         //Buttons
     private Button applyButton = new Button(messages.getString("apply"));
-    private Button closeButton = new Button(messages.getString("close"));
 
     //Non-node attributes.
     private AgendaModule agendaModule;
@@ -74,9 +72,8 @@ public class ShowEditorGUI extends AbstractGUI {
         this.actionHandlingSetup();
 
         //Stage Settings.
-        this.scene = new Scene(gridPane);
         this.stage.setTitle(messages.getString("show_editor"));
-        this.stage.setScene(scene);
+        this.stage.setScene(new Scene(gridPane));
         this.stage.setResizable(true);
         this.stage.setWidth(900);
         this.stage.setHeight(350);
