@@ -3,8 +3,6 @@ package FestivalPlanner.Agenda;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//TODO: Improve documentation.
-
 /**
  * Top-class of the Agenda package; contains all the information needed for the GUI.
  */

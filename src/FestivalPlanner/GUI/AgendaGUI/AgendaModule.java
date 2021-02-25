@@ -10,6 +10,7 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
 import FestivalPlanner.GUI.PreferencesGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import animatefx.animation.JackInTheBox;
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -95,7 +96,7 @@ public class AgendaModule extends AbstractGUI {
         stage.setHeight(350);
         stage.show();
         //Play animation AFTER the show() method has been called, since the animation would
-        //otherwise ot be fully visible for the user.
+        //otherwise NOT be fully visible for the user.
         playAnimation();
     }
 
@@ -140,7 +141,7 @@ public class AgendaModule extends AbstractGUI {
         });
 
         //MenuBar
-        //FileMenu
+            //FileMenu
         loadAgendaMenuItem.setOnAction(e -> {
             loadAgenda();
         });
@@ -153,7 +154,7 @@ public class AgendaModule extends AbstractGUI {
             showExitConfirmationPopUp();
         });
 
-        //EditMenu
+            //EditMenu
         editArtistsAndPodiumsMenuItem.setOnAction(e -> {
             ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this);
             artistAndPodiumEditorGUI.load();
@@ -172,7 +173,7 @@ public class AgendaModule extends AbstractGUI {
             PreferencesGUI preferencesGUI = new PreferencesGUI(this.stage);
             preferencesGUI.load();
         });
-        //HelpMenu
+            //HelpMenu
         aboutMenuItem.setOnAction(e -> {
             AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
             aboutPopUp.load();
@@ -253,6 +254,9 @@ public class AgendaModule extends AbstractGUI {
         }
     }
 
+    /**
+     * Opens a SaveDialog to let the user save the <code>Agenda</code> object as a <i>.dat</i> file.
+     */
     private void saveAgenda() {
         FileChooser fileChooser = new FileChooser();
         SaveHandler saveHandler = new SaveHandler();
@@ -269,7 +273,7 @@ public class AgendaModule extends AbstractGUI {
      * Handles the selecting of <a href="{@docRoot}/FestivalPlanner/AgendaGUI/ShowRectangle2D.html">Rectangle2D</a> in
      * <code>this.agendaCanvas</code>.
      *
-     * @param e MouseEvent that was set on the mouseButtonClick
+     * @param e  MouseEvent that was set on the mouseButtonClick
      */
     private void onPrimaryButton(MouseEvent e) {
         Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
@@ -295,19 +299,31 @@ public class AgendaModule extends AbstractGUI {
     }
 
     /**
-     * Returns the <code>this.currentShow</code> attribute.
-     *
-     * @return this.currentShow
+     * Removes the currently selected show from the ArrayList in <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a>.
+     * <p>
+     * This method does the following in this specific order:
+     * <p><ul>
+     * <li>Checks whether there is a show is selected, continues if it returns true.
+     * <li>Shows the <code>showDeleteConfirmationPopUp()</code> in
+     * <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/PopUpGUI/AbstractDialogPopUp.html">AbstractDialogPopUp</a>. Continues if user chooses to delete the show.
+     * <li>Removes the show from <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a>.
+     * <li>Sets the selected show to <i>null</i>.
+     * <li>Rebuilds the <a href="{@docRoot}/AgendaGUI/AgendaCanvas.html">AgendaCanvas</a>.
+     * </ul>
      */
-    @Nullable
-    public Show getCurrentShow() {
-        return this.currentShow;
+    private void removeCurrentShow(){
+        if (getCurrentShow() != null){
+            if (showDeleteConfirmationPopUp()){
+                this.agenda.removeShow(this.getCurrentShow());
+                this.setCurrentShow(null);
+                this.agendaCanvas.reBuildAgendaCanvas();
+            }
+        }
     }
 
     /**
      * Sets the <code>this.currentShow</code> attribute to the parameter's value.
-     *
-     * @return this.currentShow
+     * @return  this.currentShow
      */
     public void setCurrentShow(Show show) {
         this.currentShow = show;
@@ -321,27 +337,39 @@ public class AgendaModule extends AbstractGUI {
         }
     }
 
-    public void removeCurrentShow(){
-        if (getCurrentShow() != null){
-            if (showDeleteConfirmationPopUp()){
-                this.agenda.getShows().remove(this.getCurrentShow());
-                this.setCurrentShow(null);
-                this.agendaCanvas.reBuildAgendaCanvas();
-            }
-        }
+    /**
+     * Returns the <code>this.currentShow</code> attribute.
+     * @return  this.currentShow
+     */
+    @Nullable
+    public Show getCurrentShow() {
+        return this.currentShow;
     }
 
+    /**
+     * Returns the <code>this.agenda</code> attribute.
+     * @return  this.agenda
+     */
+    @NotNull
     public Agenda getAgenda() {
         return this.agenda;
     }
 
+    /**
+     * Returns the <code>this.artistManager</code> attribute.
+     * @return  this.artistManager
+     */
+    @NotNull
     public ArtistManager getArtistManager() {
         return this.artistManager;
     }
 
+    /**
+     * Returns the <code>this.podiumManager</code> attribute.
+     * @return  this.podiumManager
+     */
+    @NotNull
     public PodiumManager getPodiumManager() {
         return this.podiumManager;
     }
-
-
 }
