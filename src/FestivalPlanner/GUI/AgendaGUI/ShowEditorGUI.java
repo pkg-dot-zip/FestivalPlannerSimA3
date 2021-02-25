@@ -104,8 +104,8 @@ public class ShowEditorGUI extends AbstractGUI {
         timeAndPopularityVBox.setAlignment(Pos.BASELINE_CENTER);
         timeAndPopularityVBox.setSpacing(10);
                 //ArtistAndPodiumPanel
-        artistVBox.setSpacing(5);
-        ArtistAtEventSetterVBox.setSpacing(5);
+        artistVBox.setSpacing(VBOX_SPACING);
+        ArtistAtEventSetterVBox.setSpacing(VBOX_SPACING);
         this.artistsList.setMaxHeight(130);
         this.artistsList.setMaxWidth(200);
         this.artistComboBox.setMinWidth(120);
@@ -119,7 +119,7 @@ public class ShowEditorGUI extends AbstractGUI {
 
            //Generic
                 //ButtonHBox
-        this.buttonHBox.setSpacing(5);
+        this.buttonHBox.setSpacing(HBOX_SPACING);
         this.buttonHBox.setAlignment(Pos.CENTER);
                 //GridPane
         gridPane.setVgap(50);

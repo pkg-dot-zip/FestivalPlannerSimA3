@@ -30,7 +30,7 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
     private final int STAGE_WIDTH = 275;
     private final int STAGE_HEIGHT = 200;
 
-    Stage primaryStage;
+    private Stage primaryStage;
     Stage popupStage = new Stage();
 
     Button addButton = new Button(messages.getString("add"));
@@ -79,10 +79,10 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
             //Buttons.
         this.addButton.setMinWidth(50);
             //HBox.
-        this.buttonHBox.setSpacing(5);
+        this.buttonHBox.setSpacing(HBOX_SPACING);
         this.buttonHBox.setAlignment(Pos.CENTER);
             //GridPane.
-        this.gridPane.setVgap(10);
+        this.gridPane.setVgap(GRIDPANE_VGAP);
         this.gridPane.setAlignment(Pos.CENTER);
 
         //Adding all the children.
