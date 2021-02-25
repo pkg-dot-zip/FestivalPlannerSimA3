@@ -37,7 +37,6 @@ public class AgendaModule extends AbstractGUI {
     private Agenda agenda = new Agenda();
     private ArtistManager artistManager = new ArtistManager();
     private PodiumManager podiumManager = new PodiumManager();
-    private Show currentShow = null;
     private ArrayList<Show> selectedShows = new ArrayList<>();
 
     // Panes
@@ -185,12 +184,13 @@ public class AgendaModule extends AbstractGUI {
         //ContextMenu
             //Edit
         editContextItem.setOnAction(e -> {
-            if (this.currentShow != null) {
+            if (getCurrentShow() != null) {
                 ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
                 showEditorGUI.load();
             } else {
                 showNoLayerSelectedPopUp();
             }
+            this.agendaCanvas.reBuildAgendaCanvas();
         });
             //Remove
         removeContextItem.setOnAction(e -> {
@@ -242,7 +242,7 @@ public class AgendaModule extends AbstractGUI {
         SaveHandler saveHandler = new SaveHandler();
         this.agenda = saveHandler.readAgendaFromFile(getLoadAgendaPath());
         this.agendaCanvas.setAgenda(this.agenda);
-        this.currentShow = null;
+        this.selectedShows.clear();
 
         //Update podiumManager and ArtistManager.
         for (Show show : this.agenda.getShows()) {
@@ -284,47 +284,29 @@ public class AgendaModule extends AbstractGUI {
     private void onPrimaryButton(MouseEvent e) {
         Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
         if (selectedShow != null) {
-            //Reset old show.
-            if (this.currentShow != null){
-                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190 / 360f, .7f, .9f));
-            }
-
-            //Starting on new selected.
-            this.currentShow = selectedShow;
-
             //Allowing multiple shows to be selected.
-                //If the person has clicked on the show AND is hold shift ->
-            if (e.isShiftDown()){
-                //If the show wasn't selected before ->
-                if (!selectedShows.contains(currentShow) && !e.isControlDown()){
-                    selectedShows.add(currentShow);
-                } else if (selectedShows.contains(currentShow) && e.isControlDown()){
-                    selectedShows.remove(currentShow);
-                    this.currentShow = null;
-                } else if (!selectedShows.contains(currentShow) && e.isControlDown()){
-                    selectedShows.add(currentShow);
-                } else if (selectedShows.contains(currentShow) && !e.isControlDown()){
-                    //Nothing
+                //If the person has clicked on the show AND is holding ctrl ->
+            if (e.isControlDown()){
+                if (selectedShows.contains(selectedShow)){
+                    selectedShows.remove(selectedShow);
+                } else if (!selectedShows.contains(selectedShow)){
+                    selectedShows.add(selectedShow);
                 }
-            } else if (e.isControlDown()){
-                
+            } else {
+                selectedShows.clear();
+                selectedShows.add(selectedShow);
             }
 
-            selectedShows.forEach(show -> {
-                this.agendaCanvas.rectangleOnShow(show).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
+            this.agenda.getShows().forEach(show -> {
+                if (selectedShows.contains(show)){
+                    this.agendaCanvas.rectangleOnShow(show).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
+                } else {
+                    this.agendaCanvas.rectangleOnShow(show).setColor(java.awt.Color.getHSBColor(190 / 360f, .7f, .9f));
+                }
             });
-
-            //Setting correct color
-//            this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
-            this.agendaCanvas.reDrawCanvas();
-
-        } else {
-            if (this.currentShow != null) {
-                this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190 / 360f, .7f, .9f));
-                this.agendaCanvas.reDrawCanvas();
-                this.currentShow = null;
-            }
         }
+        //Redraw canvas regardless of whether a show has been selected.
+        this.agendaCanvas.reDrawCanvas();
     }
 
     /**
@@ -355,7 +337,8 @@ public class AgendaModule extends AbstractGUI {
      * @return  this.currentShow
      */
     public void setCurrentShow(Show show) {
-        this.currentShow = show;
+        this.selectedShows.clear();
+        this.selectedShows.add(show);
 
         if (show != null) {
             if (this.agenda.getShows().contains(show)) {
@@ -372,7 +355,11 @@ public class AgendaModule extends AbstractGUI {
      */
     @Nullable
     public Show getCurrentShow() {
-        return this.currentShow;
+        if (!this.selectedShows.isEmpty()){
+            return this.selectedShows.get(this.selectedShows.size() - 1);
+        } else {
+            return null;
+        }
     }
 
     /**
