@@ -27,7 +27,6 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
     private ResourceBundle messages = LanguageHandler.getMessages();
 
     private Stage stage = new Stage();
-    private Scene scene;
 
     private AgendaModule agendaModule;
 
@@ -56,9 +55,8 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         this.actionHandlingSetup();
 
         //Stage Settings.
-        this.scene = new Scene(gridPane);
         this.stage.setTitle(messages.getString("artists_and_podiums_editor"));
-        this.stage.setScene(scene);
+        this.stage.setScene(new Scene(gridPane));
         this.stage.setResizable(false);
         this.stage.setWidth(250);
         this.stage.setHeight(250);
@@ -81,19 +79,19 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         creationPanelVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
         creationPanelVBox.setMaxHeight(150);
         creationPanelVBox.setAlignment(Pos.CENTER);
-        creationPanelVBox.setSpacing(5);
-        artistHBox.setSpacing(5);
-        podiumHBox.setSpacing(5);
+        creationPanelVBox.setSpacing(VBOX_SPACING);
+        artistHBox.setSpacing(HBOX_SPACING);
+        podiumHBox.setSpacing(HBOX_SPACING);
         this.podiumRemoveButton.setMinWidth(30);
         this.artistRemoveButton.setMinWidth(30);
         this.artistComboBox.setMinWidth(120);
         this.artistComboBox.setMaxWidth(120);
         this.podiumComboBox.setMinWidth(120);
         this.podiumComboBox.setMaxWidth(120);
-        buttonHBox.setSpacing(5);
+        buttonHBox.setSpacing(HBOX_SPACING);
         buttonHBox.setAlignment(Pos.CENTER);
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        gridPane.setHgap(GRIDPANE_HGAP);
+        gridPane.setVgap(GRIDPANE_VGAP);
         gridPane.setAlignment(Pos.CENTER);
 
         //Adding all the children.

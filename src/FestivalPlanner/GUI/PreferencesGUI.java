@@ -73,18 +73,18 @@ public class PreferencesGUI extends AbstractGUI{
         //Alignment & Spacing.
             //HBox
         languagesHBox.setAlignment(Pos.CENTER);
-        languagesHBox.setSpacing(5);
+        languagesHBox.setSpacing(HBOX_SPACING);
         useAnimationsHBox.setAlignment(Pos.CENTER);
-        useAnimationsHBox.setSpacing(5);
+        useAnimationsHBox.setSpacing(HBOX_SPACING);
             //GeneralSettingsVBox
-        generalSettingsVBox.setSpacing(5);
+        generalSettingsVBox.setSpacing(VBOX_SPACING);
         generalSettingsVBox.setAlignment(Pos.CENTER);
             //ButtonHBox
-        buttonHBox.setSpacing(5);
+        buttonHBox.setSpacing(HBOX_SPACING);
         buttonHBox.setAlignment(Pos.CENTER);
             //Gridpane
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        gridPane.setHgap(GRIDPANE_HGAP);
+        gridPane.setVgap(GRIDPANE_VGAP);
         gridPane.setAlignment(Pos.CENTER);
 
         //Adding the children.

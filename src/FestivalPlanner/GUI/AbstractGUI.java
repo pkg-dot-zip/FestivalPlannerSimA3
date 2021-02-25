@@ -12,12 +12,17 @@ import java.util.ResourceBundle;
  */
 public abstract class AbstractGUI extends AbstractDialogPopUp {
 
+    protected final int HBOX_SPACING = 5;
+    protected final int VBOX_SPACING = 5;
+    protected final int GRIDPANE_HGAP = 10;
+    protected final int GRIDPANE_VGAP = 10;
+
     private ResourceBundle messages = LanguageHandler.getMessages();
 
-    public GridPane gridPane = new GridPane();
-    public HBox buttonHBox = new HBox();
-    public Button applyButton = new Button(messages.getString("apply"));
-    public Button closeButton = new Button(messages.getString("close"));
+    protected GridPane gridPane = new GridPane();
+    protected HBox buttonHBox = new HBox();
+    Button applyButton = new Button(messages.getString("apply"));
+    protected Button closeButton = new Button(messages.getString("close"));
 
     /**
      * Runs initialisation methods and sets general stage settings.
