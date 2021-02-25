@@ -60,6 +60,7 @@ public class ShowEditorGUI extends AbstractGUI {
     private AgendaModule agendaModule;
     private Show selectedShow;
     private boolean isNewShow;
+    private ArrayList<Artist> selectedShowArtistArrayList;
 
     public ShowEditorGUI(AgendaModule agendaModule) {
         this.agendaModule = agendaModule;
@@ -182,21 +183,15 @@ public class ShowEditorGUI extends AbstractGUI {
 
         //
         applyButton.setOnAction(e -> {
-            if (isAllowedToApply()) {
+            if (isAllowedToApply() && !containsDuplicateArtist()) {
                 //TimeAndPopularityPanel
                 selectedShow.setExpectedPopularity((int) this.popularitySlider.getValue());
-                try {
-                    selectedShow.setStartTime(LocalTime.parse(this.startTimeTextField.getText()));
-                    selectedShow.setEndTime(LocalTime.parse(this.endTimeTextField.getText()));
-                } catch (Exception ex) { //"e" Is already in use.
-                    showExceptionPopUp(ex);
-                }
 
                 //ShowName
                 selectedShow.setName(this.showNameTextField.getText());
 
                 //ArtistAndPodiumPane;
-                selectedShow.setArtists(new ArrayList<>(this.artistsList.getItems()));
+                selectedShow.setArtists(this.selectedShowArtistArrayList);
                 selectedShow.setPodium(this.agendaModule.getPodiumManager().getPodium(this.podiumComboBox.getSelectionModel().getSelectedItem()));
 
                 //Apply to AgendaModule
@@ -279,6 +274,36 @@ public class ShowEditorGUI extends AbstractGUI {
             return true;
         }
     }
+
+	private boolean containsDuplicateArtist() {
+		try {
+			selectedShow.setStartTime(LocalTime.parse(this.startTimeTextField.getText()));
+			selectedShow.setEndTime(LocalTime.parse(this.endTimeTextField.getText()));
+		} catch (Exception ex) { //"e" Is already in use.
+			showExceptionPopUp(ex);
+		}
+
+		this.selectedShowArtistArrayList = new ArrayList<>(this.artistsList.getItems());
+		ArrayList<Show> allOtherShows = new ArrayList<>(this.agendaModule.getAgenda().getShows());
+		//Copy'ing is inefficient but necessary.
+
+		allOtherShows.remove(this.selectedShow);
+		//The selected show gets removed from the array to prevent it from conflicting with itself.
+
+		for (Show show : allOtherShows) {
+			if (show.getStartTime().isBefore(this.selectedShow.getEndTime()) &&
+					show.getEndTime().isAfter(this.selectedShow.getStartTime())
+			) {
+				ArrayList<Artist> artistsFromShow = show.getArtists();
+				for (Artist artist : this.selectedShowArtistArrayList) {
+				 if  (artistsFromShow.contains(artist)) {
+				 	return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
     //TODO: Embed all code under this line into other methods.
     private VBox genericVBox() {
