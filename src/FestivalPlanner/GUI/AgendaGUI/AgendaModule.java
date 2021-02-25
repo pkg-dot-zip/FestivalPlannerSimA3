@@ -194,7 +194,7 @@ public class AgendaModule extends AbstractGUI {
         });
             //Remove
         removeContextItem.setOnAction(e -> {
-            removeCurrentShow();
+            removeCurrentShows();
         });
     }
 
@@ -288,12 +288,14 @@ public class AgendaModule extends AbstractGUI {
         if (selectedShow != null) {
             //Allowing multiple shows to be selected.
                 //If the person has clicked on the show AND is holding ctrl ->
-            if (e.isControlDown()){
-                if (selectedShows.contains(selectedShow)){
+            if (e.isControlDown()) {
+                if (selectedShows.contains(selectedShow)) {
                     selectedShows.remove(selectedShow);
-                } else if (!selectedShows.contains(selectedShow)){
+                } else if (!selectedShows.contains(selectedShow)) {
                     selectedShows.add(selectedShow);
                 }
+            } else if(selectedShow == getCurrentShow()) {
+                selectedShows.clear();
             } else {
                 selectedShows.clear();
                 selectedShows.add(selectedShow);
@@ -316,14 +318,20 @@ public class AgendaModule extends AbstractGUI {
      * <li>Rebuilds the <a href="{@docRoot}/AgendaGUI/AgendaCanvas.html">AgendaCanvas</a>.
      * </ul>
      */
-    private void removeCurrentShow(){
-        if (getCurrentShow() != null){
+    private void removeCurrentShows(){
+        if (getSelectedShows().size() == 1){
             if (showDeleteConfirmationPopUp()){
                 this.agenda.removeShow(this.getCurrentShow());
-                this.setCurrentShow(null);
-                this.agendaCanvas.reBuildAgendaCanvas();
+            }
+        } else if (getSelectedShows().size() > 1){
+            if (showDeleteConfirmationPopUp()){
+                getSelectedShows().forEach(e -> {
+                    this.agenda.removeShow(e);
+                });
             }
         }
+        this.setCurrentShow(null);
+        this.agendaCanvas.reBuildAgendaCanvas();
     }
 
     /**
