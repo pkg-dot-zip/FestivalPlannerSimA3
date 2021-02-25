@@ -3,6 +3,7 @@ package FestivalPlanner.GUI.AgendaGUI;
 import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.Agenda.Podium;
+import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import com.sun.istack.internal.Nullable;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -230,7 +231,7 @@ public class AgendaCanvas {
 
         Rectangle2D rectangle2D = new Rectangle2D.Double(startTime * hourLength, stageIndex * 80 + 5, (endTime * hourLength) - (startTime * hourLength), 70);
         if (selectedShows.contains(show)) {
-            return new ShowRectangle2D(rectangle2D, show, Color.getHSBColor(100 / 360f, .7f, .7f));
+            return new ShowRectangle2D(rectangle2D, show, SaveSettingsHandler.unselectedColor);
         }
         return new ShowRectangle2D(rectangle2D, show);
     }

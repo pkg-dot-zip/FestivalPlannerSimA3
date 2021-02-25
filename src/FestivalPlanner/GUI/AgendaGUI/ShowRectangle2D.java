@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
-import javafx.scene.shape.Rectangle;
+import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import org.jfree.fx.FXGraphics2D;
 
 //TODO: Add documentation.
@@ -31,11 +31,11 @@ public class ShowRectangle2D {
      * @param show   The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
      */
     public ShowRectangle2D(double minX, double minY, double width, double height, Show show) {
-        this(new Rectangle2D.Double(minX, minY, width, height), show, Color.getHSBColor(190 / 360f, .7f, .9f));
+        this(new Rectangle2D.Double(minX, minY, width, height), show, SaveSettingsHandler.selectedColor);
     }
 
     public ShowRectangle2D(Rectangle2D rectangle, Show show) {
-        this(rectangle, show, Color.getHSBColor(190 / 360f, .7f, .9f));
+        this(rectangle, show, SaveSettingsHandler.selectedColor);
     }
 
     /**

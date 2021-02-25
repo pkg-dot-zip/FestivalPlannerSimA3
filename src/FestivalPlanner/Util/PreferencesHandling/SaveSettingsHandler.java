@@ -1,6 +1,7 @@
 package FestivalPlanner.Util.PreferencesHandling;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.Locale;
 import java.util.Properties;
@@ -12,6 +13,10 @@ public class SaveSettingsHandler implements Serializable {
 
     //TODO: Write own methods for loading and saving preferences.
     //Code from: https://www.binarytides.com/read-write-save-configuration-file-java/
+
+    //TODO: Make configurable.
+    public static final Color unselectedColor = Color.getHSBColor(100 / 360f, .7f, .7f);
+    public static final Color selectedColor = Color.getHSBColor(190 / 360f, .7f, .9f);
 
     /**
      * Stores the preference given in its parameters.
