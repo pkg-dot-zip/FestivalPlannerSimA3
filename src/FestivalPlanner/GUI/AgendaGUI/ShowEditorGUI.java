@@ -61,6 +61,8 @@ public class ShowEditorGUI extends AbstractGUI {
     private Show selectedShow;
     private boolean isNewShow;
     private ArrayList<Artist> selectedShowArtistArrayList;
+    private LocalTime attemptedStartTime;
+    private LocalTime attemptedEndTime;
 
     public ShowEditorGUI(AgendaModule agendaModule) {
         this.agendaModule = agendaModule;
@@ -187,6 +189,9 @@ public class ShowEditorGUI extends AbstractGUI {
                 //TimeAndPopularityPanel
                 selectedShow.setExpectedPopularity((int) this.popularitySlider.getValue());
 
+                selectedShow.setStartTime(this.attemptedStartTime);
+                selectedShow.setEndTime(this.attemptedEndTime);
+
                 //ShowName
                 selectedShow.setName(this.showNameTextField.getText());
 
@@ -275,10 +280,18 @@ public class ShowEditorGUI extends AbstractGUI {
         }
     }
 
+	/**
+	 * Returns a boolean to check whether the selected artist(s) are already occupied.
+	 * <p>
+	 * It checks if the selected artists are available at the given time. If one of the artists is not available this
+	 * method will return false, open an error pop up and the current show settings will <b>not</b> be applied.
+	 *
+	 * @return boolean to check whether we set the current show's values to the ones in the GUI
+	 */
 	private boolean containsDuplicateArtist() {
 		try {
-			selectedShow.setStartTime(LocalTime.parse(this.startTimeTextField.getText()));
-			selectedShow.setEndTime(LocalTime.parse(this.endTimeTextField.getText()));
+			this.attemptedStartTime = LocalTime.parse(this.startTimeTextField.getText());
+			this.attemptedEndTime = LocalTime.parse(this.endTimeTextField.getText());
 		} catch (Exception ex) { //"e" Is already in use.
 			showExceptionPopUp(ex);
 		}

@@ -67,6 +67,10 @@ public abstract class AbstractDialogPopUp {
     }
 
 
+    /**
+     * Opens a window containing a message, with the goal of informing the user that an already occupied
+     * <code>Artist</code> was assigned and should be changed/removed.
+     */
     public void showDuplicateArtistPopUp(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(messages.getString("duplicate_artists"));
