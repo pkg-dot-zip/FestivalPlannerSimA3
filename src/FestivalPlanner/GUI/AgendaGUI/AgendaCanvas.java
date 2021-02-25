@@ -166,22 +166,6 @@ public class AgendaCanvas {
         }
         return null;
     }
-// @todo: remove
-//    /**
-//     * Returns the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> that represents the given
-//     * <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
-//     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> to look for
-//     * @return <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html"> ShowRectangle2D</a> that represents the show.
-//     */
-//    @Nullable
-//    public ShowRectangle2D rectangleOnShow(Show show) {
-//        for (ShowRectangle2D showRectangle2D : this.showRectangles) {
-//            if (showRectangle2D.getShow().equals(show)) {
-//                return showRectangle2D;
-//            }
-//        }
-//        return null;
-//    }
 
     /**
      * When this method is called it calculates and sets the following attributes:
@@ -332,7 +316,7 @@ public class AgendaCanvas {
 
         for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
             int x = (int)(i * hourLenght + hourLenght);
-            graphics.drawString(i + ".00", x - ((int)hourLenght / 2 ) - 5, -25); //numbers will later be based on cameraTransform etc.
+            graphics.drawString(i + ".00", x - ((int)hourLenght / 2 ) - 15, -25); //numbers will later be based on cameraTransform etc.
             graphics.setColor(Color.lightGray);
             graphics.drawLine(x, this.startY, x, this.endY);
             graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
