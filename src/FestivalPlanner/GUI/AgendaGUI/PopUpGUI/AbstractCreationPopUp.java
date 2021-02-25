@@ -53,10 +53,6 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
         this.setup();
         this.actionHandlingSetup();
 
-        //TODO: Play after show() for full effect.
-        //Animation to play on launch.
-
-
         //Stage Settings.
         this.additionalLoad();
         this.popupStage.setScene(new Scene(this.gridPane));
@@ -65,7 +61,6 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
         this.popupStage.setResizable(false);
         this.popupStage.initModality(Modality.APPLICATION_MODAL);
         this.popupStage.initOwner(this.primaryStage);
-        new FadeIn(gridPane).play();
         this.popupStage.showAndWait();
     }
 
@@ -111,6 +106,11 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
     @Override
     public void actionHandlingSetup(){
         additionalActionHandlingSetup();
+
+        this.popupStage.setOnShown(e -> {
+            //Animation to play on launch.
+            new FadeIn(gridPane).play();
+        });
 
         this.addButton.setOnAction(e -> {
             onAddButtonPress();

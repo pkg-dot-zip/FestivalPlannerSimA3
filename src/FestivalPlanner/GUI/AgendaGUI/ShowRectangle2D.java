@@ -2,12 +2,10 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.Show;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import org.jfree.fx.FXGraphics2D;
 

@@ -2,6 +2,7 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
@@ -37,6 +38,7 @@ public class AgendaModule extends AbstractGUI {
     private ArtistManager artistManager = new ArtistManager();
     private PodiumManager podiumManager = new PodiumManager();
     private Show currentShow = null;
+    private ArrayList<Show> selectedShows = new ArrayList<>();
 
     // Panes
     private BorderPane mainLayoutPane = new BorderPane();
@@ -283,14 +285,37 @@ public class AgendaModule extends AbstractGUI {
         Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
         if (selectedShow != null) {
             //Reset old show.
-            if (this.currentShow != null)
+            if (this.currentShow != null){
                 this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(190 / 360f, .7f, .9f));
+            }
 
             //Starting on new selected.
             this.currentShow = selectedShow;
 
+            //Allowing multiple shows to be selected.
+                //If the person has clicked on the show AND is hold shift ->
+            if (e.isShiftDown()){
+                //If the show wasn't selected before ->
+                if (!selectedShows.contains(currentShow) && !e.isControlDown()){
+                    selectedShows.add(currentShow);
+                } else if (selectedShows.contains(currentShow) && e.isControlDown()){
+                    selectedShows.remove(currentShow);
+                    this.currentShow = null;
+                } else if (!selectedShows.contains(currentShow) && e.isControlDown()){
+                    selectedShows.add(currentShow);
+                } else if (selectedShows.contains(currentShow) && !e.isControlDown()){
+                    //Nothing
+                }
+            } else if (e.isControlDown()){
+                
+            }
+
+            selectedShows.forEach(show -> {
+                this.agendaCanvas.rectangleOnShow(show).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
+            });
+
             //Setting correct color
-            this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
+//            this.agendaCanvas.rectangleOnShow(this.currentShow).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
             this.agendaCanvas.reDrawCanvas();
 
         } else {
