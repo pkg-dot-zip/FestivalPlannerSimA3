@@ -66,6 +66,16 @@ public abstract class AbstractDialogPopUp {
         alert.showAndWait();
     }
 
+
+    public void showDuplicateArtistPopUp(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(messages.getString("duplicate_artists"));
+        alert.setHeaderText(messages.getString("artist_already_occupied"));
+        alert.setContentText(messages.getString("please_remove_already_assigned_artists"));
+        WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
+        alert.showAndWait();
+    }
+
     /**
      * Opens a dialog window with a text area, with its text being set to the <code>printStackTrace()</code> method
      * from the exception received as a parameter.

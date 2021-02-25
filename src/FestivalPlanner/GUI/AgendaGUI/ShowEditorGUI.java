@@ -284,19 +284,16 @@ public class ShowEditorGUI extends AbstractGUI {
 		}
 
 		this.selectedShowArtistArrayList = new ArrayList<>(this.artistsList.getItems());
-		ArrayList<Show> allOtherShows = new ArrayList<>(this.agendaModule.getAgenda().getShows());
-		//Copy'ing is inefficient but necessary.
 
-		allOtherShows.remove(this.selectedShow);
-		//The selected show gets removed from the array to prevent it from conflicting with itself.
-
-		for (Show show : allOtherShows) {
+		for (Show show : this.agendaModule.getAgenda().getShows()) {
 			if (show.getStartTime().isBefore(this.selectedShow.getEndTime()) &&
-					show.getEndTime().isAfter(this.selectedShow.getStartTime())
+					show.getEndTime().isAfter(this.selectedShow.getStartTime()) &&
+					!show.equals(this.selectedShow)
 			) {
 				ArrayList<Artist> artistsFromShow = show.getArtists();
 				for (Artist artist : this.selectedShowArtistArrayList) {
 				 if  (artistsFromShow.contains(artist)) {
+				 	showDuplicateArtistPopUp();
 				 	return true;
 					}
 				}
