@@ -2,6 +2,7 @@ package FestivalPlanner.GUI;
 
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -16,6 +17,7 @@ public class MainGUI extends Application {
     public void start(Stage stage) throws Exception {
 
         AgendaModule agendaModule = new AgendaModule(stage);
+        SaveSettingsHandler.firstLaunchSettingsCreation();
         agendaModule.load();
 
     }

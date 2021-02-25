@@ -55,7 +55,7 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
 
         //TODO: Play after show() for full effect.
         //Animation to play on launch.
-        new FadeIn(gridPane).play();
+
 
         //Stage Settings.
         this.additionalLoad();
@@ -65,6 +65,7 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
         this.popupStage.setResizable(false);
         this.popupStage.initModality(Modality.APPLICATION_MODAL);
         this.popupStage.initOwner(this.primaryStage);
+        new FadeIn(gridPane).play();
         this.popupStage.showAndWait();
     }
 

@@ -1,11 +1,14 @@
 package FestivalPlanner.GUI;
 
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -29,8 +32,16 @@ public class PreferencesGUI extends AbstractGUI{
     private Stage stage = new Stage();
 
     private VBox generalSettingsVBox = new VBox();
+
+    //Languages
+    private HBox languagesHBox = new HBox();
     private Label languagesLabel = new Label(messages.getString("select_language"));
     private ComboBox<Locale> languagesComboBox = new ComboBox<>();
+
+    //Animations
+    private HBox useAnimationsHBox = new HBox();
+    private Label useAnimationsLabel = new Label(messages.getString("use_animations"));
+    private CheckBox useAnimationsCheckbox = new CheckBox();
 
     public PreferencesGUI(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -57,8 +68,15 @@ public class PreferencesGUI extends AbstractGUI{
         //Initialising Values.
         this.languagesComboBox.setItems(FXCollections.observableArrayList(LanguageHandler.getAllLocales()));
         this.languagesComboBox.getSelectionModel().select(LanguageHandler.getSelectedLocale());
+        this.useAnimationsCheckbox.setSelected(SaveSettingsHandler.getPreference("use_animations").contains("true"));
 
         //Alignment & Spacing.
+            //HBox
+        languagesHBox.setAlignment(Pos.CENTER);
+        languagesHBox.setSpacing(5);
+        useAnimationsHBox.setAlignment(Pos.CENTER);
+        useAnimationsHBox.setSpacing(5);
+            //GeneralSettingsVBox
         generalSettingsVBox.setSpacing(5);
         generalSettingsVBox.setAlignment(Pos.CENTER);
             //ButtonHBox
@@ -70,7 +88,9 @@ public class PreferencesGUI extends AbstractGUI{
         gridPane.setAlignment(Pos.CENTER);
 
         //Adding the children.
-        generalSettingsVBox.getChildren().addAll(languagesLabel, languagesComboBox);
+        languagesHBox.getChildren().addAll(languagesLabel, languagesComboBox);
+        useAnimationsHBox.getChildren().addAll(useAnimationsLabel, useAnimationsCheckbox);
+        generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox);
         buttonHBox.getChildren().addAll(applyButton, closeButton);
 
         //Adding it all together.
@@ -84,10 +104,13 @@ public class PreferencesGUI extends AbstractGUI{
             if (!this.languagesComboBox.getSelectionModel().isEmpty()){
                 LanguageHandler.setMessages(this.languagesComboBox.getSelectionModel().getSelectedItem());
             }
+            SaveSettingsHandler.setPreference("use_animations", "" + this.useAnimationsCheckbox.isSelected());
         });
 
         this.closeButton.setOnAction(e -> {
             this.stage.close();
         });
     }
+
+
 }

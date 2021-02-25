@@ -1,12 +1,15 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import animatefx.animation.*;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -31,6 +34,7 @@ public class AboutPopUp extends AbstractCreationPopUp {
     private Text mottoLabel = new Text(messages.getString("motto"));
     private Text versionLabel = new Text(messages.getString("version"));
     private VBox aboutVBox = new VBox();
+    private ArrayList<AnimationFX> animationFXES = new ArrayList<>();
 
     /**
      * Constructor for <code>AbstractCreationPopUp</code>.
@@ -53,14 +57,18 @@ public class AboutPopUp extends AbstractCreationPopUp {
         aboutVBox.getChildren().addAll(authorLabel, mottoLabel, versionLabel);
 
         //Animations
-        new FadeIn(aboutVBox).play();
+        if (SaveSettingsHandler.getPreference("use_animations").contains("true")) {
+            new FadeIn(aboutVBox).play();
+        }
 
         aboutVBox.getChildren().forEach(e -> {
             e.autosize();
-            //TODO: Write this shorter.
-            new Bounce(e).setCycleCount(99).setResetOnFinished(true).setSpeed(new Random().nextDouble() * 0.75).setDelay(new Duration(3000 * (1.0 + new Random().nextDouble()))).play();
-            new Flash(e).setCycleCount(99).setResetOnFinished(true).setSpeed(new Random().nextDouble() * 0.2).setDelay(new Duration(3000 * (1.0 + new Random().nextDouble()))).play();
-            new Jello(e).setCycleCount(99).setResetOnFinished(true).setSpeed(new Random().nextDouble() * 0.2).setDelay(new Duration(3000 * (1.0 + new Random().nextDouble()))).play();
+            if (SaveSettingsHandler.getPreference("use_animations").contains("true")) {
+                animationFXES.addAll(Arrays.asList(new Bounce(e).setSpeed(new Random().nextDouble() * 0.75), new Flash(e).setSpeed(new Random().nextDouble() * 0.2), new Jello(e).setSpeed(new Random().nextDouble() * 0.2)));
+                animationFXES.forEach(fx -> {
+                    fx.setCycleCount(99).setResetOnFinished(true).setDelay(new Duration(3000 * (1.0 + new Random().nextDouble()))).play();
+                });
+            }
         });
 
         //Adding it all together

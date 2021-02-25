@@ -1,11 +1,8 @@
 package FestivalPlanner.Agenda;
 
 import com.sun.istack.internal.Nullable;
-
 import java.util.HashMap;
 import java.util.Set;
-
-//TODO: Improve documentation.
 
 /**
  * Manages all podiums used by <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a>.

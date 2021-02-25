@@ -9,6 +9,7 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
 import FestivalPlanner.GUI.PreferencesGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import animatefx.animation.JackInTheBox;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
@@ -198,10 +199,13 @@ public class AgendaModule extends AbstractGUI {
     /**
      * Plays a simple
      * <a href="https://javadoc.io/doc/io.github.typhon0/AnimateFX/latest/animatefx/animation/JackInTheBox.html">JackInTheBox</a>
-     * animation after all other methods in {@link #load()} have been called.
+     * animation after all other methods in {@link #load()} have been called, and animations are enabled in preferences.
+     * @see SaveSettingsHandler
      */
     private void playAnimation() {
-        new JackInTheBox(this.mainLayoutPane).play();
+        if (SaveSettingsHandler.getPreference("use_animations").contains("true")){
+            new JackInTheBox(this.mainLayoutPane).play();
+        }
     }
 
     /**

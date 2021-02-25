@@ -3,4 +3,5 @@
 <properties>
 <comment>Configuration file for the Preference-System</comment>
 <entry key="Language">en-US</entry>
+<entry key="use_animations">true</entry>
 </properties>

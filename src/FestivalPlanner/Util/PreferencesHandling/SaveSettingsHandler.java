@@ -2,6 +2,7 @@ package FestivalPlanner.Util.PreferencesHandling;
 
 import javax.swing.*;
 import java.io.*;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -56,6 +57,17 @@ public class SaveSettingsHandler implements Serializable {
             JOptionPane.showMessageDialog(null , e.getMessage());
         }
         return (configFile.getProperty(Key));
+    }
+
+    /**
+     * Handles all settings on the first launch, apart from the language preference.
+     * @see FestivalPlanner.Util.LanguageHandling.LanguageHandler
+     */
+    public static void firstLaunchSettingsCreation(){
+        String s = SaveSettingsHandler.getPreference("use_animations");
+        if (s == null){
+            setPreference("use_animations", "true");
+        }
     }
 
 }
