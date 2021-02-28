@@ -54,10 +54,10 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
         this.actionHandlingSetup();
 
         //Stage Settings.
-        this.additionalLoad();
         this.popupStage.setScene(new Scene(this.gridPane));
         this.popupStage.setWidth(STAGE_WIDTH);
         this.popupStage.setHeight(STAGE_HEIGHT);
+        this.additionalLoad();
         this.popupStage.setResizable(false);
         this.popupStage.initModality(Modality.APPLICATION_MODAL);
         this.popupStage.initOwner(this.primaryStage);

@@ -2,6 +2,7 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
 import java.awt.geom.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import FestivalPlanner.GUI.AbstractGUI;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
 /**
  * Responsible for placing everything in the correct place in the GUI and making sure all the buttons work.
  */
-public class AgendaModule extends AbstractGUI {
+public class AgendaModule extends AbstractGUI implements Serializable {
 
     private Stage stage;
 

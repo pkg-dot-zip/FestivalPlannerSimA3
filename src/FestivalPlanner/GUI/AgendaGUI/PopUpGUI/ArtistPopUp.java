@@ -30,13 +30,14 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     private ArtistManager artistManager;
     private HBox nameHBox = new HBox();
     private HBox picturesHBox = new HBox();
+    private HBox spritesHBox = new HBox();
     private TextField nameField = new TextField();
+    private Button pictureButton = new Button("Picture");
+    private Button spriteButton = new Button("Sprite");
     private Image artistPicture;
     private Image artistSprite;
-    private ImageView pictureView;
-    private ImageView spriteView;
-    private Button pictureButton;
-    private Button spriteButton;
+    private ImageView pictureView = new ImageView();
+    private ImageView spriteView = new ImageView();
 
     /**
      * Constructor for the <code>ArtistPopUp</code> class.
@@ -50,6 +51,8 @@ public class ArtistPopUp extends AbstractCreationPopUp{
 
     @Override
     public void additionalLoad() {
+        this.popupStage.setWidth(300);
+        this.popupStage.setHeight(300);
         this.popupStage.setTitle(messages.getString("artist_editor"));
     }
 
@@ -59,21 +62,9 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         this.nameField.clear();
 
         //make items for picturesHBox
-        this.pictureButton = new Button("Picture");
-        this.pictureButton.setOnAction(event -> {
-            setArtistPicture();
-        });
-        this.pictureView = new ImageView();
         pictureView.setImage(artistPicture);
         pictureView.setFitHeight(50);
         pictureView.setFitWidth(50);
-
-
-        this.spriteButton = new Button("Sprite");
-        spriteButton.setOnAction(event -> {
-            setArtistSprite();
-        });
-        this.spriteView = new ImageView();
         spriteView.setImage(artistSprite);
         spriteView.setFitHeight(50);
         spriteView.setFitWidth(50);
@@ -81,24 +72,34 @@ public class ArtistPopUp extends AbstractCreationPopUp{
 
         //Alignment & Spacing.
         nameHBox.setAlignment(Pos.CENTER);
-        picturesHBox.setAlignment(Pos.CENTER);
+        picturesHBox.setAlignment(Pos.BASELINE_LEFT);
+        spritesHBox.setAlignment(Pos.BASELINE_LEFT);
 
         //Adding all the children.
         nameHBox.getChildren().addAll(new Label(messages.getString("name") + ":     "), this.nameField);
-        picturesHBox.getChildren().addAll(pictureButton, pictureView, spriteButton, spriteView);
+        picturesHBox.getChildren().addAll(pictureButton, new Label("     "), pictureView);
+        spritesHBox.getChildren().addAll(spriteButton, new Label("     "), spriteView);
 
         //Adding it all together.
         gridPane.addRow(0, nameHBox);
         gridPane.addRow(1, picturesHBox);
-        gridPane.addRow(2, buttonHBox);
+        gridPane.addRow(2, spritesHBox);
+        gridPane.addRow(3, buttonHBox);
     }
 
     /**
-     * Empty method; this class has no additional Action Handling.
+     * picture button activates the artist picture setter
+     * sprite button activates the artist picture setter
      */
     @Override
     public void additionalActionHandlingSetup() {
+        pictureButton.setOnAction(event -> {
+            setArtistPicture();
+        });
 
+        spriteButton.setOnAction(event -> {
+            setArtistSprite();
+        });
     }
 
     /**
