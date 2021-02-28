@@ -4,13 +4,17 @@ import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.ArtistManager;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ResourceBundle;
@@ -25,10 +29,14 @@ public class ArtistPopUp extends AbstractCreationPopUp{
 
     private ArtistManager artistManager;
     private HBox nameHBox = new HBox();
+    private HBox picturesHBox = new HBox();
     private TextField nameField = new TextField();
-    //TODO: Add sprite & picture functionality.
-    private BufferedImage artistPicture;
-    private BufferedImage artistSprite;
+    private Image artistPicture;
+    private Image artistSprite;
+    private ImageView pictureView;
+    private ImageView spriteView;
+    private Button pictureButton;
+    private Button spriteButton;
 
     /**
      * Constructor for the <code>ArtistPopUp</code> class.
@@ -50,15 +58,39 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         //Initialise values.
         this.nameField.clear();
 
+        //make items for picturesHBox
+        this.pictureButton = new Button("Picture");
+        this.pictureButton.setOnAction(event -> {
+            setArtistPicture();
+        });
+        this.pictureView = new ImageView();
+        pictureView.setImage(artistPicture);
+        pictureView.setFitHeight(50);
+        pictureView.setFitWidth(50);
+
+
+        this.spriteButton = new Button("Sprite");
+        spriteButton.setOnAction(event -> {
+            setArtistSprite();
+        });
+        this.spriteView = new ImageView();
+        spriteView.setImage(artistSprite);
+        spriteView.setFitHeight(50);
+        spriteView.setFitWidth(50);
+
+
         //Alignment & Spacing.
         nameHBox.setAlignment(Pos.CENTER);
+        picturesHBox.setAlignment(Pos.CENTER);
 
         //Adding all the children.
         nameHBox.getChildren().addAll(new Label(messages.getString("name") + ":     "), this.nameField);
+        picturesHBox.getChildren().addAll(pictureButton, pictureView, spriteButton, spriteView);
 
         //Adding it all together.
         gridPane.addRow(0, nameHBox);
-        gridPane.addRow(1, buttonHBox);
+        gridPane.addRow(1, picturesHBox);
+        gridPane.addRow(2, buttonHBox);
     }
 
     /**
@@ -71,7 +103,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
 
     /**
      * Opens fileChooser dialog to select Artist Photo
-     * @return absolute path to photo of artist
+     * @return  absolute path to photo of artist
      */
     private String findArtistPicture() {
         FileChooser fileChooser = new FileChooser();
@@ -90,7 +122,8 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     public void setArtistPicture() {
         try {
             File picture = new File(findArtistPicture());
-            this.artistPicture = ImageIO.read(picture);
+            this.artistPicture = new Image(picture.toURL().toString());
+            pictureView.setImage(artistPicture);
         } catch (Exception e) {
             showExceptionPopUp(e);
         }
@@ -98,7 +131,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
 
     /**
      * Opens fileChooser dialog to select Artist Sprite
-     * @return absolute path to sprite of artist
+     * @return  absolute path to sprite of artist
      */
     private String findArtistSprite() {
         FileChooser fileChooser = new FileChooser();
@@ -117,7 +150,8 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     public void setArtistSprite() {
         try {
             File picture = new File(findArtistSprite());
-            this.artistSprite = ImageIO.read(picture);
+            this.artistSprite = new Image(picture.toURL().toString());
+            spriteView.setImage(artistSprite);
         } catch (Exception e) {
             showExceptionPopUp(e);
         }
@@ -127,8 +161,24 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     public void onAddButtonPress() {
         if (!this.nameField.getText().isEmpty()) {
             //Add the podium to the list and then update the ComboBox.
-            //TODO: Replace null for actual values.
-            this.artistManager.addArtist(new Artist(this.nameField.getText(), null, null));
+
+            //convert artistPicture Image to BufferedImage
+            BufferedImage bufferedPicture = new BufferedImage((int)artistPicture.getWidth(), (int)artistPicture.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+            // Draw the image onto the buffered image
+            Graphics2D bGr1 = bufferedPicture.createGraphics();
+            bGr1.drawImage(bufferedPicture, 0, 0, null);
+            bGr1.dispose();
+
+            //convert artistSprite Image to BufferedImage
+            BufferedImage bufferedSprite = new BufferedImage((int)artistSprite.getWidth(), (int)artistSprite.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+            // Draw the image onto the buffered image
+            Graphics2D bGr2 = bufferedSprite.createGraphics();
+            bGr2.drawImage(bufferedSprite, 0, 0, null);
+            bGr2.dispose();
+
+            this.artistManager.addArtist(new Artist(this.nameField.getText(), bufferedPicture, bufferedSprite));
 
             //Exit stage.
             this.popupStage.close();
