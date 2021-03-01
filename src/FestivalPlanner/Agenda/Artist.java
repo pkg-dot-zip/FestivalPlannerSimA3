@@ -1,6 +1,11 @@
 package FestivalPlanner.Agenda;
 
+import javafx.embed.swing.SwingFXUtils;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 /**
@@ -9,8 +14,8 @@ import java.io.Serializable;
 public class Artist implements Serializable {
 
     private String name;
-    private BufferedImage picture;
-    private BufferedImage sprite;
+    private transient BufferedImage picture;
+    private transient BufferedImage sprite;
 
     /**
      * Constructor for the <code>Artist</code> class.
@@ -52,4 +57,5 @@ public class Artist implements Serializable {
     public String toString() {
         return this.name;
     }
+
 }

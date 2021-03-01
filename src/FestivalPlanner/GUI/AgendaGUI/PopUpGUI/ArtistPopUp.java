@@ -3,6 +3,7 @@ package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.ArtistManager;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,8 +15,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
 import java.io.File;
 import java.util.ResourceBundle;
 
@@ -34,8 +34,9 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     private TextField nameField = new TextField();
     private Button pictureButton = new Button("Picture");
     private Button spriteButton = new Button("Sprite");
-    private Image artistPicture;
-    private Image artistSprite;
+
+    private BufferedImage artistPicture;
+    private BufferedImage artistSprite;
     private ImageView pictureView = new ImageView();
     private ImageView spriteView = new ImageView();
 
@@ -62,10 +63,10 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         this.nameField.clear();
 
         //make items for picturesHBox
-        pictureView.setImage(artistPicture);
+        pictureView.setImage(null);
         pictureView.setFitHeight(50);
         pictureView.setFitWidth(50);
-        spriteView.setImage(artistSprite);
+        spriteView.setImage(null);
         spriteView.setFitHeight(50);
         spriteView.setFitWidth(50);
 
@@ -122,9 +123,9 @@ public class ArtistPopUp extends AbstractCreationPopUp{
      */
     public void setArtistPicture() {
         try {
-            File picture = new File(findArtistPicture());
-            this.artistPicture = new Image(picture.toURL().toString());
-            pictureView.setImage(artistPicture);
+            File pictureURL = new File(findArtistPicture());
+            this.artistPicture = ImageIO.read(pictureURL);
+            pictureView.setImage(SwingFXUtils.toFXImage(this.artistPicture, null));
         } catch (Exception e) {
             showExceptionPopUp(e);
         }
@@ -150,9 +151,9 @@ public class ArtistPopUp extends AbstractCreationPopUp{
      */
     public void setArtistSprite() {
         try {
-            File picture = new File(findArtistSprite());
-            this.artistSprite = new Image(picture.toURL().toString());
-            spriteView.setImage(artistSprite);
+            File pictureURL = new File(findArtistSprite());
+            this.artistSprite = ImageIO.read(pictureURL);
+            spriteView.setImage(SwingFXUtils.toFXImage(this.artistPicture, null));
         } catch (Exception e) {
             showExceptionPopUp(e);
         }
@@ -161,25 +162,8 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     @Override
     public void onAddButtonPress() {
         if (!this.nameField.getText().isEmpty()) {
-            //Add the podium to the list and then update the ComboBox.
 
-            //convert artistPicture Image to BufferedImage
-            BufferedImage bufferedPicture = new BufferedImage((int)artistPicture.getWidth(), (int)artistPicture.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
-            // Draw the image onto the buffered image
-            Graphics2D bGr1 = bufferedPicture.createGraphics();
-            bGr1.drawImage(bufferedPicture, 0, 0, null);
-            bGr1.dispose();
-
-            //convert artistSprite Image to BufferedImage
-            BufferedImage bufferedSprite = new BufferedImage((int)artistSprite.getWidth(), (int)artistSprite.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
-            // Draw the image onto the buffered image
-            Graphics2D bGr2 = bufferedSprite.createGraphics();
-            bGr2.drawImage(bufferedSprite, 0, 0, null);
-            bGr2.dispose();
-
-            this.artistManager.addArtist(new Artist(this.nameField.getText(), bufferedPicture, bufferedSprite));
+            this.artistManager.addArtist(new Artist(this.nameField.getText(), this.artistPicture, this.artistSprite));
 
             //Exit stage.
             this.popupStage.close();
