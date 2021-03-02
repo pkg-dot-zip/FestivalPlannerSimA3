@@ -350,6 +350,7 @@ public class AgendaCanvas {
             double zoomFactor = 1 + (scrollEvent.getDeltaY()/1000);
             transform.scale(zoomFactor, 1);
             this.scale *= zoomFactor;
+            this.cameraTransform.translate(-this.cameraTransform.getTranslateX(), -this.cameraTransform.getTranslateY());
         } else {
 
             double scrollPixelsY = scrollEvent.getDeltaY() / 1.5;

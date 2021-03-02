@@ -5,10 +5,8 @@ import javafx.scene.image.Image;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
+import java.net.URISyntaxException;
 
 /**
  * Contains all the data for an artist, such as the name, picture and sprite.
@@ -64,7 +62,7 @@ public class Artist implements Serializable {
      * Writing the sprite and image of the artist to the saveFile
      * @param out  The stream the images needs to be written to
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
+    private void writeObject(ObjectOutputStream out) throws IOException, URISyntaxException {
         out.defaultWriteObject();
         ImageIO.write(this.picture, "png", out);
         ImageIO.write(this.sprite, "png", out);
