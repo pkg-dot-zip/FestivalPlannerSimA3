@@ -208,7 +208,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
                 getSelectedShows().get(0).setEndTime(showB.getEndTime());
                 getSelectedShows().get(1).setStartTime(showA.getStartTime());
                 getSelectedShows().get(1).setEndTime(showA.getEndTime());
-                
+
                 this.agendaCanvas.reBuildAgendaCanvas();
             }
         });

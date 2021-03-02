@@ -1,5 +1,6 @@
 package FestivalPlanner.Agenda;
 
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -8,7 +9,7 @@ import java.net.URISyntaxException;
 /**
  * Contains all the data for an artist, such as the name, picture and sprite.
  */
-public class Artist implements Serializable {
+public class Artist extends AbstractDialogPopUp implements Serializable {
 
     private String name;
     private transient BufferedImage picture;
@@ -73,6 +74,7 @@ public class Artist implements Serializable {
             ImageIO.write(this.sprite, "png", spriteFile);
         } catch (Exception e) {
             e.printStackTrace();
+            showExceptionPopUp(e);
         }
     }
 
@@ -88,8 +90,12 @@ public class Artist implements Serializable {
             FileInputStream spriteFile = new FileInputStream(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Sprite.png");
             this.picture = ImageIO.read(pictureFile);
             this.sprite = ImageIO.read(spriteFile);
+        } catch (FileNotFoundException e) {
+            showExceptionPopUp(e);
+            this.picture = null;
+            this.sprite = null;
         } catch (Exception e) {
-            e.printStackTrace();
+            showExceptionPopUp(e);
         }
     }
 }
