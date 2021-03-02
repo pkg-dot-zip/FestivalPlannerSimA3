@@ -5,14 +5,15 @@ import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -42,6 +43,10 @@ public class PreferencesGUI extends AbstractGUI{
     private HBox useAnimationsHBox = new HBox();
     private Label useAnimationsLabel = new Label(messages.getString("use_animations"));
     private CheckBox useAnimationsCheckbox = new CheckBox();
+
+    //Delete Cache
+    private Button removeCacheButton = new Button(messages.getString("remove_cache_button"));
+    private Tooltip removeCacheTooltip = new Tooltip(messages.getString("remove_cache_tooltip"));
 
     public PreferencesGUI(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -87,10 +92,13 @@ public class PreferencesGUI extends AbstractGUI{
         gridPane.setVgap(GRIDPANE_VGAP);
         gridPane.setAlignment(Pos.CENTER);
 
+        //Tooltips
+        removeCacheButton.setTooltip(removeCacheTooltip);
+
         //Adding the children.
         languagesHBox.getChildren().addAll(languagesLabel, languagesComboBox);
         useAnimationsHBox.getChildren().addAll(useAnimationsLabel, useAnimationsCheckbox);
-        generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox);
+        generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox, removeCacheButton);
         buttonHBox.getChildren().addAll(applyButton, closeButton);
 
         //Adding it all together.
@@ -105,6 +113,19 @@ public class PreferencesGUI extends AbstractGUI{
                 LanguageHandler.setMessages(this.languagesComboBox.getSelectionModel().getSelectedItem());
             }
             SaveSettingsHandler.setPreference("use_animations", "" + this.useAnimationsCheckbox.isSelected());
+        });
+
+        this.removeCacheButton.setOnAction(e -> {
+            File cacheDirectory = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/");
+            File[] arrayOfFiles = cacheDirectory.listFiles();
+            if (cacheDirectory.isDirectory()){
+                for (File directory : arrayOfFiles){
+                    for (File file : directory.listFiles()){
+                        file.delete();
+                    }
+                    directory.delete();
+                }
+            }
         });
 
         this.closeButton.setOnAction(e -> {
