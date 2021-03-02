@@ -64,6 +64,15 @@ public class Show implements Serializable {
         this.artists = null;
     }
 
+    public Show(Show show){
+        this.name = show.getName();
+        this.startTime = show.getStartTime();
+        this.endTime = show.getEndTime();
+        this.expectedPopularity = show.getExpectedPopularity();
+        this.podium = show.getPodium();
+        this.artists = show.getArtists();
+    }
+
     /**
      * Returns the amount of seconds between <code>this.startTime</code> and <code>this.startTime</code> in a long.
      * @return  long, amount of seconds between the start and end of a show

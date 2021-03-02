@@ -1,5 +1,6 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
+import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import FestivalPlanner.Util.SoundHandling.SystemSoundEnum;
 import FestivalPlanner.Util.SoundHandling.WindowsSystemSoundHandler;
@@ -112,6 +113,19 @@ public abstract class AbstractDialogPopUp {
      * Opens a window containing a message, with the goal of informing the user that <code>this.currentShow</code> in
      * <code>AgendaModule</code> is equal to <i>Null</i>.
      */
+    public void showNoArtistsOrPodiumsPopUp(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(messages.getString("cant_create_show"));
+        alert.setHeaderText(messages.getString("no_artists_and_or_podiums_to_choose_from"));
+        alert.setContentText(messages.getString("please_open_the_artist"));
+        WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
+        alert.showAndWait();
+    }
+
+    /**
+     * Opens a window containing a message, with the goal of informing the user that <code>this.currentShow</code> in
+     * <code>AgendaModule</code> is equal to <i>Null</i>.
+     */
     public void showNoLayerSelectedPopUp(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(messages.getString("cant_get_selected_show"));
@@ -122,15 +136,18 @@ public abstract class AbstractDialogPopUp {
     }
 
     /**
-     * Opens a window containing a message, with the goal of informing the user that <code>this.currentShow</code> in
-     * <code>AgendaModule</code> is equal to <i>Null</i>.
+     * Opens a window containing a message, with the goal of informing the user that there have been selected too many shows
+     * in <code>AgendaModule</code>.
+     * <p>
+     * This PopUp should only be called when the user clicks on the "Swap" ContextMenuItem while having more than 2 layers selected.
      */
-    public void showNoArtistsOrPodiumsPopUp(){
+    public void showTooManyLayersSelectedPopUp(int showCount){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(messages.getString("cant_create_show"));
-        alert.setHeaderText(messages.getString("no_artists_and_or_podiums_to_choose_from"));
-        alert.setContentText(messages.getString("please_open_the_artist"));
+        alert.setTitle(messages.getString("too_many_layers_selected"));
+        alert.setHeaderText(messages.getString("expected_two_layers"));
+        alert.setContentText(messages.getString("expected_two_layers_content") + showCount + "!");
         WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
         alert.showAndWait();
     }
+
 }

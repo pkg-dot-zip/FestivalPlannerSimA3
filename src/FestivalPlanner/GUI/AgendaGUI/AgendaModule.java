@@ -193,6 +193,26 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             }
             this.agendaCanvas.reBuildAgendaCanvas();
         });
+
+            //Swap
+        swapContextItem.setOnAction(e -> {
+            if (getSelectedShows().size() < 2){
+                showNoLayerSelectedPopUp();
+            } else if (getSelectedShows().size() > 2){
+                showTooManyLayersSelectedPopUp(getSelectedShows().size());
+            } else {
+                Show showA = new Show(getSelectedShows().get(0));
+                Show showB = new Show(getSelectedShows().get(1));
+
+                getSelectedShows().get(0).setStartTime(showB.getStartTime());
+                getSelectedShows().get(0).setEndTime(showB.getEndTime());
+                getSelectedShows().get(1).setStartTime(showA.getStartTime());
+                getSelectedShows().get(1).setEndTime(showA.getEndTime());
+                
+                this.agendaCanvas.reBuildAgendaCanvas();
+            }
+        });
+
             //Remove
         removeContextItem.setOnAction(e -> {
             removeCurrentShows();
