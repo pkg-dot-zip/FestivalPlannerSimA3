@@ -1,8 +1,5 @@
 package FestivalPlanner.Agenda;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -59,40 +56,40 @@ public class Artist implements Serializable {
     }
 
     /**
-     * Writing the sprite and image of the artist to the saveFile
-     * @param out  The stream the images needs to be written to
+     * Writing the sprite and image of the artist to the saveFile.
+     * @param out  the stream the images needs to be written to
      */
+    //TODO: Separate agenda resources from other agendas to avoid overriding files.
     private void writeObject(ObjectOutputStream out) throws IOException, URISyntaxException {
         out.defaultWriteObject();
 
         try {
             System.out.println("test");
-            File pictureFile = new File("Resources/Images/" + this.toString() + "Picture.png");
-            File spriteFile = new File("Resources/Images/" + this.toString() + "Sprite.png");
+            File pictureFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Picture.png");
+            pictureFile.mkdirs();
+            File spriteFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Sprite.png");
+            spriteFile.mkdirs();
             ImageIO.write(this.picture, "png", pictureFile);
             ImageIO.write(this.sprite, "png", spriteFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
-     * Reads the sprite and image of the artist to the save file
-     * @param in  The stream used to read the class
+     * Reads the sprite and image of the artist to the save file.
+     * @param in  the stream used to read the class
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
 
         try {
-            FileInputStream pictureFile = new FileInputStream("Resources/Images/" + this.toString() + "Picture.png");
-            FileInputStream spriteFile = new FileInputStream("Resources/Images/" + this.toString() + "Sprite.png");
+            FileInputStream pictureFile = new FileInputStream(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Picture.png");
+            FileInputStream spriteFile = new FileInputStream(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Sprite.png");
             this.picture = ImageIO.read(pictureFile);
             this.sprite = ImageIO.read(spriteFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 }
