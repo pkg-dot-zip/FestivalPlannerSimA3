@@ -64,8 +64,16 @@ public class Artist implements Serializable {
      */
     private void writeObject(ObjectOutputStream out) throws IOException, URISyntaxException {
         out.defaultWriteObject();
-        ImageIO.write(this.picture, "png", out);
-        ImageIO.write(this.sprite, "png", out);
+
+        try {
+            System.out.println("test");
+            File pictureFile = new File("Resources/Images/" + this.toString() + "Picture.png");
+            File spriteFile = new File("Resources/Images/" + this.toString() + "Sprite.png");
+            ImageIO.write(this.picture, "png", pictureFile);
+            ImageIO.write(this.sprite, "png", spriteFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -75,8 +83,16 @@ public class Artist implements Serializable {
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        this.picture = ImageIO.read(in);
-        this.sprite = ImageIO.read(in);
+
+        try {
+            FileInputStream pictureFile = new FileInputStream("Resources/Images/" + this.toString() + "Picture.png");
+            FileInputStream spriteFile = new FileInputStream("Resources/Images/" + this.toString() + "Sprite.png");
+            this.picture = ImageIO.read(pictureFile);
+            this.sprite = ImageIO.read(spriteFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
