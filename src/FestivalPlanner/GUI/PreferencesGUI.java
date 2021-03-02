@@ -38,6 +38,7 @@ public class PreferencesGUI extends AbstractGUI{
     private HBox languagesHBox = new HBox();
     private Label languagesLabel = new Label(messages.getString("select_language"));
     private ComboBox<Locale> languagesComboBox = new ComboBox<>();
+    private Label languagesFlagLabel = new Label();
 
     //Animations
     private HBox useAnimationsHBox = new HBox();
@@ -73,6 +74,7 @@ public class PreferencesGUI extends AbstractGUI{
         //Initialising Values.
         this.languagesComboBox.setItems(FXCollections.observableArrayList(LanguageHandler.getAllLocales()));
         this.languagesComboBox.getSelectionModel().select(LanguageHandler.getSelectedLocale());
+        updateFlagEmoji();
         this.useAnimationsCheckbox.setSelected(SaveSettingsHandler.getPreference("use_animations").contains("true"));
 
         //Alignment & Spacing.
@@ -96,7 +98,7 @@ public class PreferencesGUI extends AbstractGUI{
         removeCacheButton.setTooltip(removeCacheTooltip);
 
         //Adding the children.
-        languagesHBox.getChildren().addAll(languagesLabel, languagesComboBox);
+        languagesHBox.getChildren().addAll(languagesLabel, languagesComboBox, languagesFlagLabel);
         useAnimationsHBox.getChildren().addAll(useAnimationsLabel, useAnimationsCheckbox);
         generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox, removeCacheButton);
         buttonHBox.getChildren().addAll(applyButton, closeButton);
@@ -128,9 +130,21 @@ public class PreferencesGUI extends AbstractGUI{
             }
         });
 
+        this.languagesComboBox.setOnAction(e -> {
+            updateFlagEmoji();
+        });
+
         this.closeButton.setOnAction(e -> {
             this.stage.close();
         });
+    }
+
+    public void updateFlagEmoji(){
+        if (languagesComboBox.getSelectionModel().getSelectedItem().equals(Locale.US)){
+            this.languagesFlagLabel.setText("\uD83C\uDDFA\uD83C\uDDF8");
+        } else if (languagesComboBox.getSelectionModel().getSelectedItem().equals(Locale.forLanguageTag("nl-NL"))){
+            this.languagesFlagLabel.setText("\uD83C\uDDF3\uD83C\uDDF1");
+        }
     }
 
 
