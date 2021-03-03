@@ -289,8 +289,8 @@ public class ShowEditorGUI extends AbstractGUI {
 		try {
 			this.attemptedStartTime = LocalTime.parse(this.startTimeTextField.getText());
 			this.attemptedEndTime = LocalTime.parse(this.endTimeTextField.getText());
-		} catch (Exception ex) { //"e" Is already in use.
-			showExceptionPopUp(ex);
+		} catch (Exception e) {
+			showExceptionPopUp(e);
 		}
 
 		this.selectedShowArtistArrayList.clear();
