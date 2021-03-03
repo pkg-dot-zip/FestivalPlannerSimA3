@@ -17,11 +17,19 @@ Er worden voor elke lesweek de volgernde punten behandeld:
 
 
 ##Week 3
-#### Reflectie van Jesse Krijgsman
+
+#### Reflectie proces
+
+Deze week zijn we begonnen met het demostreren van onze AgendaModule. De Senior was tevreden met hoe het er op het moment voor staat, de code ziet er goed uit. 
+Er zijn nog wel dingen die opgelost moeten worden. Na de demonstratie hebben wij een vergadering gehouden met de plannen van deze week.
+
+Als planner binnen de groep heb ik na de vergadering laten zien hoe we gebruik gaan maken van Trello om onze taken bij te houden.
+Dit is naast het Excel sheet dat we al gebruiken voor de planning. Ik ben niet georganiseerd te noemen, als planner probeer ik het deze periode goed te doen.
+Hieronder is een afbeelding te zien van de nieuwe trello pagina, zodat we alle taken goed georganiseerd bij kunnen houden.
+
+![](Images/Screenshot_1_Trello.png)
 
 
-#### Wat is de situatie?
+#### Reflectie vakinhoudelijk
 
-Week 3 is de tweede week waarin onze groep bezig is met het implementeren van de agenda module. Aan het eind van deze week zal de agenda module ook moeten worden getoont aan de senior van dit project.
-De senior zal feedback geven op onze module en code, aan het eind van deze week zal het moeten worden ingeleverd. Volgens de planning die de week voor de vakantie is gemaakt zullen Teun en ik samen 
-werken aan de klasse AgendaCanvas. Dit 
+* ##### Wat is de situatie?
