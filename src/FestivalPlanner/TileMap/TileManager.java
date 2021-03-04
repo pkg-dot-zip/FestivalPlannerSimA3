@@ -16,6 +16,10 @@ public class TileManager {
         return (Set) this.tiles.values();
     }
 
+    public boolean containsTile(int id) {
+        return this.tiles.containsKey(id);
+    }
+
     public Tile getTile(int id) {
         return this.tiles.get(id);
     }

@@ -2,6 +2,7 @@ package FestivalPlanner.TileMap;
 
 import org.jfree.fx.FXGraphics2D;
 
+import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 
 //Todo: needs documentation
@@ -17,5 +18,9 @@ public class Tile {
 
     public void draw(FXGraphics2D g2d, int x, int y){
         g2d.drawImage(this.image, x, y, null);
+    }
+
+    public int getKey() {
+        return key;
     }
 }

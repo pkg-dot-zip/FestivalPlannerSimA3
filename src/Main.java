@@ -1,5 +1,7 @@
+import FestivalPlanner.TileMap.Layer;
 import FestivalPlanner.TileMap.TileManager;
-import FestivalPlanner.Util.JSONConverter;
+
+import FestivalPlanner.Util.JsonConverter;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -10,13 +12,13 @@ import org.jfree.fx.ResizableCanvas;
 
 public class Main extends Application {
 
-    private TileManager tileManager;
+    private Layer layer;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         String fileName = "/testMap.json";
-        JSONConverter jsonConverter = new JSONConverter();
-        this.tileManager = jsonConverter.JSONToTileMap(fileName);
+        JsonConverter jsonConverter = new JsonConverter();
+        this.layer = jsonConverter.JSONToTileMap(fileName);
 
         BorderPane pane = new BorderPane();
         Canvas canvas = new ResizableCanvas(this::draw, pane);
@@ -26,9 +28,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void draw(FXGraphics2D graphics2D) {
+    private void draw(FXGraphics2D graphics2D)
+    {
+        layer.draw(graphics2D);
         graphics2D.scale(2,2);
-        tileManager.getTile(408).draw(graphics2D, 0,0);
     }
 
 }
