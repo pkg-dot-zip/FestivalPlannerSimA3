@@ -17,7 +17,7 @@ public class JSONConverter {
     public JSONConverter() {
     }
 
-    public void JSONToTileMap(String fileName) {
+    public TileManager JSONToTileMap(String fileName) {
         TileManager tileManager = new TileManager();
 
         InputStream inputStream = getClass().getResourceAsStream(fileName);
@@ -40,6 +40,7 @@ public class JSONConverter {
                 int tileHeight = tileSet.getInt("tileheight");
                 int collums = tileSet.getInt("columns");
 
+
                 //Loading image in tileSet
                 BufferedImage tileImage = ImageIO.read(getClass().getResourceAsStream(tileSet.getString("image")));
 
@@ -48,13 +49,14 @@ public class JSONConverter {
                 for (int q = 0; q < tiles.size(); q++) {
                     JsonObject tile = tiles.getJsonObject(q);
                     int id = tile.getInt("id");
+                    System.out.println(id);
 
                     //only loops through used images for efficiency
                     Tile tileObject = new Tile(tileImage.getSubimage(
-                            tileWidth * (id % collums),         //
-                            tileHeight * (id / collums),        // Voodoo magic splitting the images
-                            tileWidth,                            //
-                            tileHeight), id);                     //
+                            (tileWidth +1) * (id % collums),        //
+                            (tileHeight +1) * (id / collums),       // Voodoo magic splitting the images based on id
+                            tileWidth,                                //
+                            tileHeight), id);                         //
 
                     tileManager.addTile(id, tileObject);
 
@@ -67,7 +69,7 @@ public class JSONConverter {
             e.printStackTrace();
         }
 
-
+    return tileManager;
     }
 
 }
