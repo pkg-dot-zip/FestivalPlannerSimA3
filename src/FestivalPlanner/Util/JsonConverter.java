@@ -19,7 +19,7 @@ public class JsonConverter {
     public JsonConverter() {
     }
 
-    public Layer JSONToTileMap(String fileName) {
+    public TileMap JSONToTileMap(String fileName) {
         TileManager tileManager = new TileManager();
         ArrayList<Layer> layers = new ArrayList<>();
 
@@ -33,7 +33,15 @@ public class JsonConverter {
         //loading in Tilesets
         loadInTilesets(tileManager, root);
 
+        //Loading in Layers
+        loadInLayers(tileManager, layers, root, width, height);
 
+        //Todo: load tilewWidth
+        TileMap tileMap = new TileMap(width, height, 16, 16, layers, tileManager);
+        return tileMap;
+    }
+
+    private void loadInLayers(TileManager tileManager, ArrayList<Layer> layers, JsonObject root, int width, int height) {
         try {
             JsonArray jsonLayers = root.getJsonArray("layers");
             for (int i = 0; i < jsonLayers.size()-1; i++) {
@@ -57,9 +65,6 @@ public class JsonConverter {
         } catch (Exception e){
             e.printStackTrace();
         }
-
-
-        return layers.get(0);
     }
 
 
@@ -80,7 +85,7 @@ public class JsonConverter {
                 //Loading image in tileSet
                 BufferedImage tileImage = ImageIO.read(getClass().getResourceAsStream(tileSet.getString("image")));
 
-//                Testing possible error
+//                //Todo: Testing possible error, ask Johan
 //                //only loop through used images for efficiency
 //                JsonArray tiles = tileSet.getJsonArray("tiles");
 //                for (int q = 0; q < tiles.size(); q++) {
@@ -100,7 +105,7 @@ public class JsonConverter {
 //                }
 
 
-                int id = 0;
+                int id = 1;
                 for(int y = 0; y < tileImage.getHeight(); y += tileHeight + 1)
                 {
                     for(int x = 0; x < tileImage.getWidth(); x += tileWidth + 1)
