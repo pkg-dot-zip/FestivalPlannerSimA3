@@ -49,11 +49,12 @@ public class JSONConverter {
                     JsonObject tile = tiles.getJsonObject(q);
                     int id = tile.getInt("id");
 
+                    //only loops through used images for efficiency
                     Tile tileObject = new Tile(tileImage.getSubimage(
-                            tileWidth * (id % collums),
-                            tileHeight * (id / collums),
-                            tileWidth,
-                            tileHeight), id);
+                            tileWidth * (id % collums),         //
+                            tileHeight * (id / collums),        // Voodoo magic splitting the images
+                            tileWidth,                            //
+                            tileHeight), id);                     //
 
                     tileManager.addTile(id, tileObject);
 
