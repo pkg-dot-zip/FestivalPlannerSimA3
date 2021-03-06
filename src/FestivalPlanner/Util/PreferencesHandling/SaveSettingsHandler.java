@@ -91,4 +91,14 @@ public class SaveSettingsHandler implements Serializable {
         return Color.decode(getPreference("unselected_show_color"));
     }
 
+    public static void setSelectedColor(javafx.scene.paint.Color color){
+        Color.decode(getPreference("selected_show_color"));
+    }
+
+    public static void setUnselectedColor(javafx.scene.paint.Color colorInput){
+        Color color = new Color((float) colorInput.getRed(), (float) colorInput.getGreen(), (float) colorInput.getBlue(), (float) colorInput.getOpacity());
+        setPreference("unselected_show_color", String.valueOf(color.getRGB()));
+        Color.decode(getPreference("unselected_show_color"));
+    }
+
 }

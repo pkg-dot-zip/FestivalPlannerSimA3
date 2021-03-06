@@ -2,12 +2,16 @@ package FestivalPlanner.GUI;
 
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.File;
@@ -106,8 +110,8 @@ public class PreferencesGUI extends AbstractGUI{
         //Adding the children.
         languagesHBox.getChildren().addAll(languagesLabel, languagesComboBox, languagesFlagLabel);
         useAnimationsHBox.getChildren().addAll(useAnimationsLabel, useAnimationsCheckbox);
-        generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox, removeCacheButton);
         colorHBox.getChildren().addAll(selectedColorButton, unselectedColorButton, colorResetToDefaultButton);
+        generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox, removeCacheButton, colorHBox);
         buttonHBox.getChildren().addAll(applyButton, closeButton);
 
         //Adding it all together.
@@ -147,7 +151,21 @@ public class PreferencesGUI extends AbstractGUI{
         });
 
         this.unselectedColorButton.setOnAction(e -> {
-            
+
+            Stage stage = new Stage();
+            java.awt.Color c = SaveSettingsHandler.getSelectedColor();
+            ColorPicker colorPicker = new ColorPicker(); //TODO: show currently saved color.
+
+            colorPicker.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    SaveSettingsHandler.setUnselectedColor(colorPicker.getValue());
+                }
+            });
+
+            stage.setScene(new Scene(colorPicker));
+            stage.setTitle("ColorPicker");
+            stage.show();
         });
 
         this.colorResetToDefaultButton.setOnAction(e -> {
