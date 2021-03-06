@@ -2,18 +2,21 @@ package FestivalPlanner.GUI;
 
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import javax.swing.event.HyperlinkEvent;
 import java.io.File;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -147,14 +150,44 @@ public class PreferencesGUI extends AbstractGUI{
 
             //Colors
         this.selectedColorButton.setOnAction(e -> {
+            Stage stage = new Stage();
+            java.awt.Color c = SaveSettingsHandler.getSelectedColor();
+            ColorPicker colorPicker = new ColorPicker(Color.rgb(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha() / 255.0)); //TODO: show currently saved color.
 
+            colorPicker.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    SaveSettingsHandler.setSelectedColor(colorPicker.getValue());
+                }
+            });
+
+            VBox vBox = new VBox();
+            Button closeButton =  new Button(messages.getString("close"));
+            closeButton.setOnAction(actionEvent -> {
+                stage.close();
+            });
+
+            closeButton.setAlignment(Pos.CENTER);
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().addAll(colorPicker, closeButton);
+
+            Scene scene = new Scene(vBox);
+            stage.setScene(scene);
+            stage.setResizable(true);
+            stage.setHeight(300);
+            stage.setWidth(300);
+            stage.setIconified(false);
+            stage.setAlwaysOnTop(true);
+            stage.initOwner(this.stage);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         });
 
         this.unselectedColorButton.setOnAction(e -> {
 
             Stage stage = new Stage();
             java.awt.Color c = SaveSettingsHandler.getSelectedColor();
-            ColorPicker colorPicker = new ColorPicker(); //TODO: show currently saved color.
+            ColorPicker colorPicker = new ColorPicker(Color.rgb(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha() / 255.0)); //TODO: show currently saved color.
 
             colorPicker.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -163,9 +196,26 @@ public class PreferencesGUI extends AbstractGUI{
                 }
             });
 
-            stage.setScene(new Scene(colorPicker));
-            stage.setTitle("ColorPicker");
-            stage.show();
+            VBox vBox = new VBox();
+            Button closeButton =  new Button(messages.getString("close"));
+            closeButton.setOnAction(actionEvent -> {
+                stage.close();
+            });
+
+            closeButton.setAlignment(Pos.CENTER);
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().addAll(colorPicker, closeButton);
+
+            Scene scene = new Scene(vBox);
+            stage.setScene(scene);
+            stage.setResizable(true);
+            stage.setHeight(300);
+            stage.setWidth(300);
+            stage.setIconified(false);
+            stage.setAlwaysOnTop(true);
+            stage.initOwner(this.stage);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         });
 
         this.colorResetToDefaultButton.setOnAction(e -> {
