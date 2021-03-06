@@ -1,7 +1,6 @@
 package FestivalPlanner.TileMap;
 
 import org.jfree.fx.FXGraphics2D;
-
 import java.util.ArrayList;
 
 //Todo: needs documentation
@@ -26,27 +25,27 @@ public class TileMap {
     }
 
     public int getMapWidth() {
-        return mapWidth;
+        return this.mapWidth;
     }
 
     public int getMapHeight() {
-        return mapHeight;
+        return this.mapHeight;
     }
 
     public int getTileWidth() {
-        return tileWidth;
+        return this.tileWidth;
     }
 
     public int getTileHeight() {
-        return tileHeight;
+        return this.tileHeight;
     }
 
     public ArrayList<Layer> getLayers() {
-        return layers;
+        return this.layers;
     }
 
     public TileManager getTileManager() {
-        return tileManager;
+        return this.tileManager;
     }
 
     public void draw(FXGraphics2D g2d){

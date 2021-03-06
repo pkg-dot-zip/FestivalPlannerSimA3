@@ -1,8 +1,6 @@
 package FestivalPlanner.TileMap;
 
 import org.jfree.fx.FXGraphics2D;
-
-import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 
 //Todo: needs documentation
@@ -21,6 +19,6 @@ public class Tile {
     }
 
     public int getKey() {
-        return key;
+        return this.key;
     }
 }

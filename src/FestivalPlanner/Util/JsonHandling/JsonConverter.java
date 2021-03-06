@@ -1,10 +1,9 @@
-package FestivalPlanner.Util;
+package FestivalPlanner.Util.JsonHandling;
 
 import FestivalPlanner.TileMap.Layer;
 import FestivalPlanner.TileMap.Tile;
 import FestivalPlanner.TileMap.TileManager;
 import FestivalPlanner.TileMap.TileMap;
-
 import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -14,10 +13,10 @@ import java.awt.image.*;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+/**
+ * Contains methods for converting JSON files into usable TileMaps for our software.
+ */
 public class JsonConverter {
-
-    public JsonConverter() {
-    }
 
     public TileMap JSONToTileMap(String fileName) {
         TileManager tileManager = new TileManager();
@@ -81,7 +80,6 @@ public class JsonConverter {
                 int tileHeight = tileSet.getInt("tileheight");
                 int collums = tileSet.getInt("columns");
 
-
                 //Loading image in tileSet
                 BufferedImage tileImage = ImageIO.read(getClass().getResourceAsStream(tileSet.getString("image")));
 
@@ -103,8 +101,6 @@ public class JsonConverter {
 //                    tileManager.addTile(id, tileObject);
 //
 //                }
-
-
                 int id = 1;
                 for(int y = 0; y < tileImage.getHeight(); y += tileHeight + 1)
                 {
@@ -115,13 +111,10 @@ public class JsonConverter {
                         id++;
                     }
                 }
-
             }
 
-        } catch (
-                Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

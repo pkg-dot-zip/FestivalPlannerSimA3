@@ -1,8 +1,5 @@
-import FestivalPlanner.TileMap.Layer;
-import FestivalPlanner.TileMap.TileManager;
-
 import FestivalPlanner.TileMap.TileMap;
-import FestivalPlanner.Util.JsonConverter;
+import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;

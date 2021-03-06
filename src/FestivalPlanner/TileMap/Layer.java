@@ -1,8 +1,6 @@
 package FestivalPlanner.TileMap;
 
 import org.jfree.fx.FXGraphics2D;
-
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 //Todo: Layer
@@ -39,7 +37,7 @@ public class Layer {
     }
 
     public Tile[][] getTiles() {
-        return tiles;
+        return this.tiles;
     }
 
     //Todo: implement body

@@ -6,11 +6,7 @@ import java.util.Set;
 //Todo: needs documentation
 public class TileManager {
 
-    private HashMap<Integer, Tile> tiles;
-
-    public TileManager() {
-        this.tiles = new HashMap<>();
-    }
+    private HashMap<Integer, Tile> tiles = new HashMap<>();
 
     public Set getTiles() {
         return (Set) this.tiles.values();
