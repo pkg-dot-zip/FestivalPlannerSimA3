@@ -3,7 +3,6 @@ package FestivalPlanner.Util.PreferencesHandling;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.Locale;
 import java.util.Properties;
 
 /**
