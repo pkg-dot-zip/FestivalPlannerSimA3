@@ -66,6 +66,7 @@ public class LanguageHandler {
      * <p><ul>
      * <li>Clear the Resource Bundle's cache.
      * <li>Set <code>this.selectedLocale</code> to its parameter's value.
+     * </ul>
      * @param locale
      */
     public static void setMessages(Locale locale){
