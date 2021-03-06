@@ -1,5 +1,6 @@
 package FestivalPlanner.Util.PreferencesHandling;
 
+import com.sun.istack.internal.NotNull;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -68,6 +69,12 @@ public class SaveSettingsHandler implements Serializable {
         if (b1 == null){
             setPreference("use_animations", "true");
         }
+
+        String b2 = SaveSettingsHandler.getPreference("use_exception_popups");
+        if (b2 == null){
+            setPreference("use_exception_popups", "false");
+        }
+
         String c1 = SaveSettingsHandler.getPreference("selected_show_color");
         String c2 = SaveSettingsHandler.getPreference("unselected_show_color");
         if (c1 == null && c2 == null || c1.isEmpty() || c2.isEmpty()){
@@ -83,22 +90,27 @@ public class SaveSettingsHandler implements Serializable {
         setPreference("unselected_show_color", String.valueOf(unselectedColor.getRGB()));
     }
 
+    @NotNull
     public static Color getSelectedColor(){
         return Color.decode(getPreference("selected_show_color"));
     }
 
+    @NotNull
     public static Color getUnselectedColor(){
         return Color.decode(getPreference("unselected_show_color"));
     }
 
-    public static void setSelectedColor(javafx.scene.paint.Color color){
+    @NotNull
+    public static void setSelectedColor(javafx.scene.paint.Color colorInput){
+        Color color = new Color((float) colorInput.getRed(), (float) colorInput.getGreen(), (float) colorInput.getBlue(), (float) colorInput.getOpacity());
+        setPreference("selected_show_color", String.valueOf(color.getRGB()));
         Color.decode(getPreference("selected_show_color"));
     }
 
+    @NotNull
     public static void setUnselectedColor(javafx.scene.paint.Color colorInput){
         Color color = new Color((float) colorInput.getRed(), (float) colorInput.getGreen(), (float) colorInput.getBlue(), (float) colorInput.getOpacity());
         setPreference("unselected_show_color", String.valueOf(color.getRGB()));
         Color.decode(getPreference("unselected_show_color"));
     }
-
 }

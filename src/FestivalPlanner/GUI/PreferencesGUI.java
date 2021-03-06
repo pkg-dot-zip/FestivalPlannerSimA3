@@ -8,15 +8,11 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import javax.swing.event.HyperlinkEvent;
 import java.io.File;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -60,6 +56,11 @@ public class PreferencesGUI extends AbstractGUI{
     private Button unselectedColorButton = new Button(messages.getString("color_for_shows_that_are_not_selected"));
     private Button colorResetToDefaultButton = new Button(messages.getString("reset_colors_to_default"));
 
+    //ExceptionPopUps
+    private HBox exceptionHBox = new HBox();
+    private Label exceptionLabel = new Label(messages.getString("exception_label"));
+    private CheckBox exceptionCheckBox = new CheckBox();
+
     public PreferencesGUI(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -87,6 +88,7 @@ public class PreferencesGUI extends AbstractGUI{
         this.languagesComboBox.getSelectionModel().select(LanguageHandler.getSelectedLocale());
         updateFlagEmoji();
         this.useAnimationsCheckbox.setSelected(SaveSettingsHandler.getPreference("use_animations").contains("true"));
+        this.exceptionCheckBox.setSelected(SaveSettingsHandler.getPreference("use_exception_popups").contains("true"));
 
         //Alignment & Spacing.
             //HBox
@@ -96,6 +98,8 @@ public class PreferencesGUI extends AbstractGUI{
         useAnimationsHBox.setSpacing(HBOX_SPACING);
         colorHBox.setAlignment(Pos.CENTER);
         colorHBox.setSpacing(HBOX_SPACING);
+        exceptionHBox.setAlignment(Pos.CENTER);
+        exceptionHBox.setSpacing(HBOX_SPACING);
             //GeneralSettingsVBox
         generalSettingsVBox.setSpacing(VBOX_SPACING);
         generalSettingsVBox.setAlignment(Pos.CENTER);
@@ -114,7 +118,8 @@ public class PreferencesGUI extends AbstractGUI{
         languagesHBox.getChildren().addAll(languagesLabel, languagesComboBox, languagesFlagLabel);
         useAnimationsHBox.getChildren().addAll(useAnimationsLabel, useAnimationsCheckbox);
         colorHBox.getChildren().addAll(selectedColorButton, unselectedColorButton, colorResetToDefaultButton);
-        generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox, removeCacheButton, colorHBox);
+        exceptionHBox.getChildren().addAll(exceptionLabel, exceptionCheckBox);
+        generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox, removeCacheButton, colorHBox, exceptionHBox);
         buttonHBox.getChildren().addAll(applyButton, closeButton);
 
         //Adding it all together.
@@ -129,6 +134,7 @@ public class PreferencesGUI extends AbstractGUI{
                 LanguageHandler.setMessages(this.languagesComboBox.getSelectionModel().getSelectedItem());
             }
             SaveSettingsHandler.setPreference("use_animations", "" + this.useAnimationsCheckbox.isSelected());
+            SaveSettingsHandler.setPreference("use_exception_popups", "" + this.exceptionCheckBox.isSelected());
         });
 
         this.removeCacheButton.setOnAction(e -> {

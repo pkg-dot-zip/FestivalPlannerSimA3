@@ -1,6 +1,7 @@
 package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import FestivalPlanner.Util.SoundHandling.SystemSoundEnum;
 import FestivalPlanner.Util.SoundHandling.WindowsSystemSoundHandler;
 import javafx.application.Platform;
@@ -86,26 +87,28 @@ public abstract class AbstractDialogPopUp {
      * @param e  exception to get the text from
      */
     public void showExceptionPopUp(Exception e){
-        GridPane exceptionGridPane = new GridPane();
+        if (SaveSettingsHandler.getPreference("use_exception_popups").contains("true")){
+            GridPane exceptionGridPane = new GridPane();
 
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        e.printStackTrace(printWriter);
+            StringWriter stringWriter = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(stringWriter);
+            e.printStackTrace(printWriter);
 
-        TextArea textArea = new TextArea(stringWriter.toString());
+            TextArea textArea = new TextArea(stringWriter.toString());
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(messages.getString("exception"));
-        alert.setHeaderText(messages.getString("program_interruped"));
-        alert.setContentText(messages.getString("an_exception_has_occured"));
-        WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(messages.getString("exception"));
+            alert.setHeaderText(messages.getString("program_interrupted"));
+            alert.setContentText(messages.getString("an_exception_has_occurred"));
+            WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
 
-        exceptionGridPane.setMaxWidth(Double.MAX_VALUE);
-        exceptionGridPane.addRow(0, textArea);
+            exceptionGridPane.setMaxWidth(Double.MAX_VALUE);
+            exceptionGridPane.addRow(0, textArea);
 
-        alert.getDialogPane().setExpandableContent(exceptionGridPane);
+            alert.getDialogPane().setExpandableContent(exceptionGridPane);
 
-        alert.showAndWait();
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -148,5 +151,4 @@ public abstract class AbstractDialogPopUp {
         WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
         alert.showAndWait();
     }
-
 }
