@@ -13,10 +13,6 @@ public class SaveSettingsHandler implements Serializable {
     //TODO: Write own methods for loading and saving preferences.
     //Code from: https://www.binarytides.com/read-write-save-configuration-file-java/
 
-    //TODO: Make configurable.
-    public static final Color unselectedColor = Color.getHSBColor(100 / 360f, .7f, .7f);
-    public static final Color selectedColor = Color.getHSBColor(190 / 360f, .7f, .9f);
-
     /**
      * Stores the preference given in its parameters.
      * @param Key  string representing the value in the <i>configuration.xml</i> file
@@ -68,10 +64,31 @@ public class SaveSettingsHandler implements Serializable {
      * @see FestivalPlanner.Util.LanguageHandling.LanguageHandler
      */
     public static void firstLaunchSettingsCreation(){
-        String s = SaveSettingsHandler.getPreference("use_animations");
-        if (s == null){
+        String b1 = SaveSettingsHandler.getPreference("use_animations");
+        if (b1 == null){
             setPreference("use_animations", "true");
         }
+        String c1 = SaveSettingsHandler.getPreference("selected_show_color");
+        String c2 = SaveSettingsHandler.getPreference("unselected_show_color");
+        if (c1 == null && c2 == null || c1.isEmpty() || c2.isEmpty()){
+            restoreDefaultColors();
+        }
+    }
+
+    public static void restoreDefaultColors(){
+        Color selectedColor = Color.getHSBColor(190 / 360f, .7f, .7f);
+        Color unselectedColor = Color.getHSBColor(100 / 360f, .7f, .9f);
+
+        setPreference("selected_show_color", String.valueOf(selectedColor.getRGB()));
+        setPreference("unselected_show_color", String.valueOf(unselectedColor.getRGB()));
+    }
+
+    public static Color getSelectedColor(){
+        return Color.decode(getPreference("selected_show_color"));
+    }
+
+    public static Color getUnselectedColor(){
+        return Color.decode(getPreference("unselected_show_color"));
     }
 
 }

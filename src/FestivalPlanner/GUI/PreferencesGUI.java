@@ -47,6 +47,12 @@ public class PreferencesGUI extends AbstractGUI{
     private Button removeCacheButton = new Button(messages.getString("remove_cache_button"));
     private Tooltip removeCacheTooltip = new Tooltip(messages.getString("remove_cache_tooltip"));
 
+    //Colors
+    private HBox colorHBox = new HBox();
+    private Button selectedColorButton = new Button(messages.getString("color_for_selected_show"));
+    private Button unselectedColorButton = new Button(messages.getString("color_for_shows_that_are_not_selected"));
+    private Button colorResetToDefaultButton = new Button(messages.getString("reset_colors_to_default"));
+
     public PreferencesGUI(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -81,6 +87,8 @@ public class PreferencesGUI extends AbstractGUI{
         languagesHBox.setSpacing(HBOX_SPACING);
         useAnimationsHBox.setAlignment(Pos.CENTER);
         useAnimationsHBox.setSpacing(HBOX_SPACING);
+        colorHBox.setAlignment(Pos.CENTER);
+        colorHBox.setSpacing(HBOX_SPACING);
             //GeneralSettingsVBox
         generalSettingsVBox.setSpacing(VBOX_SPACING);
         generalSettingsVBox.setAlignment(Pos.CENTER);
@@ -99,6 +107,7 @@ public class PreferencesGUI extends AbstractGUI{
         languagesHBox.getChildren().addAll(languagesLabel, languagesComboBox, languagesFlagLabel);
         useAnimationsHBox.getChildren().addAll(useAnimationsLabel, useAnimationsCheckbox);
         generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox, removeCacheButton);
+        colorHBox.getChildren().addAll(selectedColorButton, unselectedColorButton, colorResetToDefaultButton);
         buttonHBox.getChildren().addAll(applyButton, closeButton);
 
         //Adding it all together.
@@ -132,18 +141,32 @@ public class PreferencesGUI extends AbstractGUI{
             updateFlagEmoji();
         });
 
+            //Colors
+        this.selectedColorButton.setOnAction(e -> {
+
+        });
+
+        this.unselectedColorButton.setOnAction(e -> {
+            
+        });
+
+        this.colorResetToDefaultButton.setOnAction(e -> {
+            SaveSettingsHandler.restoreDefaultColors();
+        });
+
         this.closeButton.setOnAction(e -> {
             this.stage.close();
         });
     }
 
-    public void updateFlagEmoji(){
+    /**
+     * Changes the emoji next to the Language selection <code>ComboBox</code> to the one representing the language.
+     */
+    private void updateFlagEmoji(){
         if (languagesComboBox.getSelectionModel().getSelectedItem().equals(Locale.US)){
             this.languagesFlagLabel.setText("\uD83C\uDDFA\uD83C\uDDF8");
         } else if (languagesComboBox.getSelectionModel().getSelectedItem().equals(Locale.forLanguageTag("nl-NL"))){
             this.languagesFlagLabel.setText("\uD83C\uDDF3\uD83C\uDDF1");
         }
     }
-
-
 }
