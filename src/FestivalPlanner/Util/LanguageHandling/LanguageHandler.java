@@ -51,10 +51,22 @@ public class LanguageHandler {
         return toReturn;
     }
 
+    /**
+     * Getter for <code>selectedLocale</code> used to get the right language when starting our software, and by the preferenceGUI in the setup() method.
+     * <p>
+     * Since this method is static, we do <b>NOT</b> utilize <i>this</i>.
+     * @return  selectedLocale
+     */
     public static Locale getSelectedLocale() {
         return selectedLocale;
     }
 
+    /**
+     * Getter for <code>messages</code> used by other classes to get strings.
+     * <p>
+     * Since this method is static, we do <b>NOT</b> utilize <i>this</i>.
+     * @return  messages
+     */
     public static ResourceBundle getMessages() {
         return messages;
     }
