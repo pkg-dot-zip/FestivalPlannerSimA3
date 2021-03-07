@@ -38,7 +38,7 @@ public abstract class AbstractGUI extends AbstractDialogPopUp {
     //TODO: Refactor to additional actionHandlingSetup() and make this method setup
     // onApplybutton() and setOnAction() for closeButton. (Currently present in AbstractCreationPopUp)
     /**
-     * Sets EventHandling of JavaFX <code>Nodes</code>. Mostly <code>setOnAction(e -> {<i>code</i>})</code>s.
+     * Sets EventHandling of JavaFX <code>Nodes</code>. Mostly <code>setOnAction</code>s.
      */
     public abstract void actionHandlingSetup();
 

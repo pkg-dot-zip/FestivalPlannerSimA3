@@ -357,7 +357,6 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
     /**
      * Sets the <code>this.currentShow</code> attribute to the parameter's value.
-     * @return  this.currentShow
      */
     public void setCurrentShow(Show show) {
         this.selectedShows.clear();

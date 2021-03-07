@@ -215,7 +215,7 @@ public class AgendaCanvas {
 
         Rectangle2D rectangle2D = new Rectangle2D.Double(startTime * hourLength, stageIndex * 80 + 5, (endTime * hourLength) - (startTime * hourLength), 70);
         if (selectedShows.contains(show)) {
-            return new ShowRectangle2D(rectangle2D, show, SaveSettingsHandler.unselectedColor);
+            return new ShowRectangle2D(rectangle2D, show, SaveSettingsHandler.getUnselectedColor());
         }
         return new ShowRectangle2D(rectangle2D, show);
     }

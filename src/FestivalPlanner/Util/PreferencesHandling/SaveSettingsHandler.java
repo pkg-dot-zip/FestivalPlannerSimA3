@@ -1,9 +1,9 @@
 package FestivalPlanner.Util.PreferencesHandling;
 
+import com.sun.istack.internal.NotNull;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -13,10 +13,6 @@ public class SaveSettingsHandler implements Serializable {
 
     //TODO: Write own methods for loading and saving preferences.
     //Code from: https://www.binarytides.com/read-write-save-configuration-file-java/
-
-    //TODO: Make configurable.
-    public static final Color unselectedColor = Color.getHSBColor(100 / 360f, .7f, .7f);
-    public static final Color selectedColor = Color.getHSBColor(190 / 360f, .7f, .9f);
 
     /**
      * Stores the preference given in its parameters.
@@ -69,10 +65,52 @@ public class SaveSettingsHandler implements Serializable {
      * @see FestivalPlanner.Util.LanguageHandling.LanguageHandler
      */
     public static void firstLaunchSettingsCreation(){
-        String s = SaveSettingsHandler.getPreference("use_animations");
-        if (s == null){
+        String b1 = SaveSettingsHandler.getPreference("use_animations");
+        if (b1 == null){
             setPreference("use_animations", "true");
+        }
+
+        String b2 = SaveSettingsHandler.getPreference("use_exception_popups");
+        if (b2 == null){
+            setPreference("use_exception_popups", "false");
+        }
+
+        String c1 = SaveSettingsHandler.getPreference("selected_show_color");
+        String c2 = SaveSettingsHandler.getPreference("unselected_show_color");
+        if (c1 == null && c2 == null || c1.isEmpty() || c2.isEmpty()){
+            restoreDefaultColors();
         }
     }
 
+    public static void restoreDefaultColors(){
+        Color selectedColor = Color.getHSBColor(190 / 360f, .7f, .7f);
+        Color unselectedColor = Color.getHSBColor(100 / 360f, .7f, .9f);
+
+        setPreference("selected_show_color", String.valueOf(selectedColor.getRGB()));
+        setPreference("unselected_show_color", String.valueOf(unselectedColor.getRGB()));
+    }
+
+    @NotNull
+    public static Color getSelectedColor(){
+        return Color.decode(getPreference("selected_show_color"));
+    }
+
+    @NotNull
+    public static Color getUnselectedColor(){
+        return Color.decode(getPreference("unselected_show_color"));
+    }
+
+    @NotNull
+    public static void setSelectedColor(javafx.scene.paint.Color colorInput){
+        Color color = new Color((float) colorInput.getRed(), (float) colorInput.getGreen(), (float) colorInput.getBlue(), (float) colorInput.getOpacity());
+        setPreference("selected_show_color", String.valueOf(color.getRGB()));
+        Color.decode(getPreference("selected_show_color"));
+    }
+
+    @NotNull
+    public static void setUnselectedColor(javafx.scene.paint.Color colorInput){
+        Color color = new Color((float) colorInput.getRed(), (float) colorInput.getGreen(), (float) colorInput.getBlue(), (float) colorInput.getOpacity());
+        setPreference("unselected_show_color", String.valueOf(color.getRGB()));
+        Color.decode(getPreference("unselected_show_color"));
+    }
 }
