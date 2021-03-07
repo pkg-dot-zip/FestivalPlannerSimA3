@@ -98,8 +98,8 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
      * <p>
      * Sets two <code>setOnAction()</code> lambda expressions. Does this for:
      * <p><ul>
-     * <li>addButton -> <code>onAddButtonPress</code>, an abstract method in this class.
-     * <li>closeButton -> <code>this.popStage.close();</code>
+     * <li>addButton -&gt; <code>onAddButtonPress</code>, an abstract method in this class.</li>
+     * <li>closeButton -&gt; <code>this.popStage.close();</code></li>
      * </ul>
      * @see #additionalActionHandlingSetup()
      */

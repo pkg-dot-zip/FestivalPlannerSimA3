@@ -15,6 +15,10 @@ public class TileMap {
     private ArrayList<Layer> layers;
     private TileManager tileManager;
 
+    public TileMap(int mapWidth, int mapHeight, int tileWidth, int tileHeight, TileManager tileManager) {
+        this(mapWidth, mapHeight, tileWidth, tileHeight, new ArrayList<>(), tileManager);
+    }
+
     public TileMap(int mapWidth, int mapHeight, int tileWidth, int tileHeight, ArrayList<Layer> layers, TileManager tileManager) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
@@ -46,6 +50,14 @@ public class TileMap {
 
     public TileManager getTileManager() {
         return this.tileManager;
+    }
+
+    public void setLayers(ArrayList<Layer> layers) {
+        this.layers = layers;
+    }
+
+    public void addLayer(Layer layer) {
+        this.layers.add(layer);
     }
 
     public void draw(FXGraphics2D g2d){
