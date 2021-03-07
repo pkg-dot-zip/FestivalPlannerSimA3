@@ -6,19 +6,20 @@ Alle bezigheden, moeilijkheden en keuzes die ik en wij hebben moeten maken zijn 
 mij, Jesse Krijgsman. In dit portfolio worden lesweek 3 t/m lesweek 9 opgenomen. Ook wordt er een reflectie met onderbouwing op 
 het werken met .JSON bestanden gegeven.
 
-Er worden voor elke lesweek de volgernde punten behandeld:
+Er worden voor elke lesweek de volgende punten behandeld:
 * Een reflectie over mijn bijdrage aan, en het doorlopen proces van, het project.
-* Een reflectie over de technische en/of vakinhoudelijke problemen
+* Een reflectie over de technische en/of vakinhoudelijke problemen.
     * Wat is de situatie (context)?
     * Welke keuzemogelijkheden heb je?
     * Welke keuze heb je gemaakt?
     * Waarom heb je deze keuze gemaakt?
 
 
+---
+# Week 3
 
-##Week 3
-
-#### Reflectie proces
+---
+### Reflectie proces
 
 Deze week zijn we begonnen met het demostreren van onze AgendaModule. De Senior was tevreden met hoe het er op het moment voor staat, de code ziet er goed uit. 
 Er zijn nog wel dingen die opgelost moeten worden. Na de demonstratie hebben wij een vergadering gehouden met de plannen van deze week.
@@ -29,22 +30,124 @@ Hieronder is een afbeelding te zien van de nieuwe trello pagina, zodat we alle t
 
 ![](Images/Screenshot_1_Trello.png)
 
-
-#### Reflectie vakinhoudelijk
+---
+### Reflectie vakinhoudelijk
 
 Inhoudelijk zijn we deze week vooral bezig geweest met aanpassingen aan onze agenda module. Na de start van deze week hebben we onze
 module gepresenteerd aan de senior Johan, hij was zeer positief over ons resultaat. Maar er stonden nog wat punten op die toegevoegd moeten worden
-één voorbeeld hiervan is het aangeven wanneer een atiest een dubbele boeking heeft staan.
+één voorbeeld hiervan is het aangeven wanneer een artiest een dubbele boeking heeft staan.
 
-Deze week heb ik mij vooral bezig gehouden met en inzoomen en schalen van AgendaCanvas. Dit was geen verplichting volgens de opdracht maar
+Deze week heb ik mij vooral bezig gehouden met en inzoomen en schalen van AgendaCanvas. Dit was geen verplichting volgens de opdracht, maar
 het is wel iets wat wij als groep graag zouden willen hebben. Dit om te voorkomen dat er witte vlakken ontstaan als het canvas te groot wordt gemaakt
 
 Bij dit proces zijn veel moeilijkheden waar ik er hier graag twee zou willen uitlichten:
-+ De functionaliteit van het inzoomen tijdens scrollen
-+ Het meeschalen tijdens het vergroten van de stage
++ De functionaliteit van het inzoomen tijdens scrollen.
++ Het meeschalen tijdens het vergroten van de stage.
 
-
+---
 ##### De functionaliteit van het inzoomen tijdens scrollen
 
+In de week voorgaand aan week 3 heb ik, samen met teun, gewerkt aan AgendaCanvas. Dit is de klasse waarin het canvas voor de 
+agenda module staat. Deze klasse heeft een Rooster als attribuut en vertaald deze naar een rooster op het scherm. Ook zit er in deze 
+klasse de manier om te scrollen. Zowel verticaal als horizontaal.
 
+In deze week zijn we bezig geweest met het toevoegen van inzoomen in het canvas. De eerste vraag die naar boven kwam was de vraag
+of het inzoomen zowel horizontaal als verticaal moest zijn, of dat het alleen over de horizontale is gaat. De keuze is gemaakt om alleen horizontaal
+in te zoomen, zodat het mogelijk wordt om de hele tijdlijn te zien in één scherm zonder dat de podia heel klein worden weergeven.
 
+We hadden al de methode `public boolean transformInBounds(AffineTransform transform)` gemaakt voor het implementeren van het normale scrollen.
+Daarom was het de planning om het inzoomen ook via deze manier te laten werken. De methode staat hieronder ook weergeven:
+
+```java
+    /**
+      Calculates if the given translate will fit within the set bounds.
+      <p>
+      Currently only works on translations, scale not yet implemented.
+      @param transform  AffineTransform that is proposed
+     * @return  true if the given translate is in bounds
+     */
+private boolean cameraInBounds(AffineTransform transform) {
+        return(this.cameraTransform.getTranslateX()+transform.getTranslateX()<=1&&
+        this.cameraTransform.getTranslateX()+transform.getTranslateX()>=-(this.endX-this.startX-this.canvas.getWidth())&&
+        this.cameraTransform.getTranslateY()+transform.getTranslateY()<=1&&
+        this.cameraTransform.getTranslateY()+transform.getTranslateY()>=-(this.endY-this.startY-this.canvas.getHeight())
+        ); 
+        }
+```
+
+Helaas kwam ik in de knoei met het inzoomen via `AffineTransform`. Het schalen was geen probleem, het probleem kwam met het checken of 
+het schalen wel binnen het veld past. De waarden waarop het canvas begint of in afgelopen veranderen flink als je gaat inzoomen.
+Ik kreeg het niet voor elkaar om dit goed te krijgen. Het gebeurde steeds dat, of ik kon veel te ver naar links of rechts doorscrollen na het inzoomen,
+of de camera wou niet meer verder dan 11 uur door scrollen.
+
+Ik heb besloten om het inzoomen via een andere manier te doen, niet via een `AffineTransform`. `AgendaCanvas` Heeft nu een attribuut
+die het inzoomen bijhoudt als een factor, hiermee voorkomen we het inBounds probleem. Dit omdat er tijdens het tekenen van het canvas rekening wordt
+gehouden met deze factor en de breedte van het canvas dus automatisch mee schaalt.
+
+Het resultaat van het inzoomen staat hieronder in deze mooie gif gedemonstreerd.
+
+![](Images/Zooming%20with%20alt+scroll.gif)
+
+---
+##### De functionaliteit van het mee schalen tijdens het vergroten van het window.
+
+Het tweede probleem waar we meezaten is het feit dat: wanneer het windows wordt vergroot tot buiten de grenzen van de agenda
+het verder wit blijft. Dit is geen mooie oplossing en breekt ook een beetje de illusie van het programma. Het probleem is ook duidelijk te zien in de gif
+die hieronder staat.
+
+![](Images/Out%20of%20bounds.gif)
+
+In het klasse `AgendaCanvas` zat al een methode die de bounds van het canvas berekend, deze heb ik de weken hiervoor gemaakt.
+Deze methode deed op het moment niks anders de de bounds naar statische waarden zetten. Nu is de methode aangepast.
+
+Eerst berekend de methode een schalings factor, dit is gebaseerd op een tijdlijn van 24 uur (zoals de opdracht) en een standaard breedte
+van een uur van 60 pixels (dit is eerder gekozen om de minuten goed te representeren). Door deze deling wordt er bepaald welke schaal 
+er nodig is om te zorgen dat het gehele scherm gevuld is met de periode van 0 tot 24 uur.
+```java
+double monitorToScale = (this.canvas.getWidth() + startX) / (24 * 60 * scale);
+```
+
+Hierna wordt er door de methode gekeken of de schaal groter is dan 1. Als dit het geval is dan valt het canvas dus binnen het veld van 
+het venster. In dat geval moet de schaal worden aangepast door de methode.
+```java
+if (monitorToScale > 1 ) {
+            this.scale = (this.canvas.getWidth() + startX) / (24 * 60);
+        }
+```
+
+De nieuwe bounds worden op basis van de schaal berekend en het scalen werkt volledig. Hieronder staat de volledig methode ook aangegeven:
+
+```java
+/**
+     * Sets the boundaries of the agendaCanvas.
+     * <p>
+     * Initializes <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
+     */
+    private void calculateBounds() {
+        this.startX = -100;
+        this.startY = -50;
+
+        double monitorToScale = (this.canvas.getWidth() + startX) / (24 * 60 * scale);
+        if (monitorToScale > 1 ) {
+            this.scale = (this.canvas.getWidth() + startX) / (24 * 60);
+        }
+
+        if (this.canvas.getHeight() > this.usedStages.size() * 80) {
+            this.endY = (int)this.canvas.getHeight();
+        } else {
+            this.endY = this.usedStages.size() * 80 + 50;
+        }
+
+        this.endX = (int)(60 * this.scale * 24);
+    }
+```
+
+Nu schaal het rooster mee met het venster als deze te groot wordt. Het restultaat staat hieronder met een gifje. Beloofd dat ik voor deze week geen gif bestanden meer
+zal gebruiken, het begint toch wat te druk te worden ;)
+
+![](Images/Out_of%20_Bounds_Fixed.gif)
+
+---
+De kat van week 3 is (All royalties to Max van Gils):
+
+![](Images/CatOfTheWeek/CatWeek3.png)
