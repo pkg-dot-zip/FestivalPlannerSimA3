@@ -80,7 +80,7 @@ public class JsonConverter extends AbstractDialogPopUp {
                             layerTiles.add(null);
                         }
                     }
-                    tileMap.addLayer(new Layer(width, height, layerTiles));
+                    tileMap.addLayer(new Layer(tileMap, width, height, layerTiles));
                 }
             }
 
