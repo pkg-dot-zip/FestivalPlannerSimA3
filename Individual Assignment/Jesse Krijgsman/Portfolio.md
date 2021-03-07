@@ -32,4 +32,19 @@ Hieronder is een afbeelding te zien van de nieuwe trello pagina, zodat we alle t
 
 #### Reflectie vakinhoudelijk
 
-* ##### Wat is de situatie?
+Inhoudelijk zijn we deze week vooral bezig geweest met aanpassingen aan onze agenda module. Na de start van deze week hebben we onze
+module gepresenteerd aan de senior Johan, hij was zeer positief over ons resultaat. Maar er stonden nog wat punten op die toegevoegd moeten worden
+één voorbeeld hiervan is het aangeven wanneer een atiest een dubbele boeking heeft staan.
+
+Deze week heb ik mij vooral bezig gehouden met en inzoomen en schalen van AgendaCanvas. Dit was geen verplichting volgens de opdracht maar
+het is wel iets wat wij als groep graag zouden willen hebben. Dit om te voorkomen dat er witte vlakken ontstaan als het canvas te groot wordt gemaakt
+
+Bij dit proces zijn veel moeilijkheden waar ik er hier graag twee zou willen uitlichten:
++ De functionaliteit van het inzoomen tijdens scrollen
++ Het meeschalen tijdens het vergroten van de stage
+
+
+##### De functionaliteit van het inzoomen tijdens scrollen
+
+
+
