@@ -1,5 +1,6 @@
 package FestivalPlanner.Util.PreferencesHandling;
 
+import FestivalPlanner.Util.MathHandling.ColorConverter;
 import com.sun.istack.internal.NotNull;
 import javax.swing.*;
 import java.awt.*;
@@ -82,6 +83,9 @@ public class SaveSettingsHandler implements Serializable {
         }
     }
 
+    /**
+     * Sets the values related to color in the <b>configuration.xml</b> file to the default ones.
+     */
     public static void restoreDefaultColors(){
         Color selectedColor = Color.getHSBColor(190 / 360f, .7f, .7f);
         Color unselectedColor = Color.getHSBColor(100 / 360f, .7f, .9f);
@@ -102,14 +106,14 @@ public class SaveSettingsHandler implements Serializable {
 
     @NotNull
     public static void setSelectedColor(javafx.scene.paint.Color colorInput){
-        Color color = new Color((float) colorInput.getRed(), (float) colorInput.getGreen(), (float) colorInput.getBlue(), (float) colorInput.getOpacity());
+        Color color = ColorConverter.fromJavaFXToAwt(colorInput);
         setPreference("selected_show_color", String.valueOf(color.getRGB()));
         Color.decode(getPreference("selected_show_color"));
     }
 
     @NotNull
     public static void setUnselectedColor(javafx.scene.paint.Color colorInput){
-        Color color = new Color((float) colorInput.getRed(), (float) colorInput.getGreen(), (float) colorInput.getBlue(), (float) colorInput.getOpacity());
+        Color color = ColorConverter.fromJavaFXToAwt(colorInput);
         setPreference("unselected_show_color", String.valueOf(color.getRGB()));
         Color.decode(getPreference("unselected_show_color"));
     }

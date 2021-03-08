@@ -1,6 +1,7 @@
 package FestivalPlanner.GUI;
 
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import FestivalPlanner.Util.MathHandling.ColorConverter;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -158,7 +159,7 @@ public class PreferencesGUI extends AbstractGUI{
         this.selectedColorButton.setOnAction(e -> {
             Stage stage = new Stage();
             java.awt.Color c = SaveSettingsHandler.getSelectedColor();
-            ColorPicker colorPicker = new ColorPicker(Color.rgb(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha() / 255.0)); //TODO: show currently saved color.
+            ColorPicker colorPicker = new ColorPicker(ColorConverter.fromAwtToJavaFX(c)); //TODO: show currently saved color.
 
             colorPicker.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -193,7 +194,7 @@ public class PreferencesGUI extends AbstractGUI{
 
             Stage stage = new Stage();
             java.awt.Color c = SaveSettingsHandler.getSelectedColor();
-            ColorPicker colorPicker = new ColorPicker(Color.rgb(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha() / 255.0)); //TODO: show currently saved color.
+            ColorPicker colorPicker = new ColorPicker(ColorConverter.fromAwtToJavaFX(c)); //TODO: show currently saved color.
 
             colorPicker.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
