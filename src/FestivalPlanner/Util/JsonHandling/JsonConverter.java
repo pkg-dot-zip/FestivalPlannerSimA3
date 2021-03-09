@@ -68,11 +68,17 @@ public class JsonConverter extends AbstractDialogPopUp {
     private void loadInLayers(TileManager tileManager, TileMap tileMap, JsonObject root, int width, int height) {
         try {
             JsonArray jsonLayers = root.getJsonArray("layers");
+
+            //Loop through layers
             for (int i = 0; i < jsonLayers.size()-1; i++) {
                 JsonObject layer = jsonLayers.getJsonObject(i);
+
                 if (layer.getString("type").equals("tilelayer")) {
+
                     JsonArray tilesArray = layer.getJsonArray("data");
                     ArrayList<Tile> layerTiles = new ArrayList<>();
+
+                    //loop though tiles to see if they are stored
                     for (int q = 0; q < tilesArray.size(); q++) {
                         int tileId = tilesArray.getInt(q);
                         if (tileId != 0 && tileManager.containsTile(tileId)) {
@@ -81,6 +87,8 @@ public class JsonConverter extends AbstractDialogPopUp {
                             layerTiles.add(null);
                         }
                     }
+
+                    //Add TileLayer to class
                     tileMap.addLayer(new TileLayer(tileMap, width, height, layerTiles));
                 }
             }
