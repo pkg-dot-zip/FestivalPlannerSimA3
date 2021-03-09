@@ -1,10 +1,11 @@
 package FestivalPlanner.Util.JsonHandling;
 
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
-import FestivalPlanner.TileMap.Layer;
 import FestivalPlanner.TileMap.Tile;
+import FestivalPlanner.TileMap.TileLayer;
 import FestivalPlanner.TileMap.TileManager;
 import FestivalPlanner.TileMap.TileMap;
+
 import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -80,7 +81,7 @@ public class JsonConverter extends AbstractDialogPopUp {
                             layerTiles.add(null);
                         }
                     }
-                    tileMap.addLayer(new Layer(tileMap, width, height, layerTiles));
+                    tileMap.addLayer(new TileLayer(tileMap, width, height, layerTiles));
                 }
             }
 

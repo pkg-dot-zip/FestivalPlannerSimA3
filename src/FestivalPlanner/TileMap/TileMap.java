@@ -112,7 +112,7 @@ public class TileMap {
      * Adds <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layer</a> to <code>this.Layers</code>
      * @param layer  The <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layer</a> to be added
      */
-    public void addLayer(Layer layer) {
+    public void addLayer(TileLayer layer) {
         this.layers.add(layer);
     }
 
