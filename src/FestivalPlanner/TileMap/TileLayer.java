@@ -4,7 +4,7 @@ import org.jfree.fx.FXGraphics2D;
 import java.util.ArrayList;
 
 /**
- * Represents one Layer in <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a>
+ * Represents one Layer filled with tiles in <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a>
  */
 public class TileLayer extends Layer {
 
