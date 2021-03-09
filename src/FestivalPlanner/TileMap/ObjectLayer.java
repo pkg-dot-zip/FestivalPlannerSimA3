@@ -83,5 +83,5 @@ public class ObjectLayer extends Layer{
     @Override
     public void draw(FXGraphics2D g2d) {
     }
-    
+
 }
