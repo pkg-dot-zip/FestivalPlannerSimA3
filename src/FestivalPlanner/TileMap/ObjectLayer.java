@@ -18,9 +18,9 @@ public class ObjectLayer extends Layer {
     /**
      * Constructor for ObjectLayer
      *
-     * @param width   width of superclass Layer
+     * @param width  width of superclass Layer
      * @param height  height of superclass Layer
-     * @param tileMap <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> for the superclass
+     * @param tileMap  <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> for the superclass
      */
     public ObjectLayer(TileMap tileMap, int width, int height) {
         this(tileMap, width, height, "", new ArrayList<>());
@@ -29,10 +29,10 @@ public class ObjectLayer extends Layer {
     /**
      * Constructor for ObjectLayer, with name
      *
-     * @param width   width of superclass Layer
+     * @param width  width of superclass Layer
      * @param height  height of superclass Layer
-     * @param tileMap <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> for the superclass
-     * @param name    The name of this Layer
+     * @param tileMap  <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> for the superclass
+     * @param name  The name of this Layer
      */
     public ObjectLayer(TileMap tileMap, int width, int height, String name) {
         this(tileMap, width, height, name, new ArrayList<>());
@@ -41,11 +41,11 @@ public class ObjectLayer extends Layer {
     /**
      * Main Constructor for ObjectLayer
      *
-     * @param width   width of superclass Layer
+     * @param width  width of superclass Layer
      * @param height  height of superclass Layer
-     * @param tileMap <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> for the superclass
-     * @param name    The name of this Layer
-     * @param objects ArrayList with all the <a href="{@docRoot}/FestivalPlanner/TileMap/TileObject.html">TileObjects</a> this Layer holds
+     * @param tileMap  <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> for the superclass
+     * @param name  The name of this Layer
+     * @param objects  ArrayList with all the <a href="{@docRoot}/FestivalPlanner/TileMap/TileObject.html">TileObjects</a> this Layer holds
      */
     public ObjectLayer(TileMap tileMap, int width, int height, String name, ArrayList<TileObject> objects) {
         super(width, height, tileMap);
@@ -56,7 +56,7 @@ public class ObjectLayer extends Layer {
     /**
      * Getter for <code>this.name</code>
      *
-     * @return <code>this.name</code>
+     * @return  <code>this.name</code>
      */
     public String getName() {
         return name;
@@ -74,7 +74,7 @@ public class ObjectLayer extends Layer {
     /**
      * Setter for <code>this.tileObjects</code>
      *
-     * @param tileObjects Sets <code>this.tielObjects</code>
+     * @param tileObjects  Sets <code>this.tielObjects</code>
      */
     public void setTileObjects(ArrayList<TileObject> tileObjects) {
         this.tileObjects = tileObjects;
@@ -83,7 +83,7 @@ public class ObjectLayer extends Layer {
     /**
      * Adds a <a href="{@docRoot}/FestivalPlanner/TileMap/TileObject.html">TileObject</a> to <code>this.tileObjects</code>
      *
-     * @param tileObject The <a href="{@docRoot}/FestivalPlanner/TileMap/TileObject.html">TileObject</a> to add to <code>this.tileObjects</code>
+     * @param tileObject  The <a href="{@docRoot}/FestivalPlanner/TileMap/TileObject.html">TileObject</a> to add to <code>this.tileObjects</code>
      */
     public void addTileObject(TileObject tileObject) {
         this.tileObjects.add(tileObject);
