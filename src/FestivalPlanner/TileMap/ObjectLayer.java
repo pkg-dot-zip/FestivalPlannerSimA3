@@ -91,6 +91,17 @@ public class ObjectLayer extends Layer {
 
     @Override
     public void draw(FXGraphics2D g2d) {
+
+        //Debug draw for testing objects @Todo: remove when done
+//        for (TileObject tileObject : this.tileObjects) {
+//            g2d.draw(new Rectangle2D.Double(
+//                    tileObject.getLocation().getX(),
+//                    tileObject.getLocation().getY(),
+//                    tileObject.getWidth(),
+//                    tileObject.getHeight()
+//            ));
+//        }
+
     }
 
 }
