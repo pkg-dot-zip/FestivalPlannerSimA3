@@ -85,7 +85,7 @@ public class TileObject {
     public int getHeight() {
         return height;
     }
-    
+
     /**
      * Setter for <code>this.height</code>
      * @param height  sets <code>this.height</code>

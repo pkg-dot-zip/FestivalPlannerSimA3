@@ -1,16 +1,14 @@
 package FestivalPlanner.Util.JsonHandling;
 
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
-import FestivalPlanner.TileMap.Tile;
-import FestivalPlanner.TileMap.TileLayer;
-import FestivalPlanner.TileMap.TileManager;
-import FestivalPlanner.TileMap.TileMap;
+import FestivalPlanner.TileMap.*;
 
 import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import java.awt.geom.Point2D;
 import java.awt.image.*;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -70,10 +68,11 @@ public class JsonConverter extends AbstractDialogPopUp {
             JsonArray jsonLayers = root.getJsonArray("layers");
 
             //Loop through layers
-            for (int i = 0; i < jsonLayers.size()-1; i++) {
+            for (int i = 0; i < jsonLayers.size(); i++) {
                 JsonObject layer = jsonLayers.getJsonObject(i);
 
-                if (layer.getString("type").equals("tilelayer")) {
+                String type = layer.getString("type");
+                if (type.equals("tilelayer")) {
 
                     JsonArray tilesArray = layer.getJsonArray("data");
                     ArrayList<Tile> layerTiles = new ArrayList<>();
@@ -88,8 +87,28 @@ public class JsonConverter extends AbstractDialogPopUp {
                         }
                     }
 
-                    //Add TileLayer to class
+                    //Add TileLayer to map
                     tileMap.addLayer(new TileLayer(tileMap, width, height, layerTiles));
+
+                } else if (type.equals("objectgroup")) {
+
+                    ObjectLayer objectLayer = new ObjectLayer(tileMap, width, height);
+
+                    JsonArray objectsArray = layer.getJsonArray("objects");
+                    for (int q = 0; q < objectsArray.size(); q++){
+                        JsonObject jsonObject = objectsArray.getJsonObject(q);
+
+                        objectLayer.addTileObject(new TileObject(
+                                jsonObject.getString("name"),
+                                jsonObject.getString("type"),
+                                new Point2D.Double(jsonObject.getInt("x"), jsonObject.getInt("y")),
+                                jsonObject.getInt("width"),
+                                jsonObject.getInt("height")
+                        ));
+                    }
+
+                    //Add ObjectLayer to map
+                    tileMap.addLayer(objectLayer);
                 }
             }
 
