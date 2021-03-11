@@ -14,7 +14,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-
 public class SimulatorCanvas {
 
         private Canvas canvas;
@@ -102,7 +101,7 @@ public class SimulatorCanvas {
     }
 
     public void update(Double deltaTime) {
-        System.out.println(1/deltaTime);
+
     }
 
     private void onScrolled(MouseEvent mouseEvent) {
@@ -161,7 +160,11 @@ public class SimulatorCanvas {
     }
 
     public void moveToPoint(Point2D point) {
-        //jesse is verdrietig
+        this.cameraTransform.translate(point.getX() - (this.cameraTransform.getTranslateX() + this.tileMap.getMapWidth()* this.tileMap.getTileWidth()/ 2), point.getY() - (this.cameraTransform.getTranslateY() + this.tileMap.getMapHeight() * this.tileMap.getTileHeight() /2));
+//        this.cameraTransform.translate(
+//                point.getX() - this.cameraTransform.getTranslateX() + this.simulatorModule.getStage().getWidth() / 2,
+//                point.getY() - this.cameraTransform.getTranslateY() + this.simulatorModule.getStage().getHeight() / 2
+//        );
     }
 
     /**
