@@ -72,17 +72,17 @@ public class SimulatorCanvas {
         this.canvas.setOnMouseReleased(this::onMouseReleased);
     }
 
-
+    
     private void draw(FXGraphics2D fxGraphics2D) {
         fxGraphics2D.setTransform(new AffineTransform());
         fxGraphics2D.setBackground(Color.white);
         fxGraphics2D.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
+
         fxGraphics2D.setTransform(this.cameraTransform);
         fxGraphics2D.translate(-this.startX, -this.startY);
 
         this.tileMap.draw(fxGraphics2D);
-
     }
 
     public void update() {
@@ -137,13 +137,20 @@ public class SimulatorCanvas {
     }
 
     private void onMouseDragged(MouseEvent mouseEvent) {
-        double horizontalPixels = (mouseEvent.getX() - dragPoint.getX()) / 2;
-        double verticalPixels = (mouseEvent.getY() - dragPoint.getY()) / 2;
+        System.out.println("-" + dragPoint);
+        System.out.println(mouseEvent.getX() + "," + mouseEvent.getY());
+        if (this.dragPoint != null) {
+            double horizontalPixels = (mouseEvent.getX() - dragPoint.getX());
+            double verticalPixels = (mouseEvent.getY() - dragPoint.getY());
 
-        if(this.cameraInBounds(horizontalPixels, verticalPixels)) {
-            this.cameraTransform.translate(horizontalPixels, verticalPixels);
+            System.out.println(horizontalPixels + "," + verticalPixels);
+            if (this.cameraInBounds(horizontalPixels, verticalPixels)) {
+                this.cameraTransform.translate(horizontalPixels, verticalPixels);
+            }
+
+            this.dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
+            draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         }
-        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     public void moveToPoint(Point2D point) {
