@@ -1,5 +1,6 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
+import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.TileMap.TileMap;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import javafx.animation.AnimationTimer;
@@ -14,7 +15,10 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-public class SimulatorCanvas {
+/**
+ * Class that will draw a <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> to a canvas.
+ */
+public class SimulatorCanvas extends AbstractGUI {
 
         private Canvas canvas;
         private SimulatorModule simulatorModule;
@@ -33,6 +37,12 @@ public class SimulatorCanvas {
         JsonConverter converter = new JsonConverter();
         private TileMap tileMap = converter.JSONToTileMap("/testMap.json");
 
+    /**
+     * Constructor for SimulatorCanvas
+     * @param simulatorModule  The <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorModule.html">SimulatorModule</a> that contains this canvas
+     * @param canvasWidth  The initial width of the canvas
+     * @param canvasHeight  The initial height of this canvas
+     */
     public SimulatorCanvas(SimulatorModule simulatorModule, double canvasWidth, double canvasHeight) {
         this.simulatorModule = simulatorModule;
         this.mainPane = new BorderPane();
@@ -42,10 +52,7 @@ public class SimulatorCanvas {
         load();
     }
 
-    public BorderPane getMainPane() {
-        return mainPane;
-    }
-
+    @Override
     public void load() {
         setup();
         this.actionHandlingSetup();
@@ -70,6 +77,7 @@ public class SimulatorCanvas {
         this.canvas.setFocusTraversable(true);
     }
 
+    @Override
     public void setup() {
         this.mainPane.setCenter(this.canvas);
         this.startX = 0;
@@ -79,6 +87,7 @@ public class SimulatorCanvas {
         this.cameraTransform = new AffineTransform();
     }
 
+    @Override
     public void actionHandlingSetup() {
         //@TODO setonmousclick etc..
         this.canvas.setOnKeyPressed(this::onWASD);
@@ -87,7 +96,18 @@ public class SimulatorCanvas {
         this.canvas.setOnMouseReleased(this::onMouseReleased);
     }
 
-    
+    /**
+     * Getter for <code>this.mainPane</code>
+     * @return  <code>this.mainPane</code>
+     */
+    public BorderPane getMainPane() {
+        return mainPane;
+    }
+
+    /**
+     * Draws everything on <code>this.canvas</code>.
+     * @param fxGraphics2D  object that draws on <code>this.canvas</code>
+     */
     private void draw(FXGraphics2D fxGraphics2D) {
         fxGraphics2D.setTransform(new AffineTransform());
         fxGraphics2D.setBackground(Color.white);
@@ -100,14 +120,30 @@ public class SimulatorCanvas {
         this.tileMap.draw(fxGraphics2D);
     }
 
+    /**
+     * Updates all the items, cals {@link #draw(FXGraphics2D)} when done
+     * @param deltaTime  The time it took between last update call (FPS = 1/deltaTime)
+     */
     public void update(Double deltaTime) {
 
     }
 
+    /**
+     * Handles the event when the user scrolls.
+     * @param mouseEvent  The MouseEvent that was used to scroll
+     */
+    //@Todo: needs implementation
     private void onScrolled(MouseEvent mouseEvent) {
         //klinkt moeilijk
     }
 
+    /**
+     * Handles the event of a keyboard key pressed by the user.
+     * <p>
+     * When WASD or Arrow-keys are pressed the method will move the screen in
+     * the corresponding direction.
+     * @param keyEvent  The KeyEvent that detected the users keyboardpress
+     */
     private void onWASD(KeyEvent keyEvent) {
         double verticalPixels = 0;
         double horizontalPixels = 0;
@@ -138,14 +174,34 @@ public class SimulatorCanvas {
 
     private Point2D dragPoint = null;
 
+    /**
+     * Handles the event when the user presses the mouse-button
+     * <p>
+     * If the primary button is pressed <code>this.dragPoint</code> will be set to the
+     * position the mouse has at that time.
+     * @param mouseEvent  The MouseEvent the user used to click
+     */
     private void onMousePressed(MouseEvent mouseEvent) {
         dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
     }
 
+    /**
+     * Handles the event when the user releases the mouse-button
+     * <p>
+     * If the primary button is released <code>this.dragPoint</code> will be reset to null
+     * @param mouseEvent  The MouseEvent the user used to click
+     */
     private void onMouseReleased(MouseEvent mouseEvent) {
         dragPoint = null;
     }
 
+    /**
+     * Handles the event when the user drags the mouse-button across the screen
+     * <p>
+     * If the primary button is dragged the method wil check if the operation is allowed by calling {@link #cameraInBounds(double, double)}
+     * If correct the screen will be moved to the new position. When done <code>this.dragPoint</code> will be reset to null
+     * @param mouseEvent  The MouseEvent the user used to drag
+     */
     private void onMouseDragged(MouseEvent mouseEvent) {
         if (this.dragPoint != null) {
             double horizontalPixels = (mouseEvent.getX() - dragPoint.getX());
@@ -159,6 +215,10 @@ public class SimulatorCanvas {
         }
     }
 
+    /**
+     * Moves the screen to the centre of the proposed point.
+     * @param point  The proposed point to move to
+     */
     public void moveToPoint(Point2D point) {
         this.cameraTransform.translate(point.getX() - (this.cameraTransform.getTranslateX() + this.tileMap.getMapWidth()* this.tileMap.getTileWidth()/ 2), point.getY() - (this.cameraTransform.getTranslateY() + this.tileMap.getMapHeight() * this.tileMap.getTileHeight() /2));
 //        this.cameraTransform.translate(
