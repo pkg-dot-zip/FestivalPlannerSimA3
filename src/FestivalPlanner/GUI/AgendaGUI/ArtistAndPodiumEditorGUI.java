@@ -43,6 +43,8 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
     private Button artistRemoveButton = new Button("-");
     private Button artistAddButton = new Button("+");
     private Button podiumAddButton = new Button("+");
+    private Button podiumEditButton = new Button("edit");
+    private Button artistEditButton = new Button("edit");
 
     public ArtistAndPodiumEditorGUI(AgendaModule agendaModule) {
         this.agendaModule = agendaModule;
@@ -94,8 +96,10 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         gridPane.setAlignment(Pos.CENTER);
 
         //Adding all the children.
-        artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton);
-        podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton);
+        artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton,
+                this.artistEditButton);
+        podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton,
+                this.podiumEditButton);
         creationPanelVBox.getChildren().addAll(availablePodiumsAndArtistsLabel,
                 existingArtistsLabel,
                 artistHBox, existingPodiumsLabel,
@@ -134,23 +138,36 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
             updatePodiumComboBox();
         });
 
+        this.artistEditButton.setOnAction(event -> {
+            String selectedArtist = this.artistComboBox.getValue();
+            this.agendaModule.artistPopupEditCallBack(this.agendaModule.getArtistManager().getArtist(selectedArtist));
+            updateArtistComboBox();
+        });
+
+        this.podiumEditButton.setOnAction(event -> {
+            String selectedPodium = this.podiumComboBox.getValue();
+            this.agendaModule.getPodiumManager().getPodium(selectedPodium);
+            updatePodiumComboBox();
+        });
+
         this.closeButton.setOnAction(e -> {
             this.stage.close();
         });
     }
 
     /**
-     * Sets <code>this.artistComboBoc</code> to the correct value.
+     * Updates <code>this.artistComboBoc</code> to the correct value.
      */
     private void updatePodiumComboBox() {
         this.observablePodiumList.setAll(this.agendaModule.getPodiumManager().getAllPodiumNames());
     }
 
     /**
-     * Sets the <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/JComboBox.html">ComboBox</a>
+     * Updates the <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/JComboBox.html">ComboBox</a>
      * containing all the current Artists.
      */
     private void updateArtistComboBox() {
         this.observableArtistList.setAll(this.agendaModule.getArtistManager().getAllArtistNames());
+        System.out.println("done");
     }
 }

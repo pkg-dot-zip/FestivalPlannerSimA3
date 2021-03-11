@@ -51,13 +51,25 @@ public class Artist implements Serializable {
         return this.sprite;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPicture(BufferedImage picture) {
+        this.picture = picture;
+    }
+
+    public void setSprite(BufferedImage sprite) {
+        this.sprite = sprite;
+    }
+
     @Override
     public String toString() {
         return this.name;
     }
 
     /**
-     * Writes the sprite and image of the artist to the saveFile.
+     * Writing the sprite and image of the artist to the saveFile.
      * @param out  the stream the images needs to be written to
      */
     //TODO: Separate agenda resources from other agendas to avoid overriding files.

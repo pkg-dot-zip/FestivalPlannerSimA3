@@ -42,7 +42,7 @@ public class ArtistManager {
     }
 
     /**
-     * Adds the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> object to the stages ArrayList if the list doesn't contain the value already.
+     * Adds the <code>Artist</code> object to the stages ArrayList if the list doesn't contain the value already.
      * @param artist  instance of <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> used to check whether the HashMap already contains it or not
      */
     public void addArtist(Artist artist){
@@ -52,7 +52,7 @@ public class ArtistManager {
     }
 
     /**
-     * Removes the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> object from the artists ArrayList.
+     * Removes the <code>Artist</code> object from the artists ArrayList.
      * @param artistName  String representing the key of the object that should be removed from the HashMap
      */
     public void removeArtist(String artistName){
@@ -66,8 +66,20 @@ public class ArtistManager {
      * @return  <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> was not found
      */
+
     public Artist getArtist(String name) {
         return this.artists.get(name);
+    }
+
+    public void editArtist(String originalName, Artist editedArtist) {
+        Artist oldArtist = getArtist(originalName);
+
+        oldArtist.setName(editedArtist.getName());
+        oldArtist.setPicture(editedArtist.getPicture());
+        oldArtist.setSprite(editedArtist.getSprite());
+
+        this.artists.remove(originalName);
+        this.artists.put(oldArtist.getName(),oldArtist);
     }
 
     /**
@@ -76,6 +88,7 @@ public class ArtistManager {
      * @return  <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html">Set</a> containing all the names
      * of the known Artists
      */
+
     public Set<String> getAllArtistNames() {
         return this.artists.keySet();
     }
