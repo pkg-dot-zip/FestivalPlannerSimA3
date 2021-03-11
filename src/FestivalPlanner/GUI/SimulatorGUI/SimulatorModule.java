@@ -9,6 +9,7 @@ public class SimulatorModule extends Application {
 
     private SimulatorCanvas simulatorCanvas;
     private BorderPane mainPane;
+    private Stage stage;
 
     public SimulatorModule() {
         this.mainPane = new BorderPane();
@@ -17,8 +18,13 @@ public class SimulatorModule extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
         this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
         stage.setScene(new Scene(this.mainPane));
         stage.show();
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }
