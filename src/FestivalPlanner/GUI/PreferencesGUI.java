@@ -111,7 +111,7 @@ public class PreferencesGUI extends AbstractGUI{
         gridPane.setVgap(GRIDPANE_VGAP);
         gridPane.setAlignment(Pos.CENTER);
 
-        //Tooltips
+        //Tooltips.
         removeCacheButton.setTooltip(removeCacheTooltip);
 
         //Adding the children.
@@ -127,6 +127,7 @@ public class PreferencesGUI extends AbstractGUI{
         gridPane.addRow(1, buttonHBox);
     }
 
+    //TODO: Refactor so that there is no duplicate code.
     @Override
     public void actionHandlingSetup() {
         this.applyButton.setOnAction(e -> {

@@ -26,7 +26,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * Responsible for placing everything in the correct place in the GUI and making sure all the buttons work.
+ * Contains methods for placing everything in the correct place in the GUI, and making sure all the buttons work.
  */
 public class AgendaModule extends AbstractGUI implements Serializable {
 

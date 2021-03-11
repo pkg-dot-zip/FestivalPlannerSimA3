@@ -57,7 +57,7 @@ public class Artist implements Serializable {
     }
 
     /**
-     * Writing the sprite and image of the artist to the saveFile.
+     * Writes the sprite and image of the artist to the saveFile.
      * @param out  the stream the images needs to be written to
      */
     //TODO: Separate agenda resources from other agendas to avoid overriding files.
