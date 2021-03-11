@@ -74,9 +74,9 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     /**
      * Constructor of <code>AgendaModule</code>.
      * <p>
-     * The given <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> will be stored
+     * The given <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> will be stored
      * as a parameter so this stage can be referenced as the main
-     * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>.
+     * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a>.
      * </p>
      *
      * @param stage will be stored
