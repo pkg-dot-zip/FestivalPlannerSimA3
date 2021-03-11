@@ -43,8 +43,8 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
     private Button artistRemoveButton = new Button("-");
     private Button artistAddButton = new Button("+");
     private Button podiumAddButton = new Button("+");
-    private Button podiumEditButton = new Button("edit");
-    private Button artistEditButton = new Button("edit");
+    private Button podiumEditButton = new Button("Edit");
+    private Button artistEditButton = new Button("Edit");
 
     public ArtistAndPodiumEditorGUI(AgendaModule agendaModule) {
         this.agendaModule = agendaModule;
