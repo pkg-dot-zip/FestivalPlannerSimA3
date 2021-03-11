@@ -1,6 +1,7 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
 import FestivalPlanner.GUI.AbstractGUI;
+import FestivalPlanner.NPC.NPC;
 import FestivalPlanner.TileMap.TileMap;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import javafx.animation.AnimationTimer;
@@ -14,6 +15,7 @@ import org.jfree.fx.ResizableCanvas;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * Class that will draw a <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> to a canvas.
@@ -30,6 +32,8 @@ public class SimulatorCanvas extends AbstractGUI {
         private int endX;
         private int startY;
         private int endY;
+
+        private ArrayList<NPC> npcList = new ArrayList<>(40);
 
         //@TODO add simulatorHandler
 
@@ -79,6 +83,16 @@ public class SimulatorCanvas extends AbstractGUI {
 
     @Override
     public void setup() {
+
+        while(this.npcList.size() < 1)
+        {
+            NPC npc = new NPC(new Point2D.Double((int)(Math.random() * 1000), (int)(Math.random() * 1000)), 0);
+            if(!npc.checkCollision(this.npcList))
+            {
+                this.npcList.add(npc);
+            }
+        }
+
         this.mainPane.setCenter(this.canvas);
         this.startX = 0;
         this.endX= tileMap.getMapWidth() * tileMap.getTileWidth();
@@ -118,6 +132,10 @@ public class SimulatorCanvas extends AbstractGUI {
         fxGraphics2D.translate(-this.startX, -this.startY);
 
         this.tileMap.draw(fxGraphics2D);
+
+        for (NPC npc : npcList){
+            npc.draw(fxGraphics2D);
+        }
     }
 
     /**
@@ -125,7 +143,10 @@ public class SimulatorCanvas extends AbstractGUI {
      * @param deltaTime  The time it took between last update call (FPS = 1/deltaTime)
      */
     public void update(Double deltaTime) {
-
+//        System.out.println(1/deltaTime);
+        for (NPC npc : npcList){
+            npc.update(npcList);
+        }
     }
 
     /**
@@ -183,6 +204,8 @@ public class SimulatorCanvas extends AbstractGUI {
      */
     private void onMousePressed(MouseEvent mouseEvent) {
         dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
+
+        moveToPoint(dragPoint);
     }
 
     /**
@@ -225,6 +248,9 @@ public class SimulatorCanvas extends AbstractGUI {
 //                point.getX() - this.cameraTransform.getTranslateX() + this.simulatorModule.getStage().getWidth() / 2,
 //                point.getY() - this.cameraTransform.getTranslateY() + this.simulatorModule.getStage().getHeight() / 2
 //        );
+        for (NPC npc : npcList){
+            npc.setTarget(point);
+        }
     }
 
     /**
