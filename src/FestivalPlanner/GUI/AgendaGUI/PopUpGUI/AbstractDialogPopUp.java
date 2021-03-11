@@ -16,6 +16,15 @@ import java.util.ResourceBundle;
 
 /**
  * Contains methods for all PopUps used in the program.
+ * <p>
+ * Most PopUps do or contain the following:
+ * <p><ul>
+ * <li>Set a Title
+ * <li>Set the header text
+ * <li>Set the content text
+ * <li>Play a sound
+ * <p>
+ *  Some PopUps allow choices to be made.
  */
 public class AbstractDialogPopUp {
 

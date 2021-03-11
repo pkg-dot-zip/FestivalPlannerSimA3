@@ -43,7 +43,7 @@ public class LanguageHandler {
 
     /**
      * Returns an ArrayList of all supported Locales.
-     * @return
+     * @return  ArrayList containing all supported Locales.
      * @see LanguageHandler
      */
     public static ArrayList<Locale> getAllLocales(){

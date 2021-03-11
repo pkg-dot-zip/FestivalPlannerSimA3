@@ -9,8 +9,11 @@ public class MainGUI extends Application {
 
     /**
      * Starts the MainGUI.
-     * @param stage  The stage that is shown on screen
-     * @throws Exception  Standard exception in <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/application/Application.html">Application</a>
+     * <p>
+     * It creates an instance of <code>AgendaModule</code>, and then loads all the settings from <code>SaveSettingsHandler</code>.
+     * When that is done it will run the <code>load()</code> method in <code>AgendaModule</code>.
+     * @param stage  the stage that is shown on screen
+     * @throws Exception  standard exception in <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/application/Application.html">Application</a>
      */
     @Override
     public void start(Stage stage) throws Exception {

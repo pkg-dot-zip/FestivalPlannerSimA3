@@ -3,7 +3,6 @@ package FestivalPlanner.Util.PreferencesHandling;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.Util.MathHandling.ColorConverter;
 import com.sun.istack.internal.NotNull;
-import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.Properties;

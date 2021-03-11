@@ -248,6 +248,10 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         podiumPopup.load();
     }
 
+    /**
+     * Returns a String containing the path of the loaded <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> file.
+     * @return  String containing the filepath, or null
+     */
     @Nullable
     private String getLoadAgendaPath() {
         FileChooser fileChooser = new FileChooser();
@@ -260,6 +264,11 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         return null;
     }
 
+    /**
+     * Opens a LoadDialog to let the user load the <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> object from a <i>.dat</i> file.
+     * <p>
+     * It will iterate through all of the shows from the file and add them to this <code>Agenda</code> instance.
+     */
     private void loadAgenda() {
         SaveHandler saveHandler = new SaveHandler();
         this.agenda = saveHandler.readAgendaFromFile(getLoadAgendaPath());
@@ -283,7 +292,10 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     }
 
     /**
-     * Opens a SaveDialog to let the user save the <code>Agenda</code> object as a <i>.dat</i> file.
+     * Opens a SaveDialog to let the user save the <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> object as a <i>.dat</i> file.
+     * <p>
+     * If the user cancels this operation, or magically manages to select a non-existing file, it will cause a NullPointerException and run
+     * <code>showExceptionPopUp()</code> from <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/PopUpGUI/AbstractDialogPopUp.html">AbstractDialogPopUp</a>.
      */
     private void saveAgenda() {
         FileChooser fileChooser = new FileChooser();
@@ -300,12 +312,16 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     /**
      * Handles the selecting of <a href="{@docRoot}/FestivalPlanner/AgendaGUI/ShowRectangle2D.html">Rectangle2D</a> in
      * <code>this.agendaCanvas</code>.
-     *
+     * <p>
+     * Selecting a show by clicking will clear the ArrayList and add it to that ArrayList. If you click <b>AND</b> hold <i>CTRL</i>
+     * it will not clear the ArrayList and allow you to select multiple shows.
+     * <p>
+     * Selected shows will be highlighted with the color set in the <i>configuration.xml</i> file, handled by
+     * <a href="{@docRoot}/FestivalPlanner/Util/PreferencesHandling/SaveSettingsHandler.html">SaveSettingsHandler</a>.
      * @param e  MouseEvent that was set on the mouseButtonClick
      */
     private void onPrimaryButton(MouseEvent e) {
         Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
-//        this.agendaCanvas.rectangleOnShow(selectedShow).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
 
         if (selectedShow != null) {
             //Allowing multiple shows to be selected.
@@ -358,6 +374,9 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
     /**
      * Sets the <code>this.currentShow</code> attribute to the parameter's value.
+     * <p>
+     * If the parameter is not null, it will remove the show if was in this Agenda.
+     * It will then (regardless of whether it was part of this Agenda) add it to this Agenda and redraw this AgendaCanvas.
      */
     public void setCurrentShow(Show show) {
         this.selectedShows.clear();
@@ -385,6 +404,11 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         }
     }
 
+    /**
+     * Returns an ArrayList, <code>this.selectedShows</code>.
+     * @return  this.selectedShows
+     */
+    @NotNull
     public ArrayList<Show> getSelectedShows() {
         return this.selectedShows;
     }

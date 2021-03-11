@@ -140,14 +140,14 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
     }
 
     /**
-     * Updates <code>this.artistComboBoc</code> to the correct value.
+     * Sets <code>this.artistComboBoc</code> to the correct value.
      */
     private void updatePodiumComboBox() {
         this.observablePodiumList.setAll(this.agendaModule.getPodiumManager().getAllPodiumNames());
     }
 
     /**
-     * Updates the <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/JComboBox.html">ComboBox</a>
+     * Sets the <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/JComboBox.html">ComboBox</a>
      * containing all the current Artists.
      */
     private void updateArtistComboBox() {

@@ -3,6 +3,7 @@ package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.ArtistManager;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import com.sun.istack.internal.Nullable;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -20,7 +21,7 @@ import java.util.ResourceBundle;
 /**
  * Contains a PopUp used for creating a new <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a>.
  */
-public class ArtistPopUp extends AbstractCreationPopUp{
+public class ArtistPopUp extends AbstractCreationPopUp {
 
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();
@@ -86,10 +87,6 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         gridPane.addRow(3, buttonHBox);
     }
 
-    /**
-     * picture button activates the artist picture setter
-     * sprite button activates the artist picture setter
-     */
     @Override
     public void additionalActionHandlingSetup() {
         pictureButton.setOnAction(event -> {
@@ -102,9 +99,12 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     }
 
     /**
-     * Opens fileChooser dialog to select Artist Photo
+     * Opens fileChooser dialog to let the user select this Artist Photo.
+     * <p>
+     * This can throw a NullPointerException, which is handled and will run showExceptionPopUp().
      * @return  absolute path to photo of artist
      */
+    @Nullable
     private String findArtistPicture() {
         FileChooser fileChooser = new FileChooser();
         try {
@@ -117,9 +117,9 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     }
 
     /**
-     * Sets artist picture to selected picture.
+     * Sets artist picture to this selected picture.
      */
-    public void setArtistPicture() {
+    private void setArtistPicture() {
         try {
             File pictureURL = new File(findArtistPicture());
             this.artistPicture = ImageIO.read(pictureURL);
@@ -130,9 +130,12 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     }
 
     /**
-     * Opens fileChooser dialog to select Artist Sprite
+     * Opens fileChooser dialog to let the user select this Artist Sprite.
+     * <p>
+     * This can throw a NullPointerException, which is handled and will run showExceptionPopUp().
      * @return  absolute path to sprite of artist
      */
+    @Nullable
     private String findArtistSprite() {
         FileChooser fileChooser = new FileChooser();
         try {
@@ -145,9 +148,9 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     }
 
     /**
-     * Sets artist sprite to selected sprite.
+     * Sets artist sprite to this selected sprite.
      */
-    public void setArtistSprite() {
+    private void setArtistSprite() {
         try {
             File pictureURL = new File(findArtistSprite());
             this.artistSprite = ImageIO.read(pictureURL);

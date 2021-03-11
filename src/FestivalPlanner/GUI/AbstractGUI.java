@@ -8,6 +8,10 @@ import java.util.ResourceBundle;
 
 /**
  * Contains the main methods and attributes all our GUI classes use.
+ * <p>
+ * This class contains final attributes used by GUI classes for spacing, to ensure consistency in our graphical user interface.
+ * <p>
+ * Furthermore, this class contains a buttonHBox, applyButton and closeButton, to avoid duplicate code in subclasses.
  */
 public abstract class AbstractGUI {
 

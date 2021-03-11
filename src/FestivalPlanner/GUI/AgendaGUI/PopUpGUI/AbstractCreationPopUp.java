@@ -22,6 +22,8 @@ import java.util.ResourceBundle;
  *  <li><code>setup()</code> calls abstract method <code>additionalSetup()</code>.
  *  <li><code>actionHandlingSetup()</code> calls abstract method <code>additionalActionHandlingSetup()</code>.
  *  </ul>
+ *  <p>
+ *  Furthermore, this class contains attributes for stage width and height, to ensure consistency in our graphical user interface.
  */
 public abstract class AbstractCreationPopUp extends AbstractGUI {
 
