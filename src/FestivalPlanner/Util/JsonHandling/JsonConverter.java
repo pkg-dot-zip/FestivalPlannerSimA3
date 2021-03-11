@@ -2,8 +2,7 @@ package FestivalPlanner.Util.JsonHandling;
 
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.TileMap.*;
-import org.jetbrains.annotations.NotNull;
-
+import com.sun.istack.internal.NotNull;
 import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonArray;
