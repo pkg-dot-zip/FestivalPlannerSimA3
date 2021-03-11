@@ -52,38 +52,13 @@ public class NPC {
 
         try {
             BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/characters/" + characterFiles[spriteSheet] + ".png"));
-            int w = image.getWidth() / npcTileX;
-            int h = image.getHeight() / npcTileY;
+            int width = image.getWidth() / npcTileX;
+            int height = image.getHeight() / npcTileY;
 
-            for(int x = 0; x < npcTileX; x++) {
-                for(int y = 0; y < npcTileY; y++) {
-                    if (y == 2){
-                        if (x == 0){
-                            spritesLeft.add(image.getSubimage(0, 0, w,h));
-                            spritesLeft.add(image.getSubimage(0, y * h, w,h));
-                        } else if (x == 1){
-                            spritesDown.add(image.getSubimage(w, 0, w,h));
-                            spritesDown.add(image.getSubimage(w, y * h, w,h));
-                        } else if (x == 2){
-                            spritesUp.add(image.getSubimage(2 * w, 0, w,h));
-                            spritesUp.add(image.getSubimage(2 * w, y * h, w,h));
-                        } else {
-                            spritesRight.add(image.getSubimage(3 * w, 0, w,h));
-                            spritesRight.add(image.getSubimage(3 * w, y * h, w,h));
-                        }
-                    } else {
-                        if (x == 0){
-                            spritesLeft.add(image.getSubimage(0, y * h, w,h));
-                        } else if (x == 1){
-                            spritesDown.add(image.getSubimage(w, y * h, w,h));
-                        } else if (x == 2){
-                            spritesUp.add(image.getSubimage(2 * w, y * h, w,h));
-                        } else {
-                            spritesRight.add(image.getSubimage(3 * w, y * h, w,h));
-                        }
-                    }
-                }
-            }
+            splitImages(image, spritesLeft, 0, width, height);
+            splitImages(image, spritesDown, 1, width, height);
+            splitImages(image, spritesUp, 2, width, height);
+            splitImages(image, spritesRight, 3, width, height);
 
             this.centerX = spritesLeft.get(0).getWidth() / 2;
             this.centerY = spritesLeft.get(0).getHeight() / 2;
@@ -92,6 +67,15 @@ public class NPC {
             e.printStackTrace();
             //TODO: Merge Development and showExceptionPopUp.
         }
+    }
+
+    //TODO: Make something that works with all type of sheets.
+    public void splitImages(BufferedImage image, ArrayList<BufferedImage> list, int x, int width, int height){
+        int xToSplit = x * width;
+        list.add(image.getSubimage(xToSplit, 0, width, height));
+        list.add(image.getSubimage(xToSplit, height, width, height));
+        list.add(image.getSubimage(xToSplit, 0, width, height));
+        list.add(image.getSubimage(xToSplit, 2 * height, width, height));
     }
 
     public void update(ArrayList<NPC> NPCs) {
