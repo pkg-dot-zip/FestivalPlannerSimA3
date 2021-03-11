@@ -2,7 +2,6 @@ package FestivalPlanner.GUI.SimulatorGUI;
 
 import FestivalPlanner.TileMap.TileMap;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -12,6 +11,7 @@ import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 
 public class SimulatorCanvas {
@@ -67,6 +67,9 @@ public class SimulatorCanvas {
     public void actionHandlingSetup() {
         //@TODO setonmousclick etc..
         this.canvas.setOnKeyPressed(this::onWASD);
+        this.canvas.setOnMouseDragged(this::onMouseDragged);
+        this.canvas.setOnMousePressed(this::onMousePressed);
+        this.canvas.setOnMouseReleased(this::onMouseReleased);
     }
 
 
@@ -123,16 +126,24 @@ public class SimulatorCanvas {
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
-    private void onMouseClicked(MouseEvent mouseEvent) {
-        //later
+    private Point2D dragPoint = null;
+
+    private void onMousePressed(MouseEvent mouseEvent) {
+        dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
     }
 
     private void onMouseReleased(MouseEvent mouseEvent) {
-        //gepland voor [na de vakantie]
+        dragPoint = null;
     }
 
     private void onMouseDragged(MouseEvent mouseEvent) {
-        //geen zin in
+        double horizontalPixels = (mouseEvent.getX() - dragPoint.getX()) / 2;
+        double verticalPixels = (mouseEvent.getY() - dragPoint.getY()) / 2;
+
+        if(this.cameraInBounds(horizontalPixels, verticalPixels)) {
+            this.cameraTransform.translate(horizontalPixels, verticalPixels);
+        }
+        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     public void moveToPoint(Point2D point) {
