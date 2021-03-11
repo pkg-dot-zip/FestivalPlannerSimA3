@@ -2,6 +2,7 @@ package FestivalPlanner.GUI.SimulatorGUI;
 
 import FestivalPlanner.TileMap.TileMap;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -50,7 +51,22 @@ public class SimulatorCanvas {
         setup();
         this.actionHandlingSetup();
 
-        System.out.println("ik ben aan het laden");
+        FXGraphics2D g2d = new FXGraphics2D(this.canvas.getGraphicsContext2D());
+
+        new AnimationTimer() {
+            long last = -1;
+
+            @Override
+            public void handle(long now) {
+                if (last == -1) {
+                    last = now;
+                }
+                update((now - last) / 1000000000.0);
+                last = now;
+                draw(g2d);
+            }
+        }.start();
+
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         this.canvas.setFocusTraversable(true);
     }
@@ -85,8 +101,8 @@ public class SimulatorCanvas {
         this.tileMap.draw(fxGraphics2D);
     }
 
-    public void update() {
-        //@TODO afblijven
+    public void update(Double deltaTime) {
+        System.out.println(1/deltaTime);
     }
 
     private void onScrolled(MouseEvent mouseEvent) {
@@ -100,22 +116,18 @@ public class SimulatorCanvas {
         switch (keyEvent.getCode()) {
             case UP:
             case W:
-                System.out.println("Omhoog");
                 verticalPixels = CAMERA_SPEED;
                 break;
             case LEFT:
             case A:
-                System.out.println("Links");
                 horizontalPixels = CAMERA_SPEED;
                 break;
             case DOWN:
             case S:
-                System.out.println("Omlaag");
                 verticalPixels = -CAMERA_SPEED;
                 break;
             case RIGHT:
             case D:
-                System.out.println("kutDirk");
                 horizontalPixels = -CAMERA_SPEED;
                 break;
         }
@@ -123,7 +135,6 @@ public class SimulatorCanvas {
         if(cameraInBounds(horizontalPixels, verticalPixels)) {
             this.cameraTransform.translate(horizontalPixels, verticalPixels);
         }
-        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     private Point2D dragPoint = null;
@@ -137,19 +148,15 @@ public class SimulatorCanvas {
     }
 
     private void onMouseDragged(MouseEvent mouseEvent) {
-        System.out.println("-" + dragPoint);
-        System.out.println(mouseEvent.getX() + "," + mouseEvent.getY());
         if (this.dragPoint != null) {
             double horizontalPixels = (mouseEvent.getX() - dragPoint.getX());
             double verticalPixels = (mouseEvent.getY() - dragPoint.getY());
 
-            System.out.println(horizontalPixels + "," + verticalPixels);
             if (this.cameraInBounds(horizontalPixels, verticalPixels)) {
                 this.cameraTransform.translate(horizontalPixels, verticalPixels);
             }
 
             this.dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
-            draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         }
     }
 
