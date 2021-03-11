@@ -20,6 +20,7 @@ public class SimulatorCanvas {
         private SimulatorModule simulatorModule;
         private BorderPane mainPane;
         private AffineTransform cameraTransform;
+        private final int CAMERA_SPEED = 30;
 
         private int startX;
         private int endX;
@@ -47,8 +48,11 @@ public class SimulatorCanvas {
 
     public void load() {
         setup();
+        this.actionHandlingSetup();
+
         System.out.println("ik ben aan het laden");
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
+        this.canvas.setFocusTraversable(true);
     }
 
     public void setup() {
@@ -57,12 +61,12 @@ public class SimulatorCanvas {
         this.endX= tileMap.getMapWidth() * tileMap.getTileWidth();
         this.startY = 0;
         this.endY = tileMap.getMapHeight() * tileMap.getTileHeight();
-        this.canvas.setWidth(this.endX);
-        this.canvas.setHeight(this.endY);
+        this.cameraTransform = new AffineTransform();
     }
 
     public void actionHandlingSetup() {
         //@TODO setonmousclick etc..
+        this.canvas.setOnKeyPressed(this::onWASD);
     }
 
 
@@ -87,7 +91,36 @@ public class SimulatorCanvas {
     }
 
     private void onWASD(KeyEvent keyEvent) {
-        keyEvent.
+        double verticalPixels = 0;
+        double horizontalPixels = 0;
+
+        switch (keyEvent.getCode()) {
+            case UP:
+            case W:
+                System.out.println("Omhoog");
+                verticalPixels = CAMERA_SPEED;
+                break;
+            case LEFT:
+            case A:
+                System.out.println("Links");
+                horizontalPixels = CAMERA_SPEED;
+                break;
+            case DOWN:
+            case S:
+                System.out.println("Omlaag");
+                verticalPixels = -CAMERA_SPEED;
+                break;
+            case RIGHT:
+            case D:
+                System.out.println("kutDirk");
+                horizontalPixels = -CAMERA_SPEED;
+                break;
+        }
+
+        if(cameraInBounds(horizontalPixels, verticalPixels)) {
+            this.cameraTransform.translate(horizontalPixels, verticalPixels);
+        }
+        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     private void onMouseClicked(MouseEvent mouseEvent) {
@@ -104,5 +137,19 @@ public class SimulatorCanvas {
 
     public void moveToPoint(Point2D point) {
         //jesse is verdrietig
+    }
+
+    /**
+     * Calculates if the given translate will fit within the set bounds.
+     * <p>
+     * Currently only works on translations, scale not yet implemented.
+     * @return  true if the given translate is in bounds
+     */
+    private boolean cameraInBounds(double translateX, double translateY) {
+        return (this.cameraTransform.getTranslateX() + translateX <= 1 &&
+                this.cameraTransform.getTranslateX() + translateX >= -(this.endX - this.startX - this.canvas.getWidth()) &&
+                this.cameraTransform.getTranslateY() + translateY <= 1 &&
+                this.cameraTransform.getTranslateY() + translateY >= -(this.endY - this.startY - this.canvas.getHeight())
+        );
     }
 }

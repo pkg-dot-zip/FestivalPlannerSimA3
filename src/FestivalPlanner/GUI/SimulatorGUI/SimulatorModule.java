@@ -12,7 +12,7 @@ public class SimulatorModule extends Application {
 
     public SimulatorModule() {
         this.mainPane = new BorderPane();
-        this.simulatorCanvas = new SimulatorCanvas(this, 800, 600);
+        this.simulatorCanvas = new SimulatorCanvas(this, 400, 400);
     }
 
     @Override
