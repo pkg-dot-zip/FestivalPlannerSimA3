@@ -53,7 +53,8 @@ Nadelen:
    moeten worden gedaan zodra je de tijd aanpast om dit te laten werken.
    Dit zou betekenen dat zodra je iets fout tiept je meteen een error krijgt,
    en dat we dus daar een work around voor moeten maken om het goed te laten werken.
-   3. Dit kan verwarend zijn voor de gebruiker.
+   3. Dit kan verwarend zijn voor de gebruiker omdat de gebruiker alleen merkt
+   dat de artiest niet beschikbaar is zonder melding.
    
 2. 1. We moeten de artiets nu naderhand veranderen.
    2. De artiest slaat informatie op die niet heel logisch is om op te
@@ -67,7 +68,7 @@ Voordelen:
 
 2.  Zelfde functionaliteit als de 3de methode maar sneller.
 
-3.  Er hoeft maar in een klasse gewerkt te worden.
+3.  Er hoeft maar in 1 klasse gewerkt te worden.
 
 Als we kijken naar deze voor- en nadelen Zien we dat het enige echte probleem
 van oplossing 3 is dat het niet zo snel werkt als de andere manieren, terwijl
@@ -76,6 +77,6 @@ Dat is een enorm voordeel terwijl het nadeel van efficientie niet van groot
 belang is bij dit onderdeel. Hierdoor vallen oplossing 1 en 2 alebei tekort
 omdat er teveel onnodig gesleutel is in andere klassen.
 
-   
+## Week 4
 
    
