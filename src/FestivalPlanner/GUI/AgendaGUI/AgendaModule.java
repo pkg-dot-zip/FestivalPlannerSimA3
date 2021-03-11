@@ -260,9 +260,10 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     /**
      * CallBack method to open <code>this.artistPopup</code>.
      */
-    public void podiumPopupEditCallBack() {
-        ArtistPopUp artistPopUp = new ArtistPopUp(this.stage, this.artistManager);
-        artistPopUp.load();
+    public void podiumPopupEditCallBack(Podium selectedPodium) {
+        PodiumPopup podiumPopup = new PodiumPopup(this.stage, this.podiumManager, selectedPodium);
+        podiumPopup.load();
+        this.agendaCanvas.reBuildAgendaCanvas();
     }
 
     @Nullable

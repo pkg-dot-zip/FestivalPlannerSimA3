@@ -59,7 +59,7 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         this.stage.setTitle(messages.getString("artists_and_podiums_editor"));
         this.stage.setScene(new Scene(gridPane));
         this.stage.setResizable(false);
-        this.stage.setWidth(250);
+        this.stage.setWidth(270);
         this.stage.setHeight(250);
         this.stage.setIconified(false);
         this.stage.initModality(Modality.APPLICATION_MODAL);
@@ -130,31 +130,38 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
             String selectedArtist = this.artistComboBox.getValue();
             this.agendaModule.getArtistManager().removeArtist(selectedArtist);
             updateArtistComboBox();
+            podiumComboBox.getSelectionModel().selectLast();
         });
 
         this.podiumRemoveButton.setOnAction(event -> {
             String selectedPodium = this.podiumComboBox.getValue();
             this.agendaModule.getPodiumManager().removePodium(selectedPodium);
             updatePodiumComboBox();
+            podiumComboBox.getSelectionModel().selectLast();
         });
 
         this.artistEditButton.setOnAction(event -> {
             String selectedArtist = this.artistComboBox.getValue();
-            this.agendaModule.artistPopupEditCallBack(this.agendaModule.getArtistManager().getArtist(selectedArtist));
-            updateArtistComboBox();
+            if (selectedArtist != null) {
+                this.agendaModule.artistPopupEditCallBack(this.agendaModule.getArtistManager().getArtist(selectedArtist));
+                updateArtistComboBox();
+                artistComboBox.getSelectionModel().selectNext();
+            }
         });
 
         this.podiumEditButton.setOnAction(event -> {
             String selectedPodium = this.podiumComboBox.getValue();
-            this.agendaModule.getPodiumManager().getPodium(selectedPodium);
-            updatePodiumComboBox();
+            if (selectedPodium != null) {
+                this.agendaModule.podiumPopupEditCallBack(this.agendaModule.getPodiumManager().getPodium(selectedPodium));
+                updatePodiumComboBox();
+                podiumComboBox.getSelectionModel().selectNext();
+            }
         });
 
         this.closeButton.setOnAction(e -> {
             this.stage.close();
         });
     }
-
     /**
      * Updates <code>this.artistComboBoc</code> to the correct value.
      */
@@ -168,6 +175,5 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
      */
     private void updateArtistComboBox() {
         this.observableArtistList.setAll(this.agendaModule.getArtistManager().getAllArtistNames());
-        System.out.println("done");
     }
 }

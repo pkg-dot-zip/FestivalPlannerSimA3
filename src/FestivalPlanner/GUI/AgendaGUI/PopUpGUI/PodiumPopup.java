@@ -47,11 +47,18 @@ public class PodiumPopup extends AbstractCreationPopUp{
 	public PodiumPopup(Stage primaryStage, PodiumManager podiumManager, Podium selectedPodium) {
 		super(primaryStage);
 		this.podiumManager = podiumManager;
+		this.selectedPodium = selectedPodium;
 	}
 
 	@Override
 	public void additionalLoad() {
 		this.popupStage.setTitle(messages.getString("podium_editor"));
+
+		if (this.selectedPodium != null) {
+			this.nameField.setText(this.selectedPodium.getName());
+			this.locationField.setText(this.selectedPodium.getLocation());
+			this.addButton.setText("Edit");
+		}
 	}
 
 	@Override
@@ -88,6 +95,10 @@ public class PodiumPopup extends AbstractCreationPopUp{
 			//Add the podium to the list and then update the ComboBox.
 			this.podiumManager.addPodium(new Podium(this.nameField.getText(),this.locationField.getText()));
 
+			if (this.selectedPodium != null) {
+				this.podiumManager.editArtist(this.selectedPodium.getName(),
+						new Podium(this.nameField.getText(), this.locationField.getText()));
+			}
 			//Exit stage.
 			this.popupStage.close();
 		} else {

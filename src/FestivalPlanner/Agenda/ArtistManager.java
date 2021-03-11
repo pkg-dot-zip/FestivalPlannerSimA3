@@ -59,6 +59,17 @@ public class ArtistManager {
         this.artists.remove(artistName);
     }
 
+    public void editArtist(String originalName, Artist editedArtist) {
+        Artist oldArtist = getArtist(originalName);
+
+        oldArtist.setName(editedArtist.getName());
+        oldArtist.setPicture(editedArtist.getPicture());
+        oldArtist.setSprite(editedArtist.getSprite());
+
+        this.artists.remove(originalName);
+        this.artists.put(oldArtist.getName(),oldArtist);
+    }
+
     /**
      * Searches for an <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> was not found.
@@ -71,16 +82,7 @@ public class ArtistManager {
         return this.artists.get(name);
     }
 
-    public void editArtist(String originalName, Artist editedArtist) {
-        Artist oldArtist = getArtist(originalName);
 
-        oldArtist.setName(editedArtist.getName());
-        oldArtist.setPicture(editedArtist.getPicture());
-        oldArtist.setSprite(editedArtist.getSprite());
-
-        this.artists.remove(originalName);
-        this.artists.put(oldArtist.getName(),oldArtist);
-    }
 
     /**
      * Returns a <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html">Set</a> with all the

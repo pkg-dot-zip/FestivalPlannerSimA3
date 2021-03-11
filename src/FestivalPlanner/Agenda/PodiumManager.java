@@ -50,6 +50,16 @@ public class PodiumManager {
         this.podiums.remove(podiumName);
     }
 
+    public void editArtist(String originalName, Podium editedPodium) {
+        Podium oldPodium = getPodium(originalName);
+
+        oldPodium.setName(editedPodium.getName());
+        oldPodium.setLocation(editedPodium.getLocation());
+
+        this.podiums.remove(originalName);
+        this.podiums.put(oldPodium.getName(), oldPodium);
+    }
+
     /**
      * Searches for a <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> was not found.
