@@ -11,6 +11,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Responsible for initialising and moving NPC around the simulatorCanvas
+ */
+
 public class NPC {
     private Point2D position;
     private final double SPEED = 1;
@@ -34,6 +38,14 @@ public class NPC {
     private int centerY;
 
     private final int COLLISION_RADIUS = 32;
+
+    /**
+     * Constructor for <code>NPC</code>.
+     * <p>
+     * Sets the position to the parameter's value and sets the appearance of the NPC by cutting up the imagine designated to it.
+     * @param position  changes <code>this.position</code> to the parameter's value
+     * @param spriteSheet  changes the appearance of the NPC in question.
+     */
 
     public NPC(Point2D position, int spriteSheet) {
         this.position = position;
@@ -211,6 +223,9 @@ public class NPC {
     }
 }
 
+/**
+ * Enum for the direction for an NPC
+ */
 enum Direction{
     UP,
     DOWN,
