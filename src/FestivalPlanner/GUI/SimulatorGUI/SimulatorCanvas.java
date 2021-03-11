@@ -15,7 +15,9 @@ import org.jfree.fx.ResizableCanvas;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Class that will draw a <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> to a canvas.
@@ -84,9 +86,10 @@ public class SimulatorCanvas extends AbstractGUI {
     @Override
     public void setup() {
 
-        while(this.npcList.size() < 1)
+        Random r = new Random(0);
+        while(this.npcList.size() < 100)
         {
-            NPC npc = new NPC(new Point2D.Double((int)(Math.random() * 1000), (int)(Math.random() * 1000)), 0);
+            NPC npc = new NPC(new Point2D.Double((int)(Math.random() * 1000), (int)(Math.random() * 1000)), r.nextInt(NPC.getCharacterFiles()));
             if(!npc.checkCollision(this.npcList))
             {
                 this.npcList.add(npc);
@@ -243,7 +246,7 @@ public class SimulatorCanvas extends AbstractGUI {
      * @param point  The proposed point to move to
      */
     public void moveToPoint(Point2D point) {
-        this.cameraTransform.translate(point.getX() - (this.cameraTransform.getTranslateX() + this.tileMap.getMapWidth()* this.tileMap.getTileWidth()/ 2), point.getY() - (this.cameraTransform.getTranslateY() + this.tileMap.getMapHeight() * this.tileMap.getTileHeight() /2));
+//        this.cameraTransform.translate(point.getX() - (this.cameraTransform.getTranslateX() + this.tileMap.getMapWidth()* this.tileMap.getTileWidth()/ 2), point.getY() - (this.cameraTransform.getTranslateY() + this.tileMap.getMapHeight() * this.tileMap.getTileHeight() /2));
 //        this.cameraTransform.translate(
 //                point.getX() - this.cameraTransform.getTranslateX() + this.simulatorModule.getStage().getWidth() / 2,
 //                point.getY() - this.cameraTransform.getTranslateY() + this.simulatorModule.getStage().getHeight() / 2
