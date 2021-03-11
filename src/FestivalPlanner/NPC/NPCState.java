@@ -1,7 +1,5 @@
 package FestivalPlanner.NPC;
 
-public class NPCState {
-    public void handle(){
-
-    }
+public abstract class NPCState {
+    public abstract void handle();
 }
