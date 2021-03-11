@@ -12,9 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Responsible for initialising and moving NPC around the simulatorCanvas
+ * Contains methods for everything related to NPC instances, which can be seen in <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorCanvas.html">SimulatorCanvas</a>.
  */
-
 public class NPC {
     private Point2D position;
     private final double SPEED = 1;
@@ -22,7 +21,7 @@ public class NPC {
     private Point2D target;
     private Direction direction = Direction.UP;
 
-    private NPCState npcState = new MovingState();
+    private NPCState npcState = new IdleState();
 
     private final int npcTileX = 4;
     private final int npcTileY = 3;
@@ -40,13 +39,12 @@ public class NPC {
     private final int COLLISION_RADIUS = 32;
 
     /**
-     * Constructor for <code>NPC</code>.
+     * Constructor for the <code>NPC</code> class.
      * <p>
-     * Sets the position to the parameter's value and sets the appearance of the NPC by cutting up the imagine designated to it.
+     * Sets the position to the parameter's value, and sets the appearance of the NPC by cutting up the imagine designated to it.
      * @param position  changes <code>this.position</code> to the parameter's value
-     * @param spriteSheet  changes the appearance of the NPC in question.
+     * @param spriteSheet  changes the appearance of the NPC in question
      */
-
     public NPC(Point2D position, int spriteSheet) {
         this.position = position;
         this.target = position;
@@ -103,8 +101,8 @@ public class NPC {
 
         Point2D oldPosition = this.position;
 
-        this.checkDirectionToHeadIn();
-        this.WalkOnAxis();
+        this.updateDirectionToFace();
+        this.walkOnAxis();
 
         boolean hasCollision = false;
         hasCollision = hasCollision || checkCollision(NPCs);
@@ -117,16 +115,17 @@ public class NPC {
         }
     }
 
-    public void checkDirectionToHeadIn(){
+    /**
+     * Updates this NPC' direction to the direction it should face to walk straight forward to its' target.
+     */
+    public void updateDirectionToFace(){
         if (this.position.getX() != this.target.getX()){
-            System.out.println("1");
             if (this.position.getX() < this.target.getX()){
                 this.direction = Direction.RIGHT;
             } else {
                 this.direction = Direction.LEFT;
             }
         } else if (this.position.getY() != this.target.getY()){
-            System.out.println("2");
             if (this.position.getY() > this.target.getY()){
                 this.direction = Direction.UP;
             } else {
@@ -136,7 +135,10 @@ public class NPC {
         this.debugPrint();
     }
 
-    public void WalkOnAxis(){
+    /**
+     * Updates the NPC' position to the current one, plus or minus the speed. This is dependent on the direction this NPC is facing.
+     */
+    public void walkOnAxis(){
         switch(this.direction){
             case UP:
                 this.position = new Point2D.Double(
@@ -160,9 +162,14 @@ public class NPC {
         }
     }
 
-    public boolean checkCollision(ArrayList<NPC> visitors) {
+    /**
+     * Returns a boolean, which is true if this NPC hits/enters another NPC' collider.
+     * @param npcs  ArrayList of NPC instances to check
+     * @return  boolean, whether the NPC hit another NPC instance
+     */
+    public boolean checkCollision(ArrayList<NPC> npcs) {
         boolean hasCollision = false;
-        for(NPC visitor : visitors) {
+        for(NPC visitor : npcs) {
             if(visitor != this) {
                 if(visitor.position.distanceSq(position) < COLLISION_RADIUS * COLLISION_RADIUS) {
                     hasCollision = true;
@@ -177,12 +184,26 @@ public class NPC {
         tx.translate(position.getX() - centerX, position.getY() - centerY);
         tx.translate(0, 20);
 
+        //Draws the NPC-sprite on the canvas.
         drawImage(g2d, listOfDirection(), tx);
-
+        //Draws a circle (resembling the collider), and a line (from the current position to the destination).
         debugDraw(g2d);
-
     }
 
+    /**
+     * Draws the <code>NPC</code>-sprite/character on the canvas.
+     * @param g2d  Graphics2D-canvas to draw on
+     * @param list  ArrayList containing images of the direction's walk-cycle
+     * @param tx  AffineTransform which values will be used for positioning the image
+     */
+    public void drawImage(Graphics2D g2d, ArrayList<BufferedImage> list, AffineTransform tx){
+        g2d.drawImage(list.get(((int)Math.floor(frame) % this.npcTileY + 1)), tx, null);
+    }
+
+    /**
+     * Returns an ArrayList containing the images for the direction this <code>NPC</code> is facing.
+     * @return  ArrayList containing images of the NPC' direction
+     */
     @Nullable
     public ArrayList<BufferedImage> listOfDirection(){
         if (this.direction == Direction.UP){
@@ -197,34 +218,51 @@ public class NPC {
         return null;
     }
 
+    /**
+     * Sets a target/destination for this NPC to move to.
+     * <p>
+     * Sets <code>this.target</code> to the parameter's value, which is a Point2D.
+     * @param newTarget  Point2D to travel to
+     */
     public void setTarget(Point2D newTarget) {
         this.target = newTarget;
     }
-    
-    public void drawImage(Graphics2D g2d, ArrayList<BufferedImage> list, AffineTransform tx){
-        g2d.drawImage(list.get(((int)Math.floor(frame) % this.npcTileY + 1)), tx, null);
+
+    /**
+     * Returns the length of the <code>characterFiles[]</code> array.
+     * @return  length of characterFiles[]
+     */
+    public static int getCharacterFiles(){
+        return characterFiles.length;
     }
-    
-    public void debugPrint(){
+
+    /**
+     * Draws a circle (resembling the collider), and a line (from the current position to the destination).
+     * <p>
+     * <b>Is only used for debugging purposes.</b>
+     * @param g2d  graphics2D to draw on
+     */
+    private void debugDraw(Graphics2D g2d){
+        g2d.setColor(Color.white);
+        g2d.draw(new Ellipse2D.Double(position.getX() - COLLISION_RADIUS / 2f, position.getY() + COLLISION_RADIUS / 4f, COLLISION_RADIUS, COLLISION_RADIUS));
+        g2d.draw(new Line2D.Double(position, target));
+    }
+
+    /**
+     * Prints <code>this.position</code> and <code>this.target</code> for both the X- and Y-axis.
+     * <p>
+     * <b>Is only used for debugging purposes.</b>
+     */
+    private void debugPrint(){
         System.out.println("PosY: " + this.position.getY());
         System.out.println("TarY: " + this.target.getY());
         System.out.println("PosX: " + this.position.getX());
         System.out.println("TarX: " + this.target.getX());
     }
-
-    public static int getCharacterFiles(){
-        return characterFiles.length;
-    }
-
-    public void debugDraw(Graphics2D g2d){
-        g2d.setColor(Color.white);
-        g2d.draw(new Ellipse2D.Double(position.getX() - COLLISION_RADIUS / 2f, position.getY() + COLLISION_RADIUS / 4f, COLLISION_RADIUS, COLLISION_RADIUS));
-        g2d.draw(new Line2D.Double(position, target));
-    }
 }
 
 /**
- * Enum for the direction for an NPC
+ * Contains enumerators for all the directions an NPC can have.
  */
 enum Direction{
     UP,

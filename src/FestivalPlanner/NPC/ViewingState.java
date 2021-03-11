@@ -1,7 +1,7 @@
 package FestivalPlanner.NPC;
 
 /**
- * Class to handle the behaviour of the NPCs who are viewing a concert
+ * Handles the behaviour of the NPCs who are viewing a concert.
  */
 public class ViewingState extends NPCState {
     @Override
