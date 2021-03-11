@@ -20,12 +20,12 @@ import java.util.ResourceBundle;
 public abstract class AbstractDialogPopUp {
 
     //LanguageHandling
-    private ResourceBundle messages = LanguageHandler.getMessages();
+    private static ResourceBundle messages = LanguageHandler.getMessages();
 
     /**
      * Prompts the user with the choice to exit the program or cancel this operation.
      */
-    public void showExitConfirmationPopUp(){
+    public static void showExitConfirmationPopUp(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(messages.getString("exit_confirmation"));
         alert.setHeaderText(messages.getString("are_you_sure_you_want_to_exit"));
@@ -42,7 +42,7 @@ public abstract class AbstractDialogPopUp {
     /**
      * Prompts the user with the choice to delete a show or cancel this operation.
      */
-    public boolean showDeleteConfirmationPopUp(){
+    public static boolean showDeleteConfirmationPopUp(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(messages.getString("remove_confirmation"));
         alert.setHeaderText(messages.getString("are_you_sure_you_want_to_remove_this_show"));
@@ -58,7 +58,7 @@ public abstract class AbstractDialogPopUp {
      * Opens a window containing a message, with the goal of informing the user that <code>TextFields</code> are
      * empty and should be filled in.
      */
-    public void showEmptyTextFieldsPopUp(){
+    public static void showEmptyTextFieldsPopUp(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(messages.getString("empty_textfields"));
         alert.setHeaderText(messages.getString("missing_values"));
@@ -72,7 +72,7 @@ public abstract class AbstractDialogPopUp {
      * Opens a window containing a message, with the goal of informing the user that an already occupied
      * <code>Artist</code> was assigned and should be changed/removed.
      */
-    public void showDuplicateArtistPopUp(){
+    public static void showDuplicateArtistPopUp(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(messages.getString("duplicate_artists"));
         alert.setHeaderText(messages.getString("artist_already_occupied"));
@@ -86,7 +86,7 @@ public abstract class AbstractDialogPopUp {
      * from the exception received as a parameter.
      * @param e  exception to get the text from
      */
-    public void showExceptionPopUp(Exception e){
+    public static void showExceptionPopUp(Exception e){
         if (SaveSettingsHandler.getPreference("use_exception_popups").contains("true")){
             GridPane exceptionGridPane = new GridPane();
 
@@ -115,7 +115,7 @@ public abstract class AbstractDialogPopUp {
      * Opens a window containing a message, with the goal of informing the user that <code>this.currentShow</code> in
      * <code>AgendaModule</code> is equal to <i>Null</i>.
      */
-    public void showNoArtistsOrPodiumsPopUp(){
+    public static void showNoArtistsOrPodiumsPopUp(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(messages.getString("cant_create_show"));
         alert.setHeaderText(messages.getString("no_artists_and_or_podiums_to_choose_from"));
@@ -128,7 +128,7 @@ public abstract class AbstractDialogPopUp {
      * Opens a window containing a message, with the goal of informing the user that <code>this.currentShow</code> in
      * <code>AgendaModule</code> is equal to <i>Null</i>.
      */
-    public void showNoLayerSelectedPopUp(){
+    public static void showNoLayerSelectedPopUp(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(messages.getString("cant_get_selected_show"));
         alert.setHeaderText(messages.getString("no_selected_layer"));
@@ -143,7 +143,7 @@ public abstract class AbstractDialogPopUp {
      * <p>
      * This PopUp should only be called when the user clicks on the "Swap" ContextMenuItem while having more than 2 layers selected.
      */
-    public void showTooManyLayersSelectedPopUp(int showCount){
+    public static void showTooManyLayersSelectedPopUp(int showCount){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(messages.getString("too_many_layers_selected"));
         alert.setHeaderText(messages.getString("expected_two_layers"));

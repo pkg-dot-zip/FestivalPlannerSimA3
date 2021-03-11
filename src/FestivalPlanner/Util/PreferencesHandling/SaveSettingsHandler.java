@@ -1,5 +1,6 @@
 package FestivalPlanner.Util.PreferencesHandling;
 
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.Util.MathHandling.ColorConverter;
 import com.sun.istack.internal.NotNull;
 import javax.swing.*;
@@ -28,9 +29,10 @@ public class SaveSettingsHandler implements Serializable {
             f.close();
         }
         catch(IOException e) {
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         catch(Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         configFile.setProperty(Key, Value);
         try {
@@ -38,6 +40,7 @@ public class SaveSettingsHandler implements Serializable {
             configFile.storeToXML(f,"Configuration file for the Preference-System");
         }
         catch(Exception e) {
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 
@@ -54,9 +57,10 @@ public class SaveSettingsHandler implements Serializable {
             f.close();
         }
         catch(IOException e) {
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         catch(Exception e) {
-            JOptionPane.showMessageDialog(null , e.getMessage());
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return (configFile.getProperty(Key));
     }
