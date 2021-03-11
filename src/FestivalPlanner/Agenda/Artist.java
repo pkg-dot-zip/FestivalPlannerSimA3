@@ -51,14 +51,26 @@ public class Artist implements Serializable {
         return this.sprite;
     }
 
+    /**
+     * Changes the name to a new name.
+     * @param name the new name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Changes the picture to a new picture.
+     * @param picture the new picture
+     */
     public void setPicture(BufferedImage picture) {
         this.picture = picture;
     }
 
+    /**
+     * Changes the sprite to a new sprite.
+     * @param sprite the new sprite
+     */
     public void setSprite(BufferedImage sprite) {
         this.sprite = sprite;
     }

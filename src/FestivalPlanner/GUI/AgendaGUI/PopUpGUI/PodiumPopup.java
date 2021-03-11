@@ -96,7 +96,7 @@ public class PodiumPopup extends AbstractCreationPopUp{
 			this.podiumManager.addPodium(new Podium(this.nameField.getText(),this.locationField.getText()));
 
 			if (this.selectedPodium != null) {
-				this.podiumManager.editArtist(this.selectedPodium.getName(),
+				this.podiumManager.editPodium(this.selectedPodium.getName(),
 						new Podium(this.nameField.getText(), this.locationField.getText()));
 			}
 			//Exit stage.

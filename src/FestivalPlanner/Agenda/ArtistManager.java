@@ -59,6 +59,13 @@ public class ArtistManager {
         this.artists.remove(artistName);
     }
 
+    /**
+     * changes a <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> within PodiumManager to have the same
+     * values as the given a <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a>.
+     * @param originalName the name of the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> you
+     *      *                     want to edit
+     * @param editedArtist the new version of the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a>
+     */
     public void editArtist(String originalName, Artist editedArtist) {
         Artist oldArtist = getArtist(originalName);
 
