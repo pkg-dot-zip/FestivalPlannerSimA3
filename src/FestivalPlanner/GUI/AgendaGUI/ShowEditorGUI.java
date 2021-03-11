@@ -3,6 +3,7 @@ package FestivalPlanner.GUI.AgendaGUI;
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.GUI.AbstractGUI;
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -270,7 +271,7 @@ public class ShowEditorGUI extends AbstractGUI {
             podiumComboBox.getSelectionModel().isEmpty() ||
             podiumComboBox.getSelectionModel().getSelectedItem().isEmpty()
         ) {
-            showEmptyTextFieldsPopUp();
+            AbstractDialogPopUp.showEmptyTextFieldsPopUp();
             return false;
         } else {
             return true;
@@ -290,7 +291,7 @@ public class ShowEditorGUI extends AbstractGUI {
 			this.attemptedStartTime = LocalTime.parse(this.startTimeTextField.getText());
 			this.attemptedEndTime = LocalTime.parse(this.endTimeTextField.getText());
 		} catch (Exception e) {
-			showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
 		}
 
 		this.selectedShowArtistArrayList.clear();
@@ -304,8 +305,8 @@ public class ShowEditorGUI extends AbstractGUI {
 				ArrayList<Artist> artistsFromShow = show.getArtists();
 				for (Artist artist : this.selectedShowArtistArrayList) {
 				 if  (artistsFromShow.contains(artist)) {
-				 	showDuplicateArtistPopUp();
-				 	return true;
+				     AbstractDialogPopUp.showDuplicateArtistPopUp();
+				     return true;
 					}
 				}
 			}

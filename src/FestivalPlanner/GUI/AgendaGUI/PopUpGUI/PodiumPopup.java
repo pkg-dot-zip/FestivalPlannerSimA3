@@ -78,7 +78,7 @@ public class PodiumPopup extends AbstractCreationPopUp{
 			//Exit stage.
 			this.popupStage.close();
 		} else {
-			showEmptyTextFieldsPopUp();
+			AbstractDialogPopUp.showEmptyTextFieldsPopUp();
 		}
 	}
 }

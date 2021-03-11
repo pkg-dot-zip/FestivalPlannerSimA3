@@ -1,6 +1,5 @@
 package FestivalPlanner.GUI;
 
-import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -10,7 +9,7 @@ import java.util.ResourceBundle;
 /**
  * Abstract class containing the main methods and attributes all our GUI classes use.
  */
-public abstract class AbstractGUI extends AbstractDialogPopUp {
+public abstract class AbstractGUI {
 
     protected final int HBOX_SPACING = 5;
     protected final int VBOX_SPACING = 5;

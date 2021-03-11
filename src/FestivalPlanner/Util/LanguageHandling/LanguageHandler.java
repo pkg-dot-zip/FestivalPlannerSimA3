@@ -1,5 +1,6 @@
 package FestivalPlanner.Util.LanguageHandling;
 
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -35,6 +36,7 @@ public class LanguageHandler {
             selectedLocale = Locale.forLanguageTag(SaveSettingsHandler.getPreference("Language"));
         } catch (NullPointerException e){
             selectedLocale = nlLocale;
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return selectedLocale;
     }

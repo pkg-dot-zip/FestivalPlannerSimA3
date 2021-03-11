@@ -111,7 +111,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Artist Photo (.png)", "*.png"));
             return fileChooser.showOpenDialog(new Stage()).getAbsolutePath();
         } catch (NullPointerException e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return null;
     }
@@ -125,7 +125,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             this.artistPicture = ImageIO.read(pictureURL);
             pictureView.setImage(SwingFXUtils.toFXImage(this.artistPicture, null));
         } catch (Exception e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 
@@ -139,7 +139,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Artist Sprite (.png)", "*.png"));
             return fileChooser.showOpenDialog(new Stage()).getAbsolutePath();
         } catch (NullPointerException e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return null;
     }
@@ -153,7 +153,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             this.artistSprite = ImageIO.read(pictureURL);
             spriteView.setImage(SwingFXUtils.toFXImage(this.artistPicture, null));
         } catch (Exception e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 
@@ -166,7 +166,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             //Exit stage.
             this.popupStage.close();
         } else {
-            showEmptyTextFieldsPopUp();
+            AbstractDialogPopUp.showEmptyTextFieldsPopUp();
         }
     }
 }

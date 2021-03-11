@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 /**
  * Contains methods for all PopUps used in the program.
  */
-public abstract class AbstractDialogPopUp {
+public class AbstractDialogPopUp {
 
     //LanguageHandling
     private static ResourceBundle messages = LanguageHandler.getMessages();

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
 import FestivalPlanner.GUI.PreferencesGUI;
@@ -154,7 +155,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         });
 
         exitMenuItem.setOnAction(e -> {
-            showExitConfirmationPopUp();
+            AbstractDialogPopUp.showExitConfirmationPopUp();
         });
 
             //EditMenu
@@ -168,7 +169,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
                 ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
                 showEditorGUI.load();
             } else {
-                showNoArtistsOrPodiumsPopUp();
+                AbstractDialogPopUp.showNoArtistsOrPodiumsPopUp();
             }
         });
 
@@ -189,7 +190,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
                 ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
                 showEditorGUI.load();
             } else {
-                showNoLayerSelectedPopUp();
+                AbstractDialogPopUp.showNoLayerSelectedPopUp();
             }
             this.agendaCanvas.reBuildAgendaCanvas();
         });
@@ -197,9 +198,9 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             //Swap
         swapContextItem.setOnAction(e -> {
             if (getSelectedShows().size() < 2){
-                showNoLayerSelectedPopUp();
+                AbstractDialogPopUp.showNoLayerSelectedPopUp();
             } else if (getSelectedShows().size() > 2){
-                showTooManyLayersSelectedPopUp(getSelectedShows().size());
+                AbstractDialogPopUp.showTooManyLayersSelectedPopUp(getSelectedShows().size());
             } else {
                 Show showA = new Show(getSelectedShows().get(0));
                 Show showB = new Show(getSelectedShows().get(1));
@@ -254,7 +255,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Agenda File", "*.dat"));
             return fileChooser.showOpenDialog(new Stage()).getAbsolutePath();
         } catch (NullPointerException e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return null;
     }
@@ -292,7 +293,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             String path = fileChooser.showSaveDialog(new Stage()).getAbsolutePath();
             saveHandler.writeAgendaToFile(path, this.agenda);
         } catch (NullPointerException e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 
@@ -341,11 +342,11 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      */
     private void removeCurrentShows(){
         if (getSelectedShows().size() == 1){
-            if (showDeleteConfirmationPopUp()){
+            if (AbstractDialogPopUp.showDeleteConfirmationPopUp()){
                 this.agenda.removeShow(this.getCurrentShow());
             }
         } else if (getSelectedShows().size() > 1){
-            if (showDeleteConfirmationPopUp()){
+            if (AbstractDialogPopUp.showDeleteConfirmationPopUp()){
                 getSelectedShows().forEach(e -> {
                     this.agenda.removeShow(e);
                 });

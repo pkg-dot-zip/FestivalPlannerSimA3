@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 /**
  * Contains all the data for an artist, such as the name, picture and sprite.
  */
-public class Artist extends AbstractDialogPopUp implements Serializable {
+public class Artist implements Serializable {
 
     private String name;
     private transient BufferedImage picture;
@@ -74,7 +74,7 @@ public class Artist extends AbstractDialogPopUp implements Serializable {
             ImageIO.write(this.sprite, "png", spriteFile);
         } catch (Exception e) {
             e.printStackTrace();
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 
@@ -91,11 +91,11 @@ public class Artist extends AbstractDialogPopUp implements Serializable {
             this.picture = ImageIO.read(pictureFile);
             this.sprite = ImageIO.read(spriteFile);
         } catch (FileNotFoundException e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
             this.picture = null;
             this.sprite = null;
         } catch (Exception e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 }
