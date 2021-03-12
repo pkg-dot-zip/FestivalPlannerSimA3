@@ -90,7 +90,6 @@ public class SimulatorCanvas extends AbstractGUI {
 
     @Override
     public void actionHandlingSetup() {
-        //@TODO setonmousclick etc..
         this.canvas.setOnKeyPressed(this::onWASD);
         this.canvas.setOnMouseDragged(this::onMouseDragged);
         this.canvas.setOnMousePressed(this::onMousePressed);
@@ -139,7 +138,11 @@ public class SimulatorCanvas extends AbstractGUI {
         AffineTransform transform = new AffineTransform();
         transform.scale(scaleFactor, scaleFactor);
         if (cameraInBounds(transform)) {
+            double tempX = this.cameraTransform.getTranslateX();
+            double tempY = this.cameraTransform.getTranslateY();
+            this.cameraTransform.translate(-tempX, -tempY);
             this.cameraTransform.scale(scaleFactor, scaleFactor);
+            this.cameraTransform.translate(tempX, tempY);
         }
     }
 
@@ -206,7 +209,7 @@ public class SimulatorCanvas extends AbstractGUI {
     /**
      * Handles the event when the user drags the mouse-button across the screen
      * <p>
-     * If the primary button is dragged the method wil check if the operation is allowed by calling {@link #cameraInBounds(double, double)}
+     * If the primary button is dragged the method wil check if the operation is allowed by calling {@link #cameraInBounds(AffineTransform)}
      * If correct the screen will be moved to the new position. When done <code>this.dragPoint</code> will be reset to null
      * @param mouseEvent  The MouseEvent the user used to drag
      */
