@@ -135,8 +135,12 @@ public class SimulatorCanvas extends AbstractGUI {
      * @param scrollEvent  The ScrollEvent that was used to scroll
      */
     private void onScrolled(ScrollEvent scrollEvent) {
-        double scaleFactor = 1 + (scrollEvent.getDeltaY() / 100);
-        this.cameraTransform.scale(scaleFactor, scaleFactor);
+        double scaleFactor = 1 + (scrollEvent.getDeltaY() / 1000);
+        AffineTransform transform = new AffineTransform();
+        transform.scale(scaleFactor, scaleFactor);
+        if (cameraInBounds(transform)) {
+            this.cameraTransform.scale(scaleFactor, scaleFactor);
+        }
     }
 
     /**
@@ -169,7 +173,9 @@ public class SimulatorCanvas extends AbstractGUI {
                 break;
         }
 
-        if(cameraInBounds(horizontalPixels, verticalPixels)) {
+        AffineTransform transform = new AffineTransform();
+        transform.translate(horizontalPixels, verticalPixels);
+        if(cameraInBounds(transform)) {
             this.cameraTransform.translate(horizontalPixels, verticalPixels);
         }
     }
@@ -209,7 +215,9 @@ public class SimulatorCanvas extends AbstractGUI {
             double horizontalPixels = (mouseEvent.getX() - dragPoint.getX()) / this.cameraTransform.getScaleX();
             double verticalPixels = (mouseEvent.getY() - dragPoint.getY()) / this.cameraTransform.getScaleY();
 
-            if (this.cameraInBounds(horizontalPixels, verticalPixels)) {
+            AffineTransform transform = new AffineTransform();
+            transform.translate(horizontalPixels, verticalPixels);
+            if (this.cameraInBounds(transform)) {
                 this.cameraTransform.translate(horizontalPixels, verticalPixels);
             }
 
@@ -235,14 +243,13 @@ public class SimulatorCanvas extends AbstractGUI {
      * Currently only works on translations, scale not yet implemented.
      * @return  true if the given translate is in bounds
      */
-    private boolean cameraInBounds(double translateX, double translateY) {
-        System.out.println((this.cameraTransform.getTranslateX() + translateX) / this.cameraTransform.getScaleX());
-        System.out.println("q" + -(((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX()))));
-
-        return ((this.cameraTransform.getTranslateX() + translateX) / this.cameraTransform.getScaleX() <= 1 &&
-                (this.cameraTransform.getTranslateX() + translateX) / this.cameraTransform.getScaleX() >= -((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX())) &&
-                (this.cameraTransform.getTranslateY() + translateY) / this.cameraTransform.getScaleY() <= 1 &&
-                (this.cameraTransform.getTranslateY() + translateY) / this.cameraTransform.getScaleY() >= -((this.endY - this.startY) - (this.canvas.getHeight() / this.cameraTransform.getScaleY()))
+    private boolean cameraInBounds(AffineTransform transform) {
+        return ((this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() <= 1 &&
+                (this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() >= -((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX())) &&
+                (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() <= 1 &&
+                (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() >= -((this.endY - this.startY) - (this.canvas.getHeight() / this.cameraTransform.getScaleY())) &&
+                (this.cameraTransform.getScaleX() * transform.getScaleX()) < 2.5 &&
+                (this.cameraTransform.getScaleX() * transform.getScaleX()) > 0.5
         );
     }
 }
