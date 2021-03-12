@@ -67,7 +67,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             this.nameField.setText(this.selectedArtist.getName());
             this.artistPicture = this.selectedArtist.getPicture();
             this.artistSprite = this.selectedArtist.getSprite();
-            this.addButton.setText("Edit");
+            this.addButton.setText(messages.getString("edit_button"));
         }
     }
 

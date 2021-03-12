@@ -43,8 +43,8 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
     private Button artistRemoveButton = new Button("-");
     private Button artistAddButton = new Button("+");
     private Button podiumAddButton = new Button("+");
-    private Button podiumEditButton = new Button("Edit");
-    private Button artistEditButton = new Button("Edit");
+    private Button podiumEditButton = new Button(messages.getString("edit_button"));
+    private Button artistEditButton = new Button(messages.getString("edit_button"));
 
     public ArtistAndPodiumEditorGUI(AgendaModule agendaModule) {
         this.agendaModule = agendaModule;
@@ -59,7 +59,7 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         this.stage.setTitle(messages.getString("artists_and_podiums_editor"));
         this.stage.setScene(new Scene(gridPane));
         this.stage.setResizable(false);
-        this.stage.setWidth(270);
+        this.stage.setWidth(300);
         this.stage.setHeight(250);
         this.stage.setIconified(false);
         this.stage.initModality(Modality.APPLICATION_MODAL);

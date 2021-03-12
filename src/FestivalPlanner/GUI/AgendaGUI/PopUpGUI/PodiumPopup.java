@@ -57,7 +57,7 @@ public class PodiumPopup extends AbstractCreationPopUp{
 		if (this.selectedPodium != null) {
 			this.nameField.setText(this.selectedPodium.getName());
 			this.locationField.setText(this.selectedPodium.getLocation());
-			this.addButton.setText("Edit");
+			this.addButton.setText(messages.getString("edit_button"));
 		}
 	}
 
