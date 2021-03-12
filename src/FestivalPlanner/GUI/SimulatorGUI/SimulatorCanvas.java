@@ -7,6 +7,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
@@ -94,6 +95,7 @@ public class SimulatorCanvas extends AbstractGUI {
         this.canvas.setOnMouseDragged(this::onMouseDragged);
         this.canvas.setOnMousePressed(this::onMousePressed);
         this.canvas.setOnMouseReleased(this::onMouseReleased);
+        this.canvas.setOnScroll(this::onScrolled);
     }
 
     /**
@@ -130,11 +132,11 @@ public class SimulatorCanvas extends AbstractGUI {
 
     /**
      * Handles the event when the user scrolls.
-     * @param mouseEvent  The MouseEvent that was used to scroll
+     * @param scrollEvent  The ScrollEvent that was used to scroll
      */
-    //@Todo: needs implementation
-    private void onScrolled(MouseEvent mouseEvent) {
-        //klinkt moeilijk
+    private void onScrolled(ScrollEvent scrollEvent) {
+        double scaleFactor = 1 + (scrollEvent.getDeltaY() / 100);
+        this.cameraTransform.scale(scaleFactor, scaleFactor);
     }
 
     /**
@@ -204,8 +206,8 @@ public class SimulatorCanvas extends AbstractGUI {
      */
     private void onMouseDragged(MouseEvent mouseEvent) {
         if (this.dragPoint != null) {
-            double horizontalPixels = (mouseEvent.getX() - dragPoint.getX());
-            double verticalPixels = (mouseEvent.getY() - dragPoint.getY());
+            double horizontalPixels = (mouseEvent.getX() - dragPoint.getX()) / this.cameraTransform.getScaleX();
+            double verticalPixels = (mouseEvent.getY() - dragPoint.getY()) / this.cameraTransform.getScaleY();
 
             if (this.cameraInBounds(horizontalPixels, verticalPixels)) {
                 this.cameraTransform.translate(horizontalPixels, verticalPixels);
@@ -234,10 +236,13 @@ public class SimulatorCanvas extends AbstractGUI {
      * @return  true if the given translate is in bounds
      */
     private boolean cameraInBounds(double translateX, double translateY) {
-        return (this.cameraTransform.getTranslateX() + translateX <= 1 &&
-                this.cameraTransform.getTranslateX() + translateX >= -(this.endX - this.startX - this.canvas.getWidth()) &&
-                this.cameraTransform.getTranslateY() + translateY <= 1 &&
-                this.cameraTransform.getTranslateY() + translateY >= -(this.endY - this.startY - this.canvas.getHeight())
+        System.out.println((this.cameraTransform.getTranslateX() + translateX) / this.cameraTransform.getScaleX());
+        System.out.println("q" + -(((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX()))));
+
+        return ((this.cameraTransform.getTranslateX() + translateX) / this.cameraTransform.getScaleX() <= 1 &&
+                (this.cameraTransform.getTranslateX() + translateX) / this.cameraTransform.getScaleX() >= -((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX())) &&
+                (this.cameraTransform.getTranslateY() + translateY) / this.cameraTransform.getScaleY() <= 1 &&
+                (this.cameraTransform.getTranslateY() + translateY) / this.cameraTransform.getScaleY() >= -((this.endY - this.startY) - (this.canvas.getHeight() / this.cameraTransform.getScaleY()))
         );
     }
 }
