@@ -53,8 +53,10 @@ Nadelen:
    moeten worden gedaan zodra je de tijd aanpast om dit te laten werken.
    Dit zou betekenen dat zodra je iets fout tiept je meteen een error krijgt,
    en dat we dus daar een work around voor moeten maken om het goed te laten werken.
-   3. Dit kan verwarend zijn voor de gebruiker omdat de gebruiker alleen merkt
-   dat de artiest niet beschikbaar is zonder melding.
+   3. Dit kan verwarend zijn voor de gebruiker omdat er niet word uitgelegd
+   waarom die artiesten zich niet in de lijst bevinden.
+   4. Als de tijd verandert word moet de artiesten lijst geleegd worden om
+   dit te laten werken.
    
 2. 1. We moeten de artiets nu naderhand veranderen.
    2. De artiest slaat informatie op die niet heel logisch is om op te
@@ -77,6 +79,63 @@ Dat is een enorm voordeel terwijl het nadeel van efficientie niet van groot
 belang is bij dit onderdeel. Hierdoor vallen oplossing 1 en 2 alebei tekort
 omdat er teveel onnodig gesleutel is in andere klassen.
 
-## Week 4
+De daadwerkelijke implementatie ziet eruit als volgt:
 
-   
+```java
+private boolean containsDuplicateArtist() {
+        try {
+            this.attemptedStartTime = LocalTime.parse(this.startTimeTextField.getText());
+            this.attemptedEndTime = LocalTime.parse(this.endTimeTextField.getText());
+
+            this.selectedShowArtistArrayList.clear();
+            this.selectedShowArtistArrayList.addAll(this.artistsList.getItems());
+
+            for (Show show : this.agendaModule.getAgenda().getShows()) {
+                if (show.getStartTime().isBefore(this.selectedShow.getEndTime()) &&
+                        show.getEndTime().isAfter(this.selectedShow.getStartTime()) &&
+                        !show.equals(this.selectedShow)
+                ) {
+                    ArrayList<Artist> artistsFromShow = show.getArtists();
+                    for (Artist artist : this.selectedShowArtistArrayList) {
+                        if (artistsFromShow.contains(artist)) {
+                            AbstractDialogPopUp.showDuplicateArtistPopUp();
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            AbstractDialogPopUp.showExceptionPopUp(e);
+        }
+        return false;
+    }
+```
+
+Deze methode word aangeroepen wanneer een show word aangemaakt of bewerkt
+We beginnen door alle benodigde informatie op te halen. Daarna gaan we kijken
+naar alle shows en controleren we of onze starttijd voor hun eindtijd
+is en of onze eindtijd voor hun starttijd is. Als dat alebei waar is dan hebben
+de shows overlap in tijd. Daarna halen we alle artiesten van die show op
+en kijken we of er in die lijst een artiest zit die ook in de show die we proberen
+te maken/bewerken zit. als dat correct is returnen we true en laten we een
+een popup zien die je vertelt wat je fout doet want dan probeer
+je een artiest in te plannen op hetzelfde moment bij 2 shows.
+
+## Week 4 
+
+We kwamen erachter dat we een heel belangrijk onderdeel waren vergeten, 
+namelijk het bewerken van al bestaande podiums en artiesten. En het
+was mijn taak om dit op te lossen. Maar nou stond ik voor een echt probleem.
+De podiums en artiesten zitten heel diep in ons project verwikkeld, het is niet
+mogelijk om dit te bewerken zonder veel aan oude code te zitten.
+Ik realiseerde me dat ik hier zo voorzichtig in moest gaan werken alsof
+ik door een gebeid met landmijnen aan het lopen was.
+
+Maar dan nu nadenken over hoe ik het ging implementeren? 
+Als ik gewoon de oude artiest verwijder en de nieuwe toevoeg 
+worden ze ook meteen uit alle shows gehaald. Het is natuurlijk veel leuker
+als ze in de shows blijven wanneer je ze bewerkt dat ze wel in de shows blijven
+Ik dacht dat de mallelijkste manier om dat te bereiken was om
+setters aan alle atributen van artiesten en podiums te geven, en
+te zorgen dat die werden aangeroepen wanneer je een podium of
+artiest probeert aan te passen.

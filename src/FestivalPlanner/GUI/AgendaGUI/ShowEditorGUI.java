@@ -286,33 +286,33 @@ public class ShowEditorGUI extends AbstractGUI {
 	 *
 	 * @return boolean to check whether we set the current show's values to the ones in the GUI
 	 */
-	private boolean containsDuplicateArtist() {
-		try {
-			this.attemptedStartTime = LocalTime.parse(this.startTimeTextField.getText());
-			this.attemptedEndTime = LocalTime.parse(this.endTimeTextField.getText());
-		} catch (Exception e) {
+    private boolean containsDuplicateArtist() {
+        try {
+            this.attemptedStartTime = LocalTime.parse(this.startTimeTextField.getText());
+            this.attemptedEndTime = LocalTime.parse(this.endTimeTextField.getText());
+
+            this.selectedShowArtistArrayList.clear();
+            this.selectedShowArtistArrayList.addAll(this.artistsList.getItems());
+
+            for (Show show : this.agendaModule.getAgenda().getShows()) {
+                if (show.getStartTime().isBefore(this.selectedShow.getEndTime()) &&
+                        show.getEndTime().isAfter(this.selectedShow.getStartTime()) &&
+                        !show.equals(this.selectedShow)
+                ) {
+                    ArrayList<Artist> artistsFromShow = show.getArtists();
+                    for (Artist artist : this.selectedShowArtistArrayList) {
+                        if (artistsFromShow.contains(artist)) {
+                            AbstractDialogPopUp.showDuplicateArtistPopUp();
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);
-		}
-
-		this.selectedShowArtistArrayList.clear();
-		this.selectedShowArtistArrayList.addAll(this.artistsList.getItems());
-
-		for (Show show : this.agendaModule.getAgenda().getShows()) {
-			if (show.getStartTime().isBefore(this.selectedShow.getEndTime()) &&
-					show.getEndTime().isAfter(this.selectedShow.getStartTime()) &&
-					!show.equals(this.selectedShow)
-			) {
-				ArrayList<Artist> artistsFromShow = show.getArtists();
-				for (Artist artist : this.selectedShowArtistArrayList) {
-				 if  (artistsFromShow.contains(artist)) {
-				     AbstractDialogPopUp.showDuplicateArtistPopUp();
-				     return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
+        }
+        return false;
+    }
 
     //TODO: Embed all code under this line into other methods.
     private VBox genericVBox() {
