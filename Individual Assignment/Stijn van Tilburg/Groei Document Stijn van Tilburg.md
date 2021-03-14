@@ -139,3 +139,73 @@ Ik dacht dat de mallelijkste manier om dat te bereiken was om
 setters aan alle atributen van artiesten en podiums te geven, en
 te zorgen dat die werden aangeroepen wanneer je een podium of
 artiest probeert aan te passen.
+
+```java
+public void editArtist(String originalName, Artist editedArtist) {
+        Artist oldArtist = getArtist(originalName);
+
+        oldArtist.setName(editedArtist.getName());
+        oldArtist.setPicture(editedArtist.getPicture());
+        oldArtist.setSprite(editedArtist.getSprite());
+    }
+```
+
+Simpel toch? Blijkbaar niet want toen ik het had uitgewerkt werkte het niet.
+Maar de artiesten werden aangepast, dat wist ik zeker. Maar waarom was het
+dan zo dat in de comboboxen de oude naam bleef staan. Als ik een artiest of
+podium ergens aan toe wou voegen werd de nieuwe toegevoegd.
+
+Het was tijd om na te denken over elke levenskeuze die me in deze 
+positie heeft gebracht.
+
+Dus ging ik een opsomming maken van wat er nou aan de hand was.
+
+* De artiesten worden aangepast maar het lijkt alsof de oude blijft staan.
+
+* In de agenda staat eerst nog de oude artiest todat je erop klikt zodat
+hij updated.
+
+Het leek dus alsof een stuk van de informatie niet goed aangepast werd.
+Maar hoe kon dat, om daarachter te komen ging ik goed nadenken . Hoe 
+verspreiden we de informatie over de artiesten en podiums? Waar word alle
+informatie opgeslagen?
+
+We slaan de informate op in manager klassen, dus het moest daar zitten. 
+En dat was wanneer ik het eindelijk begreep. We hebben HashMaps die de
+podiums en artiesten opslaan, en om de podiums en artiesten op te vragen moet
+je de naam geven. Maar die naam word niet verandert wanneer je de artiest
+verandert.
+
+We gebruiken zelfs de keyset op sommige plaatsen zodat daar geen onnodige
+informatie is, maar dat betekende dus dat ze ook alleen de oude namen kregen.
+
+Maar de keys in een HashMap zijn final, dus hoe pas ik zoiets aan?
+
+ ```java
+    public void editArtist(String originalName, Artist editedArtist) {
+        Artist oldArtist = getArtist(originalName);
+
+        oldArtist.setName(editedArtist.getName());
+        oldArtist.setPicture(editedArtist.getPicture());
+        oldArtist.setSprite(editedArtist.getSprite());
+
+        this.artists.remove(originalName);
+        this.artists.put(oldArtist.getName(),oldArtist);
+    }
+```
+
+We verwijderen de key en value, en stoppen de key en met de nieuwe value erin.
+
+Doordat we de oude artiest veranderen en meegeven blijft de artiest staan
+bij alle shows waar de artiest origineel was gepland
+
+Alhoewel dit alleen voor de artiest is gebeurt er hetzelfde bij de podium
+maar dan met de variabelen van een podium.
+
+Hoe kon het gebeuren dat ik zoeits over het hoofd zag?
+
+Ik was veelste gefocussed op het veranderen van de informatie binnen
+de artiesten en podiums, ik had ook meteen moeten nadenken over hoe die
+informatie werd verspreden.
+
+## Week 5
