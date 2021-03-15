@@ -201,11 +201,13 @@ Na het senior gesprek zijn er een paar kleine aanpassingen gemaakt, maar hij was
 
 ---
 
-### Reflectie proces
+### Reflectie vakinhoudelijk
 
 Achtergrond voor deze week: Deze week zijn wij bezig met het ontwerp zoals in het vorige stukje uitgelegd.
 Vakinhoudelijk zijn wij deze week bezig geweest met en implementeren van de TileMap klassen die wij hiervoor hebben
 ontworpen. Hierna moest onze gemaakt Tilemap Json bestand worden uitgelezen.
+
+##### Uitlezen Json-bestand
 
 Ik wil het in de reflectie van deze week hebben over één probleem waar ik tegen aan liep tijdens het uitlezen van een
 Json bestand. In ons ontwerp is er voor gekozen om alle uitgelezen tiles in een in een HashMap op te slaan Hierbij wordt
@@ -259,3 +261,32 @@ waardoor de alleen door de gebruikte tiles lopen. Volgende week zal ik behandele
 De kat van week 3 is (All royalties to Max van Gils):
 
 ![](Images/CatOfTheWeek/CatWeek4.png)
+
+
+# Week 5
+
+---
+
+### Reflectie proces
+
+De week hiervoor hebben wij de ontwerpen gemaakt voor de verdere klassen en GUI's die wij nodig hebben. Dit betreft vooral de
+simulatie module met alle onderliggende logica. Ook de tile map die uitgelezen worden uit een Json bestand zijn gemodelleerd.
+
+Deze project week begon met een demo over hoe je NPC's zou kunnen implementeren. Op donderdag heeft de senior naar onze ontwerpen
+gekeken en deze beoordeeld. Er waren een aantal dingen waar wij wel over hebben gedacht, alleen niet helemaal duidelijk genoteerd hadden.
+Een voorbeeld hiervan waren de state klassen die de een NPC aansturen afhankelijk van wat zijn staat is. Hierbij hadden wij niet helemaal
+duidelijk gemaakt wat de klassen precies moesten doen. Na het doorspreken van ons idee heeft de Senior het goedgekeurd.
+
+Het idee is dat de klasse de correcte methode aanroepen binnen de NPC zelf en dit dus niet zelf afhandelen. Op het moment dat
+de taak is afgerond zal de state een state terug geven. Dit wordt de nieuwe state van de NPC worden. Als de taak niet is afgerond zal
+het zichzelf terug geven, anders een andere state.
+
+Ook was het wat onnodig dat wij aparte klasse hebben gemaakt voor een normale NPC en een Artiesten NPC. Zonder dat er echt
+veel anders was aan de klassen. Na dit gesprek hebben wij dit ook aangepast.
+
+Na het Senior gesprek hebben wij een vergadering gehouden waar besproken is hoe wij als groep en als project verder willen.
+Ook hebben wij taken voor deze week verdeeld. Verder is er niet veel te zeggen over het proces. Het is verder redelijk normaal
+verlopen.
+
+### Reflectie Vakinhoudelijk
+
