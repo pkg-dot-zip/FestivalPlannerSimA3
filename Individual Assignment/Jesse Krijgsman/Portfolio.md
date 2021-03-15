@@ -246,4 +246,16 @@ JsonArray tileSets = root.getJsonArray("tilesets");
             }
 ```
 
-In de code is te zien 
+In de code is te zien dat de bedoeling is dat het programma door elke tileset loopt. Voor elke tileSet loopt hij door alle tiles
+deze tile wordt dan gemaakt op basis van het id en toegevoegd aan de TileManager die dit allemaal bijhoudt.
+Echter liepen we hier tegen problemen aan. Nadat we eidenlijk het opslitten van de images op basis van het id werkend kreeg was 
+onze map nogsteeds vrij leeg. Na veel zoeken ben ik er achter gekomen dat de tiles die in de tileset worden aangegeven niet alle tiles
+zijn maar slechts de tiles die aan een texture gekoppeld zijn.
+
+Na overleg met de Senior blijkt het dat dit ook klopt. We kunnen door door alle tiles in elke layer te lopen kunnen we dit wel bereiken 
+waardoor de alleen door de gebruikte tiles lopen. Volgende week zal ik behandelen hoe wij dit probleem hebben opgelost
+
+---
+De kat van week 3 is (All royalties to Max van Gils):
+
+![](Images/CatOfTheWeek/CatWeek4.png)
