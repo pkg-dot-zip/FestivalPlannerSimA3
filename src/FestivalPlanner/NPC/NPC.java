@@ -116,7 +116,7 @@ public class NPC {
                 this.direction = Direction.DOWN;
             }
         }
-        this.debugPrint();
+        //this.debugPrint();
     }
 
     /**

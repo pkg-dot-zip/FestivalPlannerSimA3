@@ -17,6 +17,9 @@ public class TileMap {
     private ArrayList<Layer> layers;
     private TileManager tileManager;
 
+    public TileMap() {
+        this(100,100,16,16);
+    }
 
     /**
      * Base constructor for TileMap

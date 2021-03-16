@@ -1,6 +1,7 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
 import FestivalPlanner.GUI.AbstractGUI;
+import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.NPC.NPC;
 import FestivalPlanner.TileMap.TileMap;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
@@ -17,9 +18,6 @@ import org.jfree.fx.ResizableCanvas;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Class that will draw a <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> to a canvas.
@@ -28,16 +26,17 @@ public class SimulatorCanvas extends AbstractGUI {
 
         private Canvas canvas;
         private SimulatorModule simulatorModule;
+        private SimulatorHandler simulatorHandler;
         private BorderPane mainPane;
+
         private AffineTransform cameraTransform;
+
         private final int CAMERA_SPEED = 30;
 
         private int startX;
         private int endX;
         private int startY;
         private int endY;
-
-        private ArrayList<NPC> npcList = new ArrayList<>(40);
 
         //@TODO add simulatorHandler
 
@@ -52,7 +51,8 @@ public class SimulatorCanvas extends AbstractGUI {
      * @param canvasWidth  The initial width of the canvas
      * @param canvasHeight  The initial height of this canvas
      */
-    public SimulatorCanvas(SimulatorModule simulatorModule, double canvasWidth, double canvasHeight) {
+    public SimulatorCanvas(SimulatorHandler simulatorHandler, SimulatorModule simulatorModule, double canvasWidth, double canvasHeight) {
+        this.simulatorHandler = simulatorHandler;
         this.simulatorModule = simulatorModule;
         this.mainPane = new BorderPane();
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
@@ -88,17 +88,6 @@ public class SimulatorCanvas extends AbstractGUI {
 
     @Override
     public void setup() {
-
-        Random r = new Random(0);
-        while(this.npcList.size() < 100)
-        {
-            NPC npc = new NPC(new Point2D.Double((int)(Math.random() * 1000), (int)(Math.random() * 1000)), r.nextInt(NPC.getCharacterFiles()));
-            if(!npc.checkCollision(this.npcList))
-            {
-                this.npcList.add(npc);
-            }
-        }
-
         this.mainPane.setCenter(this.canvas);
         this.startX = 0;
         this.endX= tileMap.getMapWidth() * tileMap.getTileWidth();
@@ -126,22 +115,19 @@ public class SimulatorCanvas extends AbstractGUI {
 
     /**
      * Draws everything on <code>this.canvas</code>.
-     * @param fxGraphics2D  object that draws on <code>this.canvas</code>
+     * @param g2d  object that draws on <code>this.canvas</code>
      */
-    private void draw(FXGraphics2D fxGraphics2D) {
-        fxGraphics2D.setTransform(new AffineTransform());
-        fxGraphics2D.setBackground(Color.white);
-        fxGraphics2D.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+    private void draw(FXGraphics2D g2d) {
+        g2d.setTransform(new AffineTransform());
+        g2d.setBackground(Color.white);
+        g2d.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
 
-        fxGraphics2D.setTransform(this.cameraTransform);
-        fxGraphics2D.translate(-this.startX, -this.startY);
+        g2d.setTransform(this.cameraTransform);
+        g2d.translate(-this.startX, -this.startY);
 
-        this.tileMap.draw(fxGraphics2D);
-
-        for (NPC npc : npcList){
-            npc.draw(fxGraphics2D);
-        }
+        this.tileMap.draw(g2d);
+        this.simulatorHandler.draw(g2d);
     }
 
     /**
@@ -150,9 +136,7 @@ public class SimulatorCanvas extends AbstractGUI {
      */
     public void update(Double deltaTime) {
 //        System.out.println(1/deltaTime);
-        for (NPC npc : npcList){
-            npc.update(npcList);
-        }
+        this.simulatorHandler.update(deltaTime);
     }
 
     /**
@@ -223,7 +207,7 @@ public class SimulatorCanvas extends AbstractGUI {
         //Todo: Only for debugging NPC, needs to be removed when done.
         if(mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
             Point2D canvasPoint = getCanvasPoint(new Point2D.Double(mouseEvent.getX(), mouseEvent.getY()));
-            for (NPC npc : this.npcList) {
+            for (NPC npc : this.simulatorHandler.getNpcList()) {
                 npc.setTarget(canvasPoint);
             }
         } else {
