@@ -2,6 +2,7 @@ package FestivalPlanner.Logic;
 
 import FestivalPlanner.NPC.NPC;
 import FestivalPlanner.TileMap.TileMap;
+import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.geom.Point2D;
@@ -14,20 +15,35 @@ public class SimulatorHandler {
     //private ArrayList<SimulatorObjects> objects;
     private TileMap tileMap;
 
+
+    /**
+     * Empty constructor for SimulatorHandler.
+     */
     public SimulatorHandler() {
-        this(new TileMap());
+        //Todo: remember to remove when loading maps is implemented
+        this(new JsonConverter().JSONToTileMap("/testMap.json"));
     }
 
+    /**
+     * Constructor for SimulatorHandler.
+     * @param tileMap  The TileMap to set <code>this.tileMap</code> to
+     */
     public SimulatorHandler(TileMap tileMap) {
-        this(new ArrayList<>(), tileMap);
+        this(new ArrayList<>(40), tileMap);
         generateNPC();
     }
 
+    /**
+     * Top constructor for SimulatorHandler
+     * @param npcList  List of NPC to set <code>this.npcList</code> to
+     * @param tileMap  The TileMap to set <code>this.tileMap</code> to
+     */
     public SimulatorHandler(ArrayList<NPC> npcList, TileMap tileMap) {
         this.npcList = npcList;
         this.tileMap = tileMap;
     }
 
+    //Todo: temporary
     public void generateNPC(){
         Random r = new Random(0);
         while(this.npcList.size() < 100)
@@ -40,30 +56,55 @@ public class SimulatorHandler {
         }
     }
 
+    /**
+     * Draws <code>this.tileMap</code>, all the NPC's and the objects to the given screen.
+     * @param g2d  The object to draw to
+     */
     public void draw(FXGraphics2D g2d) {
+        this.tileMap.draw(g2d);
         for (NPC npc : this.npcList) {
             npc.draw(g2d);
         }
     }
 
+    /**
+     * Updates all the NPC's and the objects to the given screen.
+     * @param deltaTime  The time it took sinds last update
+     */
     public void update(double deltaTime) {
         for (NPC npc : this.npcList) {
             npc.update(this.npcList);
         }
     }
 
+    /**
+     * Getter for <code>this.npcList</code>
+     * @return  <code>this.npcList</code>
+     */
     public ArrayList<NPC> getNpcList() {
         return npcList;
     }
 
+    /**
+     * Setter for <code>this.npcList</code>
+     * @param npcList  <code>this.npcList</code>
+     */
     public void setNpcList(ArrayList<NPC> npcList) {
         this.npcList = npcList;
     }
 
+    /**
+     * Getter for the <code>this.tileMap</code>
+     * @return  <code>this.tileMap</code>
+     */
     public TileMap getTileMap() {
         return tileMap;
     }
 
+    /**
+     * Setter for the <code>this.tileMap</code>
+     * @param tileMap  <code>this.tileMap</code>
+     */
     public void setTileMap(TileMap tileMap) {
         this.tileMap = tileMap;
     }

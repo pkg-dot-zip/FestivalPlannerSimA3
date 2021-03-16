@@ -38,12 +38,6 @@ public class SimulatorCanvas extends AbstractGUI {
         private int startY;
         private int endY;
 
-        //@TODO add simulatorHandler
-
-        //Todo: remember to remove when loading maps is implemented
-        //TESTING PURPOSES
-        JsonConverter converter = new JsonConverter();
-        private TileMap tileMap = converter.JSONToTileMap("/testMap.json");
 
     /**
      * Constructor for SimulatorCanvas
@@ -90,9 +84,9 @@ public class SimulatorCanvas extends AbstractGUI {
     public void setup() {
         this.mainPane.setCenter(this.canvas);
         this.startX = 0;
-        this.endX= tileMap.getMapWidth() * tileMap.getTileWidth();
+        this.endX= this.simulatorHandler.getTileMap().getMapWidth() * this.simulatorHandler.getTileMap().getTileWidth();
         this.startY = 0;
-        this.endY = tileMap.getMapHeight() * tileMap.getTileHeight();
+        this.endY = this.simulatorHandler.getTileMap().getMapHeight() * this.simulatorHandler.getTileMap().getTileHeight();
         this.cameraTransform = new AffineTransform();
     }
 
@@ -126,7 +120,6 @@ public class SimulatorCanvas extends AbstractGUI {
         g2d.setTransform(this.cameraTransform);
         g2d.translate(-this.startX, -this.startY);
 
-        this.tileMap.draw(g2d);
         this.simulatorHandler.draw(g2d);
     }
 
