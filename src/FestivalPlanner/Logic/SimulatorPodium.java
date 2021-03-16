@@ -7,6 +7,12 @@ import java.awt.geom.Rectangle2D;
 
 public class SimulatorPodium extends SimulatorObject{
 
+    /**
+     * Main constructor for SimulatorPodium
+     * @param location  The location the object is at
+     * @param width  The width of the object
+     * @param height  The height of the object
+     */
     public SimulatorPodium(Point2D location, int width, int height) {
         super(location, width, height);
     }
