@@ -233,11 +233,11 @@ public class SimulatorCanvas extends AbstractGUI {
      * @param point  The proposed point to move to
      */
     public void moveToPoint(Point2D point) {
-        this.cameraTransform.translate(point.getX() - (this.cameraTransform.getTranslateX() + this.tileMap.getMapWidth()* this.tileMap.getTileWidth()/ 2), point.getY() - (this.cameraTransform.getTranslateY() + this.tileMap.getMapHeight() * this.tileMap.getTileHeight() /2));
-//        this.cameraTransform.translate(
-//                point.getX() - this.cameraTransform.getTranslateX() + this.simulatorModule.getStage().getWidth() / 2,
-//                point.getY() - this.cameraTransform.getTranslateY() + this.simulatorModule.getStage().getHeight() / 2
-//        );
+        Point2D centrePoint = getCanvasPoint(new Point2D.Double(
+                this.canvas.getWidth() / 2f,
+                this.canvas.getHeight() / 2f
+        ));
+        cameraTransform.translate(centrePoint.getX() - point.getX(), centrePoint.getY() - point.getY());
     }
 
     /**
