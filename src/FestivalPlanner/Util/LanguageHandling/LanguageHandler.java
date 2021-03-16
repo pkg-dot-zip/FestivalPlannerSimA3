@@ -1,5 +1,6 @@
 package FestivalPlanner.Util.LanguageHandling;
 
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -35,13 +36,14 @@ public class LanguageHandler {
             selectedLocale = Locale.forLanguageTag(SaveSettingsHandler.getPreference("Language"));
         } catch (NullPointerException e){
             selectedLocale = nlLocale;
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return selectedLocale;
     }
 
     /**
      * Returns an ArrayList of all supported Locales.
-     * @return
+     * @return  ArrayList containing all supported Locales.
      * @see LanguageHandler
      */
     public static ArrayList<Locale> getAllLocales(){
@@ -51,10 +53,22 @@ public class LanguageHandler {
         return toReturn;
     }
 
+    /**
+     * Getter for <code>selectedLocale</code> used to get the right language when starting our software, and by the preferenceGUI in the setup() method.
+     * <p>
+     * Since this method is static, we do <b>NOT</b> utilize <i>this</i>.
+     * @return  selectedLocale
+     */
     public static Locale getSelectedLocale() {
         return selectedLocale;
     }
 
+    /**
+     * Getter for <code>messages</code> used by other classes to get strings.
+     * <p>
+     * Since this method is static, we do <b>NOT</b> utilize <i>this</i>.
+     * @return  messages
+     */
     public static ResourceBundle getMessages() {
         return messages;
     }

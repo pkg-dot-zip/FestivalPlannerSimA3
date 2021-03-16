@@ -31,11 +31,11 @@ public class ShowRectangle2D {
      * @param show   The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
      */
     public ShowRectangle2D(double minX, double minY, double width, double height, Show show) {
-        this(new Rectangle2D.Double(minX, minY, width, height), show, SaveSettingsHandler.selectedColor);
+        this(new Rectangle2D.Double(minX, minY, width, height), show, SaveSettingsHandler.getSelectedColor());
     }
 
     public ShowRectangle2D(Rectangle2D rectangle, Show show) {
-        this(rectangle, show, SaveSettingsHandler.selectedColor);
+        this(rectangle, show, SaveSettingsHandler.getSelectedColor());
     }
 
     /**

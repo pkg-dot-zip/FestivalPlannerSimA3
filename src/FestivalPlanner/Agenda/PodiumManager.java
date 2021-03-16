@@ -33,7 +33,7 @@ public class PodiumManager {
     }
 
     /**
-     * Adds the <code>Podium</code> object to the podiums ArrayList if the list doesn't contain the value already.
+     * Adds the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> object to the podiums ArrayList if the list doesn't contain the value already.
      * @param podium  instance of <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> used to check whether the HashMap already contains it or not.
      */
     public void addPodium(Podium podium){
@@ -43,11 +43,28 @@ public class PodiumManager {
     }
 
     /**
-     * Removes the <code>Podium</code> object from the podiums ArrayList.
+     * Removes the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> object from the podiums ArrayList.
      * @param podiumName  String representing the key of the object that should be removed from the HashMap
      */
     public void removePodium(String podiumName){
         this.podiums.remove(podiumName);
+    }
+
+    /**
+     * changes a <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> within PodiumManager to have the same
+     * values as the given a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>.
+     * @param originalName the name of the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> you
+     *                     want to edit
+     * @param editedPodium the new version of the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>
+     */
+    public void editPodium(String originalName, Podium editedPodium) {
+        Podium oldPodium = getPodium(originalName);
+
+        oldPodium.setName(editedPodium.getName());
+        oldPodium.setLocation(editedPodium.getLocation());
+
+        this.podiums.remove(originalName);
+        this.podiums.put(oldPodium.getName(), oldPodium);
     }
 
     /**

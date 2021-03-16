@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
 import java.util.ResourceBundle;
 
 /**
@@ -27,6 +26,8 @@ public class PodiumPopup extends AbstractCreationPopUp{
 	private TextField nameField = new TextField();
 	private TextField locationField = new TextField();
 
+	private Podium selectedPodium;
+
 	/**
 	 * Constructor for the <code>PodiumPopUp</code> class.
 	 * @param primaryStage  the stage that will become the owner of this stage
@@ -35,11 +36,29 @@ public class PodiumPopup extends AbstractCreationPopUp{
 	public PodiumPopup(Stage primaryStage, PodiumManager podiumManager) {
 		super(primaryStage);
 		this.podiumManager = podiumManager;
+		this.selectedPodium = null;
+	}
+
+	/**
+	 * Constructor for the <code>PodiumPopUp</code> class.
+	 * @param primaryStage  the stage that will become the owner of this stage
+	 * @param podiumManager  this class has a method that needs to be called after the list has been updated
+	 */
+	public PodiumPopup(Stage primaryStage, PodiumManager podiumManager, Podium selectedPodium) {
+		super(primaryStage);
+		this.podiumManager = podiumManager;
+		this.selectedPodium = selectedPodium;
 	}
 
 	@Override
 	public void additionalLoad() {
 		this.popupStage.setTitle(messages.getString("podium_editor"));
+
+		if (this.selectedPodium != null) {
+			this.nameField.setText(this.selectedPodium.getName());
+			this.locationField.setText(this.selectedPodium.getLocation());
+			this.addButton.setText(messages.getString("edit_button"));
+		}
 	}
 
 	@Override
@@ -76,10 +95,14 @@ public class PodiumPopup extends AbstractCreationPopUp{
 			//Add the podium to the list and then update the ComboBox.
 			this.podiumManager.addPodium(new Podium(this.nameField.getText(),this.locationField.getText()));
 
+			if (this.selectedPodium != null) {
+				this.podiumManager.editPodium(this.selectedPodium.getName(),
+						new Podium(this.nameField.getText(), this.locationField.getText()));
+			}
 			//Exit stage.
 			this.popupStage.close();
 		} else {
-			showEmptyTextFieldsPopUp();
+			AbstractDialogPopUp.showEmptyTextFieldsPopUp();
 		}
 	}
 }

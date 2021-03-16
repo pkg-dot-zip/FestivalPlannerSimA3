@@ -7,7 +7,9 @@ import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
@@ -39,6 +41,7 @@ public class SimulatorCanvas extends AbstractGUI {
 
         //@TODO add simulatorHandler
 
+        //Todo: remember to remove when loading maps is implemented
         //TESTING PURPOSES
         JsonConverter converter = new JsonConverter();
         private TileMap tileMap = converter.JSONToTileMap("/testMap.json");
@@ -106,11 +109,11 @@ public class SimulatorCanvas extends AbstractGUI {
 
     @Override
     public void actionHandlingSetup() {
-        //@TODO setonmousclick etc..
         this.canvas.setOnKeyPressed(this::onWASD);
         this.canvas.setOnMouseDragged(this::onMouseDragged);
         this.canvas.setOnMousePressed(this::onMousePressed);
         this.canvas.setOnMouseReleased(this::onMouseReleased);
+        this.canvas.setOnScroll(this::onScrolled);
     }
 
     /**
@@ -154,11 +157,19 @@ public class SimulatorCanvas extends AbstractGUI {
 
     /**
      * Handles the event when the user scrolls.
-     * @param mouseEvent  The MouseEvent that was used to scroll
+     * @param scrollEvent  The ScrollEvent that was used to scroll
      */
-    //@Todo: needs implementation
-    private void onScrolled(MouseEvent mouseEvent) {
-        //klinkt moeilijk
+    private void onScrolled(ScrollEvent scrollEvent) {
+        double scaleFactor = 1 + (scrollEvent.getDeltaY() / 1000);
+        AffineTransform transform = new AffineTransform();
+        transform.scale(scaleFactor, scaleFactor);
+        if (cameraInBounds(transform)) {
+            double tempX = this.cameraTransform.getTranslateX();
+            double tempY = this.cameraTransform.getTranslateY();
+            this.cameraTransform.translate(-tempX, -tempY);
+            this.cameraTransform.scale(scaleFactor, scaleFactor);
+            this.cameraTransform.translate(tempX, tempY);
+        }
     }
 
     /**
@@ -191,7 +202,9 @@ public class SimulatorCanvas extends AbstractGUI {
                 break;
         }
 
-        if(cameraInBounds(horizontalPixels, verticalPixels)) {
+        AffineTransform transform = new AffineTransform();
+        transform.translate(horizontalPixels, verticalPixels);
+        if(cameraInBounds(transform)) {
             this.cameraTransform.translate(horizontalPixels, verticalPixels);
         }
     }
@@ -206,9 +219,17 @@ public class SimulatorCanvas extends AbstractGUI {
      * @param mouseEvent  The MouseEvent the user used to click
      */
     private void onMousePressed(MouseEvent mouseEvent) {
-        dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
 
-        moveToPoint(dragPoint);
+        //Todo: Only for debugging NPC, needs to be removed when done.
+        if(mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+            Point2D canvasPoint = getCanvasPoint(new Point2D.Double(mouseEvent.getX(), mouseEvent.getY()));
+            for (NPC npc : this.npcList) {
+                npc.setTarget(canvasPoint);
+            }
+        } else {
+            dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
+        }
+
     }
 
     /**
@@ -224,16 +245,18 @@ public class SimulatorCanvas extends AbstractGUI {
     /**
      * Handles the event when the user drags the mouse-button across the screen
      * <p>
-     * If the primary button is dragged the method wil check if the operation is allowed by calling {@link #cameraInBounds(double, double)}
+     * If the primary button is dragged the method wil check if the operation is allowed by calling {@link #cameraInBounds(AffineTransform)}
      * If correct the screen will be moved to the new position. When done <code>this.dragPoint</code> will be reset to null
      * @param mouseEvent  The MouseEvent the user used to drag
      */
     private void onMouseDragged(MouseEvent mouseEvent) {
         if (this.dragPoint != null) {
-            double horizontalPixels = (mouseEvent.getX() - dragPoint.getX());
-            double verticalPixels = (mouseEvent.getY() - dragPoint.getY());
+            double horizontalPixels = (mouseEvent.getX() - dragPoint.getX()) / this.cameraTransform.getScaleX();
+            double verticalPixels = (mouseEvent.getY() - dragPoint.getY()) / this.cameraTransform.getScaleY();
 
-            if (this.cameraInBounds(horizontalPixels, verticalPixels)) {
+            AffineTransform transform = new AffineTransform();
+            transform.translate(horizontalPixels, verticalPixels);
+            if (this.cameraInBounds(transform)) {
                 this.cameraTransform.translate(horizontalPixels, verticalPixels);
             }
 
@@ -246,14 +269,25 @@ public class SimulatorCanvas extends AbstractGUI {
      * @param point  The proposed point to move to
      */
     public void moveToPoint(Point2D point) {
-//        this.cameraTransform.translate(point.getX() - (this.cameraTransform.getTranslateX() + this.tileMap.getMapWidth()* this.tileMap.getTileWidth()/ 2), point.getY() - (this.cameraTransform.getTranslateY() + this.tileMap.getMapHeight() * this.tileMap.getTileHeight() /2));
-//        this.cameraTransform.translate(
-//                point.getX() - this.cameraTransform.getTranslateX() + this.simulatorModule.getStage().getWidth() / 2,
-//                point.getY() - this.cameraTransform.getTranslateY() + this.simulatorModule.getStage().getHeight() / 2
-//        );
-        for (NPC npc : npcList){
-            npc.setTarget(point);
-        }
+        Point2D centrePoint = getCanvasPoint(new Point2D.Double(
+                this.canvas.getWidth() / 2f,
+                this.canvas.getHeight() / 2f
+        ));
+        cameraTransform.translate(centrePoint.getX() - point.getX(), centrePoint.getY() - point.getY());
+    }
+
+    /**
+     * Given a point on the screen this methode wil return the coördinates that that point represents.
+     * <p>
+     * The given point wil be moved based on the current panning and zoom, stored in <code>rhis.cameraTransform</code>
+     * @param point2D  The position on the screen that needs to be transformed
+     * @return  The point on the field that the given point represents
+     */
+    public Point2D getCanvasPoint(Point2D point2D) {
+        return new Point2D.Double(
+                (point2D.getX() - this.cameraTransform.getTranslateX()) / this.cameraTransform.getScaleX(),
+                (point2D.getY() - this.cameraTransform.getTranslateY()) / this.cameraTransform.getScaleY()
+        );
     }
 
     /**
@@ -262,11 +296,13 @@ public class SimulatorCanvas extends AbstractGUI {
      * Currently only works on translations, scale not yet implemented.
      * @return  true if the given translate is in bounds
      */
-    private boolean cameraInBounds(double translateX, double translateY) {
-        return (this.cameraTransform.getTranslateX() + translateX <= 1 &&
-                this.cameraTransform.getTranslateX() + translateX >= -(this.endX - this.startX - this.canvas.getWidth()) &&
-                this.cameraTransform.getTranslateY() + translateY <= 1 &&
-                this.cameraTransform.getTranslateY() + translateY >= -(this.endY - this.startY - this.canvas.getHeight())
+    private boolean cameraInBounds(AffineTransform transform) {
+        return ((this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() <= 1 &&
+                (this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() >= -((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX())) &&
+                (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() <= 1 &&
+                (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() >= -((this.endY - this.startY) - (this.canvas.getHeight() / this.cameraTransform.getScaleY())) &&
+                (this.cameraTransform.getScaleX() * transform.getScaleX()) < 2.5 &&
+                (this.cameraTransform.getScaleX() * transform.getScaleX()) > 0.5
         );
     }
 }

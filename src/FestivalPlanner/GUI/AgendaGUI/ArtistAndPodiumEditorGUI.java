@@ -14,7 +14,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.util.ResourceBundle;
 
 /**
@@ -44,6 +43,8 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
     private Button artistRemoveButton = new Button("-");
     private Button artistAddButton = new Button("+");
     private Button podiumAddButton = new Button("+");
+    private Button podiumEditButton = new Button(messages.getString("edit_button"));
+    private Button artistEditButton = new Button(messages.getString("edit_button"));
 
     public ArtistAndPodiumEditorGUI(AgendaModule agendaModule) {
         this.agendaModule = agendaModule;
@@ -58,7 +59,7 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         this.stage.setTitle(messages.getString("artists_and_podiums_editor"));
         this.stage.setScene(new Scene(gridPane));
         this.stage.setResizable(false);
-        this.stage.setWidth(250);
+        this.stage.setWidth(300);
         this.stage.setHeight(250);
         this.stage.setIconified(false);
         this.stage.initModality(Modality.APPLICATION_MODAL);
@@ -95,8 +96,10 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
         gridPane.setAlignment(Pos.CENTER);
 
         //Adding all the children.
-        artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton);
-        podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton);
+        artistHBox.getChildren().addAll(this.artistComboBox, this.artistAddButton, this.artistRemoveButton,
+                this.artistEditButton);
+        podiumHBox.getChildren().addAll(this.podiumComboBox, this.podiumAddButton, this.podiumRemoveButton,
+                this.podiumEditButton);
         creationPanelVBox.getChildren().addAll(availablePodiumsAndArtistsLabel,
                 existingArtistsLabel,
                 artistHBox, existingPodiumsLabel,
@@ -127,19 +130,38 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
             String selectedArtist = this.artistComboBox.getValue();
             this.agendaModule.getArtistManager().removeArtist(selectedArtist);
             updateArtistComboBox();
+            podiumComboBox.getSelectionModel().selectLast();
         });
 
         this.podiumRemoveButton.setOnAction(event -> {
             String selectedPodium = this.podiumComboBox.getValue();
             this.agendaModule.getPodiumManager().removePodium(selectedPodium);
             updatePodiumComboBox();
+            podiumComboBox.getSelectionModel().selectLast();
+        });
+
+        this.artistEditButton.setOnAction(event -> {
+            String selectedArtist = this.artistComboBox.getValue();
+            if (selectedArtist != null) {
+                this.agendaModule.artistPopupEditCallBack(this.agendaModule.getArtistManager().getArtist(selectedArtist));
+                updateArtistComboBox();
+                artistComboBox.getSelectionModel().selectNext();
+            }
+        });
+
+        this.podiumEditButton.setOnAction(event -> {
+            String selectedPodium = this.podiumComboBox.getValue();
+            if (selectedPodium != null) {
+                this.agendaModule.podiumPopupEditCallBack(this.agendaModule.getPodiumManager().getPodium(selectedPodium));
+                updatePodiumComboBox();
+                podiumComboBox.getSelectionModel().selectNext();
+            }
         });
 
         this.closeButton.setOnAction(e -> {
             this.stage.close();
         });
     }
-
     /**
      * Updates <code>this.artistComboBoc</code> to the correct value.
      */

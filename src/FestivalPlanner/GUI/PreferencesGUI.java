@@ -1,8 +1,11 @@
 package FestivalPlanner.GUI;
 
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import FestivalPlanner.Util.MathHandling.ColorConverter;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -10,10 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -49,6 +50,17 @@ public class PreferencesGUI extends AbstractGUI{
     private Button removeCacheButton = new Button(messages.getString("remove_cache_button"));
     private Tooltip removeCacheTooltip = new Tooltip(messages.getString("remove_cache_tooltip"));
 
+    //Colors
+    private HBox colorHBox = new HBox();
+    private Button selectedColorButton = new Button(messages.getString("color_for_selected_show"));
+    private Button unselectedColorButton = new Button(messages.getString("color_for_shows_that_are_not_selected"));
+    private Button colorResetToDefaultButton = new Button(messages.getString("reset_colors_to_default"));
+
+    //ExceptionPopUps
+    private HBox exceptionHBox = new HBox();
+    private Label exceptionLabel = new Label(messages.getString("exception_label"));
+    private CheckBox exceptionCheckBox = new CheckBox();
+
     public PreferencesGUI(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -76,6 +88,7 @@ public class PreferencesGUI extends AbstractGUI{
         this.languagesComboBox.getSelectionModel().select(LanguageHandler.getSelectedLocale());
         updateFlagEmoji();
         this.useAnimationsCheckbox.setSelected(SaveSettingsHandler.getPreference("use_animations").contains("true"));
+        this.exceptionCheckBox.setSelected(SaveSettingsHandler.getPreference("use_exception_popups").contains("true"));
 
         //Alignment & Spacing.
             //HBox
@@ -83,6 +96,10 @@ public class PreferencesGUI extends AbstractGUI{
         languagesHBox.setSpacing(HBOX_SPACING);
         useAnimationsHBox.setAlignment(Pos.CENTER);
         useAnimationsHBox.setSpacing(HBOX_SPACING);
+        colorHBox.setAlignment(Pos.CENTER);
+        colorHBox.setSpacing(HBOX_SPACING);
+        exceptionHBox.setAlignment(Pos.CENTER);
+        exceptionHBox.setSpacing(HBOX_SPACING);
             //GeneralSettingsVBox
         generalSettingsVBox.setSpacing(VBOX_SPACING);
         generalSettingsVBox.setAlignment(Pos.CENTER);
@@ -94,13 +111,15 @@ public class PreferencesGUI extends AbstractGUI{
         gridPane.setVgap(GRIDPANE_VGAP);
         gridPane.setAlignment(Pos.CENTER);
 
-        //Tooltips
+        //Tooltips.
         removeCacheButton.setTooltip(removeCacheTooltip);
 
         //Adding the children.
         languagesHBox.getChildren().addAll(languagesLabel, languagesComboBox, languagesFlagLabel);
         useAnimationsHBox.getChildren().addAll(useAnimationsLabel, useAnimationsCheckbox);
-        generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox, removeCacheButton);
+        colorHBox.getChildren().addAll(selectedColorButton, unselectedColorButton, colorResetToDefaultButton);
+        exceptionHBox.getChildren().addAll(exceptionLabel, exceptionCheckBox);
+        generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox, removeCacheButton, colorHBox, exceptionHBox);
         buttonHBox.getChildren().addAll(applyButton, closeButton);
 
         //Adding it all together.
@@ -108,6 +127,7 @@ public class PreferencesGUI extends AbstractGUI{
         gridPane.addRow(1, buttonHBox);
     }
 
+    //TODO: Refactor so that there is no duplicate code.
     @Override
     public void actionHandlingSetup() {
         this.applyButton.setOnAction(e -> {
@@ -115,6 +135,7 @@ public class PreferencesGUI extends AbstractGUI{
                 LanguageHandler.setMessages(this.languagesComboBox.getSelectionModel().getSelectedItem());
             }
             SaveSettingsHandler.setPreference("use_animations", "" + this.useAnimationsCheckbox.isSelected());
+            SaveSettingsHandler.setPreference("use_exception_popups", "" + this.exceptionCheckBox.isSelected());
         });
 
         this.removeCacheButton.setOnAction(e -> {
@@ -134,18 +155,93 @@ public class PreferencesGUI extends AbstractGUI{
             updateFlagEmoji();
         });
 
+            //Colors
+        this.selectedColorButton.setOnAction(e -> {
+            Stage stage = new Stage();
+            java.awt.Color c = SaveSettingsHandler.getSelectedColor();
+            ColorPicker colorPicker = new ColorPicker(ColorConverter.fromAwtToJavaFX(c)); //TODO: show currently saved color.
+
+            colorPicker.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    SaveSettingsHandler.setSelectedColor(colorPicker.getValue());
+                }
+            });
+
+            VBox vBox = new VBox();
+            Button closeButton =  new Button(messages.getString("close"));
+            closeButton.setOnAction(actionEvent -> {
+                stage.close();
+            });
+
+            closeButton.setAlignment(Pos.CENTER);
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().addAll(colorPicker, closeButton);
+
+            Scene scene = new Scene(vBox);
+            stage.setScene(scene);
+            stage.setResizable(true);
+            stage.setHeight(300);
+            stage.setWidth(300);
+            stage.setIconified(false);
+            stage.setAlwaysOnTop(true);
+            stage.initOwner(this.stage);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        });
+
+        this.unselectedColorButton.setOnAction(e -> {
+
+            Stage stage = new Stage();
+            java.awt.Color c = SaveSettingsHandler.getSelectedColor();
+            ColorPicker colorPicker = new ColorPicker(ColorConverter.fromAwtToJavaFX(c)); //TODO: show currently saved color.
+
+            colorPicker.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    SaveSettingsHandler.setUnselectedColor(colorPicker.getValue());
+                }
+            });
+
+            VBox vBox = new VBox();
+            Button closeButton =  new Button(messages.getString("close"));
+            closeButton.setOnAction(actionEvent -> {
+                stage.close();
+            });
+
+            closeButton.setAlignment(Pos.CENTER);
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().addAll(colorPicker, closeButton);
+
+            Scene scene = new Scene(vBox);
+            stage.setScene(scene);
+            stage.setResizable(true);
+            stage.setHeight(300);
+            stage.setWidth(300);
+            stage.setIconified(false);
+            stage.setAlwaysOnTop(true);
+            stage.initOwner(this.stage);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        });
+
+        this.colorResetToDefaultButton.setOnAction(e -> {
+            SaveSettingsHandler.restoreDefaultColors();
+        });
+
         this.closeButton.setOnAction(e -> {
             this.stage.close();
         });
     }
 
-    public void updateFlagEmoji(){
+    /**
+     * Changes the emoji next to the Language selection <code>ComboBox</code> to the one representing the language.
+     */
+    private void updateFlagEmoji(){
         if (languagesComboBox.getSelectionModel().getSelectedItem().equals(Locale.US)){
             this.languagesFlagLabel.setText("\uD83C\uDDFA\uD83C\uDDF8");
         } else if (languagesComboBox.getSelectionModel().getSelectedItem().equals(Locale.forLanguageTag("nl-NL"))){
             this.languagesFlagLabel.setText("\uD83C\uDDF3\uD83C\uDDF1");
         }
     }
-
-
 }

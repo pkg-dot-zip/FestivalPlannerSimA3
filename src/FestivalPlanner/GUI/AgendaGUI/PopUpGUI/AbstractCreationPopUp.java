@@ -22,6 +22,8 @@ import java.util.ResourceBundle;
  *  <li><code>setup()</code> calls abstract method <code>additionalSetup()</code>.
  *  <li><code>actionHandlingSetup()</code> calls abstract method <code>additionalActionHandlingSetup()</code>.
  *  </ul>
+ *  <p>
+ *  Furthermore, this class contains attributes for stage width and height, to ensure consistency in our graphical user interface.
  */
 public abstract class AbstractCreationPopUp extends AbstractGUI {
 
@@ -98,8 +100,8 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
      * <p>
      * Sets two <code>setOnAction()</code> lambda expressions. Does this for:
      * <p><ul>
-     * <li>addButton -&gt; <code>onAddButtonPress</code>, an abstract method in this class.</li>
-     * <li>closeButton -&gt; <code>this.popStage.close();</code></li>
+     * <li>addButton <code>onAddButtonPress</code>, an abstract method in this class.
+     * <li>closeButton, <code>this.popStage.close();</code>
      * </ul>
      * @see #additionalActionHandlingSetup()
      */

@@ -22,8 +22,7 @@ import java.util.ResourceBundle;
  * <li> The software's author.
  * <li> The author's motto.
  * <li> The software's version.
- * <p></ul>
- * The button closes this window.
+ * </ul>
  */
 public class AboutPopUp extends AbstractCreationPopUp {
 

@@ -8,12 +8,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import javax.imageio.ImageIO;
 import java.awt.image.*;
 import java.io.File;
@@ -40,6 +38,8 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     private ImageView pictureView = new ImageView();
     private ImageView spriteView = new ImageView();
 
+    private Artist selectedArtist;
+
     /**
      * Constructor for the <code>ArtistPopUp</code> class.
      * @param primaryStage  stage calling the superclass
@@ -48,6 +48,13 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     public ArtistPopUp(Stage primaryStage, ArtistManager artistManager) {
         super(primaryStage);
         this.artistManager = artistManager;
+        this.selectedArtist = null;
+    }
+
+    public ArtistPopUp(Stage primaryStage, ArtistManager artistManager, Artist selectedArtist) {
+        super(primaryStage);
+        this.artistManager = artistManager;
+        this.selectedArtist = selectedArtist;
     }
 
     @Override
@@ -55,6 +62,13 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         this.popupStage.setWidth(300);
         this.popupStage.setHeight(300);
         this.popupStage.setTitle(messages.getString("artist_editor"));
+
+        if (this.selectedArtist != null) {
+            this.nameField.setText(this.selectedArtist.getName());
+            this.artistPicture = this.selectedArtist.getPicture();
+            this.artistSprite = this.selectedArtist.getSprite();
+            this.addButton.setText(messages.getString("edit_button"));
+        }
     }
 
     @Override
@@ -113,7 +127,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Artist Photo (.png)", "*.png"));
             return fileChooser.showOpenDialog(new Stage()).getAbsolutePath();
         } catch (NullPointerException e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return null;
     }
@@ -127,7 +141,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             this.artistPicture = ImageIO.read(pictureURL);
             pictureView.setImage(SwingFXUtils.toFXImage(this.artistPicture, null));
         } catch (Exception e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 
@@ -141,7 +155,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Artist Sprite (.png)", "*.png"));
             return fileChooser.showOpenDialog(new Stage()).getAbsolutePath();
         } catch (NullPointerException e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return null;
     }
@@ -155,7 +169,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
             this.artistSprite = ImageIO.read(pictureURL);
             spriteView.setImage(SwingFXUtils.toFXImage(this.artistPicture, null));
         } catch (Exception e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 
@@ -163,12 +177,18 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     public void onAddButtonPress() {
         if (!this.nameField.getText().isEmpty()) {
 
-            this.artistManager.addArtist(new Artist(this.nameField.getText(), this.artistPicture, this.artistSprite));
+            if (this.selectedArtist != null) {
+                this.artistManager.editArtist(this.selectedArtist.getName(),
+                        new Artist(this.nameField.getText(), this.artistPicture, this.artistSprite));
+
+            } else {
+                this.artistManager.addArtist(new Artist(this.nameField.getText(), this.artistPicture, this.artistSprite));
+            }
 
             //Exit stage.
             this.popupStage.close();
         } else {
-            showEmptyTextFieldsPopUp();
+            AbstractDialogPopUp.showEmptyTextFieldsPopUp();
         }
     }
 }

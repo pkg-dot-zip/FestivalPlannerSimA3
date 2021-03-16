@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 /**
  * Contains all the data for an artist, such as the name, picture and sprite.
  */
-public class Artist extends AbstractDialogPopUp implements Serializable {
+public class Artist implements Serializable {
 
     private String name;
     private transient BufferedImage picture;
@@ -51,6 +51,30 @@ public class Artist extends AbstractDialogPopUp implements Serializable {
         return this.sprite;
     }
 
+    /**
+     * Changes the name to a new name.
+     * @param name the new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Changes the picture to a new picture.
+     * @param picture the new picture
+     */
+    public void setPicture(BufferedImage picture) {
+        this.picture = picture;
+    }
+
+    /**
+     * Changes the sprite to a new sprite.
+     * @param sprite the new sprite
+     */
+    public void setSprite(BufferedImage sprite) {
+        this.sprite = sprite;
+    }
+
     @Override
     public String toString() {
         return this.name;
@@ -74,7 +98,7 @@ public class Artist extends AbstractDialogPopUp implements Serializable {
             ImageIO.write(this.sprite, "png", spriteFile);
         } catch (Exception e) {
             e.printStackTrace();
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 
@@ -91,11 +115,11 @@ public class Artist extends AbstractDialogPopUp implements Serializable {
             this.picture = ImageIO.read(pictureFile);
             this.sprite = ImageIO.read(spriteFile);
         } catch (FileNotFoundException e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
             this.picture = null;
             this.sprite = null;
         } catch (Exception e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 }

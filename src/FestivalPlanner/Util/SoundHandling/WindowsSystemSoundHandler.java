@@ -1,7 +1,6 @@
 package FestivalPlanner.Util.SoundHandling;
 
 import com.sun.istack.internal.NotNull;
-
 import java.awt.*;
 
 /**

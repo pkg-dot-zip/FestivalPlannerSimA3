@@ -3,6 +3,7 @@ package FestivalPlanner.GUI.AgendaGUI;
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.GUI.AbstractGUI;
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -270,7 +271,7 @@ public class ShowEditorGUI extends AbstractGUI {
             podiumComboBox.getSelectionModel().isEmpty() ||
             podiumComboBox.getSelectionModel().getSelectedItem().isEmpty()
         ) {
-            showEmptyTextFieldsPopUp();
+            AbstractDialogPopUp.showEmptyTextFieldsPopUp();
             return false;
         } else {
             return true;
@@ -285,33 +286,33 @@ public class ShowEditorGUI extends AbstractGUI {
 	 *
 	 * @return boolean to check whether we set the current show's values to the ones in the GUI
 	 */
-	private boolean containsDuplicateArtist() {
-		try {
-			this.attemptedStartTime = LocalTime.parse(this.startTimeTextField.getText());
-			this.attemptedEndTime = LocalTime.parse(this.endTimeTextField.getText());
-		} catch (Exception e) {
-			showExceptionPopUp(e);
-		}
+    private boolean containsDuplicateArtist() {
+        try {
+            this.attemptedStartTime = LocalTime.parse(this.startTimeTextField.getText());
+            this.attemptedEndTime = LocalTime.parse(this.endTimeTextField.getText());
 
-		this.selectedShowArtistArrayList.clear();
-		this.selectedShowArtistArrayList.addAll(this.artistsList.getItems());
+            this.selectedShowArtistArrayList.clear();
+            this.selectedShowArtistArrayList.addAll(this.artistsList.getItems());
 
-		for (Show show : this.agendaModule.getAgenda().getShows()) {
-			if (show.getStartTime().isBefore(this.selectedShow.getEndTime()) &&
-					show.getEndTime().isAfter(this.selectedShow.getStartTime()) &&
-					!show.equals(this.selectedShow)
-			) {
-				ArrayList<Artist> artistsFromShow = show.getArtists();
-				for (Artist artist : this.selectedShowArtistArrayList) {
-				 if  (artistsFromShow.contains(artist)) {
-				 	showDuplicateArtistPopUp();
-				 	return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
+            for (Show show : this.agendaModule.getAgenda().getShows()) {
+                if (show.getStartTime().isBefore(this.selectedShow.getEndTime()) &&
+                        show.getEndTime().isAfter(this.selectedShow.getStartTime()) &&
+                        !show.equals(this.selectedShow)
+                ) {
+                    ArrayList<Artist> artistsFromShow = show.getArtists();
+                    for (Artist artist : this.selectedShowArtistArrayList) {
+                        if (artistsFromShow.contains(artist)) {
+                            AbstractDialogPopUp.showDuplicateArtistPopUp();
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            AbstractDialogPopUp.showExceptionPopUp(e);
+        }
+        return false;
+    }
 
     //TODO: Embed all code under this line into other methods.
     private VBox genericVBox() {
