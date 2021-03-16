@@ -32,8 +32,8 @@ public class SimulatorCanvas extends AbstractGUI {
         private int startY;
         private int endY;
 
-        //@TODO add simulatorHandler
 
+        //Todo: remember to remove when loading maps is implemented
         //TESTING PURPOSES
         JsonConverter converter = new JsonConverter();
         private TileMap tileMap = converter.JSONToTileMap("/testMap.json");
