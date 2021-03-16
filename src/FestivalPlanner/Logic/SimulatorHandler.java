@@ -1,7 +1,7 @@
 package FestivalPlanner.Logic;
 
 import FestivalPlanner.NPC.NPC;
-import FestivalPlanner.TileMap.TileMap;
+import FestivalPlanner.TileMap.*;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import org.jfree.fx.FXGraphics2D;
 
@@ -12,7 +12,7 @@ import java.util.Random;
 public class SimulatorHandler {
 
     private ArrayList<NPC> npcList;
-    //private ArrayList<SimulatorObjects> objects;
+    private ArrayList<SimulatorObject> simulatorObjects;
     private TileMap tileMap;
 
 
@@ -31,6 +31,22 @@ public class SimulatorHandler {
     public SimulatorHandler(TileMap tileMap) {
         this(new ArrayList<>(40), tileMap);
         generateNPC();
+        this.simulatorObjects = generateObjects();
+    }
+
+    private ArrayList<SimulatorObject> generateObjects() {
+        ArrayList<SimulatorObject> objects = new ArrayList<>();
+        for (Layer layer : this.tileMap.getLayers()) {
+            if (layer instanceof ObjectLayer) {
+                for (TileObject tileObject : ((ObjectLayer) layer).getTileObjects()) {
+                    if (tileObject.getType().equals("Podium")) {
+                        objects.add(new SimulatorPodium(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight()));
+                    }
+                }
+
+            }
+        }
+        return objects;
     }
 
     /**
