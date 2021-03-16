@@ -241,6 +241,20 @@ public class SimulatorCanvas extends AbstractGUI {
     }
 
     /**
+     * Given a point on the screen this methode wil return the coördinates that that point represents.
+     * <p>
+     * The given point wil be moved based on the current panning and zoom, stored in <code>rhis.cameraTransform</code>
+     * @param point2D  The position on the screen that needs to be transformed
+     * @return  The point on the field that the given point represents
+     */
+    public Point2D getCanvasPoint(Point2D point2D) {
+        return new Point2D.Double(
+                (point2D.getX() - this.cameraTransform.getTranslateX()) / this.cameraTransform.getScaleX(),
+                (point2D.getY() - this.cameraTransform.getTranslateY()) / this.cameraTransform.getScaleY()
+        );
+    }
+
+    /**
      * Calculates if the given translate will fit within the set bounds.
      * <p>
      * Currently only works on translations, scale not yet implemented.
