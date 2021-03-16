@@ -1,5 +1,34 @@
-public class Main {
+import FestivalPlanner.TileMap.TileMap;
+import FestivalPlanner.Util.JsonHandling.JsonConverter;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.ResizableCanvas;
 
-    public static void main(String[] args) {
+public class Main extends Application {
+
+    private TileMap tileMap;
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        String fileName = "/testMap.json";
+        JsonConverter jsonConverter = new JsonConverter();
+        this.tileMap = jsonConverter.JSONToTileMap(fileName);
+
+        BorderPane pane = new BorderPane();
+        Canvas canvas = new ResizableCanvas(this::draw, pane);
+        pane.setCenter(canvas);
+
+        primaryStage.setScene(new Scene(pane));
+        primaryStage.show();
     }
+
+    private void draw(FXGraphics2D graphics2D)
+    {
+        tileMap.draw(graphics2D);
+    }
+
 }
