@@ -1,5 +1,8 @@
 package FestivalPlanner.Agenda;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -11,6 +14,8 @@ import java.util.Set;
 public class ArtistManager {
 
     private HashMap<String, Artist> artists;
+
+    private ObservableList<String> observableArtistList = FXCollections.observableArrayList();
 
     /**
      * Empty constructor for the <code>ArtistManager</code>.
@@ -100,5 +105,9 @@ public class ArtistManager {
 
     public Set<String> getAllArtistNames() {
         return this.artists.keySet();
+    }
+
+    public ObservableList<String> getObservableArtistList() {
+        return this.observableArtistList;
     }
 }

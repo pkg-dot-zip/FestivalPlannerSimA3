@@ -18,6 +18,8 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import com.sun.javafx.scene.control.skin.ToggleButtonSkin;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -189,7 +191,8 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
             //EditMenu
         editArtistsAndPodiumsMenuItem.setOnAction(e -> {
-            ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this);
+            ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this,
+                    this.artistManager.getObservableArtistList(), this.podiumManager.getObservablePodiumList());
             artistAndPodiumEditorGUI.load();
         });
 

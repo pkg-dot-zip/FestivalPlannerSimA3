@@ -1,6 +1,9 @@
 package FestivalPlanner.Agenda;
 
 import com.sun.istack.internal.Nullable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -12,6 +15,8 @@ import java.util.Set;
 public class PodiumManager {
 
     private HashMap<String, Podium> podiums;
+
+    private ObservableList<String> observablePodiumList = FXCollections.observableArrayList();
 
     /**
      * Empty constructor for the <code>PodiumManager</code>.
@@ -87,5 +92,9 @@ public class PodiumManager {
      */
     public Set<String> getAllPodiumNames() {
         return this.podiums.keySet();
+    }
+
+    public ObservableList<String> getObservablePodiumList() {
+        return this.observablePodiumList;
     }
 }
