@@ -1,14 +1,19 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
+import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.GUI.AbstractGUI;
+import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
@@ -24,14 +29,20 @@ public class SimulatorModule extends AbstractGUI {
     private SimulatorCanvas simulatorCanvas;
     private BorderPane mainPane;
     private Stage stage;
+    private AgendaModule agendaModule;
+    private VBox vBox;
+    private Label label;
+    private ComboBox<String> comboBox;
+    private Button button;
 
-    ToggleButton agendaToggleButton = new ToggleButton(messages.getString("agenda"));
-    ToggleButton simulatorToggleButton = new ToggleButton(messages.getString("simulator"));
+    private ToggleButton agendaToggleButton = new ToggleButton(messages.getString("agenda"));
+    private ToggleButton simulatorToggleButton = new ToggleButton(messages.getString("simulator"));
 
-    public SimulatorModule(Stage stage) {
+    public SimulatorModule(Stage stage, AgendaModule agendaModule) {
         this.stage = stage;
         this.mainPane = new BorderPane();
         this.simulatorCanvas = new SimulatorCanvas(this, 600, 500);
+        this.agendaModule = agendaModule;
     }
 
 
@@ -60,6 +71,19 @@ public class SimulatorModule extends AbstractGUI {
 
     @Override
     public void setup() {
+        this.vBox = new VBox();
+        vBox.setSpacing(VBOX_SPACING);
+        this.label = new Label(messages.getString("zoom_to"));
+        this.comboBox = new ComboBox<>(agendaModule.getPodiumManager().getObservablePodiumList());
+        this.button = new Button(messages.getString("go_to"));
+        this.comboBox.setPromptText(messages.getString("select_podium"));
+
+        this.button.setOnAction(event -> {
+//            simulatorCanvas.moveToPoint();
+        });
+        this.vBox.getChildren().addAll(this.label, this.comboBox, this.button);
+
+        this.mainPane.setRight(this.vBox);
         this.simulatorScene = new Scene(this.mainPane);
     }
 

@@ -2,9 +2,7 @@
 ### Jason Setiowaty 2173605 TI1.3 23-TIVT1A3
 
 In dit document zal ik het hele proces gedurende het project "Festival Planner" gaan beschrijven en daarbij de opmerkingen waar ik tegen aan liep.
-Alle bezigheden, moeilijkheden en keuzes die ik en wij hebben moeten maken zijn opgenomen. Alles wat hier beschreven staat is vanuit het oogpunt van 
-mij, Jesse Krijgsman. In dit portfolio worden lesweek 3 t/m lesweek 9 opgenomen. Ook wordt er een reflectie met onderbouwing op 
-het werken met .JSON bestanden gegeven.
+Alles waar ik in deze module mee bezig ben geweest zal hier in genoteerd worden. Verder zal ik in dit portfolio de opmerkingen van lesweek 3 t/m lesweek 9 vermelden.
 
 Elke week (van week 3 tot en met week 9) zal ik de volgende punten gaan behandelen:
 * Een reflectie over mijn bijdrage aan de proftaak.
@@ -16,7 +14,7 @@ Elke week (van week 3 tot en met week 9) zal ik de volgende punten gaan behandel
 
 
 
-##Week 3
+## Week 3
 #### Reflectie van Jason Setiowaty
 
 
