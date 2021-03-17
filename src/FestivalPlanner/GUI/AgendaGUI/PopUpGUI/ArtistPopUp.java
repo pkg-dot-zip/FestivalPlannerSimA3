@@ -66,7 +66,9 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         if (this.selectedArtist != null) {
             this.nameField.setText(this.selectedArtist.getName());
             this.artistPicture = this.selectedArtist.getPicture();
+            pictureView.setImage(SwingFXUtils.toFXImage(this.artistPicture, null));
             this.artistSprite = this.selectedArtist.getSprite();
+            spriteView.setImage(SwingFXUtils.toFXImage(this.artistSprite, null));
             this.addButton.setText(messages.getString("edit_button"));
         }
     }
@@ -167,7 +169,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         try {
             File pictureURL = new File(findArtistSprite());
             this.artistSprite = ImageIO.read(pictureURL);
-            spriteView.setImage(SwingFXUtils.toFXImage(this.artistPicture, null));
+            spriteView.setImage(SwingFXUtils.toFXImage(this.artistSprite, null));
         } catch (Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
