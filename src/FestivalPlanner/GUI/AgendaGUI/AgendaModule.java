@@ -192,7 +192,8 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             //EditMenu
         editArtistsAndPodiumsMenuItem.setOnAction(e -> {
             ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this,
-                    this.artistManager.getObservableArtistList(), this.podiumManager.getObservablePodiumList());
+                    this.podiumManager.getObservablePodiumList(),
+                    this.artistManager.getObservableArtistList());
             artistAndPodiumEditorGUI.load();
         });
 
