@@ -43,8 +43,9 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     private PodiumManager podiumManager = new PodiumManager();
     private ArrayList<Show> selectedShows = new ArrayList<>();
 
-    // Scene
+    // Scenes
     private Scene agendaScene;
+    private Scene simulatorScene;
 
     // Panes
     private BorderPane mainLayoutPane = new BorderPane();
@@ -169,6 +170,8 @@ public class AgendaModule extends AbstractGUI implements Serializable {
                 }
             }
         });
+
+        this.simulatorToggleButton.setOnAction(event -> stage.setScene(this.simulatorScene));
 
         //MenuBar
             //FileMenu
@@ -420,6 +423,10 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         }
     }
 
+    public void setSimulatorScene(Scene simulatorScene) {
+        this.simulatorScene = simulatorScene;
+    }
+
     /**
      * Returns the <code>this.currentShow</code> attribute.
      * @return  this.currentShow
@@ -462,5 +469,9 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     @NotNull
     public PodiumManager getPodiumManager() {
         return this.podiumManager;
+    }
+
+    public Scene getAgendaScene() {
+        return agendaScene;
     }
 }

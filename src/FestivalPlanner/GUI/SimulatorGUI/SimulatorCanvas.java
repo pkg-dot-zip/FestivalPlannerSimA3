@@ -32,6 +32,9 @@ public class SimulatorCanvas extends AbstractGUI {
         private int startY;
         private int endY;
 
+        private double canvasWidth;
+        private double canvasHeight;
+
 
         //Todo: remember to remove when loading maps is implemented
         //TESTING PURPOSES
@@ -46,10 +49,10 @@ public class SimulatorCanvas extends AbstractGUI {
      */
     public SimulatorCanvas(SimulatorModule simulatorModule, double canvasWidth, double canvasHeight) {
         this.simulatorModule = simulatorModule;
-        this.mainPane = new BorderPane();
+        this.mainPane = simulatorModule.getMainPane();
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
-        this.canvas.setWidth(canvasWidth);
-        this.canvas.setHeight(canvasHeight);
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
         load();
     }
 
@@ -76,6 +79,7 @@ public class SimulatorCanvas extends AbstractGUI {
 
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         this.canvas.setFocusTraversable(true);
+        this.mainPane.setCenter(this.canvas);
     }
 
     @Override
@@ -119,6 +123,9 @@ public class SimulatorCanvas extends AbstractGUI {
         fxGraphics2D.translate(-this.startX, -this.startY);
 
         this.tileMap.draw(fxGraphics2D);
+
+        this.canvas.setWidth(this.canvasWidth);
+        this.canvas.setHeight(this.canvasHeight);
     }
 
     /**
