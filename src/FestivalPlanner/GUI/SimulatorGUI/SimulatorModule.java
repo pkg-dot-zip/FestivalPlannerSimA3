@@ -29,8 +29,6 @@ public class SimulatorModule extends AbstractGUI {
     private BorderPane mainPane;
     private Stage stage;
     private AgendaModule agendaModule;
-    private VBox vBox;
-    private Label label;
     private ComboBox<String> comboBox;
     private Button button;
 
@@ -70,9 +68,27 @@ public class SimulatorModule extends AbstractGUI {
 
     @Override
     public void setup() {
-        this.vBox = new VBox();
-        vBox.setSpacing(VBOX_SPACING);
-        this.label = new Label(messages.getString("zoom_to"));
+
+        //Select NPC part
+        // initialising
+        VBox npcVBox = new VBox();
+        ComboBox npcComboBox = new ComboBox();
+
+        //spacing
+        npcVBox.setSpacing(VBOX_SPACING);
+        npcVBox.setAlignment(Pos.TOP_CENTER);
+
+        //placeholder text
+        npcComboBox.setPromptText(messages.getString("select_NPC"));
+
+        //assigning
+        npcVBox.getChildren().addAll(new Label(messages.getString("view_NPC")),
+                new Label(messages.getString("click_NPC")), npcComboBox);
+
+        // Podium zoom to part
+        VBox podiumZoomVBox = new VBox();
+        podiumZoomVBox.setSpacing(VBOX_SPACING);
+        podiumZoomVBox.setAlignment(Pos.TOP_CENTER);
         this.comboBox = new ComboBox<>(agendaModule.getPodiumManager().getObservablePodiumList());
         this.button = new Button(messages.getString("go_to"));
         this.comboBox.setPromptText(messages.getString("select_podium"));
@@ -80,9 +96,10 @@ public class SimulatorModule extends AbstractGUI {
         this.button.setOnAction(event -> {
 //            simulatorCanvas.moveToPoint();
         });
-        this.vBox.getChildren().addAll(this.label, this.comboBox, this.button);
+        podiumZoomVBox.getChildren().addAll(new Label(messages.getString("zoom_to")), this.comboBox, this.button);
 
-        this.mainPane.setRight(this.vBox);
+        this.mainPane.setRight(podiumZoomVBox);
+        this.mainPane.setLeft(npcVBox);
         this.simulatorScene = new Scene(this.mainPane);
     }
 

@@ -172,7 +172,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
         this.simulatorButton.setOnAction(event -> {
             stage.setScene(this.simulatorScene);
-            stage.setWidth(1200);
+            stage.setWidth(1100);
             stage.setHeight(800);
         });
 
