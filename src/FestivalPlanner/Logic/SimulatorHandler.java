@@ -62,7 +62,7 @@ public class SimulatorHandler {
     //Todo: temporary
     public void generateNPC(){
         Random r = new Random(0);
-        while(this.npcList.size() < 100)
+        while(this.npcList.size() < 1)
         {
             NPC npc = new NPC(new Point2D.Double((int)(Math.random() * 1000), (int)(Math.random() * 1000)), r.nextInt(NPC.getCharacterFiles()));
             if(!npc.checkCollision(this.npcList))
