@@ -36,7 +36,7 @@ public class NPC {
     private int centerX;
     private int centerY;
 
-    private final int COLLISION_RADIUS = 32;
+    private final int COLLISION_RADIUS = 20;
 
     /**
      * Constructor for the <code>NPC</code> class.
