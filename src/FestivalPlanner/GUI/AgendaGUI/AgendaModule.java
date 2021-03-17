@@ -16,7 +16,9 @@ import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import animatefx.animation.JackInTheBox;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
+import com.sun.javafx.scene.control.skin.ToggleButtonSkin;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
@@ -41,8 +43,15 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     private PodiumManager podiumManager = new PodiumManager();
     private ArrayList<Show> selectedShows = new ArrayList<>();
 
+    // Scene
+    private Scene agendaScene;
+
     // Panes
     private BorderPane mainLayoutPane = new BorderPane();
+
+    // ToggleButtons
+    ToggleButton agendaToggleButton = new ToggleButton(messages.getString("agenda"));
+    ToggleButton simulatorToggleButton = new ToggleButton(messages.getString("simulator"));
 
     // MenuBar
     private MenuBar menuBar = new MenuBar();
@@ -94,7 +103,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         actionHandlingSetup();
 
         //Stage Settings.
-        stage.setScene(new Scene(this.mainLayoutPane));
+        stage.setScene(this.agendaScene);
         stage.setTitle(messages.getString("agenda"));
         stage.setWidth(1450);
         stage.setHeight(350);
@@ -108,6 +117,9 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     public void setup() {
         //Initialise values.
         this.agendaCanvas = new AgendaCanvas(this.agenda, this);
+        VBox topVBox = new VBox();
+        HBox toggleHBox = new HBox();
+
 
         //Adding all the children.
         //MenuBar
@@ -118,9 +130,23 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         //ContextMenu
         contextMenu.getItems().addAll(swapContextItem, editContextItem, new SeparatorMenuItem(), removeContextItem);
 
+        //Setting VBox spacing
+        topVBox.getChildren().addAll(toggleHBox, this.menuBar);
+        topVBox.setSpacing(VBOX_SPACING);
+        //Adding the buttons
+        toggleHBox.getChildren().addAll(this.agendaToggleButton, this.simulatorToggleButton);
+        toggleHBox.setAlignment(Pos.CENTER);
+        toggleHBox.setSpacing(HBOX_SPACING);
+
+        // Disabling button
+        this.agendaToggleButton.setDisable(true);
+
         //Adding it all together.
-        this.mainLayoutPane.setTop(this.menuBar);
+        this.mainLayoutPane.setTop(topVBox);
         this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
+
+        //Making it into a scene
+        this.agendaScene = new Scene(this.mainLayoutPane);
     }
 
     @Override
