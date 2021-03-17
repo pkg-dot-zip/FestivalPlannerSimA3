@@ -4,11 +4,10 @@ import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
-import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
@@ -35,13 +34,13 @@ public class SimulatorModule extends AbstractGUI {
     private ComboBox<String> comboBox;
     private Button button;
 
-    private ToggleButton agendaToggleButton = new ToggleButton(messages.getString("agenda"));
-    private ToggleButton simulatorToggleButton = new ToggleButton(messages.getString("simulator"));
+    Button agendaButton = new Button(messages.getString("agenda"));
+    Button simulatorButton = new Button(messages.getString("simulator"));
 
     public SimulatorModule(Stage stage, AgendaModule agendaModule) {
         this.stage = stage;
         this.mainPane = new BorderPane();
-        this.simulatorCanvas = new SimulatorCanvas(this, 600, 500);
+        this.simulatorCanvas = new SimulatorCanvas(this, 800, 700);
         this.agendaModule = agendaModule;
     }
 
@@ -59,12 +58,12 @@ public class SimulatorModule extends AbstractGUI {
         HBox toggleHBox = new HBox();
 
         //Adding the buttons
-        toggleHBox.getChildren().addAll(this.agendaToggleButton, this.simulatorToggleButton);
+        toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
         toggleHBox.setAlignment(Pos.CENTER);
         toggleHBox.setSpacing(HBOX_SPACING);
 
         // Disabling button
-        this.simulatorToggleButton.setDisable(true);
+        this.simulatorButton.setDisable(true);
 
         this.mainPane.setTop(toggleHBox);
     }
@@ -89,7 +88,11 @@ public class SimulatorModule extends AbstractGUI {
 
     @Override
     public void actionHandlingSetup() {
-        this.agendaToggleButton.setOnAction(event -> stage.setScene(this.agendaScene));
+        this.agendaButton.setOnAction(event -> {
+            stage.setScene(this.agendaScene);
+            stage.setWidth(1450);
+            stage.setHeight(350);
+        });
     }
 
     public void setAgendaScene(Scene agendaScene) {

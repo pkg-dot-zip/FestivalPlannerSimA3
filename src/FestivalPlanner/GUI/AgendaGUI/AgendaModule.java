@@ -16,10 +16,7 @@ import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import animatefx.animation.JackInTheBox;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import com.sun.javafx.scene.control.skin.ToggleButtonSkin;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -53,8 +50,8 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     private BorderPane mainLayoutPane = new BorderPane();
 
     // ToggleButtons
-    ToggleButton agendaToggleButton = new ToggleButton(messages.getString("agenda"));
-    ToggleButton simulatorToggleButton = new ToggleButton(messages.getString("simulator"));
+    Button agendaButton = new Button(messages.getString("agenda"));
+    Button simulatorButton = new Button(messages.getString("simulator"));
 
     // MenuBar
     private MenuBar menuBar = new MenuBar();
@@ -137,12 +134,12 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         topVBox.getChildren().addAll(toggleHBox, this.menuBar);
         topVBox.setSpacing(VBOX_SPACING);
         //Adding the buttons
-        toggleHBox.getChildren().addAll(this.agendaToggleButton, this.simulatorToggleButton);
+        toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
         toggleHBox.setAlignment(Pos.CENTER);
         toggleHBox.setSpacing(HBOX_SPACING);
 
         // Disabling button
-        this.agendaToggleButton.setDisable(true);
+        this.agendaButton.setDisable(true);
 
         //Adding it all together.
         this.mainLayoutPane.setTop(topVBox);
@@ -173,7 +170,11 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             }
         });
 
-        this.simulatorToggleButton.setOnAction(event -> stage.setScene(this.simulatorScene));
+        this.simulatorButton.setOnAction(event -> {
+            stage.setScene(this.simulatorScene);
+            stage.setWidth(1200);
+            stage.setHeight(800);
+        });
 
         //MenuBar
             //FileMenu
