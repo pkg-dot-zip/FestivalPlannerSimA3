@@ -3,8 +3,6 @@ package FestivalPlanner.GUI.SimulatorGUI;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.NPC.NPC;
-import FestivalPlanner.TileMap.TileMap;
-import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;

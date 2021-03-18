@@ -64,7 +64,8 @@ public class SimulatorHandler {
         Random r = new Random(0);
         while(this.npcList.size() < 10)
         {
-            NPC npc = new NPC(new Point2D.Double((int)(Math.random() * 1000), (int)(Math.random() * 1000)), r.nextInt(NPC.getCharacterFiles()));
+          NPC npc = new NPC(new Point2D.Double((int)(Math.random() * 1000), (int)(Math.random() * 1000)), r.nextInt(NPC.getCharacterFiles()));
+//            NPC npc = new NPC(new Point2D.Double(500, 500, r.nextInt(NPC.getCharacterFiles())));
             npc.setTargetObject(this.simulatorObjects.get(1));
             if(!npc.checkCollision(this.npcList))
             {
