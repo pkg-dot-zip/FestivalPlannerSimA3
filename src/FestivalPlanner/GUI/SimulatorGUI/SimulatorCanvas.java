@@ -278,7 +278,7 @@ public class SimulatorCanvas extends AbstractGUI {
                 (this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() >= -((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX())) &&
                 (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() <= 1 &&
                 (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() >= -((this.endY - this.startY) - (this.canvas.getHeight() / this.cameraTransform.getScaleY())) &&
-                (this.cameraTransform.getScaleX() * transform.getScaleX()) < 2.5 &&
+                (this.cameraTransform.getScaleX() * transform.getScaleX()) < 4 &&
                 (this.cameraTransform.getScaleX() * transform.getScaleX()) > 0.5
         );
     }

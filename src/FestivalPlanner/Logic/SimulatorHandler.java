@@ -30,8 +30,8 @@ public class SimulatorHandler {
      */
     public SimulatorHandler(TileMap tileMap) {
         this(new ArrayList<>(40), tileMap);
-        generateNPC();
         this.simulatorObjects = generateObjects();
+        generateNPC();
     }
 
     private ArrayList<SimulatorObject> generateObjects() {
@@ -40,7 +40,7 @@ public class SimulatorHandler {
             if (layer instanceof ObjectLayer) {
                 for (TileObject tileObject : ((ObjectLayer) layer).getTileObjects()) {
                     if (tileObject.getType().equals("Podium")) {
-                        objects.add(new SimulatorPodium(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight()));
+                        objects.add(new SimulatorPodium(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), this.tileMap.getPathFindingLayer()));
                     }
                 }
 
@@ -62,9 +62,10 @@ public class SimulatorHandler {
     //Todo: temporary
     public void generateNPC(){
         Random r = new Random(0);
-        while(this.npcList.size() < 100)
+        while(this.npcList.size() < 10)
         {
             NPC npc = new NPC(new Point2D.Double((int)(Math.random() * 1000), (int)(Math.random() * 1000)), r.nextInt(NPC.getCharacterFiles()));
+            npc.setTargetObject(this.simulatorObjects.get(1));
             if(!npc.checkCollision(this.npcList))
             {
                 this.npcList.add(npc);
@@ -81,7 +82,13 @@ public class SimulatorHandler {
         for (NPC npc : this.npcList) {
             npc.draw(g2d);
         }
+
+        for (SimulatorObject object : this.simulatorObjects) {
+            object.draw(g2d);
+        }
     }
+
+    private double debugTime = 0.0;
 
     /**
      * Updates all the NPC's and the objects to the given screen.
@@ -90,6 +97,16 @@ public class SimulatorHandler {
     public void update(double deltaTime) {
         for (NPC npc : this.npcList) {
             npc.update(this.npcList);
+        }
+
+        debugTime += deltaTime;
+        if(debugTime > 15) {
+            SimulatorObject object = this.simulatorObjects.get((int)(Math.random() * this.simulatorObjects.size()));
+            System.out.println(object);
+            for (NPC npc : this.npcList) {
+                npc.setTargetObject(object);
+            }
+            debugTime = 0;
         }
     }
 

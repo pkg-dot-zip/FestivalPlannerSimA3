@@ -1,5 +1,6 @@
 package FestivalPlanner.NPC;
 
+import FestivalPlanner.Logic.SimulatorObject;
 import com.sun.istack.internal.Nullable;
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,7 +19,10 @@ public class NPC {
     private Point2D position;
     private final double SPEED = 1;
     private double frame;
+
     private Point2D target;
+    private SimulatorObject targetObject;
+
     private Direction direction = Direction.UP;
 
     private NPCState npcState = new IdleState();
@@ -46,6 +50,7 @@ public class NPC {
      * @param spriteSheet  changes the appearance of the NPC in question
      */
     public NPC(Point2D position, int spriteSheet) {
+        this.targetObject = null;
         this.position = position;
         this.target = position;
         this.frame = Math.random() * 10;
@@ -83,6 +88,10 @@ public class NPC {
             return;
         }
 
+        if (this.targetObject != null) {
+            this.target = this.targetObject.getNextDirection(this.position);
+        }
+
         Point2D oldPosition = this.position;
 
         this.updateDirectionToFace();
@@ -103,7 +112,7 @@ public class NPC {
      * Updates this NPC' direction to the direction it should face to walk straight forward to its' target.
      */
     public void updateDirectionToFace(){
-        if(this.position.distanceSq(this.target) > 3500) {
+        if(this.position.distanceSq(this.target) > 5000) {
             updateDirectionOnAngle();
         } else {
             updateDirectionOnAxis();
@@ -198,7 +207,7 @@ public class NPC {
     public void draw(Graphics2D g2d) {
         AffineTransform tx = new AffineTransform();
         tx.translate(position.getX() - centerX, position.getY() - centerY);
-        tx.translate(0, 20);
+        tx.translate(0, 10);
 
         //Draws the NPC-sprite on the canvas.
         drawImage(g2d, listOfDirection(), tx);
@@ -244,6 +253,14 @@ public class NPC {
         this.target = newTarget;
     }
 
+    public SimulatorObject getTargetObject() {
+        return targetObject;
+    }
+
+    public void setTargetObject(SimulatorObject targetObject) {
+        this.targetObject = targetObject;
+    }
+
     /**
      * Returns the length of the <code>characterFiles[]</code> array.
      * @return  length of characterFiles[]
@@ -262,6 +279,8 @@ public class NPC {
         g2d.setColor(Color.white);
         g2d.draw(new Ellipse2D.Double(position.getX() - COLLISION_RADIUS / 2f, position.getY() + COLLISION_RADIUS / 4f, COLLISION_RADIUS, COLLISION_RADIUS));
         g2d.draw(new Line2D.Double(position, target));
+
+        this.targetObject.debugDraw(g2d);
     }
 
     /**
