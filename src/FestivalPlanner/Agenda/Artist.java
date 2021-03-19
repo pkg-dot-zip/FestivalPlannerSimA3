@@ -85,7 +85,7 @@ public class Artist implements Serializable {
      * @param out  the stream the images needs to be written to
      */
     //TODO: Separate agenda resources from other agendas to avoid overriding files.
-    private void writeObject(ObjectOutputStream out) throws IOException, URISyntaxException {
+     void writeObject(ObjectOutputStream out) throws IOException, URISyntaxException {
         out.defaultWriteObject();
 
         try {
