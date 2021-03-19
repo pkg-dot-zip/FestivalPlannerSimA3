@@ -20,5 +20,17 @@ class AgendaTest {
         Assertions.assertEquals(expectedName, actualName, "The name should be: " + expectedName);
     }
 
+    @Test
+    void getNameWithEmptyConstructor() {
+        //Setup
+        Agenda agenda = new Agenda();
+
+        //Act
+        String name = agenda.getName();
+
+        //Assert
+        Assertions.assertEquals("", name, "Name should be empty");
+    }
+
 
 }
