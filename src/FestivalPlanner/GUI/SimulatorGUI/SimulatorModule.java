@@ -17,6 +17,9 @@ import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
 
+/**
+ * Responsible for placing everything in the correct place in the Simulator GUI and making sure all the buttons work.
+ */
 public class SimulatorModule extends AbstractGUI {
 
     private Scene simulatorScene;
@@ -35,16 +38,18 @@ public class SimulatorModule extends AbstractGUI {
     Button agendaButton = new Button(messages.getString("agenda"));
     Button simulatorButton = new Button(messages.getString("simulator"));
 
+
+    /**
+     * The constructor of this class
+     * @param stage the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> the
+     *              simulator module should assign itself to
+     * @param agendaModule the <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI.html">SimulatorModule</a>.
+     */
     public SimulatorModule(Stage stage, AgendaModule agendaModule) {
         this.stage = stage;
         this.mainPane = new BorderPane();
         this.simulatorCanvas = new SimulatorCanvas(this, 800, 700);
         this.agendaModule = agendaModule;
-    }
-
-
-    public Stage getStage() {
-        return stage;
     }
 
     @Override
@@ -106,21 +111,48 @@ public class SimulatorModule extends AbstractGUI {
     @Override
     public void actionHandlingSetup() {
         this.agendaButton.setOnAction(event -> {
-            stage.setScene(this.agendaScene);
-            stage.setWidth(1450);
-            stage.setHeight(350);
+            this.stage.setScene(this.agendaScene);
+            this.stage.setWidth(1450);
+            this.stage.setHeight(350);
         });
     }
 
+    /**
+     * Saves the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> of the agenda
+     * so this class can swap back to that <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a>
+     * whenever necessary.
+     * @param agendaScene the scene representing the agenda module
+     */
     public void setAgendaScene(Scene agendaScene) {
         this.agendaScene = agendaScene;
     }
 
+    /**
+     * Getter for the scene this class makes.
+     * @return The <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> this class is
+     * responsible for
+     */
     public Scene getSimulatorScene() {
-        return simulatorScene;
+        return this.simulatorScene;
     }
 
+    /**
+     * Getter for the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/BorderPane.html">Scene</a>
+     * the components of this class are assigned to.
+     * @return a https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/BorderPane.html containing all the components
+     * of this class
+     */
     public BorderPane getMainPane() {
-        return mainPane;
+        return this.mainPane;
     }
+
+    /**
+     * Getter for the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> of the program
+     *
+     * @return the main <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> of the program
+     */
+    public Stage getStage() {
+        return this.stage;
+    }
+
 }

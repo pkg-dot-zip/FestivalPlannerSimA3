@@ -94,6 +94,12 @@ public class PodiumManager {
         return this.podiums.keySet();
     }
 
+    /**
+     * Getter with an <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html">ObservableList</a>
+     * that automatically updates when new <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podiums</a> are made.
+     * @return an <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html">ObservableList</a>
+     * that automatically updates when new <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podiums</a> are made.
+     */
     public ObservableList<String> getObservablePodiumList() {
         return this.observablePodiumList;
     }
