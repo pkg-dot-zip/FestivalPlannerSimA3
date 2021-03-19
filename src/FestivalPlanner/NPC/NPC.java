@@ -112,39 +112,6 @@ public class NPC {
      * Updates this NPC' direction to the direction it should face to walk straight forward to its' target.
      */
     public void updateDirectionToFace(){
-        if(this.position.distanceSq(this.target) > 5000) {
-            updateDirectionOnAngle();
-        } else {
-            updateDirectionOnAxis();
-        }
-
-        //this.debugPrint();
-    }
-
-    /**
-     * Updates this NPC' direction based on the angle between it and the target
-     */
-    private void updateDirectionOnAngle() {
-        double targetAngle = Math.atan2(this.target.getX() - this.position.getX(), this.target.getY() - this.position.getY());
-        targetAngle = Math.toDegrees(targetAngle) + 180;
-        double angleSlack = 3;
-
-
-        if (targetAngle > 45+angleSlack && targetAngle < 135-angleSlack) {
-            this.direction = Direction.LEFT;
-        } else if(targetAngle > 135+angleSlack && targetAngle < 225-angleSlack) {
-            this.direction = Direction.DOWN;
-        } else if(targetAngle > 225+angleSlack && targetAngle < 315-angleSlack) {
-            this.direction = Direction.RIGHT;
-        } else if ((targetAngle > 315+angleSlack && targetAngle < 360) || (targetAngle > 0 && targetAngle < 45-angleSlack)){
-            this.direction = Direction.UP;
-        }
-    }
-
-    /**
-     * Updates this NPC' direction based on the position of the target
-     */
-    private void updateDirectionOnAxis() {
         if (this.position.getX() != this.target.getX()) {
             if (this.position.getX() < this.target.getX()) {
                 this.direction = Direction.RIGHT;
@@ -152,13 +119,16 @@ public class NPC {
                 this.direction = Direction.LEFT;
             }
         } else if (this.position.getY() != this.target.getY()) {
-                if (this.position.getY() > this.target.getY()) {
-                    this.direction = Direction.UP;
-                } else {
-                    this.direction = Direction.DOWN;
-                }
+            if (this.position.getY() > this.target.getY()) {
+                this.direction = Direction.UP;
+            } else {
+                this.direction = Direction.DOWN;
             }
+        }
+
+        //this.debugPrint();
     }
+
 
     /**
      * Updates the NPC' position to the current one, plus or minus the speed. This is dependent on the direction this NPC is facing.
