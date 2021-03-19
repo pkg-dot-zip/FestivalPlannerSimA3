@@ -35,4 +35,28 @@ class ColorConverterTest {
         // Assert
         Assertions.assertEquals(resultColorAWT, colorAWT, fromJavaFXToAWTMessage);
     }
+
+    @Test
+    void testFromAwtToJavaFX_withWhite_returnsWhite() {
+        // Arrange
+
+        // Act
+        Color colorAWT = Color.WHITE;
+        javafx.scene.paint.Color colorJavaFX = javafx.scene.paint.Color.color(1, 1, 1);
+        javafx.scene.paint.Color resultColorJavaFX = ColorConverter.fromAwtToJavaFX(colorAWT);
+        // Assert
+        Assertions.assertEquals(resultColorJavaFX, colorJavaFX, fromAwtToJavaFXMessage);
+    }
+
+    @Test
+    void testFromJavaFXToAwt_withWhite_returnsWhite() {
+        // Arrange
+
+        // Act
+        Color colorAWT = Color.WHITE;
+        javafx.scene.paint.Color colorJavaFX = javafx.scene.paint.Color.color(1, 1, 1);
+        Color resultColorAWT = ColorConverter.fromJavaFXToAwt(colorJavaFX);
+        // Assert
+        Assertions.assertEquals(resultColorAWT, colorAWT, fromJavaFXToAWTMessage);
+    }
 }
