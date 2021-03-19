@@ -16,9 +16,9 @@ class ArtistManagerTest {
 		ArtistManager artistManager = new ArtistManager();
 		artistManager.addArtist(new Artist("Edwin", null, null));
 		//Act
-		Boolean returnResult = artistManager.getAllArtistNames().contains("Edwin");
+		boolean returnResult = artistManager.getAllArtistNames().contains("Edwin");
 		//Assert
-		Assertions.assertEquals(returnResult, true, "Adding artists doesn't work");
+		Assertions.assertTrue(returnResult, "Adding artists doesn't work");
 	}
 
 	@Test
@@ -31,6 +31,6 @@ class ArtistManagerTest {
 		Set artistNames = artistManager.getAllArtistNames();
 		boolean returnResult = (artistNames.contains("Johan") && !artistNames.contains("Edwin"));
 		//Assert
-		Assertions.assertEquals(returnResult, true, "Editing Artists doesn't work");
+		Assertions.assertTrue(returnResult, "Editing Artists doesn't work");
 	}
 }
