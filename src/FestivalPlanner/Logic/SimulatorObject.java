@@ -61,23 +61,25 @@ abstract public class SimulatorObject {
 
             Point current = todoQueue.remove();
 
-            for (int i = 0; i < offsets.length; i++) {
+            for (Point offset : offsets) {
 
-                Point newPoint = new Point(current.x + offsets[i].x, current.y + offsets[i].y);
+                Point newPoint = new Point(current.x + offset.x, current.y + offset.y);
                 if (
                         newPoint.getX() < 0 ||
-                        newPoint.getY() < 0 ||
-                        newPoint.getX() >= collisionLayer.getTileWidth() * collisionLayer.getWidth() ||
-                        newPoint.getY() >= collisionLayer.getTileHeight() * collisionLayer.getHeight()
-                ) { continue; }
+                                newPoint.getY() < 0 ||
+                                newPoint.getX() >= collisionLayer.getTileWidth() * collisionLayer.getWidth() ||
+                                newPoint.getY() >= collisionLayer.getTileHeight() * collisionLayer.getHeight()
+                ) {
+                    continue;
+                }
                 if (visited.contains(newPoint)) {
                     continue;
                 }
-                if (collisionLayer.getTiles()[(int)Math.floor(newPoint.getY() / collisionLayer.getTileHeight())][(int)Math.floor(newPoint.getX() / collisionLayer.getTileWidth())] == null) {
+                if (collisionLayer.getTiles()[(int) Math.floor(newPoint.getY() / collisionLayer.getTileHeight())][(int) Math.floor(newPoint.getX() / collisionLayer.getTileWidth())] == null) {
                     continue;
                 }
 
-                this.pathMap[(int)Math.floor(newPoint.getY() / collisionLayer.getTileHeight())][(int)Math.floor(newPoint.getX() / collisionLayer.getTileWidth())] = current;
+                this.pathMap[(int) Math.floor(newPoint.getY() / collisionLayer.getTileHeight())][(int) Math.floor(newPoint.getX() / collisionLayer.getTileWidth())] = current;
                 visited.add(newPoint);
                 todoQueue.add(newPoint);
             }

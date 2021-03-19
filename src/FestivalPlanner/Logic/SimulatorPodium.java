@@ -33,7 +33,7 @@ public class SimulatorPodium extends SimulatorObject{
                 Point point = points[x];
                 if (point != null) {
                     g2d.setColor(Color.black);
-                    g2d.drawLine(x * 16 - 8, y * 16 - 8, point.x, point.y);
+                    g2d.drawLine(x * 16 + 8, y * 16 + 8, point.x, point.y);
                     g2d.setColor(Color.white);
                 }
             }
