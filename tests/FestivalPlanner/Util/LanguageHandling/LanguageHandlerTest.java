@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LanguageHandlerTest {
 
-    private String getMessagesApplyMessage = "Should've returned \"Apply\", but returned another string instead!";
-    private String getMessagesCloseMessage = "Should've returned \"Close\", but returned another string instead!";
+    private final String getMessagesApplyMessage = "Should've returned \"Apply\", but returned another string instead!";
+    private final String getMessagesCloseMessage = "Should've returned \"Close\", but returned another string instead!";
 
     @Test
     void testGetMessages_withApply_returnsApply() {

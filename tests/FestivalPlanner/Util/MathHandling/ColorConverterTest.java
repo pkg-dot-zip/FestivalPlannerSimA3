@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ColorConverterTest {
 
-    private String fromAwtToJavaFXMessage = "The converted color is not the same! It should have returned a proper JavaFX Color!";
-    private String fromJavaFXToAWTMessage = "The converted color is not the same! It should have returned a proper AWT Color!";
+    private final String fromAwtToJavaFXMessage = "The converted color is not the same! It should have returned a proper JavaFX Color!";
+    private final String fromJavaFXToAWTMessage = "The converted color is not the same! It should have returned a proper AWT Color!";
 
     @Test
     void testFromAwtToJavaFX_withBlack_returnsBlack() {
