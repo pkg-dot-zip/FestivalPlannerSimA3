@@ -258,10 +258,11 @@ Na overleg met de Senior blijkt het dat dit ook klopt. We kunnen door door alle 
 waardoor de alleen door de gebruikte tiles lopen. Volgende week zal ik behandelen hoe wij dit probleem hebben opgelost
 
 ---
-De kat van week 3 is (All royalties to Max van Gils):
+De kat van week 4 is (All royalties to Max van Gils):
 
 ![](Images/CatOfTheWeek/CatWeek4.png)
 
+---
 
 # Week 5
 
@@ -288,5 +289,174 @@ Na het Senior gesprek hebben wij een vergadering gehouden waar besproken is hoe 
 Ook hebben wij taken voor deze week verdeeld. Verder is er niet veel te zeggen over het proces. Het is verder redelijk normaal
 verlopen.
 
+---
 ### Reflectie Vakinhoudelijk
 
+Deze week zou ik terug komen op hoe ik het probleem met het inlande van de tile heb opgelost. Tijdens het Senior gesprek is 
+dit punt ook naar voren gekomen. Zoals ik van te voren ook al het vermoede had, zijn de tiles die in het JSON object met tilesets
+voorkomen niet alle tiles die daadwerkelijk gebruikt worden. De Senior stelde voor dat we door alle layers heen konden lopen en
+door elke tile toetevoegen aan een hashSet ervoor konden zorgen dat elke tile maar één maal voor zou komen.
+
+Ik ben deze week bezig geweest met het implementeren van dit idee, echter liepen we tegen een ander probleem aan. Nog steeds niet
+alle tile kwamen tevoorschijn, ook zagen zij er niet goed uit. Zie hier onder voor een foto hoe het er uitzag:
+
+![](Images/TileMapWrong.png)
+
+Dit is hoe de applicatie er uitzag, na hier nog wat meer tijd in te stoppen ben ik er nog niet achter gekomen. Als groep hebben wij
+besloten dat dit punt niet heel belangrijk was om naar te kijken. Het bespaart slechts een klein beetje geheugen, terwijl de applicatie
+niet veel geheugen in beslag neemt.
+
+Wij hebben toen besloten dat het beter is om te focussen op het werken aan de andere taken van deze week. Ook begonnen wij tegen
+probelemen aan te lopen met performance, en was het slimmer om op performance verbeteringen te foccussen.
+
+Verder wil ik het in de reflectie van deze week hebben over twee onderwerpen. Deze week zijn Teun en ik bezig geweest met het
+implementeren van het SimulatorCanvas. En het performace probleem waar wij tegenaan liepen en hoe we dat hebben opgelost.
+
+---
+##### Het SimularCanvas
+
+Zoals in de ontwerpfase is bedacht, moest er een SimulatoCanvas komen. Het idee van deze klasse is dat deze klasse het canvas
+waarop onze simulatie 'getekend' wordt moet voorstellen. Het taak van deze klasse is dus, gegeven een TileMap, het tekennen op het
+scherm. Ook is deze klasse verantwoordelijk voor het bewegen van het canvas door het gebruik van WASD of door het slepen van de muis,
+voor het inzoomen van het canvas en het afhandelen van de correcte ScreenSpace punt omzetten naar een WorldSpace punt.
+
+Het tekenen van de TileMap zelf in deze klasse is een eitje. Door de manier waarop wij de TileMap hebben geïmplementeerd 
+hoeven wij alleen nog de draw methode in deze klasse aan te roepen. Zie deze code:
+
+```java
+this.tileMap.draw(fxGraphics2D);
+```
+
+De grote uitdaging was het bewegen over het scherm en het inzoomen. In de reflectie van week 3 heb ik het gehad over de
+`CameraInBounds()` methode, deze moesten wij deze week weer gebruiken. Echter was het nodig om ook het inzoomen hierin te verwerken.
+Dit was, zoals te lezen bij week 3, niet te geluk toen.
+Hieronder staat de code waarmee wij het nu wel werkend hebben gekregen:
+
+```java
+private boolean cameraInBounds(AffineTransform transform) {
+        return ((this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() <= 1 &&
+                (this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() >= -((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX())) &&
+                (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() <= 1 &&
+                (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() >= -((this.endY - this.startY) - (this.canvas.getHeight() / this.cameraTransform.getScaleY())) &&
+                (this.cameraTransform.getScaleX() * transform.getScaleX()) < 2.5 &&
+                (this.cameraTransform.getScaleX() * transform.getScaleX()) > 0.5
+        );
+    }
+```
+
+Wat wij vorige keer fout hebben gedaan is dat wij de waarden van de nieuwe transform wel deelden door de schaal, alleen het nieuwe eind van het scherm niet.
+Hierdoor kreeg je het probleem dat het scherm of niet ver genoeg of te veer naar links of rechts ging nadat er was gezoomt. Door beide
+waarde te delen door de huidige schaal lossen wij dit probleem op.
+
+Het bewegen van het scheerm d.m.v. slepen was niet heel bijzonder omdat wij dit ookal meerdere malen hebben gehad bij 2DGraphics.
+Ik zal het in deze reflectie dus ook niet behandelen. Wel is het bewegen door het gebruik van WASD interessant om te laten zien.
+
+Op het moment dat er op een toets wordt gedruk wordt onze methode aangeroepen door deze regel: `this.canvas.setOnKeyPressed(this::onWASD);`.
+De methode `onWASD()` staat hieronder gegeven.
+
+```java
+private void onWASD(KeyEvent keyEvent) {
+        double verticalPixels = 0;
+        double horizontalPixels = 0;
+
+        switch (keyEvent.getCode()) {
+            case UP:
+            case W:
+                verticalPixels = CAMERA_SPEED;
+                break;
+            case LEFT:
+            case A:
+                horizontalPixels = CAMERA_SPEED;
+                break;
+            case DOWN:
+            case S:
+                verticalPixels = -CAMERA_SPEED;
+                break;
+            case RIGHT:
+            case D:
+                horizontalPixels = -CAMERA_SPEED;
+                break;
+        }
+
+        AffineTransform transform = new AffineTransform();
+        transform.translate(horizontalPixels, verticalPixels);
+        if(cameraInBounds(transform)) {
+            this.cameraTransform.translate(horizontalPixels, verticalPixels);
+        }
+    }
+```
+
+Oorspronkelijk probeerden wij de toets waarop gedrukt was uit te lezen met de `getCharacter()` methode. Dit gaf een lege waarde
+terug en wij liepen hier vast. Het bleek dat wij de `getCode()` konder gebruiken om de key uit te lezen. Omdat deze code een 
+Enum waarde is hebben wij gekozen om het met een Switch-case af te handelen. Het attribuut cameraTransform wordt getranslate 
+in de richting afhankelijk van op welke knop is gedrukt. 
+
+Leuk om in deze methode ui te lichten is dat er staat 
+```java
+case UP:
+case W:
+verticalPixels = CAMERA_SPEED;
+break;
+```
+
+en ook zo verder voor de andeere character. Ik wist niet dat dit kon en kan mij niet herrineren dat wij dit gehad hebben.
+Als je na een case geen break zet wordt de volgende case ook uitgevoerd. Dus door bij de case UP niks te zetten en deze boven de 
+case 'W' te zetten gebeurd er exact hetzelfde als er op het pijltje omhoog wordt gedrukt als waneer het op de 'W' toets wordt gedrukt.
+
+De complete werking van het cavas is hieronder te zien in een gif.
+
+![](Images/SimulatorCanvas.gif)
+
+---
+#### Buffering images
+
+Het is misschien te zien in de gif die in het vorge stukje stond, maar we beginnen wel te lopen tegen performance problemen.
+Tijdens het scrollen door de tileMap draaide onze applicatie ongeveer met 30fps, echter bleef hij soms hangen en hadden we last van
+een lag-spike. Soms duurde het tot 5 seconde voordat de volgende frame geladen kon worden, 02 fps. Dit konden wij zien door
+elke update aanroep 1/deltaTime uit te printen.
+
+Van onze senior hadden wij tijdens het gesprek het al over performance gehad en stelde hij voor om de layers in de TileMap
+te gaan bufferen. Dit hebben wij nog niet eerder in de les gehad, dus we moesten redelijk zelf uitzoeken hoe dit werkt.
+
+Wij hebben in de klasse TileLayer het attribuut imageLayer toegevoegd: `private BufferedImage imageLayer;`.
+Met de onderstaande code worden alle verschillende Tiles in de Layer getekend naar het plaatje. 
+
+```java
+/**
+     * Buffers a new BufferedImage based on <code>this.tiles</code>.
+     * @return  a new BufferedImage base on this layer
+     */
+    private BufferedImage constructImageLayer() {
+        BufferedImage imageLayer = new BufferedImage(this.width * this.tileWidth, this.height * tileHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = imageLayer.createGraphics();
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (tiles[y][x] == null) {
+                    continue;
+                }
+                tiles[y][x].draw(g2d, x * tileWidth,y * tileHeight);
+            }
+        }
+
+        return imageLayer;
+    }
+```
+De methode loopt door elke tile heen en tekend deze naar de `BufferedImage`. In de draw methode van Layer wordt dan
+alleen nog dit plaatje getekend. Er wordt niet meer door elke Tile in de klasse gelopen om getekend te worden.
+
+```java
+AffineTransform tx = new AffineTransform();
+g2d.drawImage(this.imageLayer, tx, null);
+```
+
+Dit betekend dat als er dingen veranderen in onze TileMap dit niet getekend wordt. de methode hierboven moet dan eerst opnieuw
+worden aangeroepen. Dit is voor ons geen probleem omdat er in onze TileMap geen animaties of beweging zit.
+
+Na deze aanpassing kregen wij tijdens het slepen door het canvas een vaste 60 fps. Dit heeft dus heel veel gescheeld in onze
+applicatie. Zonder deze werking hadden wij eigenlijk niet verder gekund.
+
+---
+De kat van week 5 is (All royalties to Max van Gils):
+
+![](Images/CatOfTheWeek/CatWeek5.png)
