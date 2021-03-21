@@ -295,7 +295,7 @@ verlopen.
 Deze week zou ik terug komen op hoe ik het probleem met het inlande van de tile heb opgelost. Tijdens het Senior gesprek is 
 dit punt ook naar voren gekomen. Zoals ik van te voren ook al het vermoede had, zijn de tiles die in het JSON object met tilesets
 voorkomen niet alle tiles die daadwerkelijk gebruikt worden. De Senior stelde voor dat we door alle layers heen konden lopen en
-door elke tile toetevoegen aan een hashSet ervoor konden zorgen dat elke tile maar één maal voor zou komen.
+door elke tile toe te voegen aan een hashSet ervoor konden zorgen dat elke tile maar één maal voor zou komen.
 
 Ik ben deze week bezig geweest met het implementeren van dit idee, echter liepen we tegen een ander probleem aan. Nog steeds niet
 alle tile kwamen tevoorschijn, ook zagen zij er niet goed uit. Zie hier onder voor een foto hoe het er uitzag:
@@ -460,3 +460,187 @@ applicatie. Zonder deze werking hadden wij eigenlijk niet verder gekund.
 De kat van week 5 is (All royalties to Max van Gils):
 
 ![](Images/CatOfTheWeek/CatWeek5.png)
+
+
+---
+
+# Week 6
+
+---
+
+### Reflectie proces
+
+Proces matig is deze week ook niet heel spannend geweest. Deze week hebben wij als groep een Tutor gesprek gehad, een vergadering
+die wordt bijgewoond door onze tutor. In de vergadering hebben wij het opstart college besproken en wat andere zaken.
+Als planner heb ik zoals elke week weer de planning voor deze week doorgenomen en besproken. Er zijn toen taken verdeeld over
+wie wat moest gaan doen.
+
+Na de vergadering hebben wij als groep door de feedback die wij over ons PVA hebben gehad gelopen. We hebben als groep
+gekeken wat er precies verandert moest worden, en afgesproken wie wat gaat aanpassen. 
+
+We hebben een groot deel van de middag met zijn allen gewerkt aan de pathfinding. Dit is misschien niet heel efficiënt maar hier
+hadden wij voor gekozen zodat iedereen in dit belangrijke stuk van het project kon meedenken en meekijken. Ik denk dat dit een goede keuze
+is geweest, ondanks de extra man uren die het kostte. Iedereen weet nu hoe dit belangrijke stuk in elkaar steekt, en iedereen is
+het eens met de code die is gebruikt.
+
+---
+### Reflectie Vakinhoudelijk
+
+In het opstart college deze week is het gegaan over het implementeren van pathfinding in ons festival. Tijdens het maken van 
+de TileMap hebben wij hier al over nagedacht, alle paden die wandelbaar zijn hadden wij op een aparte laag gemaakt.
+
+Toen wij zijn begonnen met het maken van pathfinding hebben wij deze layer een speciefieke naam gegeven. Elke layer die loopbare
+tiles bevat heeft de naam "PathLayer", door tijdens het uitlezen van het JSON-bestand de check op deze naam weten wij elke laag
+loopbare tiles bevat.
+
+Dit wordt in de klasse `TileMap` opgeslagen in een attribuut. Dit is het attribuut in de klasse
+```java
+private TileLayer pathFindingLayer;
+```
+
+Dit betekent wel dat, voor ons project, wij vast zitten aan slechts één layer met loopbare-tiles. Als groep hebben wij besloten
+dat dit geen probleem is, omdat, wij niet het idee hebben dat wij meerdere pathfinding layers willen hebben. Dit scheelde ons tijd in
+het implementeren en dus hebben wij de keuzen gemaakt om het op deze manier te doen.
+
+De `JsonConverter` die wij hebben geschreven kijkt nu of de laag die hij uitleest een PathFinding layer is, als dat het geval is wordt
+dat doorgegeven aan het TileMap object die wordt gevormd.
+
+```java
+        if (layerName.equals("PathLayer")) {
+            tileMap.setPathFindingLayer(tileLayer); 
+        }
+```
+
+Dit is al de code die nodig was in de `JsonConverter`, zoals de te zien is echt maar een heel klein stukje die toegevoegd moest worden.
+Pas hierna begon het leuk te worden. Tijdens de ontwerp fase van de simulator hebben wij gedacht over Pathfinding, echter 
+wisten wij nog niet hoe dit precies zou moeten gebeuren (omdat we het college nog niet hadden gehand).
+
+#### Pathfinding in SimulatorObject
+
+Hieronder staat eerst het nieuwe klasse diagram over onze logic gegeven.
+
+![](Images/KlasseDiagram%20Logic%20after%20pathfinding.jpg)
+
+Wat er is veranderd in dit klasse diagram t.o.v. het vorige diagram, is dat de PathFinding klasse verdwenen is.
+Deze hebben wij verwijderd omdat wij niet meer vonden dat dit nodig was om de NPC aan te sturen. De klasse die nu de pathfinding
+bijhoud is de abstracte klasse Simulator Object.
+
+Waarom hebben wij hiervoor gekozen? In de pathfinding methode die wij gebruiken wordt er tijdens het inladen van een TileMap
+een pad vanuit elk punt op het scherm naar elk object berekend. Een NPC die naar een bepaald object wil kan dan aan de hand
+van de map naar het object waar het heel wil bepalen welke ruote er wordt genomen.
+
+Omdat er naar elk `SimularorObject` Die wij hebben een aparte route moet komen hebben wij gekozen om de map ook in dit object 
+op te slaan, een NPC heeft tevens al een attribuut doet aangeeft naar welk object het wil gaan. 
+
+De code die wij geschreven hebben staat hieronder, hiermee wordt de map met pathdinding berekend. Dit gebeurt slechts één maal
+
+```java
+protected void buildPathMap() {
+        this.pathMap = new Point[collisionLayer.getWidth()][collisionLayer.getHeight()];
+        for (int x = 0; x < collisionLayer.getWidth(); x++) {
+            for (int y = 0; y < collisionLayer.getHeight(); y++) {
+                this.pathMap[x][y] = null;
+            }
+        }
+
+        Point thisLocation = new Point((int)this.location.getX() + (collisionLayer.getTileWidth() / 2), (int)this.location.getY() + (collisionLayer.getTileHeight() / 2));
+
+        Queue<Point> todoQueue = new LinkedList<>();
+        ArrayList<Point> visited = new ArrayList<>();
+
+        this.pathMap[(int)Math.floor(this.location.getX() / collisionLayer.getTileWidth())]
+                [(int)Math.floor(this.location.getY() / collisionLayer.getTileHeight())] =
+                thisLocation;
+
+
+        todoQueue.add(thisLocation);
+        visited.add(thisLocation);
+
+        Point[] offsets = {new Point(collisionLayer.getTileHeight(), 0), new Point(-collisionLayer.getTileHeight(), 0),
+        new Point(0, collisionLayer.getTileWidth()), new Point(0, -collisionLayer.getTileWidth())};
+
+        while (!todoQueue.isEmpty()) {
+
+            Point current = todoQueue.remove();
+
+            for (Point offset : offsets) {
+
+                Point newPoint = new Point(current.x + offset.x, current.y + offset.y);
+                if (
+                        newPoint.getX() < 0 ||
+                                newPoint.getY() < 0 ||
+                                newPoint.getX() >= collisionLayer.getTileWidth() * collisionLayer.getWidth() ||
+                                newPoint.getY() >= collisionLayer.getTileHeight() * collisionLayer.getHeight()
+                ) {
+                    continue;
+                }
+                if (visited.contains(newPoint)) {
+                    continue;
+                }
+                if (collisionLayer.getTiles()[(int) Math.floor(newPoint.getY() / collisionLayer.getTileHeight())][(int) Math.floor(newPoint.getX() / collisionLayer.getTileWidth())] == null) {
+                    continue;
+                }
+
+                this.pathMap[(int) Math.floor(newPoint.getY() / collisionLayer.getTileHeight())][(int) Math.floor(newPoint.getX() / collisionLayer.getTileWidth())] = current;
+                visited.add(newPoint);
+                todoQueue.add(newPoint);
+            }
+
+        }
+
+    }
+```
+
+De code lijkt zeer op de code die de senior heeft laten zien tijdens de uitleg over het pathfinding. Waar wij echter voor hebben gekozen
+is om in elke tile stukje niet een heat value op te slaan, om vervolgens een richting te bepalen aan de hand van deze waarde. Maar 
+om de locatie van de parent van dit vakje. Hierdoor wordt er verwezen naar de tile waar het algorithme voor pathfinding vandaan kwam.
+
+Omdat onze NPC, naar onze artistieke keuze, alleen over de horizontale en verticale as bewegen is het in dit geval ook geen probleem dat, 
+er niet in diagonalen kan worden gewezen. Onze NPC kunnen deze route toch niet lopen.
+
+In de code doorlopen wij, vanaf het startpunt, elk direct omliggend punt. Als deze nog niet eerder bezocht is en als het punt
+een valide punt is wordt de locatie waar van het vorige punt opgeslagen.
+
+Hieronder is een foto te zien waar er voor elk vakje een lijn wordt geteken van de tile naar de route die er
+gelopen moet worden.
+
+![img.png](Images/PathfindingImg.png)
+
+Deze map is voor het podium dat rechts bovenin de map ligt.
+
+#### Locatie naar NPC's
+
+Wij hebben er voor gekozen om de pathfinding map niet op te slaan in de NPC, maar om dit door het `SimulatorObject` af te handelen.
+In deze klasse is een methode `getNextPoint()` toegevoegd. Deze methode, gegeven een punt, geeft aan naar welk punt er gelopen moet
+worden om richting het object te lopen.
+
+De NPC vraagt aan het `SimulatorObject` waar hij naartoe wil waar hij heen moet lopen. Het geeft dan zijn huidige locatie mee.
+Om te voorkomen dat een NPC vast komt als hij op het gras terecht komt wordt er, als de NPC op een punt buiten het pad staat, gewezen
+naar het object zelf. De NPC zal dan over het gras in een directe lijn naar het object gaan lopen. Als de NPC
+weer op het pad terecht komt zal het weer volgens het pad gaan lopen.
+
+Dit leek ons als groep de beste optie om te voorkomen dat NPC vast komen te zitten als zij buiten de paden terecht komen.
+
+De methode kijkt welk punt er is opgeslagen in de PathMap op de huidige locatie in geeft deze terug.
+
+```java
+ public Point2D getNextDirection(Point2D currentPoint) {
+        Point toPoint = this.pathMap[(int)Math.floor(currentPoint.getY() / collisionLayer.getTileHeight())][(int)Math.floor(currentPoint.getX() / collisionLayer.getTileWidth())];
+        if (toPoint == null) {
+            toPoint = this.pathMap[(int)Math.floor(this.location.getX() / collisionLayer.getTileWidth())]
+                    [(int)Math.floor(this.location.getY() / collisionLayer.getTileHeight())];
+        }
+
+        return new Point2D.Double(toPoint.x, toPoint.y);
+    }
+```
+
+Een simpele methode om het punt uit te lezen uit de map en deze terug te geven. Hetgeen wat wel verbeter zou kunnen worden
+is het omzetten van het punt naar een tile nummer, dit zou misschien ook in een aparte methode kunnen.
+
+Hieronder staat een gif om te laten zien dat NPC daadwerkelijk naar hun locatie lopen. De zwarte lijnen geven de lijnen
+voor de PathFinding map aan. De witte lijnen zijn de target locaties waar de NPC naartoe willen lopen.
+
+![](Images/PathFindingDemo.gif)
+
+---
