@@ -33,4 +33,27 @@ class ArtistManagerTest {
 		//Assert
 		Assertions.assertTrue(returnResult, "Editing Artists doesn't work");
 	}
+
+
+	@Test
+	void testArtistManagerEmptyOnCreation() {
+		//Arrange
+		ArtistManager artistManager = new ArtistManager();
+		//Act
+		Set artistNames = artistManager.getAllArtistNames();
+		//Assert
+		Assertions.assertTrue(artistNames.isEmpty(), "The podium manager isn't empty on startup");
+	}
+
+	@Test
+	void testArtistManagerRemoveArtist() {
+		//Arrange
+		ArtistManager artistManager = new ArtistManager();
+		//Act
+		artistManager.addArtist(new Artist("Dababy", null, null));
+		artistManager.removeArtist("Dababy");
+		Set artistNames = artistManager.getAllArtistNames();
+		//Assert
+		Assertions.assertTrue(artistNames.isEmpty(), "Removing artists doesn't work correctly");
+	}
 }

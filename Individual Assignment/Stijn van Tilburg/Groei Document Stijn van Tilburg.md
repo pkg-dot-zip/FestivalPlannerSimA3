@@ -209,3 +209,49 @@ de artiesten en podiums, ik had ook meteen moeten nadenken over hoe die
 informatie werd verspreden.
 
 ## Week 5
+
+Deze week was het tijd om te zorgen dat het agenda gedeelte en het
+simulator gedeelte zichtbaar was in hetzelfde venster. Hiervoor was al
+een design gemaakt, dus aan ons (Ik heb hierbij samengewerkt met Jason)
+de taak om het een realiteit te maken. De moeilijkheid deze week zat niet
+in de code maar in de keuzes die we moesten maken.
+
+##### Simulator design
+
+![Simulator Design](./Images/simulatorDesign.png)
+
+Als we naar dit design kijken zien we onderaan 2 functies die optioneel zijn
+dus die knoppen hebben we niet erin geprogrammeerd totdat we zeker
+weten dat die functies in het programma komen.
+
+De eerste stap die we nomen was nadenken over hoe we de knoppen bovenaan
+om te wisselen wouden realiseren. Het was belangrijk dat er maar in knop
+te gelijk ingedrukt was, en dat de andere knop aangaf op een manier dat
+hij ingedrukt was.
+
+Ons eerste idee was om een Toggle Button te gebruiken. Die knop had alles
+wat we wouden, zolang we zorgde dat het naast elkaar kwam zou het exact zijn
+wat we willen. Maar toen kwamen we voor een probleem, het was niet 
+mogelijk om te zorgen dat je een knop niet kon in drukken zonder hem
+vervaagd te maken. Dat was natturlijk niet wat we wouden en het haalde al
+het nut van Toggle Buttons te gebruiken weg.
+
+We konden dit op te lossen door de actie van de uigedrukte knop indrukken
+de knop uitdrukken te maken. Of we moesten kiezen om normale knoppen te
+gebruiken en te accepteren dat ze vervaagd eruit gingen zien om aan
+te geven dat ze ingedrukt waren.
+
+We hebben ervoor gekozen om normale knoppen te gebruiken en te 
+accepteren dat ze er vervaagd uit gingen zien. Als anderen het er niet mee 
+eens waren dat kregen we het wel te horen, we waren op dit punt al 
+2 uur bezig alleen hiermee!
+
+##### Uiteindelijke design festivalGUI
+
+De rest van de code is niets bijzonders, wel hebben we nog wat design 
+improvements gemaakt. We hadden bijvoorbeeld twee ObservableLists, de 
+eerste met alle podia en de tweede met alle artiesten. Maar die 
+ObservableList werd opgeslaen in onze AgendaGui. Dat is een heel slechte plek
+om zoiets op te slaan. We hebben gezorgd dat dat nu in hun eigen manager
+word opgeslagen (waar het hoord).
+
