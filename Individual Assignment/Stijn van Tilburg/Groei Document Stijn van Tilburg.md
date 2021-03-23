@@ -246,12 +246,76 @@ accepteren dat ze er vervaagd uit gingen zien. Als anderen het er niet mee
 eens waren dat kregen we het wel te horen, we waren op dit punt al 
 2 uur bezig alleen hiermee!
 
-##### Uiteindelijke design festivalGUI
+##### Uiteindelijke design Simulator
+
+![Uitendelijke Simulator Design](./Images/simulatorGUI.png)
+
+Zoals te zien is hebben we het design van de zoom to podium verandert.
+Dit hebben we gedaan omdat we niet weten of de gebruiker alle podiums wilt
+gebruiken. Bij het oude design zouden daar dan onnodige radiobuttons zitten,
+En dat terwijl radiobuttons in mijn mening er slechter uitzien hierbij
+dan een ComboBox
 
 De rest van de code is niets bijzonders, wel hebben we nog wat design 
 improvements gemaakt. We hadden bijvoorbeeld twee ObservableLists, de 
 eerste met alle podia en de tweede met alle artiesten. Maar die 
 ObservableList werd opgeslaen in onze AgendaGui. Dat is een heel slechte plek
 om zoiets op te slaan. We hebben gezorgd dat dat nu in hun eigen manager
-word opgeslagen (waar het hoord).
+word opgeslagen (waar het hoort).
+
+## In het bedrijfsleven wordt steeds meer in de software gesimuleerd.
+
+Dat dit waar is, is geen geheim meer. Of het nou gaat om
+het simuleren van een hartklep, of het simuleren van natuurrampen. het 
+is heel duidelijk dat er steeds meer gebruik word van simulaties door 
+bedrijven voor enorm veel verschillende doeleindes.
+
+##### Wat zijn de voordelen van simulaties gebruiken in het bedrijfsleven?
+Simulaties zijn enorm flexibel, je kunt ze voor enorm veel verschillende
+doeleindes gebruiken. Wil je weten of een festival goed genoeg is beschermt tegen een brand?
+Simulaties kunnen het antwoord bieden. Wil je testen hoe goed een product
+in elkaar zit voordat het gemaakt is? Simulaties kunnen het antwoord bieden.
+
+Als we dan verder gaan met het laatste voorbeeld, die informatie is goud waard.
+Een simulatie kan inzicht geven in de werking en gedrag van een ontwerp 
+zonder het te moeten produceren. Dat bespaart bedrijven enorm veel moeite en kosten.
+Het produceren van een product geberut pas laat in de 
+ontwerpproces, terwijl het verbeteren van het product het best kan in de
+eerste fase van het ontwerpproces. Door het simuleren is het wel mogelijk om
+die ontwerpfouten de vinden tijdens de eerste processen. Dit bespaard enorm
+veel tijd en geld
+
+Ook zorgen simulaties ervoor dat veranderingen makkelijk uit te testen zijn.
+Er zit een enorm vershil tussen het zien van een product op papier en het 
+kunnen uit testen. Doormiddel van simulaties word het uittesten van
+programmas veel makkelijker waardoor de kwaliteit van het design veel makkelijker
+omhoog kan gaan. Maar dit is niet alleen belangrijk voor de het uit 
+testen van de kwaliteit. Hoe weet je of een product goed genoeg is om te 
+voldoen aan de eisen die je bedrijf stelt? Normaal is dit alleen mogelijk 
+door het te maken. Maar via simulaties kun je dus ook heel simpel testen of
+een product goed genoeg is om op de markt te vrengen, ook dit bespaart veel
+tijd en geld.
+
+##### Waarom zijn simulaties in het bedrijfsleven in opkomst en niet al veelgebruikt onderdeel.
+
+Dat software development beschikbaar is tot bedrijven is nog relatief nieuw.
+Zeker wanneer je realiseert dat de meeste directeurs van bedrijven oudere mensen
+zijn, de mensen die het meeste moeite hebben met de overstap naar technologie
+in bedrijven. Zelfs als iedere directeur begreep wat de voordelen waren van een team
+verantwoordelijk hiervoor hebben zijn, betekent dat niet dat ze begreipen 
+hoe het ook gerealiseerd in hun bedrijf kan worden. Langzaam maar zeker worden
+de oude bedrijven geleerd dat het toch echt tijd is voor een overstap. 
+Maar ook is het zo dat de meeste software ontwikkeld voor bedrijven
+veel tijd nodig heeft voordat het gebruikt word. Sommige overheid projecten
+duren 20 jaar voordat ze gebruikt word. Tegen die tijd is de software natuurlijk
+al enorm veroudert. En zelfs als er een team is die de software kan maken
+is het nog maar de vraag hoe goed de software is.
+ 
+Omdat software zoiets nieuws is, is het zo dat het vaak nog fout begrepen word. maar naarmate de
+jaren vooruit gaan zal sofware steeds beter begrepen worden.
+Momenteel kun je duidelijk merken dat Steeds meer bedrijven beginnen door
+te hebben wat de kracht van software is, en hoe je ermee om moet gaan.
+Lanzaam maar zeker begint software Development zijn troon bovenaan het
+bedrijfsleven te nemen.
+
 
