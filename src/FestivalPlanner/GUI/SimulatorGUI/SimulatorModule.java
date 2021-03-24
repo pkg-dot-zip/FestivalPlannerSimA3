@@ -5,6 +5,8 @@ import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.geometry.Pos;
+import FestivalPlanner.Logic.SimulatorHandler;
+import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Button;
@@ -28,6 +30,7 @@ public class SimulatorModule extends AbstractGUI {
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();
 
+    private SimulatorHandler handler;
     private SimulatorCanvas simulatorCanvas;
     private BorderPane mainPane;
     private Stage stage;
@@ -48,6 +51,8 @@ public class SimulatorModule extends AbstractGUI {
     public SimulatorModule(Stage stage, AgendaModule agendaModule) {
         this.stage = stage;
         this.mainPane = new BorderPane();
+        this.handler = new SimulatorHandler();
+        this.simulatorCanvas = new SimulatorCanvas(this.handler, this, 400, 400);
         this.simulatorCanvas = new SimulatorCanvas(this, 800, 700);
         this.agendaModule = agendaModule;
     }

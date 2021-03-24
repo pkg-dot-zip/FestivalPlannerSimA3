@@ -4,10 +4,7 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.TileMap.*;
 import com.sun.istack.internal.NotNull;
 import javax.imageio.ImageIO;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
+import javax.json.*;
 import java.awt.geom.Point2D;
 import java.awt.image.*;
 import java.io.InputStream;
@@ -134,6 +131,7 @@ public class JsonConverter extends AbstractDialogPopUp {
     private TileLayer buidlTileLayer(TileMap tileMap, int width, int height, JsonObject layer, TileManager tileManager) {
 
         JsonArray tilesArray = layer.getJsonArray("data");
+        String layerName = layer.getString("name");
         ArrayList<Tile> layerTiles = new ArrayList<>();
 
         //loop though tiles to see if they are stored
@@ -146,7 +144,12 @@ public class JsonConverter extends AbstractDialogPopUp {
             }
         }
 
-        return new TileLayer(tileMap, width, height, layerTiles);
+        TileLayer tileLayer = new TileLayer(tileMap, width, height, layerTiles);
+        if (layerName.equals("PathLayer")) {
+            tileMap.setPathFindingLayer(tileLayer);
+            System.out.println(tileMap.getLayers().size());
+        }
+        return tileLayer;
     }
 
 
@@ -172,26 +175,6 @@ public class JsonConverter extends AbstractDialogPopUp {
                 //Loading image in tileSet
                 BufferedImage tileImage = ImageIO.read(getClass().getResourceAsStream(tileSet.getString("image")));
 
-/*
-                //Todo: Testing possible error, ask Johan (error prob in JSON)
-                //only loop through used images for efficiency
-                JsonArray tiles = tileSet.getJsonArray("tiles");
-                for (int q = 0; q < tiles.size(); q++) {
-                    JsonObject tile = tiles.getJsonObject(q);
-                    int id = tile.getInt("id");
-                    //System.out.println(id);
-
-                    //only loops through used images for efficiency
-                    Tile tileObject = new Tile(tileImage.getSubimage(
-                            (tileWidth + 1) * (id % collums),        //
-                            (tileHeight + 1) * (id / collums),       // Voodoo magic splitting the images based on id
-                            tileWidth,                                 //
-                            tileHeight), id);                          //
-
-                    tileManager.addTile(id, tileObject);
-
-                }
-*/
                 //loading in all the images
                 int id = 1;
                 for (int y = 0; y < tileImage.getHeight(); y += tileHeight + 1) {

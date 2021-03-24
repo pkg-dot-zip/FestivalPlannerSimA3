@@ -1,11 +1,12 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
 import FestivalPlanner.GUI.AbstractGUI;
-import FestivalPlanner.TileMap.TileMap;
-import FestivalPlanner.Util.JsonHandling.JsonConverter;
+import FestivalPlanner.Logic.SimulatorHandler;
+import FestivalPlanner.NPC.NPC;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
@@ -23,8 +24,11 @@ public class SimulatorCanvas extends AbstractGUI {
 
         private Canvas canvas;
         private SimulatorModule simulatorModule;
+        private SimulatorHandler simulatorHandler;
         private BorderPane mainPane;
+
         private AffineTransform cameraTransform;
+
         private final int CAMERA_SPEED = 30;
 
         private int startX;
@@ -47,7 +51,8 @@ public class SimulatorCanvas extends AbstractGUI {
      * @param canvasWidth  The initial width of the canvas
      * @param canvasHeight  The initial height of this canvas
      */
-    public SimulatorCanvas(SimulatorModule simulatorModule, double canvasWidth, double canvasHeight) {
+    public SimulatorCanvas(SimulatorHandler simulatorHandler, SimulatorModule simulatorModule, double canvasWidth, double canvasHeight) {
+        this.simulatorHandler = simulatorHandler;
         this.simulatorModule = simulatorModule;
         this.mainPane = simulatorModule.getMainPane();
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
@@ -86,9 +91,9 @@ public class SimulatorCanvas extends AbstractGUI {
     public void setup() {
         this.mainPane.setCenter(this.canvas);
         this.startX = 0;
-        this.endX= tileMap.getMapWidth() * tileMap.getTileWidth();
+        this.endX= this.simulatorHandler.getTileMap().getMapWidth() * this.simulatorHandler.getTileMap().getTileWidth();
         this.startY = 0;
-        this.endY = tileMap.getMapHeight() * tileMap.getTileHeight();
+        this.endY = this.simulatorHandler.getTileMap().getMapHeight() * this.simulatorHandler.getTileMap().getTileHeight();
         this.cameraTransform = new AffineTransform();
     }
 
@@ -111,21 +116,21 @@ public class SimulatorCanvas extends AbstractGUI {
 
     /**
      * Draws everything on <code>this.canvas</code>.
-     * @param fxGraphics2D  object that draws on <code>this.canvas</code>
+     * @param g2d  object that draws on <code>this.canvas</code>
      */
-    private void draw(FXGraphics2D fxGraphics2D) {
-        fxGraphics2D.setTransform(new AffineTransform());
-        fxGraphics2D.setBackground(Color.white);
-        fxGraphics2D.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+    private void draw(FXGraphics2D g2d) {
+        g2d.setTransform(new AffineTransform());
+        g2d.setBackground(Color.white);
+        g2d.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
 
-        fxGraphics2D.setTransform(this.cameraTransform);
-        fxGraphics2D.translate(-this.startX, -this.startY);
+        g2d.setTransform(this.cameraTransform);
+        g2d.translate(-this.startX, -this.startY);
 
-        this.tileMap.draw(fxGraphics2D);
-
-        this.canvas.setWidth(this.canvasWidth);
+        this.simulatorHandler.draw(g2d);
         this.canvas.setHeight(this.canvasHeight);
+        this.canvas.setWidth(this.canvasWidth);
+
     }
 
     /**
@@ -133,7 +138,8 @@ public class SimulatorCanvas extends AbstractGUI {
      * @param deltaTime  The time it took between last update call (FPS = 1/deltaTime)
      */
     public void update(Double deltaTime) {
-
+//        System.out.println(1/deltaTime);
+        this.simulatorHandler.update(deltaTime);
     }
 
     /**
@@ -200,7 +206,17 @@ public class SimulatorCanvas extends AbstractGUI {
      * @param mouseEvent  The MouseEvent the user used to click
      */
     private void onMousePressed(MouseEvent mouseEvent) {
-        dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
+
+        //Todo: Only for debugging NPC, needs to be removed when done.
+        if(mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+            Point2D canvasPoint = getCanvasPoint(new Point2D.Double(mouseEvent.getX(), mouseEvent.getY()));
+            for (NPC npc : this.simulatorHandler.getNpcList()) {
+                npc.setTarget(canvasPoint);
+            }
+        } else {
+            dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
+        }
+
     }
 
     /**
@@ -272,7 +288,7 @@ public class SimulatorCanvas extends AbstractGUI {
                 (this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() >= -((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX())) &&
                 (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() <= 1 &&
                 (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() >= -((this.endY - this.startY) - (this.canvas.getHeight() / this.cameraTransform.getScaleY())) &&
-                (this.cameraTransform.getScaleX() * transform.getScaleX()) < 2.5 &&
+                (this.cameraTransform.getScaleX() * transform.getScaleX()) < 4 &&
                 (this.cameraTransform.getScaleX() * transform.getScaleX()) > 0.5
         );
     }
