@@ -4,6 +4,7 @@ import FestivalPlanner.TileMap.TileLayer;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -15,13 +16,17 @@ public class SimulatorPodium extends SimulatorObject{
      * @param width  The width of the object
      * @param height  The height of the object
      */
-    public SimulatorPodium(Point2D location, int width, int height, TileLayer collisionLayer) {
-        super(location, width, height, collisionLayer);
+    public SimulatorPodium(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer) {
+        super(location, width, height, rotation, name, collisionLayer);
     }
 
     @Override
     public void draw(FXGraphics2D g2d) {
-        g2d.draw(new Rectangle2D.Double(location.getX(), location.getY(), width, height));
+        Rectangle2D rectangle = new Rectangle2D.Double(location.getX(), location.getY(), width, height);
+        AffineTransform transform = new AffineTransform();
+        transform.rotate(Math.toRadians(this.rotation), this.location.getX(), this.location.getY());
+
+        g2d.draw(transform.createTransformedShape(rectangle));
     }
 
     @Override

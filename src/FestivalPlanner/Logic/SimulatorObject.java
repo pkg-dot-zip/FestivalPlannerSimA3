@@ -15,6 +15,9 @@ public class SimulatorObject {
     protected int width;
     protected int height;
 
+    protected String name;
+    protected double rotation;
+
     private TileLayer collisionLayer;
     protected Point[][] pathMap;
 
@@ -24,10 +27,13 @@ public class SimulatorObject {
      * @param width  The width of the object
      * @param height  The height of the object
      */
-    public SimulatorObject(Point2D location, int width, int height, TileLayer collisionLayer) {
+    public SimulatorObject(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer) {
         this.location = location;
         this.width = width;
         this.height = height;
+
+        this.name = name;
+        this.rotation = rotation;
 
         this.collisionLayer = collisionLayer;
         buildPathMap();

@@ -109,7 +109,7 @@
                 {
                  "height":106,
                  "id":1,
-                 "name":"Stage",
+                 "name":"StageA",
                  "rotation":0,
                  "type":"Podium",
                  "visible":true,
@@ -120,7 +120,7 @@
                 {
                  "height":106.666666666667,
                  "id":4,
-                 "name":"Stage",
+                 "name":"StageB",
                  "rotation":90,
                  "type":"Podium",
                  "visible":true,
@@ -131,7 +131,7 @@
                 {
                  "height":103,
                  "id":8,
-                 "name":"Stage",
+                 "name":"StageC",
                  "rotation":0,
                  "type":"Podium",
                  "visible":true,
@@ -142,7 +142,7 @@
                 {
                  "height":119.166666666667,
                  "id":9,
-                 "name":"Stage",
+                 "name":"StageD",
                  "rotation":270,
                  "type":"Podium",
                  "visible":true,
@@ -175,9 +175,9 @@
                 {
                  "height":156.667,
                  "id":2,
-                 "name":"StageDance",
+                 "name":"StageA",
                  "rotation":0,
-                 "type":"",
+                 "type":"StageDance",
                  "visible":true,
                  "width":218.667,
                  "x":1378.67,
@@ -186,9 +186,9 @@
                 {
                  "height":200.667,
                  "id":5,
-                 "name":"StageDance",
+                 "name":"StageB",
                  "rotation":0,
-                 "type":"",
+                 "type":"StageDance",
                  "visible":true,
                  "width":143.333,
                  "x":1307.33,
@@ -197,9 +197,9 @@
                 {
                  "height":124.5,
                  "id":11,
-                 "name":"StageDance",
+                 "name":"StageC",
                  "rotation":0,
-                 "type":"",
+                 "type":"StageDance",
                  "visible":true,
                  "width":191.5,
                  "x":41,
@@ -208,9 +208,9 @@
                 {
                  "height":178.5,
                  "id":12,
-                 "name":"StageDance",
+                 "name":"StageD",
                  "rotation":0,
-                 "type":"",
+                 "type":"StageDance",
                  "visible":true,
                  "width":143.5,
                  "x":168.5,

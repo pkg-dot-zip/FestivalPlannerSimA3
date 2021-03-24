@@ -1,5 +1,6 @@
 package FestivalPlanner.Logic;
 
+import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.NPC.NPC;
 import FestivalPlanner.TileMap.*;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
@@ -15,6 +16,8 @@ public class SimulatorHandler {
     private ArrayList<SimulatorObject> simulatorObjects;
     private TileMap tileMap;
 
+    private Agenda agenda;
+
 
     /**
      * Empty constructor for SimulatorHandler.
@@ -22,6 +25,10 @@ public class SimulatorHandler {
     public SimulatorHandler() {
         //Todo: remember to remove when loading maps is implemented
         this(new JsonConverter().JSONToTileMap("/testMap.json"));
+    }
+
+    public SimulatorHandler(Agenda agenda) {
+        this.agenda = agenda;
     }
 
     /**
@@ -40,7 +47,7 @@ public class SimulatorHandler {
             if (layer instanceof ObjectLayer) {
                 for (TileObject tileObject : ((ObjectLayer) layer).getTileObjects()) {
                     if (tileObject.getType().equals("Podium")) {
-                        objects.add(new SimulatorPodium(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), this.tileMap.getPathFindingLayer()));
+                        objects.add(new SimulatorPodium(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), tileObject.getRotation(), tileObject.getName(), this.tileMap.getPathFindingLayer()));
                     }
                 }
 
@@ -89,8 +96,6 @@ public class SimulatorHandler {
         }
     }
 
-    private double debugTime = 0.0;
-
     /**
      * Updates all the NPC's and the objects to the given screen.
      * @param deltaTime  The time it took sinds last update
@@ -100,14 +105,20 @@ public class SimulatorHandler {
             npc.update(this.npcList);
         }
 
-        debugTime += deltaTime;
-        if(debugTime > 15) {
+        debugNPCTarget(deltaTime);
+    }
+
+    private double debugTimer = 15;
+
+    private void debugNPCTarget(double deltaTime) {
+        debugTimer -= deltaTime;
+        if(debugTimer < 0) {
             SimulatorObject object = this.simulatorObjects.get((int)(Math.random() * this.simulatorObjects.size()));
             System.out.println(object);
             for (NPC npc : this.npcList) {
                 npc.setTargetObject(object);
             }
-            debugTime = 0;
+            debugTimer = 15;
         }
     }
 

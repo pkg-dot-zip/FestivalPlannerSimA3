@@ -111,7 +111,8 @@ public class JsonConverter extends AbstractDialogPopUp {
                     jsonObject.getString("type"),
                     new Point2D.Double(jsonObject.getInt("x"), jsonObject.getInt("y")),
                     jsonObject.getInt("width"),
-                    jsonObject.getInt("height")
+                    jsonObject.getInt("height"),
+                    jsonObject.getInt("rotation")
             ));
         }
         return objectLayer;
