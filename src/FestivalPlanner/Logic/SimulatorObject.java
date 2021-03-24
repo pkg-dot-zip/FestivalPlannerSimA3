@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-abstract public class SimulatorObject {
+public class SimulatorObject {
 
     protected Point2D location;
     protected int width;
@@ -102,15 +102,19 @@ abstract public class SimulatorObject {
      * Draws the object to the given screen.
      * @param g2d  The object to draw to
      */
-    abstract public void draw(FXGraphics2D g2d);
+    public void draw(FXGraphics2D g2d) {
+
+    }
 
     /**
      * Updates the object.
      * @param deltaTime  The time since last update call
      */
-    abstract public void update(double deltaTime);
+    public void update(double deltaTime) {
+
+    }
 
 
-    abstract public void debugDraw(Graphics2D g2d);
+    public void debugDraw(Graphics2D g2d){}
 
 }
