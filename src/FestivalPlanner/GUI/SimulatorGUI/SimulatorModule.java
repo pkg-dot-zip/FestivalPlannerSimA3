@@ -51,9 +51,10 @@ public class SimulatorModule extends AbstractGUI {
     public SimulatorModule(Stage stage, AgendaModule agendaModule) {
         this.stage = stage;
         this.mainPane = new BorderPane();
-        this.handler = new SimulatorHandler();
-        this.simulatorCanvas = new SimulatorCanvas(this.handler, this, 800, 700);
         this.agendaModule = agendaModule;
+
+        this.handler = new SimulatorHandler(this.agendaModule.getAgenda());
+        this.simulatorCanvas = new SimulatorCanvas(this.handler, this, 800, 700);
     }
 
     @Override

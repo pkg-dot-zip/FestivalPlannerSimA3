@@ -6,7 +6,11 @@ import FestivalPlanner.TileMap.*;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import org.jfree.fx.FXGraphics2D;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,26 +22,43 @@ public class SimulatorHandler {
 
     private Agenda agenda;
 
+    private LocalTime time;
+    private double speed; //value in game second per real second (s/s)
+
 
     /**
      * Empty constructor for SimulatorHandler.
      */
     public SimulatorHandler() {
-        //Todo: remember to remove when loading maps is implemented
-        this(new JsonConverter().JSONToTileMap("/testMap.json"));
+        this(new Agenda());
     }
 
     public SimulatorHandler(Agenda agenda) {
+        //Todo: remember to remove when loading maps is implemented
+        this(agenda, new JsonConverter().JSONToTileMap("/testMap.json"));
+    }
+
+    /**
+     * Top constructor for SimulatorHandler
+     * @param npcList  List of NPC to set <code>this.npcList</code> to
+     * @param tileMap  The TileMap to set <code>this.tileMap</code> to
+     */
+    public SimulatorHandler(Agenda agenda, ArrayList<NPC> npcList, TileMap tileMap) {
+        this.npcList = npcList;
+        this.tileMap = tileMap;
+
+        this.simulatorObjects = generateObjects();
         this.agenda = agenda;
+        this.time = LocalTime.MIDNIGHT;
+        this.speed = 60 * 30;
     }
 
     /**
      * Constructor for SimulatorHandler.
      * @param tileMap  The TileMap to set <code>this.tileMap</code> to
      */
-    public SimulatorHandler(TileMap tileMap) {
-        this(new ArrayList<>(40), tileMap);
-        this.simulatorObjects = generateObjects();
+    public SimulatorHandler(Agenda agenda, TileMap tileMap) {
+        this(agenda, new ArrayList<>(40), tileMap);
         generateNPC();
     }
 
@@ -56,15 +77,6 @@ public class SimulatorHandler {
         return objects;
     }
 
-    /**
-     * Top constructor for SimulatorHandler
-     * @param npcList  List of NPC to set <code>this.npcList</code> to
-     * @param tileMap  The TileMap to set <code>this.tileMap</code> to
-     */
-    public SimulatorHandler(ArrayList<NPC> npcList, TileMap tileMap) {
-        this.npcList = npcList;
-        this.tileMap = tileMap;
-    }
 
     //Todo: temporary
     public void generateNPC(){
@@ -94,6 +106,10 @@ public class SimulatorHandler {
         for (SimulatorObject object : this.simulatorObjects) {
             object.draw(g2d);
         }
+
+        //Todo: debug
+        g2d.setColor(Color.black);
+        g2d.drawString(this.time.toString(), 0, 10);
     }
 
     /**
@@ -101,6 +117,8 @@ public class SimulatorHandler {
      * @param deltaTime  The time it took sinds last update
      */
     public void update(double deltaTime) {
+        this.time = this.time.plusSeconds((long)(deltaTime * this.speed));
+
         for (NPC npc : this.npcList) {
             npc.update(this.npcList);
         }
@@ -114,7 +132,6 @@ public class SimulatorHandler {
         debugTimer -= deltaTime;
         if(debugTimer < 0) {
             SimulatorObject object = this.simulatorObjects.get((int)(Math.random() * this.simulatorObjects.size()));
-            System.out.println(object);
             for (NPC npc : this.npcList) {
                 npc.setTargetObject(object);
             }
@@ -152,5 +169,29 @@ public class SimulatorHandler {
      */
     public void setTileMap(TileMap tileMap) {
         this.tileMap = tileMap;
+    }
+
+    public Agenda getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(Agenda agenda) {
+        this.agenda = agenda;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 }
