@@ -39,6 +39,14 @@ public class SimulatorHandler {
     }
 
     /**
+     * Constructor for SimulatorHandler.
+     * @param tileMap  The TileMap to set <code>this.tileMap</code> to
+     */
+    public SimulatorHandler(Agenda agenda, TileMap tileMap) {
+        this(agenda, new ArrayList<>(), tileMap);
+    }
+
+    /**
      * Top constructor for SimulatorHandler
      * @param npcList  List of NPC to set <code>this.npcList</code> to
      * @param tileMap  The TileMap to set <code>this.tileMap</code> to
@@ -49,18 +57,13 @@ public class SimulatorHandler {
 
         this.simulatorObjects = generateObjects();
         this.agenda = agenda;
+
+        generateNPC();
         this.time = LocalTime.MIDNIGHT;
-        this.speed = 60 * 30;
+        setSpeed((60 * 5));
     }
 
-    /**
-     * Constructor for SimulatorHandler.
-     * @param tileMap  The TileMap to set <code>this.tileMap</code> to
-     */
-    public SimulatorHandler(Agenda agenda, TileMap tileMap) {
-        this(agenda, new ArrayList<>(40), tileMap);
-        generateNPC();
-    }
+
 
     private ArrayList<SimulatorObject> generateObjects() {
         ArrayList<SimulatorObject> objects = new ArrayList<>();
@@ -193,5 +196,8 @@ public class SimulatorHandler {
 
     public void setSpeed(double speed) {
         this.speed = speed;
+        for(NPC npc : this.npcList) {
+            npc.setGameSpeed(speed);
+        }
     }
 }

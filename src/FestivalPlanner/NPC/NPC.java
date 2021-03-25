@@ -17,7 +17,8 @@ import java.util.ArrayList;
  */
 public class NPC {
     private Point2D position;
-    private final double SPEED = 1;
+    private final double SPEED = 1.0 / (60*5);
+    private double gameSpeed;
     private double frame;
 
     private Point2D target;
@@ -55,6 +56,8 @@ public class NPC {
         this.target = position;
         this.frame = Math.random() * 10;
 
+        this.gameSpeed = (60 * 5);
+
         try {
             BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/characters/" + characterFiles[spriteSheet] + ".png"));
             int width = image.getWidth() / npcTileX;
@@ -84,9 +87,9 @@ public class NPC {
     }
 
     public void update(ArrayList<NPC> NPCs) {
-        if(target.distanceSq(position) < 32) {
-            return;
-        }
+//        if(target.distanceSq(position) < 32) {
+//            return;
+//        }
 
         if (this.targetObject != null) {
             this.target = this.targetObject.getNextDirection(this.position);
@@ -138,21 +141,21 @@ public class NPC {
             case UP:
                 this.position = new Point2D.Double(
                         this.position.getX(),
-                        this.position.getY() - this.SPEED);
+                        this.position.getY() - (this.SPEED * this.gameSpeed));
                 break;
             case DOWN:
                 this.position = new Point2D.Double(
                         this.position.getX(),
-                        this.position.getY() + this.SPEED);
+                        this.position.getY() + (this.SPEED * this.gameSpeed));
                 break;
             case LEFT:
                 this.position = new Point2D.Double(
-                        this.position.getX() - this.SPEED,
+                        this.position.getX() - (this.SPEED * this.gameSpeed),
                         this.position.getY());
                 break;
             case RIGHT:
                 this.position = new Point2D.Double(
-                        this.position.getX() + this.SPEED,
+                        this.position.getX() + (this.SPEED * this.gameSpeed),
                         this.position.getY());
         }
     }
@@ -247,6 +250,15 @@ public class NPC {
      */
     public static int getCharacterFiles(){
         return characterFiles.length;
+    }
+
+
+    /**
+     * Getter for <code>this.gameSpeed</code>.
+     * @param gameSpeed  <code>this.gameSpeed</code>
+     */
+    public void setGameSpeed(double gameSpeed) {
+        this.gameSpeed = gameSpeed;
     }
 
     /**
