@@ -44,27 +44,25 @@ public class SimulatorHandler {
     }
 
     /**
-     * Constructor for SimulatorHandler.
-     *
-     * @param tileMap The TileMap to set <code>this.tileMap</code> to
-     */
-    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, TileMap tileMap) {
-        this(agenda, podiumManager, new ArrayList<>(), tileMap);
-    }
-
-    /**
      * Top constructor for SimulatorHandler
      *
      * @param npcList List of NPC to set <code>this.npcList</code> to
      * @param tileMap The TileMap to set <code>this.tileMap</code> to
      */
-    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArrayList<NPC> npcList, TileMap tileMap) {
-        this.npcList = npcList;
+    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, TileMap tileMap) {
+        this.npcList = new ArrayList<>();
         this.tileMap = tileMap;
 
-        this.simulatorObjects = generateObjects();
         this.agenda = agenda;
         this.podiumManager = podiumManager;
+
+        reset(agenda);
+    }
+
+    public void reset(Agenda agenda){
+        this.agenda = agenda;
+
+        this.simulatorObjects = generateObjects();
 
         this.podiumObjectHashMap = new HashMap<>();
         generatePodiumHashMap();
@@ -80,7 +78,6 @@ public class SimulatorHandler {
                 Podium correspondingPodium = this.podiumManager.getPodiumAtLocation(((SimulatorPodium) simulatorObject).getLocationString());
                 if (correspondingPodium != null) {
                     this.podiumObjectHashMap.put(correspondingPodium.getName(), (SimulatorPodium) simulatorObject);
-                    System.out.println("HOI BEN NIET LEEG");
                 }
             }
         }

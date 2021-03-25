@@ -2,12 +2,19 @@ package FestivalPlanner.GUI;
 
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.GUI.SimulatorGUI.SimulatorModule;
+import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class MainGUI extends Application {
+
+    private Stage stage;
+
+    private AgendaModule agendaModule;
+    private SimulatorModule simulatorModule;
+
 
     /**
      * Starts the MainGUI.
@@ -19,18 +26,40 @@ public class MainGUI extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
 
-        AgendaModule agendaModule = new AgendaModule(stage);
-        SaveSettingsHandler.firstLaunchSettingsCreation();
-        agendaModule.load();
-        SimulatorModule simulatorModule = new SimulatorModule(stage, agendaModule);
-        simulatorModule.load();
+        loadAgendaCallBack();
 
-        agendaModule.setSimulatorScene(simulatorModule.getSimulatorScene());
-        simulatorModule.setAgendaScene(agendaModule.getAgendaScene());
+//        this.agendaModule = new AgendaModule(stage);
+//        SaveSettingsHandler.firstLaunchSettingsCreation();
+//        agendaModule.load();
+//        SimulatorModule simulatorModule = new SimulatorModule(stage, agendaModule);
+//        simulatorModule.load();
 
+//        agendaModule.setSimulatorScene(simulatorModule.getSimulatorScene());
+//        simulatorModule.setAgendaScene(agendaModule.getAgendaScene());
 
     }
 
+    public void loadSimulatorCallBack(AgendaModule agendaModule) {
+        if (this.simulatorModule == null) {
+            this.simulatorModule = new SimulatorModule(stage, agendaModule);
+            simulatorModule.load();
+//        } else {
+//            this.simulatorModule.resetHandler();
+//        }
+        }
+        this.stage.setScene(this.simulatorModule.getSimulatorScene());
+    }
+
+    public void loadAgendaCallBack() {
+        if (this.agendaModule == null) {
+            this.agendaModule = new AgendaModule(this, stage);
+            SaveSettingsHandler.firstLaunchSettingsCreation();
+            agendaModule.load();
+        }
+
+        this.stage.setScene(this.agendaModule.getAgendaScene());
+    }
 
 }

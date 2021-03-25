@@ -49,6 +49,7 @@ public class SimulatorModule extends AbstractGUI {
      * @param agendaModule the <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI.html">SimulatorModule</a>.
      */
     public SimulatorModule(Stage stage, AgendaModule agendaModule) {
+        //Todo: AgendaModule kan later weg
         this.stage = stage;
         this.mainPane = new BorderPane();
         this.agendaModule = agendaModule;
@@ -102,6 +103,10 @@ public class SimulatorModule extends AbstractGUI {
         this.comboBox = new ComboBox<>(agendaModule.getPodiumManager().getObservablePodiumList());
         this.button = new Button(messages.getString("go_to"));
         this.comboBox.setPromptText(messages.getString("select_podium"));
+
+        //Setting w/h
+        this.stage.setWidth(1100);
+        this.stage.setHeight(800);
 
         this.button.setOnAction(event -> {
 //            simulatorCanvas.moveToPoint();
@@ -160,4 +165,10 @@ public class SimulatorModule extends AbstractGUI {
         return this.stage;
     }
 
+    /**
+     * Resets <code>this.handler</code>
+     */
+    public void resetHandler(){
+        this.handler.reset(this.agendaModule.getAgenda());
+    }
 }
