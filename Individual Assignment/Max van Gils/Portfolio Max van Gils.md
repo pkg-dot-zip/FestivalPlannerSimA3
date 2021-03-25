@@ -1,4 +1,4 @@
-#Portfolio Individueel Resultaat Festival Planner
+# Portfolio Individueel Resultaat Festival Planner
 ### Max van Gils 2168341 TI1.3 23TIVT1A3
 
 Dit document is de documentatie van het leerprocess van mij in het project "Festival Planner".
@@ -11,7 +11,7 @@ en een reflectie op de volgende stelling: "In het bedrijfsleven wordt steeds mee
 Ook zal ik elke week een foto van een kat toevoegen om gemotiveerd te blijven.
 
 
-##Week 3
+## Week 3
 
 ### Reflectie
 
@@ -32,9 +32,9 @@ Lekker rustig weekje waar voor ander werk veel tijd was.
 ![kat van de week 3](./Images/katvandeweek3.jpg)
 
 
-##Week 4
+## Week 4
 
-###Reflectie
+### Reflectie
 
 In week 4 heb ik vooral, samen met projectlid Teun, gewerkt aan het ontwerp van de GUI van de simulator en van de Tilemap.
 
@@ -47,17 +47,17 @@ Degene die er niet aan gewerkt hebben, hebben hun feedback er over gegeven en er
 In de bijlage is ook te zien hoe de tilemap er uit ziet, naast een paar abnormaliteiten ziet het er naar mijn mening goed uit.
 <br /> Deze kleine dingen worden hopelijk een komede week nog verandert.
 
-###Evaluatie in 1 zin
+### Evaluatie in 1 zin
 
 Ontwerp ziet er goed uit maar nog niet helemaal perfect.
 
-###Kat van de week
+### Kat van de week
 
 ![kat van de week 4](./Images/katvandeweek4.jpg)
 
-##Week 5
+## Week 5
 
-###Reflectie
+### Reflectie
 
 Deze week heb ik samen met Berend gewerkt aan de NPC's in de simulator. Hier kwamen een paar moeilijkheden hun hoofden laten zien.
 <br /> De mederheid van de code kon worden overgetypt van het opstartcollege, echter wilde wij een aander soort NPC dan die van het opstartcollege.
@@ -80,18 +80,18 @@ ook had het weinig positieve invloed op het gedrag van de NPC zelf.
 Uiteindelijk hebben we dus besloten om de NPC eerst de x-as over te laten lopen en daarna de y-as, onafhankelijk van welke de korste en langste is.
 Omdat de bedoeling is dat de NPC met pathfinding gaan wandelen, hoop ik dat dit geen invloed zal hebben op het gedrag van de NPC's dan.
 
-###Evaluatie in 1 zin
+### Evaluatie in 1 zin
 
 NPC klasse werkt goed, alleen iets te lang gewerkt aan een, uiteindelijk, opgegeven functie.
 
-###Kat van de week
+### Kat van de week
 
 ![kat van de week 5](./Images/katvandeweek5.jpg)
 
 
-###Week 6
+## Week 6
 
-###Reflectie
+### Reflectie
 
 Van Katja hebben we deze week feedback ontvangen op ons PVA. Hierdoor hebben we daar aan gewerkt.
 Tijdens het werken hieraan heb ik in de call gezeten met de Jesse, die bezig was met de pathfinding van de NPC's.
@@ -101,10 +101,10 @@ zoals de inconstitente layout, waren dingen waarin ik de mening deel dat dit ona
 
 Verder heb ik niet veel kunnen helpen met het project wat jammer is.
 
-###Evaluatie in 1 zin
+### Evaluatie in 1 zin
 
 PVA feedback is goed weggewerkt, er moet nog naar een paar puntjes op de i gekeken en dan kan het ingeleverd worden.
 
-###Kat van de week
+### Kat van de week
 
 ![kat van de week 6](./Images/katvandeweek6.jpg)
