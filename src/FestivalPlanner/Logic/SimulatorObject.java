@@ -39,6 +39,10 @@ public class SimulatorObject {
         buildPathMap();
     }
 
+
+    /**
+     * Builds the pathfinding map to this object
+     */
     protected void buildPathMap() {
         this.pathMap = new Point[collisionLayer.getWidth()][collisionLayer.getHeight()];
         for (int x = 0; x < collisionLayer.getWidth(); x++) {
@@ -94,6 +98,11 @@ public class SimulatorObject {
 
     }
 
+    /**
+     * Given a point, it looks in the pathfinding map to see what point to go to.
+     * @param currentPoint  The position to look for
+     * @return  The position to go to, based on given currentPoint
+     */
     public Point2D getNextDirection(Point2D currentPoint) {
         Point toPoint = this.pathMap[(int)Math.floor(currentPoint.getY() / collisionLayer.getTileHeight())][(int)Math.floor(currentPoint.getX() / collisionLayer.getTileWidth())];
         if (toPoint == null) {

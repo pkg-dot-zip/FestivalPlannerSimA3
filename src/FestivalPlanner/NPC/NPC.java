@@ -223,13 +223,23 @@ public class NPC {
         this.target = newTarget;
     }
 
+    /**
+     * Getter for <code>this.TargetObject</code>.
+     * @return <code>this.TargetObject</code>
+     */
     public SimulatorObject getTargetObject() {
         return targetObject;
     }
 
+    /**
+     * Setter for <code>this.TargetObject</code>.
+     * @param targetObject  The Object to set <code>this.TargetObject</code> to
+     */
     public void setTargetObject(SimulatorObject targetObject) {
         this.targetObject = targetObject;
     }
+
+
 
     /**
      * Returns the length of the <code>characterFiles[]</code> array.
