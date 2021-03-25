@@ -87,9 +87,9 @@ public class NPC {
     }
 
     public void update(ArrayList<NPC> NPCs) {
-//        if(target.distanceSq(position) < 32) {
-//            return;
-//        }
+        if(target.distanceSq(position) < 20) {
+            return;
+        }
 
         if (this.targetObject != null) {
             this.target = this.targetObject.getNextDirection(this.position);
