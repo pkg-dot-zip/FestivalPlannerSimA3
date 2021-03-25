@@ -2,7 +2,7 @@ package FestivalPlanner.GUI;
 
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.GUI.SimulatorGUI.SimulatorModule;
-import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import FestivalPlanner.Util.ImageLoader;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -23,6 +23,7 @@ public class MainGUI extends Application {
         AgendaModule agendaModule = new AgendaModule(stage);
         SaveSettingsHandler.firstLaunchSettingsCreation();
         agendaModule.load();
+        ImageLoader.loadImages();
         SimulatorModule simulatorModule = new SimulatorModule(stage, agendaModule);
         simulatorModule.load();
 

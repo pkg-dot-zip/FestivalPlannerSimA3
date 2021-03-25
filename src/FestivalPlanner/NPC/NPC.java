@@ -1,6 +1,7 @@
 package FestivalPlanner.NPC;
 
 import FestivalPlanner.Logic.SimulatorObject;
+import FestivalPlanner.Util.ImageLoader;
 import com.sun.istack.internal.Nullable;
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -31,10 +32,10 @@ public class NPC {
     private final int npcTileX = 4;
     private final int npcTileY = 3;
 
-    private ArrayList<BufferedImage> spritesUp = new ArrayList<>(4);
-    private ArrayList<BufferedImage> spritesDown = new ArrayList<>(4);
-    private ArrayList<BufferedImage> spritesLeft = new ArrayList<>(4);
-    private ArrayList<BufferedImage> spritesRight = new ArrayList<>(4);
+    private ArrayList<BufferedImage> spritesUp;
+    private ArrayList<BufferedImage> spritesDown;
+    private ArrayList<BufferedImage> spritesLeft;
+    private ArrayList<BufferedImage> spritesRight;
 
     private static String[] characterFiles = {"char_1", "char_2"};
 
@@ -50,6 +51,7 @@ public class NPC {
      * @param position  changes <code>this.position</code> to the parameter's value
      * @param spriteSheet  changes the appearance of the NPC in question
      */
+
     public NPC(Point2D position, int spriteSheet) {
         this.targetObject = null;
         this.position = position;
@@ -58,23 +60,35 @@ public class NPC {
 
         this.gameSpeed = (60 * 5);
 
-        try {
-            BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/characters/" + characterFiles[spriteSheet] + ".png"));
-            int width = image.getWidth() / npcTileX;
-            int height = image.getHeight() / npcTileY;
+        ArrayList<ArrayList<BufferedImage>> spriteSheets = ImageLoader.getLists(spriteSheet);
+        this.spritesUp = spriteSheets.get(1);
+        this.spritesDown = spriteSheets.get(2);
+        this.spritesLeft = spriteSheets.get(3);
+        this.spritesRight = spriteSheets.get(4);
 
-            splitImages(image, spritesLeft, 0, width, height);
-            splitImages(image, spritesDown, 1, width, height);
-            splitImages(image, spritesUp, 2, width, height);
-            splitImages(image, spritesRight, 3, width, height);
-
-            this.centerX = spritesLeft.get(0).getWidth() / 2;
-            this.centerY = spritesLeft.get(0).getHeight() / 2;
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-            //TODO: Merge Development and showExceptionPopUp.
-        }
+//        try {
+//            //moved to Util.ImageLoader.java
+//            BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/characters/" + characterFiles[spriteSheet] + ".png"));
+//            int width = image.getWidth() / npcTileX;
+//            int height = image.getHeight() / npcTileY;
+//
+//            //need to move this
+//            splitImages(image, spritesLeft, 0, width, height);
+//            splitImages(image, spritesDown, 1, width, height);
+//            splitImages(image, spritesUp, 2, width, height);
+//            splitImages(image, spritesRight, 3, width, height);
+//
+//            //moved down
+//            this.centerX = spritesLeft.get(0).getWidth() / 2;
+//            this.centerY = spritesLeft.get(0).getHeight() / 2;
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            //TODO: Merge Development and showExceptionPopUp.
+//        }
+        //now here
+        this.centerX = spritesLeft.get(0).getWidth() / 2;
+        this.centerY = spritesLeft.get(0).getHeight() / 2;
     }
 
     //TODO: Make something that works with all type of sheets.
