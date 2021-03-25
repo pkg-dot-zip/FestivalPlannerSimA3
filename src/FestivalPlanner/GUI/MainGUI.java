@@ -21,8 +21,9 @@ public class MainGUI extends Application {
      * <p>
      * It creates an instance of <code>AgendaModule</code>, and then loads all the settings from <code>SaveSettingsHandler</code>.
      * When that is done it will run the <code>load()</code> method in <code>AgendaModule</code>.
-     * @param stage  the stage that is shown on screen
-     * @throws Exception  standard exception in <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/application/Application.html">Application</a>
+     *
+     * @param stage the stage that is shown on screen
+     * @throws Exception standard exception in <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/application/Application.html">Application</a>
      */
     @Override
     public void start(Stage stage) throws Exception {
@@ -41,15 +42,21 @@ public class MainGUI extends Application {
 
     }
 
-    public void loadSimulatorCallBack(AgendaModule agendaModule) {
-        if (this.simulatorModule == null) {
-            this.simulatorModule = new SimulatorModule(stage, agendaModule);
-            simulatorModule.load();
-//        } else {
-//            this.simulatorModule.resetHandler();
-//        }
-        }
+    public void loadSimulatorCallBack() {
+        //Setting w/h
+        this.stage.setWidth(1100);
+        this.stage.setHeight(800);
+
         this.stage.setScene(this.simulatorModule.getSimulatorScene());
+    }
+
+    public void constructSimulatorCallBack(AgendaModule agendaModule) {
+        if (this.simulatorModule == null) {
+            this.simulatorModule = new SimulatorModule(this, stage, agendaModule);
+            simulatorModule.load();
+        } else {
+            this.simulatorModule.resetHandler();
+        }
     }
 
     public void loadAgendaCallBack() {
@@ -58,6 +65,10 @@ public class MainGUI extends Application {
             SaveSettingsHandler.firstLaunchSettingsCreation();
             agendaModule.load();
         }
+
+        //Setting stage width/height
+        this.stage.setWidth(1450);
+        this.stage.setHeight(350);
 
         this.stage.setScene(this.agendaModule.getAgendaScene());
     }

@@ -176,11 +176,11 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
         //Top Buttons
         this.simulatorButton.setOnAction(event -> {
-            this.mainGUI.loadSimulatorCallBack(this);
+            this.mainGUI.loadSimulatorCallBack();
         });
 
         this.useButton.setOnAction(e -> {
-
+            this.mainGUI.constructSimulatorCallBack(this);
             this.simulatorButton.setDisable(false);
         });
 
