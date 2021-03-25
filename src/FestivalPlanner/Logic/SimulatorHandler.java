@@ -11,7 +11,6 @@ import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -25,6 +24,9 @@ public class SimulatorHandler {
     private PodiumManager podiumManager;
 
     private HashMap<String, SimulatorPodium> podiumObjectHashMap;
+
+    private ArrayList<Show> activeShows = new ArrayList<>();
+    private final double SHOW_CHECK_TIME = 60 * 15; //how often to check per in-game second
 
     private LocalTime time;
     private double speed; //value in game second per real second (s/s)
@@ -71,9 +73,10 @@ public class SimulatorHandler {
      *     <li><code>this.time</code> to 00:00.</li>
      *     <li>{@link #setupNPC()}</li>
      * </ul>
-     * @param agenda  <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> That is loaded into the simulator
+     *
+     * @param agenda <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> That is loaded into the simulator
      */
-    public void reset(Agenda agenda){
+    public void reset(Agenda agenda) {
         this.agenda = agenda;
 
         this.simulatorObjects = generateObjects();
@@ -112,7 +115,8 @@ public class SimulatorHandler {
      *     <li>The Spawn object in <code>this.spawn</code>.</li>
      *     <li>All the other normal <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorObject.html">SimulatorObject</a></li>
      * </ul>
-     * @return  An ArrayList to set <code>this.objects</code> to
+     *
+     * @return An ArrayList to set <code>this.objects</code> to
      */
     private ArrayList<SimulatorObject> generateObjects() {
         ArrayList<SimulatorObject> objects = new ArrayList<>();
@@ -151,6 +155,7 @@ public class SimulatorHandler {
         }
     }
 
+
     /**
      * Draws <code>this.tileMap</code>, all the NPC's and the objects to the given screen.
      *
@@ -171,6 +176,9 @@ public class SimulatorHandler {
         g2d.drawString(this.time.toString(), 0, 10);
     }
 
+
+    private double currentShowTime = this.SHOW_CHECK_TIME;
+
     /**
      * Updates all the NPC's and the objects to the given screen.
      *
@@ -183,7 +191,38 @@ public class SimulatorHandler {
             npc.update(this.npcList);
         }
 
+        // Handling assigning shows
+        this.currentShowTime -= (deltaTime * this.speed);
+        if (this.currentShowTime < 0) {
+            checkShows();
+            this.currentShowTime = this.SHOW_CHECK_TIME;
+        }
+
         //debugNPCTarget(deltaTime);
+    }
+
+    private void checkShows() {
+        ArrayList<Show> oldActiveShows = this.activeShows;
+        this.activeShows = getActiveShows(this.time);
+
+
+        if (this.activeShows.size() > 0) {
+            ArrayList<Show> startingShows = new ArrayList<>(activeShows);
+            startingShows.removeAll(oldActiveShows);
+            for (Show show : startingShows) {
+                //shows that have started
+
+            }
+        }
+
+        if (oldActiveShows.size() > 0) {
+            ArrayList<Show> endedShows = new ArrayList<>(oldActiveShows);
+            endedShows.removeAll(activeShows);
+            for (Show show : endedShows) {
+                // Shows that have ended
+                
+            }
+        }
     }
 
     private double debugTimer = 15;
@@ -197,6 +236,22 @@ public class SimulatorHandler {
             }
             debugTimer = 15;
         }
+    }
+
+    /**
+     * Returns an ArrayList with current active shows
+     *
+     * @param currentTime The time to check the shows for
+     * @return <code>ArrayList</code> with current active <code>Show</code>s
+     */
+    public ArrayList<Show> getActiveShows(LocalTime currentTime) {
+        ArrayList<Show> activeShows = new ArrayList<>();
+        for (Show show : this.agenda.getShows()) {
+            if (show.getStartTime().isBefore(currentTime) && show.getEndTime().isAfter(currentTime)) {
+                activeShows.add(show);
+            }
+        }
+        return activeShows;
     }
 
     /**
@@ -237,7 +292,8 @@ public class SimulatorHandler {
 
     /**
      * Getter for <code>this.Agenda</code>
-     * @return  <code>this.Agenda</code>
+     *
+     * @return <code>this.Agenda</code>
      */
     public Agenda getAgenda() {
         return agenda;
@@ -245,7 +301,8 @@ public class SimulatorHandler {
 
     /**
      * Getter for <code>this.time</code>
-     * @return  <code>this.time</code>
+     *
+     * @return <code>this.time</code>
      */
     public LocalTime getTime() {
         return time;
@@ -253,7 +310,8 @@ public class SimulatorHandler {
 
     /**
      * Setter for <code>this.time</code>
-     * @param time  The value to set <code>this.time</code> to
+     *
+     * @param time The value to set <code>this.time</code> to
      */
     public void setTime(LocalTime time) {
         this.time = time;
@@ -261,7 +319,8 @@ public class SimulatorHandler {
 
     /**
      * Getter for <code>this.speed</code>
-     * @return  <code>this.speed</code>
+     *
+     * @return <code>this.speed</code>
      */
     public double getSpeed() {
         return speed;
@@ -271,7 +330,8 @@ public class SimulatorHandler {
      * Setter for <code>this.speed</code>.
      * <b>
      * Also sets the correct speed to all the NPC's in <code>this.NPCList</code>
-     * @param speed  The value to set <code>this.speed</code> to
+     *
+     * @param speed The value to set <code>this.speed</code> to
      */
     public void setSpeed(double speed) {
         this.speed = speed;
@@ -280,19 +340,4 @@ public class SimulatorHandler {
         }
     }
 
-    /**
-     * Returns an ArrayList with current active shows
-     *
-     * @param currentTime
-     * @return <code>ArrayList</code> with current active <code>Show</code>s
-     */
-    public ArrayList<Show> getActiveShows(LocalTime currentTime){
-        ArrayList<Show> activeShows = new ArrayList<>();
-        for (Show show : this.agenda.getShows()){
-            if (show.getStartTime().isBefore(currentTime) && show.getEndTime().isAfter(currentTime)){
-                activeShows.add(show);
-            }
-        }
-        return activeShows;
-    }
 }
