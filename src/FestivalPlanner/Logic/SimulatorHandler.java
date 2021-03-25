@@ -211,7 +211,7 @@ public class SimulatorHandler {
             startingShows.removeAll(oldActiveShows);
             for (Show show : startingShows) {
                 //shows that have started
-
+                onShowStart(show);
             }
         }
 
@@ -220,7 +220,21 @@ public class SimulatorHandler {
             endedShows.removeAll(activeShows);
             for (Show show : endedShows) {
                 // Shows that have ended
-                
+
+            }
+        }
+    }
+
+    private void onShowStart(Show show) {
+        double change = show.getExpectedPopularity();
+
+        for (NPC npc : this.npcList) {
+            if (Math.random() > (change/100f)) {
+                SimulatorPodium podium = this.podiumObjectHashMap.get(show.getPodium().getName());
+                if (podium != null) {
+                    npc.setTargetObject(podium);
+                }
+
             }
         }
     }
