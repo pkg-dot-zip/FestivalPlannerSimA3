@@ -30,25 +30,14 @@ public class MainGUI extends Application {
     public void start(Stage stage) throws Exception {
         this.stage = stage;
 
-        AgendaModule agendaModule = new AgendaModule(stage);
-        SaveSettingsHandler.firstLaunchSettingsCreation();
-        agendaModule.load();
-        ImageLoader.loadImages();
-        SimulatorModule simulatorModule = new SimulatorModule(stage, agendaModule);
-        simulatorModule.load();
         loadAgendaCallBack();
 
-//        this.agendaModule = new AgendaModule(stage);
-//        SaveSettingsHandler.firstLaunchSettingsCreation();
-//        agendaModule.load();
-//        SimulatorModule simulatorModule = new SimulatorModule(stage, agendaModule);
-//        simulatorModule.load();
-
-//        agendaModule.setSimulatorScene(simulatorModule.getSimulatorScene());
-//        simulatorModule.setAgendaScene(agendaModule.getAgendaScene());
-
+        ImageLoader.loadImages();
     }
 
+    /**
+     * Sets the current scene to the scene of <code>this.simulatorModule</code>.
+     */
     public void loadSimulatorCallBack() {
         //Setting w/h
         this.stage.setWidth(1100);
@@ -57,6 +46,12 @@ public class MainGUI extends Application {
         this.stage.setScene(this.simulatorModule.getSimulatorScene());
     }
 
+    /**
+     * creates a new <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorModule.html">Simulatormodule</a> if
+     * <code>this.simulatorModule</code> is null.
+     * <b>
+     * Else it calls the {@link SimulatorModule#resetHandler()} method.
+     */
     public void constructSimulatorCallBack(AgendaModule agendaModule) {
         if (this.simulatorModule == null) {
             this.simulatorModule = new SimulatorModule(this, stage, agendaModule);
@@ -66,6 +61,9 @@ public class MainGUI extends Application {
         }
     }
 
+    /**
+     * Sets the current scene to the scene of <code>this.agendaModule</code>.
+     */
     public void loadAgendaCallBack() {
         if (this.agendaModule == null) {
             this.agendaModule = new AgendaModule(this, stage);

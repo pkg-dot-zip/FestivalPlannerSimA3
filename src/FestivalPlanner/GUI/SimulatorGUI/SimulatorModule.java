@@ -51,7 +51,6 @@ public class SimulatorModule extends AbstractGUI {
      * @param agendaModule the <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI.html">SimulatorModule</a>.
      */
     public SimulatorModule(MainGUI mainGUI, Stage stage, AgendaModule agendaModule) {
-        //Todo: AgendaModule kan later weg
         this.mainGUI = mainGUI;
         this.stage = stage;
         this.mainPane = new BorderPane();

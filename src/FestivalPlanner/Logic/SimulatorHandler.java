@@ -48,7 +48,6 @@ public class SimulatorHandler {
     /**
      * Top constructor for SimulatorHandler
      *
-     * @param npcList List of NPC to set <code>this.npcList</code> to
      * @param tileMap The TileMap to set <code>this.tileMap</code> to
      */
     public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, TileMap tileMap) {
@@ -61,6 +60,19 @@ public class SimulatorHandler {
         reset(agenda);
     }
 
+    /**
+     * Resets the different parts that need to be changed after a change in <code>this.agenda</code>
+     * <b>
+     * The different parts that are changed are:
+     * <ul>
+     *     <li><code>this.agenda</code> to the new changed <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a>.</li>
+     *     <li>{@link #generateObjects()}</li>
+     *     <li>{@link #generatePodiumHashMap()}</li>
+     *     <li><code>this.time</code> to 00:00.</li>
+     *     <li>{@link #setupNPC()}</li>
+     * </ul>
+     * @param agenda  <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> That is loaded into the simulator
+     */
     public void reset(Agenda agenda){
         this.agenda = agenda;
 
@@ -74,6 +86,12 @@ public class SimulatorHandler {
         setSpeed((60 * 5));
     }
 
+    /**
+     * Looks trough all the <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorPodium.html">SimulatorPodiums</a> to find
+     * the corresponding <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>.
+     * <b>
+     * Adds the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> to the <code>this.podiumObjectHashMap</code>.
+     */
     private void generatePodiumHashMap() {
         for (SimulatorObject simulatorObject : this.simulatorObjects) {
             if (simulatorObject instanceof SimulatorPodium) {
@@ -85,7 +103,17 @@ public class SimulatorHandler {
         }
     }
 
-
+    /**
+     * Scans through the <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layers</a> in <code>this.tileMap</code>.
+     * <b>
+     * Creates the following objects:
+     * <ul>
+     *     <li>All the <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorPodium.html">SimulatorPodiums</a> in the list.</li>
+     *     <li>The Spawn object in <code>this.spawn</code>.</li>
+     *     <li>All the other normal <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorObject.html">SimulatorObject</a></li>
+     * </ul>
+     * @return  An ArrayList to set <code>this.objects</code> to
+     */
     private ArrayList<SimulatorObject> generateObjects() {
         ArrayList<SimulatorObject> objects = new ArrayList<>();
         for (Layer layer : this.tileMap.getLayers()) {
@@ -102,27 +130,21 @@ public class SimulatorHandler {
         return objects;
     }
 
+    //Todo: needs rework
     public void setupNPC() {
         if (this.spawn != null) {
             while (this.npcList.size() < NUMBEER_OF_NPCS) {
-                spawnNPC(new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height));
-            }
-        } else {
-            Random r = new Random(0);
-            while (this.npcList.size() < 10) {
-//                NPC npc = new NPC(new Point2D.Double((int) (Math.random() * 1000), (int) (Math.random() * 1000)), r.nextInt(NPC.getCharacterFiles()));
-////              NPC npc = new NPC(new Point2D.Double(500, 500, r.nextInt(NPC.getCharacterFiles())));
-//                npc.setTargetObject(this.simulatorObjects.get(1));
-//                if (!npc.checkCollision(this.npcList)) {
-//                    this.npcList.add(npc);
-//                }
-                spawnNPC(new Point2D.Double((int) (Math.random() * 1000), (int) (Math.random() * 1000)));
+                spawnNPC();
             }
         }
     }
 
-    public void spawnNPC(Point2D location) {
+    /**
+     * Creates a new <a href="{@docRoot}/FestivalPlanner/NPC/NPC.html">NPC</a> at a rondom location at <code>this.spawn</code>.
+     */
+    public void spawnNPC() {
         Random r = new Random(0);
+        Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
         NPC npc = new NPC(location, r.nextInt(NPC.getCharacterFiles()));
         npc.setTargetObject(this.simulatorObjects.get(1));
         if (!npc.checkCollision(this.npcList)) {
@@ -214,26 +236,44 @@ public class SimulatorHandler {
         this.tileMap = tileMap;
     }
 
+    /**
+     * Getter for <code>this.Agenda</code>
+     * @return  <code>this.Agenda</code>
+     */
     public Agenda getAgenda() {
         return agenda;
     }
 
-    public void setAgenda(Agenda agenda) {
-        this.agenda = agenda;
-    }
-
+    /**
+     * Getter for <code>this.time</code>
+     * @return  <code>this.time</code>
+     */
     public LocalTime getTime() {
         return time;
     }
 
+    /**
+     * Setter for <code>this.time</code>
+     * @param time  The value to set <code>this.time</code> to
+     */
     public void setTime(LocalTime time) {
         this.time = time;
     }
 
+    /**
+     * Getter for <code>this.speed</code>
+     * @return  <code>this.speed</code>
+     */
     public double getSpeed() {
         return speed;
     }
 
+    /**
+     * Setter for <code>this.speed</code>.
+     * <b>
+     * Also sets the correct speed to all the NPC's in <code>this.NPCList</code>
+     * @param speed  The value to set <code>this.speed</code> to
+     */
     public void setSpeed(double speed) {
         this.speed = speed;
         for (NPC npc : this.npcList) {
