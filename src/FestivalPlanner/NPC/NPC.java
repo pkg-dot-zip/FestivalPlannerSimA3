@@ -180,12 +180,12 @@ public class NPC {
     public void draw(Graphics2D g2d) {
         AffineTransform tx = new AffineTransform();
         tx.translate(position.getX() - centerX, position.getY() - centerY);
-        tx.translate(0, 10);
+        tx.translate(0, 0);
 
         //Draws the NPC-sprite on the canvas.
         drawImage(g2d, listOfDirection(), tx);
         //Draws a circle (resembling the collider), and a line (from the current position to the destination).
-        debugDraw(g2d);
+        //debugDraw(g2d);
     }
 
     /**
