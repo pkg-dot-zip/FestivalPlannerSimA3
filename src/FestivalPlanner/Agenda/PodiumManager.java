@@ -85,6 +85,22 @@ public class PodiumManager {
     }
 
     /**
+     * Returns the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> with the given location as
+     * location.
+     * @param location  The location the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> should be at
+     * @return  <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> with correct location
+     */
+    @Nullable
+    public Podium getPodiumAtLocation(String location) {
+        for (Podium podium : this.podiums.values()) {
+            if (podium.getLocation().equals(location)) {
+                return podium;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Returns a <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html">Set</a> with all the
      * names of the known podiums.
      * @return <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html"> Set</a> containing all the names

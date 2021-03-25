@@ -55,6 +55,12 @@
                  "height":304.667,
                  "id":6,
                  "name":"Dixi's",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA130"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -66,6 +72,12 @@
                  "height":182.667,
                  "id":7,
                  "name":"Stalls",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA130"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -88,6 +100,12 @@
                  "height":84.6666666666667,
                  "id":14,
                  "name":"Spawn",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA130"
+                        }],
                  "rotation":0,
                  "type":"Spawn",
                  "visible":true,

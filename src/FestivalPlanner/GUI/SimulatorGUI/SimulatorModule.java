@@ -53,7 +53,7 @@ public class SimulatorModule extends AbstractGUI {
         this.mainPane = new BorderPane();
         this.agendaModule = agendaModule;
 
-        this.handler = new SimulatorHandler(this.agendaModule.getAgenda());
+        this.handler = new SimulatorHandler(this.agendaModule.getAgenda(), this.agendaModule.getPodiumManager());
         this.simulatorCanvas = new SimulatorCanvas(this.handler, this, 800, 700);
     }
 

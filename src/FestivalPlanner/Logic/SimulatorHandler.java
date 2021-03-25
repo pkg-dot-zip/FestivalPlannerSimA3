@@ -1,6 +1,8 @@
 package FestivalPlanner.Logic;
 
 import FestivalPlanner.Agenda.Agenda;
+import FestivalPlanner.Agenda.Podium;
+import FestivalPlanner.Agenda.PodiumManager;
 import FestivalPlanner.NPC.NPC;
 import FestivalPlanner.TileMap.*;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
@@ -9,10 +11,7 @@ import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class SimulatorHandler {
 
@@ -21,6 +20,9 @@ public class SimulatorHandler {
     private TileMap tileMap;
 
     private Agenda agenda;
+    private PodiumManager podiumManager;
+
+    private HashMap<String, SimulatorPodium> podiumObjectHashMap;
 
     private LocalTime time;
     private double speed; //value in game second per real second (s/s)
@@ -33,12 +35,12 @@ public class SimulatorHandler {
      * Empty constructor for SimulatorHandler.
      */
     public SimulatorHandler() {
-        this(new Agenda());
+        this(new Agenda(), new PodiumManager());
     }
 
-    public SimulatorHandler(Agenda agenda) {
+    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager) {
         //Todo: remember to remove when loading maps is implemented
-        this(agenda, new JsonConverter().JSONToTileMap("/testMap.json"));
+        this(agenda, podiumManager, new JsonConverter().JSONToTileMap("/testMap.json"));
     }
 
     /**
@@ -46,8 +48,8 @@ public class SimulatorHandler {
      *
      * @param tileMap The TileMap to set <code>this.tileMap</code> to
      */
-    public SimulatorHandler(Agenda agenda, TileMap tileMap) {
-        this(agenda, new ArrayList<>(), tileMap);
+    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, TileMap tileMap) {
+        this(agenda, podiumManager, new ArrayList<>(), tileMap);
     }
 
     /**
@@ -56,16 +58,32 @@ public class SimulatorHandler {
      * @param npcList List of NPC to set <code>this.npcList</code> to
      * @param tileMap The TileMap to set <code>this.tileMap</code> to
      */
-    public SimulatorHandler(Agenda agenda, ArrayList<NPC> npcList, TileMap tileMap) {
+    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArrayList<NPC> npcList, TileMap tileMap) {
         this.npcList = npcList;
         this.tileMap = tileMap;
 
         this.simulatorObjects = generateObjects();
         this.agenda = agenda;
+        this.podiumManager = podiumManager;
+
+        this.podiumObjectHashMap = new HashMap<>();
+        generatePodiumHashMap();
 
         this.time = LocalTime.MIDNIGHT;
         setupNPC();
         setSpeed((60 * 5));
+    }
+
+    private void generatePodiumHashMap() {
+        for (SimulatorObject simulatorObject : this.simulatorObjects) {
+            if (simulatorObject instanceof SimulatorPodium) {
+                Podium correspondingPodium = this.podiumManager.getPodiumAtLocation(((SimulatorPodium) simulatorObject).getLocationString());
+                if (correspondingPodium != null) {
+                    this.podiumObjectHashMap.put(correspondingPodium.getName(), (SimulatorPodium) simulatorObject);
+                    System.out.println("HOI BEN NIET LEEG");
+                }
+            }
+        }
     }
 
 
@@ -75,7 +93,7 @@ public class SimulatorHandler {
             if (layer instanceof ObjectLayer) {
                 for (TileObject tileObject : ((ObjectLayer) layer).getTileObjects()) {
                     if (tileObject.getType().equals("Podium")) {
-                        objects.add(new SimulatorPodium(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), tileObject.getRotation(), tileObject.getName(), this.tileMap.getPathFindingLayer()));
+                        objects.add(new SimulatorPodium(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), tileObject.getRotation(), tileObject.getName(), this.tileMap.getPathFindingLayer(), tileObject.getLocationString()));
                     } else if (tileObject.getType().equals("Spawn")) {
                         this.spawn = new SimulatorObject(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), tileObject.getRotation(), tileObject.getName(), this.tileMap.getPathFindingLayer());
                     }
