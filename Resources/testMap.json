@@ -110,17 +110,29 @@
                  "height":106,
                  "id":1,
                  "name":"StageA",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA136"
+                        }],
                  "rotation":0,
                  "type":"Podium",
                  "visible":true,
                  "width":184.667,
-                 "x":1394.67,
-                 "y":690.667
+                 "x":1396.17,
+                 "y":691.667
                 }, 
                 {
                  "height":106.666666666667,
                  "id":4,
                  "name":"StageB",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA134"
+                        }],
                  "rotation":90,
                  "type":"Podium",
                  "visible":true,
@@ -132,6 +144,12 @@
                  "height":103,
                  "id":8,
                  "name":"StageC",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA138"
+                        }],
                  "rotation":0,
                  "type":"Podium",
                  "visible":true,
@@ -143,6 +161,12 @@
                  "height":119.166666666667,
                  "id":9,
                  "name":"StageD",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA132"
+                        }],
                  "rotation":270,
                  "type":"Podium",
                  "visible":true,
@@ -154,6 +178,12 @@
                  "height":100.166666666667,
                  "id":10,
                  "name":"Stage",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA130"
+                        }],
                  "rotation":270,
                  "type":"Podium",
                  "visible":true,
@@ -176,6 +206,12 @@
                  "height":156.667,
                  "id":2,
                  "name":"StageA",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA136"
+                        }],
                  "rotation":0,
                  "type":"StageDance",
                  "visible":true,
@@ -187,6 +223,12 @@
                  "height":200.667,
                  "id":5,
                  "name":"StageB",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA134"
+                        }],
                  "rotation":0,
                  "type":"StageDance",
                  "visible":true,
@@ -198,6 +240,12 @@
                  "height":124.5,
                  "id":11,
                  "name":"StageC",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA138"
+                        }],
                  "rotation":0,
                  "type":"StageDance",
                  "visible":true,
@@ -209,6 +257,12 @@
                  "height":178.5,
                  "id":12,
                  "name":"StageD",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA132"
+                        }],
                  "rotation":0,
                  "type":"StageDance",
                  "visible":true,
@@ -220,6 +274,12 @@
                  "height":145.5,
                  "id":13,
                  "name":"StageDance",
+                 "properties":[
+                        {
+                         "name":"LocationString",
+                         "type":"string",
+                         "value":"LA130"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
