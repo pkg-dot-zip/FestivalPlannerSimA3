@@ -185,7 +185,7 @@ public class NPC {
         //Draws the NPC-sprite on the canvas.
         drawImage(g2d, listOfDirection(), tx);
         //Draws a circle (resembling the collider), and a line (from the current position to the destination).
-        //debugDraw(g2d);
+        debugDraw(g2d);
     }
 
     /**
@@ -272,7 +272,9 @@ public class NPC {
         g2d.draw(new Ellipse2D.Double(position.getX() - COLLISION_RADIUS / 2f, position.getY() + COLLISION_RADIUS / 4f, COLLISION_RADIUS, COLLISION_RADIUS));
         g2d.draw(new Line2D.Double(position, target));
 
-        this.targetObject.debugDraw(g2d);
+        if(this.targetObject != null) {
+            this.targetObject.debugDraw(g2d);
+        }
     }
 
     /**
