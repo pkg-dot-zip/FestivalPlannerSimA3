@@ -101,4 +101,19 @@ public class TileLayer extends Layer {
         g2d.drawImage(this.imageLayer, tx, null);
     }
 
+    public int getTileWidth() {
+        return tileWidth;
+    }
+
+    public void setTileWidth(int tileWidth) {
+        this.tileWidth = tileWidth;
+    }
+
+    public int getTileHeight() {
+        return tileHeight;
+    }
+
+    public void setTileHeight(int tileHeight) {
+        this.tileHeight = tileHeight;
+    }
 }

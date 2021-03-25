@@ -23,7 +23,11 @@ public class MainGUI extends Application {
         AgendaModule agendaModule = new AgendaModule(stage);
         SaveSettingsHandler.firstLaunchSettingsCreation();
         agendaModule.load();
-        SimulatorModule simulatorModule = new SimulatorModule(stage);
+        SimulatorModule simulatorModule = new SimulatorModule(stage, agendaModule);
+        simulatorModule.load();
+
+        agendaModule.setSimulatorScene(simulatorModule.getSimulatorScene());
+        simulatorModule.setAgendaScene(agendaModule.getAgendaScene());
 
 
     }

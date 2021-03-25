@@ -14,9 +14,13 @@ public class TileMap {
     private int tileWidth;
     private int tileHeight;
 
+    private TileLayer pathFindingLayer;
     private ArrayList<Layer> layers;
     private TileManager tileManager;
 
+    public TileMap() {
+        this(100,100,16,16);
+    }
 
     /**
      * Base constructor for TileMap
@@ -107,6 +111,13 @@ public class TileMap {
         this.layers = layers;
     }
 
+    public TileLayer getPathFindingLayer() {
+        return pathFindingLayer;
+    }
+
+    public void setPathFindingLayer(TileLayer pathFindingLayer) {
+        this.pathFindingLayer = pathFindingLayer;
+    }
 
     /**
      * Adds <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layer</a> to <code>this.Layers</code>

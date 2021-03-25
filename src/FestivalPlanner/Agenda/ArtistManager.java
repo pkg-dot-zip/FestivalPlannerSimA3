@@ -1,5 +1,8 @@
 package FestivalPlanner.Agenda;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -11,6 +14,8 @@ import java.util.Set;
 public class ArtistManager {
 
     private HashMap<String, Artist> artists;
+
+    private ObservableList<String> observableArtistList = FXCollections.observableArrayList();
 
     /**
      * Empty constructor for the <code>ArtistManager</code>.
@@ -81,7 +86,7 @@ public class ArtistManager {
      * Searches for an <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> was not found.
      * @param name  String representing the name of the Artist that is being requested.
-     * @return  <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> with the given name, returns
+     * @return <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> was not found
      */
 
@@ -100,5 +105,15 @@ public class ArtistManager {
 
     public Set<String> getAllArtistNames() {
         return this.artists.keySet();
+    }
+
+    /**
+     * Getter with an <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html">ObservableList</a>
+     * that automatically updates when new <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a> are made.
+     * @return an <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html">ObservableList</a>
+     * that automatically updates when new <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a> are made.
+     */
+    public ObservableList<String> getObservableArtistList() {
+        return this.observableArtistList;
     }
 }

@@ -16,7 +16,6 @@ import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import animatefx.animation.JackInTheBox;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import com.sun.javafx.scene.control.skin.ToggleButtonSkin;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,7 +27,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * Responsible for placing everything in the correct place in the GUI and making sure all the buttons work.
+ * Responsible for placing everything in the correct place in the Agenda GUI and making sure all the buttons work.
  */
 public class AgendaModule extends AbstractGUI implements Serializable {
 
@@ -43,15 +42,16 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     private PodiumManager podiumManager = new PodiumManager();
     private ArrayList<Show> selectedShows = new ArrayList<>();
 
-    // Scene
+    // Scenes
     private Scene agendaScene;
+    private Scene simulatorScene;
 
     // Panes
     private BorderPane mainLayoutPane = new BorderPane();
 
     // ToggleButtons
-    ToggleButton agendaToggleButton = new ToggleButton(messages.getString("agenda"));
-    ToggleButton simulatorToggleButton = new ToggleButton(messages.getString("simulator"));
+    Button agendaButton = new Button(messages.getString("agenda"));
+    Button simulatorButton = new Button(messages.getString("simulator"));
 
     // MenuBar
     private MenuBar menuBar = new MenuBar();
@@ -134,12 +134,12 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         topVBox.getChildren().addAll(toggleHBox, this.menuBar);
         topVBox.setSpacing(VBOX_SPACING);
         //Adding the buttons
-        toggleHBox.getChildren().addAll(this.agendaToggleButton, this.simulatorToggleButton);
+        toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
         toggleHBox.setAlignment(Pos.CENTER);
         toggleHBox.setSpacing(HBOX_SPACING);
 
         // Disabling button
-        this.agendaToggleButton.setDisable(true);
+        this.agendaButton.setDisable(true);
 
         //Adding it all together.
         this.mainLayoutPane.setTop(topVBox);
@@ -170,6 +170,12 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             }
         });
 
+        this.simulatorButton.setOnAction(event -> {
+            stage.setScene(this.simulatorScene);
+            stage.setWidth(1100);
+            stage.setHeight(800);
+        });
+
         //MenuBar
             //FileMenu
         loadAgendaMenuItem.setOnAction(e -> {
@@ -186,7 +192,9 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
             //EditMenu
         editArtistsAndPodiumsMenuItem.setOnAction(e -> {
-            ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this);
+            ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this,
+                    this.podiumManager.getObservablePodiumList(),
+                    this.artistManager.getObservableArtistList());
             artistAndPodiumEditorGUI.load();
         });
 
@@ -420,6 +428,10 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         }
     }
 
+    public void setSimulatorScene(Scene simulatorScene) {
+        this.simulatorScene = simulatorScene;
+    }
+
     /**
      * Returns the <code>this.currentShow</code> attribute.
      * @return  this.currentShow
@@ -462,5 +474,9 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     @NotNull
     public PodiumManager getPodiumManager() {
         return this.podiumManager;
+    }
+
+    public Scene getAgendaScene() {
+        return agendaScene;
     }
 }

@@ -32,10 +32,10 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
     private VBox creationPanelVBox = new VBox();
     private HBox artistHBox = new HBox();
     private HBox podiumHBox = new HBox();
-    private ObservableList<String> observablePodiumList = FXCollections.observableArrayList();
-    private ObservableList<String> observableArtistList = FXCollections.observableArrayList();
-    private ComboBox<String> podiumComboBox = new ComboBox<>(this.observablePodiumList);
-    private ComboBox<String> artistComboBox = new ComboBox<>(this.observableArtistList);
+    private ObservableList<String> observablePodiumList;
+    private ObservableList<String> observableArtistList;
+    private ComboBox<String> podiumComboBox;
+    private ComboBox<String> artistComboBox;
     private Label availablePodiumsAndArtistsLabel = new Label(messages.getString("available_podiums_and_artists"));
     private Label existingArtistsLabel = new Label(messages.getString("existing_artists") + ": ");
     private Label existingPodiumsLabel = new Label(messages.getString("existing_podiums") + ": ");
@@ -46,8 +46,15 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
     private Button podiumEditButton = new Button(messages.getString("edit_button"));
     private Button artistEditButton = new Button(messages.getString("edit_button"));
 
-    public ArtistAndPodiumEditorGUI(AgendaModule agendaModule) {
+    public ArtistAndPodiumEditorGUI(AgendaModule agendaModule, ObservableList<String> observablePodiumList,
+                                    ObservableList<String> observableArtistList) {
         this.agendaModule = agendaModule;
+        this.observablePodiumList = observablePodiumList;
+        this.observableArtistList = observableArtistList;
+
+        this.artistComboBox = new ComboBox<>(this.observableArtistList);
+        this.podiumComboBox = new ComboBox<>(this.observablePodiumList);
+
     }
 
     @Override
