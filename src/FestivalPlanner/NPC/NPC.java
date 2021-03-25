@@ -59,46 +59,18 @@ public class NPC {
         this.frame = Math.random() * 10;
 
         this.gameSpeed = (60 * 5);
-
         ArrayList<ArrayList<BufferedImage>> spriteSheets = ImageLoader.getLists(spriteSheet);
-        this.spritesUp = spriteSheets.get(1);
-        this.spritesDown = spriteSheets.get(2);
-        this.spritesLeft = spriteSheets.get(3);
-        this.spritesRight = spriteSheets.get(4);
-
-//        try {
-//            //moved to Util.ImageLoader.java
-//            BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/characters/" + characterFiles[spriteSheet] + ".png"));
-//            int width = image.getWidth() / npcTileX;
-//            int height = image.getHeight() / npcTileY;
-//
-//            //need to move this
-//            splitImages(image, spritesLeft, 0, width, height);
-//            splitImages(image, spritesDown, 1, width, height);
-//            splitImages(image, spritesUp, 2, width, height);
-//            splitImages(image, spritesRight, 3, width, height);
-//
-//            //moved down
-//            this.centerX = spritesLeft.get(0).getWidth() / 2;
-//            this.centerY = spritesLeft.get(0).getHeight() / 2;
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            //TODO: Merge Development and showExceptionPopUp.
-//        }
+        this.spritesUp = spriteSheets.get(2);
+        this.spritesDown = spriteSheets.get(1);
+        this.spritesLeft = spriteSheets.get(0);
+        this.spritesRight = spriteSheets.get(3);
         //now here
         this.centerX = spritesLeft.get(0).getWidth() / 2;
         this.centerY = spritesLeft.get(0).getHeight() / 2;
     }
 
-    //TODO: Make something that works with all type of sheets.
-    public void splitImages(BufferedImage image, ArrayList<BufferedImage> list, int x, int width, int height){
-        int xToSplit = x * width;
-        list.add(image.getSubimage(xToSplit, 0, width, height));
-        list.add(image.getSubimage(xToSplit, height, width, height));
-        list.add(image.getSubimage(xToSplit, 0, width, height));
-        list.add(image.getSubimage(xToSplit, 2 * height, width, height));
-    }
+
+
 
     public void update(ArrayList<NPC> NPCs) {
         if(target.distanceSq(position) < 20) {
@@ -129,13 +101,13 @@ public class NPC {
      * Updates this NPC' direction to the direction it should face to walk straight forward to its' target.
      */
     public void updateDirectionToFace(){
-        if (this.position.getX() != this.target.getX()) {
+        if ((int)this.position.getX() != (int)this.target.getX()) {
             if (this.position.getX() < this.target.getX()) {
                 this.direction = Direction.RIGHT;
             } else {
                 this.direction = Direction.LEFT;
             }
-        } else if (this.position.getY() != this.target.getY()) {
+        } else if ((int)this.position.getY() != (int)this.target.getY()) {
             if (this.position.getY() > this.target.getY()) {
                 this.direction = Direction.UP;
             } else {

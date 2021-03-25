@@ -1,11 +1,14 @@
 package FestivalPlanner.Util;
 
+import FestivalPlanner.GUI.AbstractGUI;
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ImageLoader {
+public class ImageLoader extends AbstractDialogPopUp {
 
     private static String[] characterFiles = {"char_1", "char_2"};
     private static final int npcTileX = 4;
@@ -16,13 +19,16 @@ public class ImageLoader {
 //    private static ArrayList<BufferedImage> spritesUp = new ArrayList<>(4);
 //    private static ArrayList<BufferedImage> spritesRight = new ArrayList<>(4);
 
-    private static ArrayList<ArrayList<ArrayList<BufferedImage>>> lists = new ArrayList<>(characterFiles.length);
+    private static ArrayList<ArrayList<BufferedImage>>[] lists = new ArrayList[characterFiles.length];
 
     public static void loadImages() {
-        ArrayList<ArrayList<BufferedImage>> allFourSpriteSheets = new ArrayList<>(4);
-        for (int i = 0; i < characterFiles.length; i++) {
+        for (int i = 0, characterFilesLength = characterFiles.length; i < characterFilesLength; i++) {
+            String characterFile = characterFiles[i];
+
+            ArrayList<ArrayList<BufferedImage>> allFourSpriteSheets = new ArrayList<>(4);
+
             try {
-                BufferedImage image = ImageIO.read(ImageLoader.class.getResourceAsStream("/characters/" + characterFiles[i] + ".png"));
+                BufferedImage image = ImageIO.read(ImageLoader.class.getResourceAsStream("/characters/" + characterFile + ".png"));
 
                 ArrayList<BufferedImage> spritesLeft = new ArrayList<>(4);
                 ArrayList<BufferedImage> spritesDown = new ArrayList<>(4);
@@ -42,13 +48,14 @@ public class ImageLoader {
                 allFourSpriteSheets.add(spritesUp);
                 allFourSpriteSheets.add(spritesRight);
 
-                lists.add(allFourSpriteSheets);
+                lists[i] = allFourSpriteSheets;
             } catch (IOException e) {
-                e.printStackTrace();
+                showExceptionPopUp(e);
             }
         }
     }
 
+    //TODO: Make something that works with all type of sheets.
     public static void splitImages(BufferedImage image, ArrayList<BufferedImage> list, int x, int width, int height){
         int xToSplit = x * width;
         list.add(image.getSubimage(xToSplit, 0, width, height));
@@ -58,6 +65,6 @@ public class ImageLoader {
     }
 
     public static ArrayList<ArrayList<BufferedImage>> getLists(int spriteSheet) {
-        return lists.get(spriteSheet);
+        return lists[spriteSheet];
     }
 }

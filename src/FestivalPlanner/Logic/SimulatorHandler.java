@@ -143,10 +143,9 @@ public class SimulatorHandler {
      * Creates a new <a href="{@docRoot}/FestivalPlanner/NPC/NPC.html">NPC</a> at a rondom location at <code>this.spawn</code>.
      */
     public void spawnNPC() {
-        Random r = new Random(0);
+        Random r = new Random();
         Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
         NPC npc = new NPC(location, r.nextInt(NPC.getCharacterFiles()));
-        npc.setTargetObject(this.simulatorObjects.get(1));
         if (!npc.checkCollision(this.npcList)) {
             this.npcList.add(npc);
         }
@@ -184,7 +183,7 @@ public class SimulatorHandler {
             npc.update(this.npcList);
         }
 
-        debugNPCTarget(deltaTime);
+        //debugNPCTarget(deltaTime);
     }
 
     private double debugTimer = 15;
