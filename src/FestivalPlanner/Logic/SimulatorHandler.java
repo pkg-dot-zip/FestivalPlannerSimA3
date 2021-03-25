@@ -3,6 +3,7 @@ package FestivalPlanner.Logic;
 import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.Agenda.Podium;
 import FestivalPlanner.Agenda.PodiumManager;
+import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.NPC.NPC;
 import FestivalPlanner.TileMap.*;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
@@ -10,6 +11,7 @@ import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -240,5 +242,21 @@ public class SimulatorHandler {
         for (NPC npc : this.npcList) {
             npc.setGameSpeed(speed);
         }
+    }
+
+    /**
+     * Returns an ArrayList with current active shows
+     *
+     * @param currentTime
+     * @return <code>ArrayList</code> with current active <code>Show</code>s
+     */
+    public ArrayList<Show> getActiveShows(LocalTime currentTime){
+        ArrayList<Show> activeShows = new ArrayList<>();
+        for (Show show : this.agenda.getShows()){
+            if (show.getStartTime().isBefore(currentTime) && show.getEndTime().isAfter(currentTime)){
+                activeShows.add(show);
+            }
+        }
+        return activeShows;
     }
 }
