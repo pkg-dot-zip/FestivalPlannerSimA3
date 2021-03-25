@@ -3,6 +3,7 @@ package FestivalPlanner.GUI.SimulatorGUI;
 import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
+import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.geometry.Pos;
 import FestivalPlanner.Logic.SimulatorHandler;
@@ -24,8 +25,9 @@ import java.util.ResourceBundle;
  */
 public class SimulatorModule extends AbstractGUI {
 
+    private MainGUI mainGUI;
     private Scene simulatorScene;
-    private Scene agendaScene;
+
 
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();
@@ -48,7 +50,9 @@ public class SimulatorModule extends AbstractGUI {
      *              simulator module should assign itself to
      * @param agendaModule the <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI.html">SimulatorModule</a>.
      */
-    public SimulatorModule(Stage stage, AgendaModule agendaModule) {
+    public SimulatorModule(MainGUI mainGUI, Stage stage, AgendaModule agendaModule) {
+        //Todo: AgendaModule kan later weg
+        this.mainGUI = mainGUI;
         this.stage = stage;
         this.mainPane = new BorderPane();
         this.agendaModule = agendaModule;
@@ -116,20 +120,8 @@ public class SimulatorModule extends AbstractGUI {
     @Override
     public void actionHandlingSetup() {
         this.agendaButton.setOnAction(event -> {
-            this.stage.setScene(this.agendaScene);
-            this.stage.setWidth(1450);
-            this.stage.setHeight(350);
+            this.mainGUI.loadAgendaCallBack();
         });
-    }
-
-    /**
-     * Saves the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> of the agenda
-     * so this class can swap back to that <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a>
-     * whenever necessary.
-     * @param agendaScene the scene representing the agenda module
-     */
-    public void setAgendaScene(Scene agendaScene) {
-        this.agendaScene = agendaScene;
     }
 
     /**
@@ -160,4 +152,10 @@ public class SimulatorModule extends AbstractGUI {
         return this.stage;
     }
 
+    /**
+     * Resets <code>this.handler</code>
+     */
+    public void resetHandler(){
+        this.handler.reset(this.agendaModule.getAgenda());
+    }
 }
