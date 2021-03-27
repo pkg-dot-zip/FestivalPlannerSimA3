@@ -11,27 +11,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class ArtistManagerTest {
 
 	@Test
-	void testAddArtist() {
+	void testAddArtistAddsAnArtist() {
 		//Arrange
 		ArtistManager artistManager = new ArtistManager();
-		artistManager.addArtist(new Artist("Edwin", null, null));
+		Artist edwin = new Artist("Edwin", null, null);
+		artistManager.addArtist(edwin);
 		//Act
-		boolean returnResult = artistManager.getAllArtistNames().contains("Edwin");
+		boolean returnResult = (artistManager.getAllArtistNames().contains("Edwin") &&
+				artistManager.getArtist("Edwin").equals(edwin));
 		//Assert
-		Assertions.assertTrue(returnResult, "Adding artists doesn't work");
+		Assertions.assertTrue(returnResult, "Adding artists doesn't work correctly.");
 	}
 
 	@Test
-	void testEditArtist() {
+	void testEditArtistChangesTheArtist() {
 		//Arrange
 		ArtistManager artistManager = new ArtistManager();
-		artistManager.addArtist(new Artist("Edwin",null,null));
-		//Act
+		Artist edwin = new Artist("Edwin", null, null);
+		artistManager.addArtist(edwin);
 		artistManager.editArtist("Edwin", new Artist("Johan", null, null));
 		Set artistNames = artistManager.getAllArtistNames();
-		boolean returnResult = (artistNames.contains("Johan") && !artistNames.contains("Edwin"));
+		//Act
+		boolean returnResult = ((artistNames.contains("Johan") && !artistNames.contains("Edwin")) &&
+				artistManager.getArtist("Johan").equals(edwin));
 		//Assert
-		Assertions.assertTrue(returnResult, "Editing Artists doesn't work");
+		Assertions.assertTrue(returnResult, "Editing Artists doesn't work correctly.");
 	}
 
 
@@ -42,18 +46,18 @@ class ArtistManagerTest {
 		//Act
 		Set artistNames = artistManager.getAllArtistNames();
 		//Assert
-		Assertions.assertTrue(artistNames.isEmpty(), "The podium manager isn't empty on startup");
+		Assertions.assertTrue(artistNames.isEmpty(), "The podium manager isn't empty on startup.");
 	}
 
 	@Test
-	void testArtistManagerRemoveArtist() {
+	void testArtistManagerRemoveArtistRemovesArtist() {
 		//Arrange
 		ArtistManager artistManager = new ArtistManager();
-		//Act
 		artistManager.addArtist(new Artist("Dababy", null, null));
+		//Act
 		artistManager.removeArtist("Dababy");
 		Set artistNames = artistManager.getAllArtistNames();
 		//Assert
-		Assertions.assertTrue(artistNames.isEmpty(), "Removing artists doesn't work correctly");
+		Assertions.assertTrue(artistNames.isEmpty(), "Removing artists doesn't work correctly.");
 	}
 }
