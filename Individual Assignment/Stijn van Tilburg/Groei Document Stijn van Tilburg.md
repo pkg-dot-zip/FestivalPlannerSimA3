@@ -263,6 +263,76 @@ ObservableList werd opgeslaen in onze AgendaGui. Dat is een heel slechte plek
 om zoiets op te slaan. We hebben gezorgd dat dat nu in hun eigen manager
 word opgeslagen (waar het hoort).
 
+## Week 6
+
+Deze week wouden we zorgen dat een paar van de knoppen in de simulator GUI
+functioneel werden. We kozen ervoor om eerst het zoom to podium gedeelte 
+functioneel te maken.
+
+Maar daar kwamen we eigenlijk al meteen voor een probleem. De simulatorGUI
+had toegankelijkhijd nodig tot heel wat klassen die hij momenteel niet had 
+om dat succesvol te implementeren. Maar als we de GUI toegankelijkheid
+tot al die klassen zouden geven zouden we een slecht design krijgen. Veel
+van de klassen waren klassen die we echt lostaand wouden hebben van de 
+simulatorGUI
+
+Ook realiseerde we dat het aanpassen van onderdelen van onderdelen
+wanneer de simulatie al bezig was voor veel problemen zou gaan zorgen.
+
+1. Wij geven de optie om je eigen sprites mee te geven aan artiesten. Maar
+als je een nieuwe artiest maakt moet die dus ingeladen worden. Als je dit doet
+tijdens de simulatie zou dat dus zorgen voor problemen.
+
+2. Hoe reageren NPC's wanneer ze in een show staan en er wordt een nieuwe
+show gemaakt die gelijk afspeeld terwijl alle NPC's al bj een show staan.
+
+3. Het bewerken van podium locatie's tijdens shows, hoe gaan we daar mee om.
+
+4. Het bewerken van artiesten tijdens shows, hoe gaan we daar mee om? Zeker
+omdat nieuwe sprites dus ook weer moeten worden ingeladen.
+
+5. Het bewerken van shows, bv. de artiesten veranderen. Hoe gaan we daar mee om?
+
+Dit zijn heel veel problemen en de deadline is in de buurt aan het komen.
+Een manier om heel veel problemen te voorkomen is te zorgen dat je een festival
+kan starten met alle momentele informatie, en als je iets aan wilt passen dat
+je dan het festival opnieuw moet starten. Veel minder leuk, maar voorkomt 
+een heleboel problemen. Ook is het zo dat de simulatorGUI met veel minder 
+rekening moet houden omdat het alleen maar uitmaakt of hij beschikt over de
+informatielijst. Veel van onze problemen ontstonden doordat we actief alle
+gegevens moesten bijhouden in de simulatorGUI.
+ 
+Hiermom hadden we beslist dat we ervoor gingen zorgen dat je een knop had 
+om de simulatie op te starten met de gegevens die je momenteel had.
+
+Maar nu dat design probleem opgelost was gingen we weer terug naar het originele onderdeel waar we aan 
+werkten. Het zorgen dat gemaakte podiums een podium in de tilemap representeerden.
+
+Hier hadden we weer verschillende manieren voor bedacht:
+
+1. Zorgen dat wanneer je een podium maakt dat er automatisch een podium
+aan gegeven wordt
+
+2. In de tilemap een variabele locatie maken en controleren of de ingevulde 
+locatie in de software overeenkomt met variabele in de tilemap.
+
+3. Een ComboBox toevoegen aan de editor waar je een podium kon selecteren.
+
+Oplossing 3 was al heel snel afgekeurd want daar moest je heel veel aanpassingen
+doen in oude code. Ook zouder er veel problemen bij ontstaan die we liever
+voorkomen dan oplossen.
+
+Eerst was ik een fan van oplossing 1 omdat dat ervoor zorgde dat de 
+gebruiker niks fout kon doen. Het probleem wat ik zag in de locatie namen
+is dat de gebruik van te voren de kennis nodig heeft om het succesvol te 
+laten werken. Maakte het zoveel uit dat de gebruiker het podium niet zelf 
+kon kiezen?
+
+Ik ben nu van mening absoluut. Het feit dat de gebruiker de Tilemap moet 
+kennen en afstemmen op het programma was zoiezo al het geval. Het is van 
+enorm belang dat de gebruiker controle heeft over waar een podium staat 
+voor het plannen van shows van artiesten. 
+
 ## In het bedrijfsleven wordt steeds meer in de software gesimuleerd.
 
 Dat dit waar is, is geen geheim meer. Of het nou gaat om
