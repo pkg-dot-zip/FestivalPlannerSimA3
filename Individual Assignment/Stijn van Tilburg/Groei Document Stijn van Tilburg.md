@@ -356,9 +356,9 @@ die ontwerpfouten de vinden tijdens de eerste processen. Dit bespaard enorm
 veel tijd en geld
 
 Ook zorgen simulaties ervoor dat veranderingen makkelijk uit te testen zijn.
-Er zit een enorm vershil tussen het zien van een product op papier en het 
+Er zit een enorm verschil tussen het zien van een product op papier en het 
 kunnen uit testen. Doormiddel van simulaties word het uittesten van
-programmas veel makkelijker waardoor de kwaliteit van het design veel makkelijker
+producten veel makkelijker waardoor de kwaliteit van het design veel makkelijker
 omhoog kan gaan. Maar dit is niet alleen belangrijk voor de het uit 
 testen van de kwaliteit. Hoe weet je of een product goed genoeg is om te 
 voldoen aan de eisen die je bedrijf stelt? Normaal is dit alleen mogelijk 
@@ -388,4 +388,25 @@ te hebben wat de kracht van software is, en hoe je ermee om moet gaan.
 Lanzaam maar zeker begint software Development zijn troon bovenaan het
 bedrijfsleven te nemen.
 
+Er zijn veel voordelen aan het gebruik van simulaties in het bedrijfsleven.
+Of het nou gaat om het testen van een design voordat het gemaakt is. Of 
+om het feit dat een design dat je aanpast meteen kunt uittesten enorm veel
+geld zal besparen. Simulaties helpen enorm in de kwaliteit van een product
+en besparen ook nog eens enorm veel geld. Waarom zijn simulaties dan in 
+opkomst en word het niet al constant gebruikt? Het maken van software is 
+enorm moeilijk. Het is moeilijk voor veel bedrijven om succesvol een team
+te krijgen dat goeie simulaties kan maken. Veel bedrijven blijven liever 
+hangen in de tak waar ze al succes kennen, maar nu begint het toch wel 
+duidelijk te worden hoeveel succes de bedrijven die het goed gebruiken hebben.
+Simulaties zijn iets enorm moeilijk om goed te maken, maar als het een bedrijf
+lukt dan is het letterlijk goud waard.
 
+Onderzoeksmethodiek: Ik heb eerst een groot aantal bronnen bezocht en gelezen.
+Daarna heb ik de bronnen vergeleken en de bronnen gepakt die het beste de 
+standpunten die ik wou vertellen beschreven.
+
+Bronnen: de Groot, M. (2015, 9 april). Hoe kan simulatie software bijdragen aan betere innovaties? 
+designsolutions. Geraadpleegd op 27 maart 2020, van https://blog.designsolutions.nl/hoe-kan-simulatie-software-bijdragen-aan-betere-innovaties
+
+Vissia, H. (2015, 3 maart). 6 redenen waarom software bouwen zo verschrikkelijk lastig is. DutchCowboys. 
+Geraadpleegd op 27 maart 2020, van https://www.dutchcowboys.nl/online/6-redenen-waarom-software-bouwen-zo-verschrikkelijk-lastig-is
