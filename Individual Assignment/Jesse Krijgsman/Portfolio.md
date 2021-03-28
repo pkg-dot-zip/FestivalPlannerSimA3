@@ -642,5 +642,121 @@ Hieronder staat een gif om te laten zien dat NPC daadwerkelijk naar hun locatie 
 voor de PathFinding map aan. De witte lijnen zijn de target locaties waar de NPC naartoe willen lopen.
 
 ![](Images/PathFindingDemo.gif)
+---
+
+# Week 7
 
 ---
+
+### Reflectie proces
+
+Deze projectweek zijn wij niet begonnen met een opstart college. Al het materiaal voor de rest van het project is al behandeld.
+Op donderdag ochtend begonnen wij als groep met een gesprek met de senior. De senior was goed te spreken over de status van het object.
+Zoals wij zelf ook al aangaven bevestigde hij dat wij vrij ver zijn met het project, maar dat er nog veel moet gebeuren.
+
+Een belangrijk punt van het proces van deze week is dat ik de voorzitter in de vergadering was. Ik heb hier niet veel bijzonders over
+te zeggen, het ging goed. We hebben alle punten die besproken moesten worden besproken. De vergadering hebben we kunnen afsluiten na 46 minuten.
+Dit is prima binnen de 45 minuten die ervoor gepland was. Ik had weer een planning voor deze week klaar staan. Deze hebben wij in
+de vergadering besproken en we hebben de taken verdeeld.
+
+---
+
+### Reflectie Vakinhoudelijk
+
+Deze week zijn wij weer flink bezig geweest met het project. Er zijn twee onderdelen die ik wil behandelen, dit zijn twee onderdelen
+waar ik aan heb gewerkt. Dit zijn: De afhandeling van tijd en de refactor van MainGUI.
+
+#### Tijd afhandeling
+
+Om de simulatie te besturen is het natuurlijk nodig dat er een in-game tijd wordt bijgehouden. Volgens ons ontwerp is het de bedoeling dat
+dit volledig door de `SimulatorHandler` klasse wordt gedaan.
+Deze klasse bevat een `LocalTime` attribuut die de huidige tijd bijhoudt.
+
+Zoals hieronder ook te zien is, wordt elke keer dat de update methode wordt aangeroepen de in-game tijd verhoogd.
+
+```java
+this.time = this.time.plusSeconds((long) (deltaTime * this.speed));
+```
+Deze ene regel zorgt ervoor dat de tijd wordt opgehoogd.
+
+Om de snelheid van de simulatie te kunnen regelen is er een speed attribuut. Deze geeft aan hoeveel in-game seconden één echt seconde voorsteld.
+In het code stuk hierboven is ook te zien dat de echte tijd (deltaTime) wordt vermenigvuldigd met dit speed attribuut.
+
+```java
+private double speed; //value in game second per real second (s/s)
+```
+
+Alle onderdelen die wordt bestuurd door de `SimulatorHandler` gebruiken dit attribuut om hun snelheid te bepalen. Voor
+de NPC geld dat zijn deze speed waarde ook gebruiken om te lopen. Hun loopsnelheid is afhankelijk van de snelheid van de tijd.
+
+Dit is een voorbeeld van hoe de snelheid van een NPC wordt vastgesteld.
+```java
+this.position.getY() - (this.SPEED * this.gameSpeed));
+```
+
+Het is op deze manier ook gemakkelijk om de snelheid of tijd runtime aan te passen.
+
+#### Refactor van MainGUI
+
+Er waren een aantal problemen waar wij tegen aan liepen. Hierom was het nodig om de `MainGUI` klasse te gaan refactoren.
+De redenen zijn:
+ + Tijdens het opstarten van de applicatie was er voor een aantal seconde een blank scherm. Dit komt omdat de SimulatorModule werdt 
+   opgestart. Hierin wordt onze TileMap uitgelezen en alle verschillende pathfinding naar de object berekend. Dit kost een aantal seconde.
+   Wij vonden het beter als dit pas gebeurt zodra de gebruiker een agenda heeft gemaakt.
+ + Er moeten uit de agenda verschillende waarden gelezen worden, bijvoorbeeld de verschillende podia. Deze waarden bepalen wat
+   er in de simulatie moet gebeuren. Om te voorkomen dat deze waarden steeds opnieuw worden berekend, en ook om te voorkomen dat
+   de agenda en de handler met elkaar in contact staan (design keuze) moest er een manier komen om een simulatie te starten met een agenda.
+ + De `SimulatorModule` en `AgendaModule` stonde met elkaar in contact. Dit wilden wij eigenlijk voorkomen aangezien `MainGUI` boven deze klassen staan, en ze bijhoudt
+
+Wat hebben wij veranderd: 
+In plaats van dat de twee module elkaar aanroepen als er tussen deze twee gewisseld moet worden. Gebeurd dit nu via callbacks.
+
+```java
+/**
+     * Sets the current scene to the scene of <code>this.simulatorModule</code>.
+     */
+    public void loadSimulatorCallBack() {
+        //Setting w/h
+        this.stage.setWidth(1100);
+        this.stage.setHeight(800);
+
+        this.stage.setScene(this.simulatorModule.getSimulatorScene());
+    }
+
+    /**
+     * creates a new <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorModule.html">Simulatormodule</a> if
+     * <code>this.simulatorModule</code> is null.
+     * <b>
+     * Else it calls the {@link SimulatorModule#resetHandler()} method.
+     */
+    public void constructSimulatorCallBack(AgendaModule agendaModule) {
+        if (this.simulatorModule == null) {
+            this.simulatorModule = new SimulatorModule(this, stage, agendaModule);
+            simulatorModule.load();
+        } else {
+            this.simulatorModule.resetHandler();
+        }
+    }
+
+    /**
+     * Sets the current scene to the scene of <code>this.agendaModule</code>.
+     */
+    public void loadAgendaCallBack() {
+        if (this.agendaModule == null) {
+            this.agendaModule = new AgendaModule(this, stage);
+            SaveSettingsHandler.firstLaunchSettingsCreation();
+            agendaModule.load();
+        }
+
+        //Setting stage width/height
+        this.stage.setWidth(1450);
+        this.stage.setHeight(350);
+
+        this.stage.setScene(this.agendaModule.getAgendaScene());
+    }
+```
+
+Als het nodig is om naar de agenda of simulator te gaan kan een klasse één van deze callbacks aanroepen. De MainGUI is nu verantwoordelijk
+voor het zorgen dat dit ook echt gebeurt. Ook is een een callback waarmee de simulatorModule kan worden herstart met nieuwe waarden.
+Hierdoor kan een simulatie opnieuw worden gestart met verschillende agenda waarden.
+
