@@ -187,8 +187,14 @@ public class SimulatorHandler {
     public void update(double deltaTime) {
         this.time = this.time.plusSeconds((long) (deltaTime * this.speed));
 
+        // Updating NPC's
         for (NPC npc : this.npcList) {
             npc.update(this.npcList);
+        }
+
+        //Updating set Podiums
+        for (SimulatorObject object : this.simulatorObjects){
+            object.update(deltaTime);
         }
 
         // Handling assigning shows
@@ -220,7 +226,7 @@ public class SimulatorHandler {
             endedShows.removeAll(activeShows);
             for (Show show : endedShows) {
                 // Shows that have ended
-
+                onShowEnd(show);
             }
         }
     }
@@ -228,15 +234,25 @@ public class SimulatorHandler {
     private void onShowStart(Show show) {
         double change = show.getExpectedPopularity();
 
-        for (NPC npc : this.npcList) {
-            if (Math.random() > (change/100f)) {
-                SimulatorPodium podium = this.podiumObjectHashMap.get(show.getPodium().getName());
-                if (podium != null) {
+        SimulatorPodium podium = this.podiumObjectHashMap.get(show.getPodium().getName());
+        if (podium != null) {
+            podium.setActive(true);
+
+            for (NPC npc : this.npcList) {
+                if (Math.random() > (change / 100f)) {
                     npc.setTargetObject(podium);
                 }
-
             }
         }
+    }
+
+    private void onShowEnd(Show show) {
+
+        SimulatorPodium podium = this.podiumObjectHashMap.get(show.getName());
+        if (podium != null) {
+            podium.setActive(false);
+        }
+
     }
 
     private double debugTimer = 15;
