@@ -73,12 +73,12 @@ public class NPC {
 
 
     public void update(ArrayList<NPC> NPCs) {
-        if(target.distanceSq(position) < 20) {
-            return;
-        }
-
         if (this.targetObject != null) {
             this.target = this.targetObject.getNextDirection(this.position);
+        }
+
+        if(target.distanceSq(position) < 3) {
+            return;
         }
 
         Point2D oldPosition = this.position;
@@ -87,7 +87,7 @@ public class NPC {
         this.walkOnAxis();
 
         boolean hasCollision = false;
-        hasCollision = hasCollision || checkCollision(NPCs);
+        //hasCollision = hasCollision || checkCollision(NPCs);
 
         if(hasCollision) {
             this.position = oldPosition;

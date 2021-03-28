@@ -32,7 +32,7 @@ public class SimulatorHandler {
     private double speed; //value in game second per real second (s/s)
 
     private SimulatorObject spawn;
-    private final int NUMBEER_OF_NPCS = 10;
+    private final int NUMBEER_OF_NPCS = 1;
 
 
     /**
@@ -239,9 +239,9 @@ public class SimulatorHandler {
             podium.setActive(true);
 
             for (NPC npc : this.npcList) {
-                if (Math.random() > (change / 100f)) {
+                if (npc.getTargetObject() == null ||
+                        Math.random() > (change / 100f))
                     npc.setTargetObject(podium);
-                }
             }
         }
     }
