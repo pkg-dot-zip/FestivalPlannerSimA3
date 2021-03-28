@@ -167,7 +167,7 @@ public class SimulatorHandler {
             npc.draw(g2d);
         }
 
-        for (SimulatorObject object : this.simulatorObjects) {
+        for (SimulatorObject object : this.podiumObjectHashMap.values()) {
             object.draw(g2d);
         }
 
