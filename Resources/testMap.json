@@ -195,7 +195,7 @@
                 {
                  "height":100,
                  "id":10,
-                 "name":"Stage",
+                 "name":"StageE",
                  "properties":[
                         {
                          "name":"LocationString",
@@ -291,7 +291,7 @@
                 {
                  "height":145.5,
                  "id":13,
-                 "name":"StageDance",
+                 "name":"StageE",
                  "properties":[
                         {
                          "name":"LocationString",
@@ -299,7 +299,7 @@
                          "value":"LA130"
                         }],
                  "rotation":0,
-                 "type":"",
+                 "type":"StageDance",
                  "visible":true,
                  "width":126,
                  "x":519,

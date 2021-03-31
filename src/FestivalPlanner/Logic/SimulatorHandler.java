@@ -248,7 +248,8 @@ public class SimulatorHandler {
 
     private void onShowEnd(Show show) {
 
-        SimulatorPodium podium = this.podiumObjectHashMap.get(show.getName());
+
+        SimulatorPodium podium = this.podiumObjectHashMap.get(show.getPodium().getName());
         if (podium != null) {
             podium.setActive(false);
         }
