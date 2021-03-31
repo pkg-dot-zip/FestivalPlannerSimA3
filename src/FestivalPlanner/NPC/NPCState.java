@@ -7,5 +7,5 @@ public abstract class NPCState {
     /**
      * Handles the behaviour of the NPC.
      */
-    public abstract void handle();
+    public abstract void handle(NPC npc);
 }

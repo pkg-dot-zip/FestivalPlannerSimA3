@@ -11,6 +11,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.time.MonthDay;
 import java.util.ArrayList;
 
 /**
@@ -27,7 +28,7 @@ public class NPC {
 
     private Direction direction = Direction.UP;
 
-    private NPCState npcState = new IdleState();
+    private NPCState npcState = new MovingState();
 
     private final int npcTileX = 4;
     private final int npcTileY = 3;
@@ -77,14 +78,18 @@ public class NPC {
             this.target = this.targetObject.getNextDirection(this.position);
         }
 
-        if(target.distanceSq(position) < 3) {
-            return;
+        if(this.target.distanceSq(position) < 3) {
+            this.npcState = new IdleState();
+        } else {
+            this.npcState = new MovingState();
         }
 
         Point2D oldPosition = this.position;
 
-        this.updateDirectionToFace();
-        this.walkOnAxis();
+        this.npcState.handle(this);
+
+//        this.updateDirectionToFace();
+//        this.walkOnAxis();
 
         boolean hasCollision = false;
         //hasCollision = hasCollision || checkCollision(NPCs);
@@ -92,7 +97,7 @@ public class NPC {
         if(hasCollision) {
             this.position = oldPosition;
             this.frame = 0;
-        } else {
+        } else if (this.npcState.getClass().equals(MovingState.class)){
             this.frame += 0.1;
         }
     }
@@ -245,6 +250,28 @@ public class NPC {
      */
     public void setGameSpeed(double gameSpeed) {
         this.gameSpeed = gameSpeed;
+    }
+
+    /**
+     * Setter for <code>this.direction</code>
+     * @param direction  <code>this.direction</code>
+     */
+    public void setDirection(Direction direction){
+        this.direction = direction;
+    }
+
+    /**
+     * Getter for <code>this.target</code>.
+     */
+    public Point2D getTarget(){
+        return this.target;
+    }
+
+    /**
+     * Getter for <code>this.position</code>
+     */
+    public Point2D getPosition(){
+        return this.position;
     }
 
     /**
