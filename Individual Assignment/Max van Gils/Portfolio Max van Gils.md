@@ -73,11 +73,12 @@ Een probleem waar we tegenaan liepen was dat de NPC niet goed naar zijn doel kon
 In eerste instantie wilde wij dat de NPC eerst over de kortste as liep en daarna de langste, maar bij het omdraaien deed de NPC raar en draaide rond voor eeuwig.
 <br/> We hebben een aantal uur verschillende oplossingen geprobeerd zoals;
 
-1. Een if-statement die niet alleen kijkt welke as de langste en kortste is, maar die ook kijkt naar of een van die assen gelijk of dicht bij 0 is.
+<ul><li> Een if-statement die niet alleen kijkt welke as de langste en kortste is, maar die ook kijkt naar of een van die assen gelijk of dicht bij 0 is.
 Dit had echter weinig tot geen effect op het gedrag van NPC.
 
-2. I.p.v. een if-statement een do-while methode. Dit zorgde er voor dat het gedrag van de andere funties storing kreeg, 
+<li> I.p.v. een if-statement een do-while methode. Dit zorgde er voor dat het gedrag van de andere funties storing kreeg, 
 ook had het weinig positieve invloed op het gedrag van de NPC zelf.
+</ul>
 
 Uiteindelijk hebben we dus besloten om de NPC eerst de x-as over te laten lopen en daarna de y-as, onafhankelijk van welke de korste en langste is.
 Omdat de bedoeling is dat de NPC met pathfinding gaan wandelen, hoop ik dat dit geen invloed zal hebben op het gedrag van de NPC's dan.
@@ -124,11 +125,11 @@ hierdoor kwamen er gelukkig geen andere complicaties bij kijken.
 <br/> De staten waarin de NPC's kunnen zitten is ook een onderdeel waar ik aan heb gewerkt deze week.
 In een overleg met onder andere Jesse en Jason zijn een paar mogelijkheden voor de aanpak besproken, deze mogelijkheden waren:
 
-- In de state handlers attributen laten aanpassen van de NPC.
-<br/> Hiervoor zouden we veel attributen public moeten maken en een boel niewe methodes moeten schrijven
+<ul><li> In de state handlers attributen laten aanpassen van de NPC.
+</ul> Hiervoor zouden we veel attributen public moeten maken en een boel niewe methodes moeten schrijven
 
-- Een soort callback maken.
-<br/>Hiervoor hoefden we niet veel werk te doen; er moest alleen een callback systeem gemaakt moeten worden.
+<ul><li> Een soort callback maken.
+</ul> Hiervoor hoefden we niet veel werk te doen; er moest alleen een callback systeem gemaakt moeten worden.
 
 De keuze was dus snel gemaakt en we besloten om het laatste te maken.
 <br/> De opzet van de NPC states bestondt al in de vorm van een abstracte klasse. Hierop heb ik relevante states klassen gebouwd.
@@ -171,9 +172,10 @@ heeft VR zich in rap tempo ontwikkelt tot een technologie die zelfs in de bedrij
 ### Voorbeelden van toepassing van VR-simulaties.
 
 Een paar bekende bedrijven die VR gebruiken zijn:
-- Boeing;
-- Porsche;
-- Walmart.
+<ul><li> Boeing;
+<li> Porsche;
+<li> Walmart.
+</ul>
 
 Een gebruiks situatie waarin simulatie, en VR, gebruikt kan worden is om werknemers te trainen voor situaties die erg duur zijn om in het echt uit te voeren. 
 <br/>Boeing gebruikt bv. VR om werknemers voor te bereiden op het maken van vliegtuigen. 
@@ -192,3 +194,12 @@ Een grote oorzaak hiervan is dat het niet voor alles is te gebruiken, voor kanto
 Hiervoor zijn er applicaties ontwikkelt zodat het lijkt alsof je alsnog in de zelfde kamer zit, ook al wordt er vanuit huis gewerkt.
 <br/> Ook is het een dure investering voor iets dat vaak geen duidelijke opbrengst heeft. Hier hebben vooral kleine bedrijven last van.
 Hoewel VR-apparaten steeds goedkoper worden kost een VR-headset vaak al meer dan 400 p.p., vervanginen of reperaties niet meegerekend.
+
+## Applicaties die JSON gebruiken.
+
+Applicaties die gebruik maken van de JSON-datastructuur
+<ul><li> Tiled
+<li> CSVJSON
+<li> Numidian JSON
+<li> JSON Mate
+</ul>
