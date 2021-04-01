@@ -762,6 +762,7 @@ Hierdoor kan een simulatie opnieuw worden gestart met verschillende agenda waard
 
 
 ---
+<<<<<<< Updated upstream
 # Reflectie op de gegeven stelling
 
 ###### In het bedrijfsleven wordt steeds meer in software gesimuleerd.
