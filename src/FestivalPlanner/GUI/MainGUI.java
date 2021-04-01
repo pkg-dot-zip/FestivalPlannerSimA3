@@ -2,11 +2,10 @@ package FestivalPlanner.GUI;
 
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.GUI.SimulatorGUI.SimulatorModule;
-import FestivalPlanner.Logic.SimulatorHandler;
-import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import FestivalPlanner.Util.ImageLoader;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MainGUI extends Application {
@@ -43,7 +42,7 @@ public class MainGUI extends Application {
         this.stage.setWidth(1100);
         this.stage.setHeight(800);
 
-        this.stage.setScene(this.simulatorModule.getSimulatorScene());
+        this.stage.setScene(this.simulatorModule.getScene());
     }
 
     /**

@@ -5,6 +5,7 @@ import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import FestivalPlanner.Logic.SimulatorHandler;
 import javafx.application.Application;
@@ -26,7 +27,6 @@ import java.util.ResourceBundle;
 public class SimulatorModule extends AbstractGUI {
 
     private MainGUI mainGUI;
-    private Scene simulatorScene;
 
 
     //LanguageHandling
@@ -36,6 +36,7 @@ public class SimulatorModule extends AbstractGUI {
     private SimulatorCanvas simulatorCanvas;
     private BorderPane mainPane;
     private Stage stage;
+    private Scene simulatorScene;
     private AgendaModule agendaModule;
     private ComboBox<String> comboBox;
     private Button button;
@@ -111,8 +112,11 @@ public class SimulatorModule extends AbstractGUI {
         });
         podiumZoomVBox.getChildren().addAll(new Label(messages.getString("zoom_to")), this.comboBox, this.button);
 
+        this.mainPane.setPadding(new Insets(10,10,10,10));
         this.mainPane.setRight(podiumZoomVBox);
         this.mainPane.setLeft(npcVBox);
+        this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
+
         this.simulatorScene = new Scene(this.mainPane);
     }
 
@@ -128,7 +132,7 @@ public class SimulatorModule extends AbstractGUI {
      * @return The <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> this class is
      * responsible for
      */
-    public Scene getSimulatorScene() {
+    public Scene getScene() {
         return this.simulatorScene;
     }
 
