@@ -55,7 +55,8 @@ public class SimulatorObject {
             }
         }
 
-        Point thisLocation = new Point((int)this.location.getX() + (collisionLayer.getTileWidth() / 2), (int)this.location.getY() + (collisionLayer.getTileHeight() / 2));
+        Point thisLocation = new Point((int)this.location.getX() + (this.width / 2) + (collisionLayer.getTileWidth() / 2),
+                (int)this.location.getY() + (this.height / 2) + (collisionLayer.getTileHeight() / 2));
 
         Queue<Point> todoQueue = new LinkedList<>();
         ArrayList<Point> visited = new ArrayList<>();
