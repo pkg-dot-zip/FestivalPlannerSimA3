@@ -837,3 +837,14 @@ kan beter worden ingeschat, d.m.v. het draaien van simulaties, welke problemen k
 >-- Hawkins, A. J. (n.d.). Waymo simulated real-world crashes to prove its self-driving cars can prevent deaths. The Verge. Retrieved March 31, 2021, from https://www.theverge.com/2021/3/8/22315361/waymo-autonomous-vehicle-simulation-car-crash-deaths
 > 
 >-- Markgraf, B. (2016, October 26). Application of Simulation by Managers of Business Organizations. Small Business - Chron.Com. https://smallbusiness.chron.com/application-simulation-managers-business-organizations-81404.html
+
+---
+# Applicaties die JSON gebruiken.
+
+Applicaties die gebruik maken van de JSON-datastructuur
+- CSVJSON
+- Tiled
+- Numidian JSON
+- JSON Mate
+- AJAX
+
