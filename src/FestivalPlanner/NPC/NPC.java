@@ -52,7 +52,6 @@ public class NPC {
      * @param position  changes <code>this.position</code> to the parameter's value
      * @param spriteSheet  changes the appearance of the NPC in question
      */
-
     public NPC(Point2D position, int spriteSheet) {
         this.targetObject = null;
         this.position = position;

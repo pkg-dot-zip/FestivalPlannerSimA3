@@ -16,23 +16,31 @@ import java.util.*;
 
 public class SimulatorHandler {
 
-    private ArrayList<NPC> npcList;
-    private ArrayList<SimulatorObject> simulatorObjects;
-    private TileMap tileMap;
+    // Final values
+    private final double SHOW_CHECK_TIME = 60 * 15; //how often to check per in-game second
+    private final double NPC_SPAWN_TIME = 60 * 3; //how ofter to spawn a new NPC if not all NPC's have been spawned
 
+    // NPC attributes
+    private ArrayList<NPC> npcList;
+    private int NPCAmount = 10;
+
+    // Agenda attributes
     private Agenda agenda;
     private PodiumManager podiumManager;
 
     private HashMap<String, SimulatorPodium> podiumObjectHashMap;
-
     private ArrayList<Show> activeShows = new ArrayList<>();
-    private final double SHOW_CHECK_TIME = 60 * 15; //how often to check per in-game second
 
-    private LocalTime time;
-    private double speed; //value in game second per real second (s/s)
-
+    // TileMap attributes
+    private TileMap tileMap;
+    private ArrayList<SimulatorObject> simulatorObjects;
     private SimulatorObject spawn;
-    private final int NUMBEER_OF_NPCS = 1;
+
+    // Time attributes
+    private LocalTime time;
+    private double speed = (60 * 5); //value in game second per real second (s/s)
+
+
 
 
     /**
@@ -71,7 +79,7 @@ public class SimulatorHandler {
      *     <li>{@link #generateObjects()}</li>
      *     <li>{@link #generatePodiumHashMap()}</li>
      *     <li><code>this.time</code> to 00:00.</li>
-     *     <li>{@link #setupNPC()}</li>
+     *     <li>Resets all the NPC's</li>
      * </ul>
      *
      * @param agenda <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> That is loaded into the simulator
@@ -85,8 +93,8 @@ public class SimulatorHandler {
         generatePodiumHashMap();
 
         this.time = LocalTime.MIDNIGHT;
-        setupNPC();
-        setSpeed((60 * 5));
+
+        this.npcList.clear();
     }
 
     /**
@@ -134,27 +142,6 @@ public class SimulatorHandler {
         return objects;
     }
 
-    //Todo: needs rework
-    public void setupNPC() {
-        if (this.spawn != null) {
-            while (this.npcList.size() < NUMBEER_OF_NPCS) {
-                spawnNPC();
-            }
-        }
-    }
-
-    /**
-     * Creates a new <a href="{@docRoot}/FestivalPlanner/NPC/NPC.html">NPC</a> at a rondom location at <code>this.spawn</code>.
-     */
-    public void spawnNPC() {
-        Random r = new Random();
-        Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
-        NPC npc = new NPC(location, r.nextInt(NPC.getCharacterFiles()));
-        if (!npc.checkCollision(this.npcList)) {
-            this.npcList.add(npc);
-        }
-    }
-
 
     /**
      * Draws <code>this.tileMap</code>, all the NPC's and the objects to the given screen.
@@ -188,6 +175,7 @@ public class SimulatorHandler {
         this.time = this.time.plusSeconds((long) (deltaTime * this.speed));
 
         // Updating NPC's
+        setupNPC(deltaTime * this.speed);
         for (NPC npc : this.npcList) {
             npc.update(this.npcList);
         }
@@ -205,6 +193,37 @@ public class SimulatorHandler {
         }
 
         //debugNPCTarget(deltaTime);
+    }
+
+    private double currentNPCSpawnTime = this.NPC_SPAWN_TIME;
+
+    /**
+     * Handles spawning NPC's
+     * @param timePast  The time spend since last update
+     */
+    private void setupNPC(double timePast) {
+        this.currentNPCSpawnTime -= timePast;
+
+        if (this.currentNPCSpawnTime < 0) {
+            if (this.npcList.size() < this.NPCAmount) {
+                spawnNPC();
+            }
+            this.currentNPCSpawnTime = this.NPC_SPAWN_TIME;
+        }
+
+    }
+
+    /**
+     * Creates a new <a href="{@docRoot}/FestivalPlanner/NPC/NPC.html">NPC</a> at a rondom location at <code>this.spawn</code>.
+     */
+    public void spawnNPC() {
+        Random r = new Random();
+        Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
+        NPC npc = new NPC(location, r.nextInt(NPC.getCharacterFiles()));
+        npc.setGameSpeed(this.speed);
+        if (!npc.checkCollision(this.npcList)) {
+            this.npcList.add(npc);
+        }
     }
 
     private void checkShows() {
