@@ -97,7 +97,6 @@ public class Artist implements Serializable {
             ImageIO.write(this.picture, "png", pictureFile);
             ImageIO.write(this.sprite, "png", spriteFile);
         } catch (Exception e) {
-            e.printStackTrace();
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
@@ -115,7 +114,6 @@ public class Artist implements Serializable {
             this.picture = ImageIO.read(pictureFile);
             this.sprite = ImageIO.read(spriteFile);
         } catch (FileNotFoundException e) {
-            AbstractDialogPopUp.showExceptionPopUp(e);
             this.picture = null;
             this.sprite = null;
         } catch (Exception e) {
