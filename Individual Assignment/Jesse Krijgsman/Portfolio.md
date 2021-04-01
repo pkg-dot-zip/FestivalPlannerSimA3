@@ -762,14 +762,13 @@ Hierdoor kan een simulatie opnieuw worden gestart met verschillende agenda waard
 
 
 ---
-<<<<<<< Updated upstream
 # Reflectie op de gegeven stelling
 
 ###### In het bedrijfsleven wordt steeds meer in software gesimuleerd.
 
 ---
 
-Met software is het mogelijk om veel verschillende senario's te simuleren. Met de opkomst van kunstmatige intelegentie kan er
+Met software is het mogelijk om veel verschillende scenario's te simuleren. Met de opkomst van kunstmatige intelegentie kan er
 ook steeds complexere situaties worden gesimuleerd. In het volgende stuk zal het gaan over het simuleren van situaties met software
 in het algemeen. Hierna wordt simulatie in het bedrijfsleven behandeld. Er worden een aantal voorbeelden uitgelicht. Deze reflectie
 sluit af met de conclusie die ik uit dit onderzoek heb getrokken.
