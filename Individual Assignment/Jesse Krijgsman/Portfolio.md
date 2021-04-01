@@ -760,3 +760,80 @@ Als het nodig is om naar de agenda of simulator te gaan kan een klasse één van
 voor het zorgen dat dit ook echt gebeurt. Ook is een een callback waarmee de simulatorModule kan worden herstart met nieuwe waarden.
 Hierdoor kan een simulatie opnieuw worden gestart met verschillende agenda waarden.
 
+
+---
+# Reflectie op de gegeven stelling
+
+###### In het bedrijfsleven wordt steeds meer in software gesimuleerd.
+
+---
+
+Met software is het mogelijk om veel verschillende senario's te simuleren. Met de opkomst van kunstmatige intelegentie kan er
+ook steeds complexere situaties worden gesimuleerd. In het volgende stuk zal het gaan over het simuleren van situaties met software
+in het algemeen. Hierna wordt simulatie in het bedrijfsleven behandeld. Er worden een aantal voorbeelden uitgelicht. Deze reflectie
+sluit af met de conclusie die ik uit dit onderzoek heb getrokken.
+
+#### Simulaties in situaties
+Het woord simulatie is natuurlijk een heel breed woord. Er zijn ontiegelijk veel verschillende situaties die met computers of
+software kan worden gesimuleerd. Er kan met computers een simulatie worden gemaakt hoe verschillende materialen zich gedragen
+in een situatie. Zo kan bijvoorbeeld gesimuleerd worden wanneer een bepaald materiaal en onder een kracht zal breken.
+
+Een belangrijke applicatie van simulatie voor Nederland is het simuleren van het water. Een groot deel van Nederland ligt onder
+de watergrens. Om te voorkomen dat Nederland overstroomt of dat de dijken breken worden er simulaties gemaakt over wat er 
+gebeurt tijdens een overstroming. [1]
+
+#### Gebruik van simulaties in bedrijven
+
+In het bedrijfsleven wordt ook veel gebruik gemaakt van simulaties. Dit kan op vele manieren, zoals ook voor deze proftaak geld, 
+zijn er bedrijven die zich specialiseren in het maken van simulaties. Hier verdienen zij hun geld mee. Deze simulaties worden 
+gemaakt in opdracht voor een klant, dit kan een ander bedrijfs zijn maar ook bijvoorbeeld de overheid. Simulaties kunnen alle kanten 
+op. Het kunnen simulaties voor een evenement, voor de economie of voor nieuwe producten zijn. Dit zijn nog maar een paar voobeelden.
+
+Ook maken veel bedrijven die niet als hoofdproduct simulaties verkopen maken gebruik van simulaties. Het eerste voorbeeld dat misschien
+naar voren komt zijn vliegtuig fabriekanten. Voor het goedkeuren van nieuwe vliegtuigen moet veel getest worden. Zeker in de 
+begin fase is het voor sommige testen te gevaarlijk om deze in het echt te doen. Om er zeker van te zijn dat het vliegtuig werkt
+kan een vlucht worden gesimuleerd, een simulatie is een stuk minder duur dan als een test fout gaat en een vliegtuig schade
+oploopt. Ook piloten worden in een simulator opgeleid voordat zijn met een echt vliegtuig mogen vliegen. [2]
+
+In het hoofdstuk hieronder wordt het bedrijf Waymo, die zelfrijdende auto's ontwikkeld, behandelen.
+
+#### Waymo
+
+Het bedrijf Waymo is een amerikaans bedrijf dat bezig is met het ontwikkelen van een zelfrijdende auto. Hiervoor is natuurlijk
+goede software nodig. De software leert hoe het de auto moet besturen door te kijken naar mensen die de auto besturen.
+Echter zijn er heel veel uren en kilometers nodig om dit te leren. Waymo heeft een simulator ontwikkeld die het verkeer nabootst.
+
+![](Images/WaymoSimulatie.gif) 
+
+[3]
+
+In de afbeelding die hierboven staat is een stukje van de simulatie te zien. De software die de auto bestuurd 'denkt' dat 
+waar het nu rijdt de gewone wereld is en probeerd de auto te besturen. In de werkelijkheid bevindt de software zich in een ander
+programma, een programma de het verkeer simuleerd. Omdat deze simulaties zich allemaal in de computer afspeelt kan het
+leren veel sneller gaan, er kunnen veel meer virtuele kilometers worden afgelegd in een uur dan wanneer de auto in de echte
+wereld zou rijden.
+
+Volgens Waymo ervaart de software ongeveer 100 jaar aan rij-ervaring voor slechts één dag in de simulatie. Zonder de simulatie 
+zou het nooit mogelijk zijn geweest dat de auto van Waymo nu al zelfstandig door de stad rijdt.
+
+![](Images/WaymoAchterin.jpg)
+
+Zonder iemand achter het stuur rijd deze auto al door een aantal steden in amerika heen. Allemaal door de simulatie van het 
+verkeer waardoor de auto sneller kan leren.
+
+#### reflectie
+
+Zoals uit de bovenstaande onderbouwing wel op te maken is. Denk ik dat simulaties in het het bedrijfsleven heel belangrijk zijn.
+Ook wordt het alleen maar belangrijker nu er steeds meer taken worden gedaan met de computer. Een simulatie bied een goede
+manier om een probleem te testen of op te lossen zonder dat hier heel veel materieel in gestoken hoeft worden. Van tevoren
+kan beter worden ingeschat, d.m.v. het draaien van simulaties, welke problemen kunnen optreden en hoe deze opgelost kunnen worden.
+
+>-- [1] Leidraad_voor_het_maken_van_overstromingssimulaties. (2018, February). Deltares. https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjQ4K26rNrvAhWogf0HHfnyC-QQFjAGegQIChAD&url=https%3A%2F%2Fwww.helpdeskwater.nl%2Fpublish%2Fpages%2F139608%2F20180207_leidraad_voor_het_maken_van_overstromingssimulaties_-_groene_versie_def.pdf&usg=AOvVaw2Z5ZnpDwe0HPuYbDXFQkmC
+>
+>-- [2] Flight Simulation Company. (n.d.). Home. Retrieved March 31, 2021, from https://www.fsctraining.com
+>
+>-- [3] Waypoint - The official Waymo blog: Off road, but not offline: How simulation helps advance our Waymo Driver. (n.d.). Waymo Blog. Retrieved March 31, 2021, from https://blog.waymo.com/2020/04/off-road-but-not-offline--simulation27.html
+> 
+>-- Hawkins, A. J. (n.d.). Waymo simulated real-world crashes to prove its self-driving cars can prevent deaths. The Verge. Retrieved March 31, 2021, from https://www.theverge.com/2021/3/8/22315361/waymo-autonomous-vehicle-simulation-car-crash-deaths
+> 
+>-- Markgraf, B. (2016, October 26). Application of Simulation by Managers of Business Organizations. Small Business - Chron.Com. https://smallbusiness.chron.com/application-simulation-managers-business-organizations-81404.html
