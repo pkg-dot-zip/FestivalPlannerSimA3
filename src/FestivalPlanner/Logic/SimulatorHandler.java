@@ -29,6 +29,7 @@ public class SimulatorHandler {
     private PodiumManager podiumManager;
 
     private HashMap<String, SimulatorPodium> podiumObjectHashMap;
+    private HashMap<String, SimulatorObject> danceObjectHashMap;
     private ArrayList<Show> activeShows = new ArrayList<>();
 
     // TileMap attributes
@@ -87,9 +88,12 @@ public class SimulatorHandler {
     public void reset(Agenda agenda) {
         this.agenda = agenda;
 
-        this.simulatorObjects = generateObjects();
-
+        this.danceObjectHashMap = new HashMap<>();
         this.podiumObjectHashMap = new HashMap<>();
+        this.simulatorObjects = new ArrayList<>();
+
+        generateObjects();
+
         generatePodiumHashMap();
 
         this.time = LocalTime.MIDNIGHT;
@@ -106,12 +110,13 @@ public class SimulatorHandler {
     private void generatePodiumHashMap() {
         for (SimulatorObject simulatorObject : this.simulatorObjects) {
             if (simulatorObject instanceof SimulatorPodium) {
-                Podium correspondingPodium = this.podiumManager.getPodiumAtLocation(((SimulatorPodium) simulatorObject).getLocationString());
+                Podium correspondingPodium = this.podiumManager.getPodiumAtLocation((simulatorObject).getLocationString());
                 if (correspondingPodium != null) {
                     this.podiumObjectHashMap.put(correspondingPodium.getName(), (SimulatorPodium) simulatorObject);
                 }
             }
         }
+
     }
 
     /**
@@ -124,22 +129,31 @@ public class SimulatorHandler {
      *     <li>All the other normal <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorObject.html">SimulatorObject</a></li>
      * </ul>
      *
-     * @return An ArrayList to set <code>this.objects</code> to
      */
-    private ArrayList<SimulatorObject> generateObjects() {
-        ArrayList<SimulatorObject> objects = new ArrayList<>();
+    private void generateObjects() {
         for (Layer layer : this.tileMap.getLayers()) {
             if (layer instanceof ObjectLayer) {
                 for (TileObject tileObject : ((ObjectLayer) layer).getTileObjects()) {
-                    if (tileObject.getType().equals("Podium")) {
-                        objects.add(new SimulatorPodium(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), tileObject.getRotation(), tileObject.getName(), this.tileMap.getPathFindingLayer(), tileObject.getLocationString()));
-                    } else if (tileObject.getType().equals("Spawn")) {
-                        this.spawn = new SimulatorObject(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), tileObject.getRotation(), tileObject.getName(), this.tileMap.getPathFindingLayer());
+                    switch (tileObject.getType()) {
+                        case "Podium":
+                            this.simulatorObjects.add(new SimulatorPodium(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), tileObject.getRotation(), tileObject.getName(), this.tileMap.getPathFindingLayer(), tileObject.getLocationString()));
+                            break;
+                        case "Spawn":
+                            this.spawn = new SimulatorObject(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), tileObject.getRotation(), tileObject.getName(), this.tileMap.getPathFindingLayer(), tileObject.getLocationString());
+                            break;
+                        case "StageDance":
+                            SimulatorObject simulatorObject = new SimulatorObject(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), tileObject.getRotation(), tileObject.getName(), this.tileMap.getPathFindingLayer(), tileObject.getLocationString());
+                            this.simulatorObjects.add(simulatorObject);
+
+                            Podium correspondingPodium = this.podiumManager.getPodiumAtLocation(simulatorObject.getLocationString());
+                            if (correspondingPodium != null) {
+                                this.danceObjectHashMap.put(correspondingPodium.getName(), simulatorObject);
+                            }
+                            break;
                     }
                 }
             }
         }
-        return objects;
     }
 
 
@@ -158,7 +172,7 @@ public class SimulatorHandler {
             object.draw(g2d);
         }
 
-        //Todo: debug
+        //Todo: remove bc debug
         g2d.setColor(Color.black);
         g2d.drawString(this.time.toString(), 0, 10);
     }
@@ -256,11 +270,14 @@ public class SimulatorHandler {
         SimulatorPodium podium = this.podiumObjectHashMap.get(show.getPodium().getName());
         if (podium != null) {
             podium.setActive(true);
+        }
 
+        SimulatorObject danceObject = this.danceObjectHashMap.get(show.getPodium().getName());
+        if (danceObject != null) {
             for (NPC npc : this.npcList) {
                 if (npc.getTargetObject() == null ||
                         Math.random() > (change / 100f))
-                    npc.setTargetObject(podium);
+                    npc.setTargetObject(danceObject);
             }
         }
     }

@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class SimulatorPodium extends SimulatorObject{
 
-    private String locationString;
+
 
     private boolean isActive;
 
@@ -28,8 +28,7 @@ public class SimulatorPodium extends SimulatorObject{
      * @param height  The height of the object
      */
     public SimulatorPodium(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer, String locationString) {
-        super(location, width, height, rotation, name, collisionLayer);
-        this.locationString = locationString;
+        super(location, width, height, rotation, name, collisionLayer, locationString);
         this.activeSprite = 0;
 
         final int NUMBER_OF_IMAGES = 4;
@@ -100,13 +99,6 @@ public class SimulatorPodium extends SimulatorObject{
         }
     }
 
-    public String getLocationString() {
-        return locationString;
-    }
-
-    public void setLocationString(String locationString) {
-        this.locationString = locationString;
-    }
 
     public void setActive(boolean active) {
         isActive = active;
