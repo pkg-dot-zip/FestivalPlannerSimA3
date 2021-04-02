@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
@@ -128,6 +129,8 @@ public class SimulatorModule extends AbstractGUI {
 
         //Set time label
         this.timeLabel = new Label("Time: " + handler.getTime());
+        this.timeLabel.setFont(new Font(16));
+
         topVBox.getChildren().add(timeLabel);
     }
 
