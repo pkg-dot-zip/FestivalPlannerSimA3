@@ -85,9 +85,9 @@ public class Artist implements Serializable {
      * @param out  the stream the images needs to be written to
      */
     //TODO: Separate agenda resources from other agendas to avoid overriding files.
-     void writeObject(ObjectOutputStream out) throws IOException, URISyntaxException {
+     private void writeObject(ObjectOutputStream out) throws IOException, URISyntaxException {
         out.defaultWriteObject();
-
+        //TODO: NOTE : DO NOT CHANGE ACCESS-MODIFIER.
         try {
             System.out.println("test");
             File pictureFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Picture.png");
