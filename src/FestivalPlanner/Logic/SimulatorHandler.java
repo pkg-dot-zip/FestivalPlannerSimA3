@@ -173,7 +173,6 @@ public class SimulatorHandler {
         }
         //Todo: remove bc debug
         g2d.setColor(Color.black);
-        g2d.drawString(this.time.toString(), 0, 10);
     }
 
 

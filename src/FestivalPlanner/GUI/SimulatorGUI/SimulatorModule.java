@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 /**
@@ -40,6 +41,10 @@ public class SimulatorModule extends AbstractGUI {
     private BorderPane mainPane;
     private Stage stage;
     private Scene simulatorScene;
+    private VBox topVBox;
+
+    //Time label
+    private Label timeLabel;
 
     // MenuBar
     private MenuBar menuBar = new MenuBar();
@@ -110,7 +115,7 @@ public class SimulatorModule extends AbstractGUI {
             this.simulatorButton.setDisable(true);
 
         // Top bar
-        VBox topVBox = new VBox();
+        topVBox = new VBox();
         topVBox.getChildren().addAll(this.menuBar, toggleHBox);
         topVBox.setSpacing(5);
 
@@ -120,6 +125,10 @@ public class SimulatorModule extends AbstractGUI {
         this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
 
         this.simulatorScene = new Scene(this.mainPane);
+
+        //Set time label
+        this.timeLabel = new Label("Time: " + handler.getTime());
+        topVBox.getChildren().add(timeLabel);
     }
 
     @Override
@@ -161,6 +170,11 @@ public class SimulatorModule extends AbstractGUI {
         this.agendaButton.setOnAction(event -> {
             this.mainGUI.loadAgendaCallBack();
         });
+    }
+
+    public void updateTime() {
+        LocalTime time = handler.getTime();
+        timeLabel.setText("    Time: " + time.getHour() + ":" + time.getMinute());
     }
 
     /**

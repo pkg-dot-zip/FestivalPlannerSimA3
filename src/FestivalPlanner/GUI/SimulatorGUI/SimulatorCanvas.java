@@ -143,6 +143,7 @@ public class SimulatorCanvas extends AbstractGUI {
     public void update(Double deltaTime) {
 //        System.out.println(1/deltaTime);
         this.simulatorHandler.update(deltaTime);
+        this.simulatorModule.updateTime();
     }
 
     /**
@@ -235,7 +236,6 @@ public class SimulatorCanvas extends AbstractGUI {
     /**
      * Handles the event when the user drags the mouse-button across the screen
      * <p>
-     * If the primary button is dragged the method wil check if the operation is allowed by calling {@link #cameraInBounds(AffineTransform)}
      * If correct the screen will be moved to the new position. When done <code>this.dragPoint</code> will be reset to null
      * @param mouseEvent  The MouseEvent the user used to drag
      */
