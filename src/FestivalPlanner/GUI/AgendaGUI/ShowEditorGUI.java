@@ -297,8 +297,8 @@ public class ShowEditorGUI extends AbstractGUI {
             this.selectedShowArtistArrayList.addAll(this.artistsList.getItems());
 
             for (Show show : this.agendaModule.getAgenda().getShows()) {
-                if (show.getStartTime().isBefore(this.selectedShow.getEndTime()) &&
-                        show.getEndTime().isAfter(this.selectedShow.getStartTime()) &&
+                if (show.getStartTime().isBefore(this.attemptedEndTime) &&
+                        show.getEndTime().isAfter(this.attemptedStartTime) &&
                         !show.equals(this.selectedShow)
                 ) {
                     ArrayList<Artist> artistsFromShow = show.getArtists();

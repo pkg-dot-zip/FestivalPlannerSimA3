@@ -22,7 +22,7 @@ public class SimulatorHandler {
     // NPC attributes
     private ArrayList<NPC> npcList;
     private ArrayList<NPC> artistNPCList;
-    private int NPCAmount = 0;
+    private int NPCAmount = 10;
 
     // Agenda attributes
     private Agenda agenda;
@@ -30,6 +30,7 @@ public class SimulatorHandler {
     private ArtistManager artistManager;
 
     private HashMap<String, SimulatorPodium> podiumObjectHashMap;
+    private HashMap<String, NPC> artistNPCHashMap;
     private HashMap<String, SimulatorObject> danceObjectHashMap;
     private ArrayList<Show> activeShows = new ArrayList<>();
 
@@ -93,6 +94,7 @@ public class SimulatorHandler {
 
         this.danceObjectHashMap = new HashMap<>();
         this.podiumObjectHashMap = new HashMap<>();
+        this.artistNPCHashMap = new HashMap<>();
         this.simulatorObjects = new ArrayList<>();
 
         generateObjects();
@@ -206,7 +208,7 @@ public class SimulatorHandler {
         }
 
         for (NPC artistNPC : this.artistNPCList) {
-            artistNPC.update(this.npcList);
+            artistNPC.update();
         }
 
         //Updating set Podiums
@@ -275,7 +277,8 @@ public class SimulatorHandler {
                 NPC artistNPC = new NPC(location, spriteSheet);
                 artistNPC.setGameSpeed(this.speed);
                 if (!artistNPC.checkCollision(this.npcList) && !artistNPC.checkCollision(this.artistNPCList)) {
-                    this.npcList.add(artistNPC);
+                    this.artistNPCList.add(artistNPC);
+                    this.artistNPCHashMap.put(artist, artistNPC);
                     running = false;
                 }
             }
@@ -312,6 +315,10 @@ public class SimulatorHandler {
         SimulatorPodium podium = this.podiumObjectHashMap.get(show.getPodium().getName());
         if (podium != null) {
             podium.setActive(true);
+            for (Artist artist : show.getArtists()) {
+                this.artistNPCHashMap.get(artist.getName()).setTargetObject(podium);
+                System.out.println("Done for " + artist);
+            }
         }
 
         SimulatorObject danceObject = this.danceObjectHashMap.get(show.getPodium().getName());
@@ -322,6 +329,8 @@ public class SimulatorHandler {
                     npc.setTargetObject(danceObject);
             }
         }
+
+
     }
 
     private void onShowEnd(Show show) {
