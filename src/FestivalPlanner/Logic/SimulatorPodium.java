@@ -6,7 +6,6 @@ import org.jfree.fx.FXGraphics2D;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -50,6 +49,11 @@ public class SimulatorPodium extends SimulatorObject{
 
     @Override
     public void draw(FXGraphics2D g2d) {
+//        Rectangle2D rectangle = new Rectangle2D.Double(location.getX(), location.getY(), width, height);
+//        AffineTransform rectangleTransform = new AffineTransform();
+//        rectangleTransform.rotate(Math.toRadians(this.rotation), this.location.getX(), this.location.getY());
+//
+////        g2d.draw(rectangleTransform.createTransformedShape(rectangle));
 
         AffineTransform imageTransform = new AffineTransform();
         imageTransform.rotate(Math.toRadians(this.rotation), this.location.getX(), this.location.getY());

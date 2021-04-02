@@ -1,6 +1,4 @@
 /**
- * Contains classes for converting <i>.JSON</i> files into usable TileMaps for our software.
- * <p>
- * For these TileMaps we use <a href="https://www.mapeditor.org/">Tiled</a>.
+ * Contains classes for converting JSON files into usable TileMaps for our software.
  */
 package FestivalPlanner.Util.JsonHandling;

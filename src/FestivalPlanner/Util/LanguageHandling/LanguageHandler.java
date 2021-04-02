@@ -17,13 +17,14 @@ import java.util.ResourceBundle;
  */
 public class LanguageHandler {
 
+    //LanguageHandling
     private static Locale aLocale = new Locale("en","US");
     private static Locale nlLocale = new Locale("nl","NL");
     private static Locale selectedLocale = restoreSettings();
     private static ResourceBundle messages = ResourceBundle.getBundle("lang", selectedLocale);
 
     /**
-     * Called on application-launch. Sets <code>this.selectedLocale</code> to the language stored in the <i>configuration.xml</i> file.
+     * Called on launch. Sets <code>this.selectedLocale</code> to the language stored in the <i>configuration.xml</i> file.
      * <p>
      * If there is no configuration file yet, it defaults to Dutch <i>(nl_NL)</i>.
      * @return  locale found in the configuration file, or Dutch
@@ -80,7 +81,7 @@ public class LanguageHandler {
      * <li>Clear the Resource Bundle's cache.
      * <li>Set <code>this.selectedLocale</code> to its parameter's value.
      * </ul>
-     * @param locale  value locale should be set to in the <i>.xml</i> file
+     * @param locale
      */
     public static void setMessages(Locale locale){
         ResourceBundle.clearCache();

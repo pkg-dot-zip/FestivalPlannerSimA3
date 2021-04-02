@@ -63,7 +63,7 @@ public class NPC {
         this.spritesDown = spriteSheets.get(1);
         this.spritesLeft = spriteSheets.get(0);
         this.spritesRight = spriteSheets.get(3);
-        //Now here.
+        //now here
         this.centerX = spritesLeft.get(0).getWidth() / 2;
         this.centerY = spritesLeft.get(0).getHeight() / 2;
     }
@@ -73,18 +73,12 @@ public class NPC {
             this.target = this.targetObject.getNextDirection(this.position);
         }
 
-        if (this.targetObject != null) {
-            if ((targetObject.isWithin(this.position)) &&
-                    !this.npcState.getClass().equals(ViewingState.class)) {
-                this.npcState = new ViewingState();
-            }if (this.target.distanceSq(position) > 3) {
-                this.npcState = new MovingState();
-            }
-        } else if (this.target.distanceSq(position) > 3) {
+        if (this.target.distanceSq(position) > 3) {
             this.npcState = new MovingState();
+        } else if (!(this.npcState.getClass().equals(ViewingState.class))){ //TODO: maken zodat er gekeken wordt naar positie/targetobject
+            this.npcState = new ViewingState();
         } else {
-            this.isSeparating = false;
-            this.npcState = new IdleState();
+            //this.npcState = new IdleState();
         }
 
         Point2D oldPosition = this.position;
@@ -92,16 +86,17 @@ public class NPC {
         this.npcState.handle(this);
 
         boolean hasCollision = false;
-        hasCollision = hasCollision || checkCollision(NPCs);
+        //hasCollision = hasCollision || checkCollision(NPCs);
+
 
         if (this.npcState.getClass().equals(MovingState.class)) {
             this.frame += Math.random() * 0.07;
-        } else if(hasCollision && !this.isSeparating) {
+        } else if(hasCollision) {
             this.position = oldPosition;
             this.frame = 1;
 
-            for (NPC npc : NPCs) {
-                if (npc.isSeparating()) {
+            for (NPC npc : NPCs){
+                if (npc.isSeparating()){
                     return;
                 }
             }
@@ -112,13 +107,6 @@ public class NPC {
         }
     }
 
-    /**
-     * Moves the NPC away from the others to make sure no collisions are happening.
-     * <p>
-     * It does this one by one; there can never be two NPCs moving at the same time.
-     * In order to do this we check the boolean isSeparating for every NPC in the list given as a parameter.
-     * @param npcs  list of NPC to check
-     */
     private void separateNPC(ArrayList<NPC> npcs) {
         this.isSeparating = true;
 
@@ -128,35 +116,17 @@ public class NPC {
             }
         }
 
-        int xToMove = separateRandomNumber();
-        int yToMove = separateRandomNumber();
-
-        if (xToMove != 0){
-           xToMove += npcTileX;
-        }
-        if (yToMove != 0){
-            yToMove += npcTileY;
+        int i = npcs.indexOf(this);
+        int xToMove;
+        int yToMove;
+        if (true){
+            xToMove = i * this.COLLISION_RADIUS + npcTileX;
+            yToMove = i * this.COLLISION_RADIUS + npcTileX;
         }
 
         this.target = new Point2D.Double(this.target.getX() + xToMove, this.target.getY() + yToMove);
-    }
 
-    /**
-     * Returns a random number specifically made for usage by the movement for separating the NPCs based on their colliders.
-     * @return  partially random integer
-     */
-    private int separateRandomNumber(){
-        double random = Math.random();
-
-        if (random < 0.6){
-            return 0;
-        } else if (random < 0.8){
-            return (this.COLLISION_RADIUS / 10);
-        } else if (random < 0.9){
-            return (this.COLLISION_RADIUS / 5);
-        } else {
-            return 3;
-        }
+        this.isSeparating = false;
     }
 
     /**
@@ -242,7 +212,7 @@ public class NPC {
      * @param list  ArrayList containing images of the direction's walk-cycle
      * @param tx  AffineTransform which values will be used for positioning the image
      */
-    private void drawImage(Graphics2D g2d, ArrayList<BufferedImage> list, AffineTransform tx){
+    public void drawImage(Graphics2D g2d, ArrayList<BufferedImage> list, AffineTransform tx){
         g2d.drawImage(list.get(((int)Math.floor(frame) % this.npcTileY + 1)), tx, null);
     }
 
@@ -251,7 +221,7 @@ public class NPC {
      * @return  ArrayList containing images of the NPC' direction
      */
     @Nullable
-    private ArrayList<BufferedImage> listOfDirection(){
+    public ArrayList<BufferedImage> listOfDirection(){
         if (this.direction == Direction.UP){
             return this.spritesUp;
         } else if (this.direction == Direction.DOWN){
@@ -267,7 +237,7 @@ public class NPC {
     /**
      * Sets a target/destination for this NPC to move to.
      * <p>
-     * Sets <code>this.target</code> to the parameter's value, which is an instance of Point2D.
+     * Sets <code>this.target</code> to the parameter's value, which is a Point2D.
      * @param newTarget  Point2D to travel to
      */
     public void setTarget(Point2D newTarget) {
@@ -284,11 +254,13 @@ public class NPC {
 
     /**
      * Setter for <code>this.TargetObject</code>.
-     * @param targetObject  the Object to set <code>this.TargetObject</code> to
+     * @param targetObject  The Object to set <code>this.TargetObject</code> to
      */
     public void setTargetObject(SimulatorObject targetObject) {
         this.targetObject = targetObject;
     }
+
+
 
     /**
      * Returns the length of the <code>characterFiles[]</code> array.
@@ -297,6 +269,7 @@ public class NPC {
     public static int getCharacterFiles(){
         return characterFiles.length;
     }
+
 
     /**
      * Getter for <code>this.gameSpeed</code>.
@@ -307,7 +280,7 @@ public class NPC {
     }
 
     /**
-     * Sets <code>this.direction</code>
+     * Setter for <code>this.direction</code>
      * @param direction  <code>this.direction</code>
      */
     public void setDirection(Direction direction){
@@ -315,7 +288,7 @@ public class NPC {
     }
 
     /**
-     * Returns <code>this.direction</code>
+     * Getter for <code>this.direction</code>
      * @return  current <code>Direction</code> of the <code>NPC</code>
      */
     public Direction getDirection(){
@@ -323,21 +296,21 @@ public class NPC {
     }
 
     /**
-     * Returns <code>this.target</code>.
+     * Getter for <code>this.target</code>.
      */
     public Point2D getTarget(){
         return this.target;
     }
 
     /**
-     * Returns <code>this.position</code>.
+     * Getter for <code>this.position</code>.
      */
     public Point2D getPosition(){
         return this.position;
     }
 
     /**
-     * Returns <code>this.isSeparating</code>.
+     * Getter for <code>this.isSeparating</code>.
      */
     public boolean isSeparating() {
         return this.isSeparating;

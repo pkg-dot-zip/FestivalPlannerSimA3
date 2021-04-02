@@ -8,13 +8,11 @@ import java.io.*;
 import java.util.Properties;
 
 /**
- * Contains methods for saving preferences in a <i>.XML</i> file.
- * <p>
- * Based on code found on the internet.
- * For more information, check <a href="https://www.binarytides.com/read-write-save-configuration-file-java/">here</>.
+ * Contains code from the internet to save preferences in a .XML file.
  */
 public class SaveSettingsHandler implements Serializable {
 
+    //TODO: Write own methods for loading and saving preferences.
     //Code from: https://www.binarytides.com/read-write-save-configuration-file-java/
 
     /**
@@ -28,14 +26,19 @@ public class SaveSettingsHandler implements Serializable {
             InputStream f = new FileInputStream("configuration.xml");
             configFile.loadFromXML(f);
             f.close();
-        } catch(Exception e) {
+        }
+        catch(IOException e) {
+            AbstractDialogPopUp.showExceptionPopUp(e);
+        }
+        catch(Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
         configFile.setProperty(Key, Value);
         try {
             OutputStream f = new FileOutputStream("configuration.xml");
             configFile.storeToXML(f,"Configuration file for the Preference-System");
-        } catch(Exception e) {
+        }
+        catch(Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
@@ -51,7 +54,11 @@ public class SaveSettingsHandler implements Serializable {
             InputStream f = new FileInputStream("configuration.xml");
             configFile.loadFromXML(f);
             f.close();
-        } catch(Exception e) {
+        }
+        catch(IOException e) {
+            AbstractDialogPopUp.showExceptionPopUp(e);
+        }
+        catch(Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return (configFile.getProperty(Key));
@@ -90,28 +97,16 @@ public class SaveSettingsHandler implements Serializable {
         setPreference("unselected_show_color", String.valueOf(unselectedColor.getRGB()));
     }
 
-    /**
-     * Returns the color for selected shows.
-     * @return  java.awt.color of selected shows
-     */
     @NotNull
     public static Color getSelectedColor(){
         return Color.decode(getPreference("selected_show_color"));
     }
 
-    /**
-     * Returns the color for unselected shows.
-     * @return  java.awt.color of unselected shows
-     */
     @NotNull
     public static Color getUnselectedColor(){
         return Color.decode(getPreference("unselected_show_color"));
     }
 
-    /**
-     * Sets the color of selected shows to the parameter's value.
-     * @param colorInput  javafx.scene.paint.color
-     */
     @NotNull
     public static void setSelectedColor(javafx.scene.paint.Color colorInput){
         Color color = ColorConverter.fromJavaFXToAwt(colorInput);
@@ -119,10 +114,6 @@ public class SaveSettingsHandler implements Serializable {
         Color.decode(getPreference("selected_show_color"));
     }
 
-    /**
-     * Sets the color of unselected shows to the parameter's value.
-     * @param colorInput  javafx.scene.paint.color
-     */
     @NotNull
     public static void setUnselectedColor(javafx.scene.paint.Color colorInput){
         Color color = ColorConverter.fromJavaFXToAwt(colorInput);
