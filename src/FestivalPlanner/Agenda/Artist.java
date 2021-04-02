@@ -63,7 +63,7 @@ public class Artist implements Serializable {
      * Changes the picture to a new picture.
      * @param picture the new picture
      */
-    public void setPicture(BufferedImage picture) {
+    void setPicture(BufferedImage picture) {
         this.picture = picture;
     }
 
@@ -71,7 +71,7 @@ public class Artist implements Serializable {
      * Changes the sprite to a new sprite.
      * @param sprite the new sprite
      */
-    public void setSprite(BufferedImage sprite) {
+    void setSprite(BufferedImage sprite) {
         this.sprite = sprite;
     }
 
@@ -81,7 +81,7 @@ public class Artist implements Serializable {
     }
 
     /**
-     * Writing the sprite and image of the artist to the saveFile.
+     * Writes the sprite and image of this artist to the saveFile.
      * @param out  the stream the images needs to be written to
      */
     //TODO: Separate agenda resources from other agendas to avoid overriding files.
