@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
  * Contains everything related to the AboutPopUp you get when clicking the About option in the
  * MenuBar of the <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/AgendaModule.html">AgendaModule</a>.
  * <p>
- * The PopUp contains 3 text <code>Node</code>s and a button. The text elements show:
+ * The PopUp contains 3 text <code>Node</code>s and a <code>Button</code>. The text elements show:
  * <p><ul>
  * <li> The software's author.
  * <li> The author's motto.
@@ -29,10 +29,15 @@ public class AboutPopUp extends AbstractCreationPopUp {
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();
 
-    private Text authorLabel = new Text(messages.getString("author"));
-    private Text mottoLabel = new Text(messages.getString("motto"));
-    private Text versionLabel = new Text(messages.getString("version"));
+    //Text
+    private Text authorText = new Text(messages.getString("author"));
+    private Text mottoText = new Text(messages.getString("motto"));
+    private Text versionText = new Text(messages.getString("version"));
+
+    //Panes
     private VBox aboutVBox = new VBox();
+
+    //Animations
     private ArrayList<AnimationFX> animationFXES = new ArrayList<>(3);
 
     /**
@@ -43,28 +48,34 @@ public class AboutPopUp extends AbstractCreationPopUp {
         super(primaryStage);
     }
 
-
     @Override
     public void additionalSetup() {
         //Alignment & Spacing
-        aboutVBox.setSpacing(10);
-        aboutVBox.setAlignment(Pos.CENTER);
+        this.aboutVBox.setSpacing(10);
+        this.aboutVBox.setAlignment(Pos.CENTER);
         this.closeButton.setAlignment(Pos.CENTER);
         this.gridPane.autosize();
 
         //Adding all the children
-        aboutVBox.getChildren().addAll(authorLabel, mottoLabel, versionLabel);
+        this.aboutVBox.getChildren().addAll(authorText, mottoText, versionText);
 
         //Animations
         if (SaveSettingsHandler.getPreference("use_animations").contains("true")) {
-            new FadeIn(aboutVBox).play();
+            new FadeIn(this.aboutVBox).play();
         }
 
-        aboutVBox.getChildren().forEach(e -> {
+        this.aboutVBox.getChildren().forEach(e -> {
             e.autosize();
             if (SaveSettingsHandler.getPreference("use_animations").contains("true")) {
-                animationFXES.addAll(Arrays.asList(new Bounce(e).setSpeed(new Random().nextDouble() * 0.75), new Flash(e).setSpeed(new Random().nextDouble() * 0.2), new Jello(e).setSpeed(new Random().nextDouble() * 0.2)));
-                animationFXES.forEach(fx -> {
+
+                //Adding the animations to the list.
+                this.animationFXES.addAll(Arrays.asList(
+                        new Bounce(e).setSpeed(new Random().nextDouble() * 0.75),
+                        new Flash(e).setSpeed(new Random().nextDouble() * 0.2),
+                        new Jello(e).setSpeed(new Random().nextDouble() * 0.2)));
+
+                //Setting the global settings to all animations.
+                this.animationFXES.forEach(fx -> {
                     fx.setCycleCount(99).setResetOnFinished(true).setDelay(new Duration(3000 * (1.0 + new Random().nextDouble()))).play();
                 });
             }
@@ -90,7 +101,7 @@ public class AboutPopUp extends AbstractCreationPopUp {
     }
 
     /**
-     * Removes the addButton from the buttonHBox, and sets the stage's title.
+     * Removes the <code>addButton</code> from the <code>buttonHBox</code>, and sets the stage's title.
      */
     @Override
     public void additionalLoad() {
