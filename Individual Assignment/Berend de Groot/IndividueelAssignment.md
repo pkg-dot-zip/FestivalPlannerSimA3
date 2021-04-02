@@ -267,6 +267,12 @@ gefixt (ten opzichte van de StyleGuide).
 #### NPC-structuur
 Ik heb klassen gemaakt en basis-functionaliteiten toegevoegd bij alles omtrent NPCs.
 Een gedeelte hiervan was in samenwerking met Max van Gils.<br>
+
+We zijn begonnen met het ontwerpen met de groep, en zijn daarna aan de slag gegaan.
+Dit is het klassendiagram:
+
+![JavaDoc](Images/diagram.jpg)
+
 Dit zijn de klassen:
 
 ![JavaDoc](Images/NPCS1.png)
@@ -461,7 +467,10 @@ void testFromAwtToJavaFX_withBlack_returnsBlack() {
     Assertions.assertEquals(resultColorJavaFX, colorJavaFX, fromAwtToJavaFXMessage);
 }
 ```
+
 ## Week 7
+In week 7 heb ik voornamelijk meegedaan met vergaderingen.
+Verder heb ik niet veel gedaan.
 
 ## Week 8
 //TODO: In week 8 werken.
