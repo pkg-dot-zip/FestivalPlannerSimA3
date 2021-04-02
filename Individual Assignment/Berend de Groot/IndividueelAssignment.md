@@ -150,7 +150,7 @@ te verwijderen, om shows qua tijden om te draaien door middel van een context me
 omtrent kleuren. Verder heb ik natuurlijk gewerkt aan de documentatie en heb ik de code schoongehouden. Als
 dit programmeerg-gebeuren niks wordt kan ik altijd nog schoonmaker worden!
 
-###Discord webhook
+####Discord webhook
 Ik streef er altijd naar de arbeidsethos van mijn groep te verhogen. Ik merkte dat de groep en ik soms
 niet door hadden of iemand nou al wat gedaan had of niet, ondanks dat dit vaak verteld was. Ik moest dus een manier vinden
 om te zorgen dat we dit makkelijk terug konden vinden...
@@ -167,7 +167,7 @@ Er staat een link bij naar de commit, waardoor we voor meer informatie alleen ma
 
 [^2]: Een methode om het gedrag van een webpagina of webtoepassing te vergroten of te wijzigen met aangepaste callbacks.
 
-###Context Menu
+####Context Menu
 De gebruiker kan nu meerdere shows selecteren door de knoppen shift en ctrl te gebruiken bij het klikken
 van de linker-muisknop. Als er twee shows geselecteerd zijn kan de gebruiker op *swap* drukken. Hierdoor zullen de tijden van de shows
 omgewisseld worden.
@@ -178,7 +178,7 @@ verschijnen op het scherm van de gebruiker.
 ![JavaDoc](Images/ContextMenu1.png)
 ![JavaDoc](Images/EditScreen.png)
 
-###Voorkeuren - Kleuren
+####Voorkeuren - Kleuren
 Ik heb natuurlijk een prachtig system geïntegreerd in ons programma om voorkeuren op te slaan in een *.XML*
 bestand. Ik heb deze week gewerkt aan het ondersteunen van door de gebruiker geselecteerde kleuren.
 
@@ -221,7 +221,7 @@ public static void restoreDefaultColors(){
 }
 ```
 
-###Cache Verwijderen
+####Cache Verwijderen
 Jesse en ik hadden overlegd over het opslaan van afbeeldingen en hebben besloten dit te doen in de gebruiker
 zijn / haar / hun / het (?) appdata. 
 
@@ -242,12 +242,99 @@ try {
 }
 ```
 
-###Week 5
+##Week 5
+###Reflectie
+In week 5 heb ik voornamelijk de bezem door de code geslingerd. Verder heb ik de structuur
+voor de NPCs <small>(non-playable character(s))</small> toegevoegd en documentatie geschreven, bijgewerkt
+gefixt (ten opzichte van de StyleGuide).
 
+####Schoonmaak
+#####Kleuren-conversie
+In onze software utiliseren wij uiteraard met regelmaat kleuren.
+Om de kleuren aan te passen kan de gebruiker kleuren kiezen in het voorkeuren-scherm.
+Dit scherm maakt gebruik van <i>javaFX</i> nodes, zoals een <i>ColorPicker</i>.
+<br>
+<sub>Zie week 4</sub>
 
-###Week 6
+We willen natuurlijk dat de kleuren dan gebruikt worden
+bij het tekenen van die objecten waarvoor de gebruiker de kleuren instelt, maar daar zit een probleem:
+<br>
+JavaFX en AWT kleuren zijn niet direct compitabel met elkaar, waardoor we het moeten omrekenen.
+Eerst deden we dit handmatig... zoals hieronder te zien.
 
-###Week 7
+Hieronder het bovenste gedeelte van een actie waarin we de kleur(en) instellen:
+```
+this.selectedColorButton.setOnAction(e -> {
+        Stage stage = new Stage();
+        java.awt.Color c = SaveSettingsHandler.getSelectedColor();
+        ColorPicker colorPicker = new ColorPicker(Color.rgb(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha() / 255.0)); //TODO: show currently saved color.
+```
 
-###Week 8
+Omdat we dit regelmatig moeten (en <b>zeker</b>[^3] zouden moeten kunnen)
+
+Dit is de klasse om kleuren te converteren:
+```
+public class ColorConverter {
+
+    public static Color fromAwtToJavaFX(java.awt.Color colorInput){
+        return Color.rgb(colorInput.getRed(), colorInput.getGreen(), colorInput.getBlue(), colorInput.getAlpha() / 255.0);
+    }
+
+    public static java.awt.Color fromJavaFXToAwt(Color colorInput){
+        return new java.awt.Color((float) colorInput.getRed(), (float) colorInput.getGreen(), (float) colorInput.getBlue(), (float) colorInput.getOpacity());
+    }
+}
+```
+
+[^3]:
+##Week 6
+###Reflectie
+In deze week heb ik gewerkt aan het testen door middel van <i>JUnit5</i>. Dit was een opdracht bij
+OGP2 die we moesten toepassen
+in de proftaak.<br>
+Ik heb besloten om tests te schrijven voor het ophalen van strings uit de language files, en
+voor het converteren van kleuren van <i>java.awt</i> naar <i>javafx.scene.paint.Color</i>.
+
+####Automatisch testen
+#####LanguageHandlerTest
+LanguageHandlerTest bevat twee test methoden. 
+De eerste methode probeert van messages de apply waarde te krijgen, en de tweede methode probeert
+het met de close waarde. Deze test wordt gebruikt om te kijken of we nog steeds de 
+waarden uit de <i>“lang”</i> resource bundle kunnen lezen. 
+<br>
+
+Hier een voorbeeld:
+```
+@Test
+void testGetMessages_withClose_returnsClose() {
+    // Act
+    String actualValue = LanguageHandler.getMessages().getString("close");
+    String returnValue = "Close";
+    // Assert
+    Assertions.assertEquals(returnValue, actualValue, getMessagesCloseMessage);
+}
+```
+---
+#####ColorConverterTest
+ColorConverterTest bevat vier methodes; 
+deze klasse bevat twee methodes voor het converteren van JavaAWT naar JavaFX kleuren
+en twee methodes voor JavaFX naar JavaAWT kleuren. 
+We testen of we de kleuren zwart en wit beide kanten op kunnen lezen.
+<br>
+
+Hier een voorbeeld:
+```
+@Test
+void testFromAwtToJavaFX_withBlack_returnsBlack() {
+    // Act
+    Color colorAWT = Color.BLACK;
+    javafx.scene.paint.Color colorJavaFX = javafx.scene.paint.Color.color(0, 0, 0);
+    javafx.scene.paint.Color resultColorJavaFX = ColorConverter.fromAwtToJavaFX(colorAWT);
+    // Assert
+    Assertions.assertEquals(resultColorJavaFX, colorJavaFX, fromAwtToJavaFXMessage);
+}
+```
+##Week 7
+
+##Week 8
 //TODO: In week 8 werken.
