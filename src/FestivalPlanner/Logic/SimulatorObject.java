@@ -57,8 +57,9 @@ public class SimulatorObject {
             }
         }
 
-        Point thisLocation = new Point((int)this.location.getX() + (this.width / 2) + (collisionLayer.getTileWidth() / 2),
-                (int)this.location.getY() + (this.height / 2) + (collisionLayer.getTileHeight() / 2));
+        Point2D centre = getCentre();
+        Point thisLocation = new Point((int)centre.getX() + (collisionLayer.getTileWidth() / 2),
+                (int)centre.getY() + (collisionLayer.getTileHeight() / 2));
 
         Queue<Point> todoQueue = new LinkedList<>();
         ArrayList<Point> visited = new ArrayList<>();
@@ -103,6 +104,14 @@ public class SimulatorObject {
 
         }
 
+    }
+
+    /**
+     * Calculates the centre point of this object
+     * @return  The centre point of this object
+     */
+    private Point2D getCentre() {
+        return this.location;
     }
 
     /**
