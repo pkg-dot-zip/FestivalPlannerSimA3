@@ -73,12 +73,13 @@ public class NPC {
             this.target = this.targetObject.getNextDirection(this.position);
         }
 
-        if (this.target.distanceSq(position) > 3) {
+        if (this.target.distanceSq(position) < 3){
+            this.isSeparating = false;
+            this.npcState = new IdleState();
+        } else if (this.target.distanceSq(position) > 3) {
             this.npcState = new MovingState();
         } else if (!(this.npcState.getClass().equals(ViewingState.class))){ //TODO: maken zodat er gekeken wordt naar positie/targetobject
             this.npcState = new ViewingState();
-        } else {
-            //this.npcState = new IdleState();
         }
 
         Point2D oldPosition = this.position;
@@ -86,17 +87,19 @@ public class NPC {
         this.npcState.handle(this);
 
         boolean hasCollision = false;
-        //hasCollision = hasCollision || checkCollision(NPCs);
-
+        hasCollision = hasCollision || checkCollision(NPCs);
 
         if (this.npcState.getClass().equals(MovingState.class)) {
             this.frame += Math.random() * 0.07;
-        } else if(hasCollision) {
+        } else if (!hasCollision && this.isSeparating){
+            System.out.println("YEEE");
+            this.target = this.position;
+        } else if(hasCollision && !this.isSeparating) {
             this.position = oldPosition;
             this.frame = 1;
 
-            for (NPC npc : NPCs){
-                if (npc.isSeparating()){
+            for (NPC npc : NPCs) {
+                if (npc.isSeparating()) {
                     return;
                 }
             }
@@ -116,17 +119,31 @@ public class NPC {
             }
         }
 
-        int i = npcs.indexOf(this);
-        int xToMove;
-        int yToMove;
-        if (true){
-            xToMove = i * this.COLLISION_RADIUS + npcTileX;
-            yToMove = i * this.COLLISION_RADIUS + npcTileX;
+        int xToMove = separateRandomNumber();
+        int yToMove = separateRandomNumber();
+
+        if (xToMove != 0){
+           xToMove += npcTileX;
+        }
+        if (yToMove != 0){
+            yToMove += npcTileY;
         }
 
         this.target = new Point2D.Double(this.target.getX() + xToMove, this.target.getY() + yToMove);
+    }
 
-        this.isSeparating = false;
+    private int separateRandomNumber(){
+        double random = Math.random();
+
+        if (random < 0.6){
+            return 0;
+        } else if (random < 0.8){
+            return (this.COLLISION_RADIUS / 10);
+        } else if (random < 0.9){
+            return (this.COLLISION_RADIUS / 5);
+        } else {
+            return 3;
+        }
     }
 
     /**
@@ -147,7 +164,7 @@ public class NPC {
             }
         }
 
-        //this.debugPrint();
+//        this.debugPrint();
     }
 
 
