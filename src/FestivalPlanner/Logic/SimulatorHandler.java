@@ -190,7 +190,7 @@ public class SimulatorHandler {
         // Updating NPC's
         setupNPC(deltaTime * this.speed);
         for (NPC npc : this.npcList) {
-            npc.update();
+            npc.update(npcList);
         }
 
         //Updating set Podiums

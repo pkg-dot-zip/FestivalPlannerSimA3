@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.MonthDay;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Contains methods for everything related to NPC instances, which can be seen in <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorCanvas.html">SimulatorCanvas</a>.
@@ -46,6 +47,8 @@ public class NPC {
 
     private final int COLLISION_RADIUS = 20;
 
+    private boolean isSeparating = false;
+
     /**
      * Constructor for the <code>NPC</code> class.
      * <p>
@@ -70,19 +73,18 @@ public class NPC {
         this.centerY = spritesLeft.get(0).getHeight() / 2;
     }
 
-
-
-
-    public void update() {
+    public void update(ArrayList<NPC> NPCs) {
         if (this.targetObject != null) {
             this.target = this.targetObject.getNextDirection(this.position);
         }
 
-        if (this.target.distanceSq(position) > 3) {
-            this.npcState = new MovingState();
-        } else if (!(this.npcState.getClass().equals(ViewingState.class))){
-            this.npcState = new ViewingState();
+        if (this.target.distanceSq(position) < 3) {
+            this.npcState = new IdleState();
+//        } else if (!(this.npcState.getClass().equals(ViewingState.class))){
+//            this.npcState = new ViewingState();
         } else {
+            System.out.println("MOVINGMOVINGMOVING");
+            this.npcState = new MovingState();
             //this.npcState = new IdleState();
         }
 
@@ -92,17 +94,49 @@ public class NPC {
         this.npcState.handle(this);
 
         boolean hasCollision = false;
-        //hasCollision = hasCollision || checkCollision(NPCs);
+        hasCollision = hasCollision || checkCollision(NPCs);
+
+//        System.out.println("State: " + this.npcState.getClass().getSimpleName());
+//        System.out.println("Dist: " + this.target.distanceSq(position));
+//        System.out.println("Pos: " + this.position);
+//        System.out.println("Target: " + this.target);
 
         if (this.npcState.getClass().equals(MovingState.class)){
             this.frame += Math.random() * 0.07;
-        } else {
-            this.frame = 1;
-        }
-        if(hasCollision) {
+        } else if(hasCollision) {
             this.position = oldPosition;
-            this.frame = 1;
+            this.frame = 0;
+
+            for (NPC npc : NPCs){
+                if (npc.isSeparating()){
+                    return;
+                }
+            }
+
+            separateNPC(NPCs);
         }
+    }
+
+    private void separateNPC(ArrayList<NPC> npcs) {
+        this.isSeparating = true;
+
+        for (NPC npc : npcs){
+            if (npc.isSeparating() && npc != this){
+                return;
+            }
+        }
+
+        int i = npcs.indexOf(this);
+        int xToMove;
+        int yToMove;
+        if (true){
+            xToMove = i * this.COLLISION_RADIUS + npcTileX;
+            yToMove = i * this.COLLISION_RADIUS + npcTileX;
+        }
+
+        this.target = new Point2D.Double(this.target.getX() + xToMove, this.target.getY() + yToMove);
+
+        this.isSeparating = false;
     }
 
     /**
@@ -165,6 +199,7 @@ public class NPC {
             if(visitor != this) {
                 if(visitor.position.distanceSq(position) < COLLISION_RADIUS * COLLISION_RADIUS) {
                     hasCollision = true;
+                    //TODO: Center collider properly, since the debug draw draws it from the wrong position.
                 }
             }
         }
@@ -279,10 +314,17 @@ public class NPC {
     }
 
     /**
-     * Getter for <code>this.position</code>
+     * Getter for <code>this.position</code>.
      */
     public Point2D getPosition(){
         return this.position;
+    }
+
+    /**
+     * Getter for <code>this.isSeparating</code>.
+     */
+    public boolean isSeparating() {
+        return this.isSeparating;
     }
 
     /**
