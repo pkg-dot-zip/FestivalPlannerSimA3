@@ -4,7 +4,9 @@ import FestivalPlanner.TileMap.TileLayer;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -55,8 +57,9 @@ public class SimulatorObject {
             }
         }
 
-        Point thisLocation = new Point((int)this.location.getX() + (this.width / 2) + (collisionLayer.getTileWidth() / 2),
-                (int)this.location.getY() + (this.height / 2) + (collisionLayer.getTileHeight() / 2));
+        Point2D centre = getCentre();
+        Point thisLocation = new Point((int)centre.getX() + (collisionLayer.getTileWidth() / 2),
+                (int)centre.getY() + (collisionLayer.getTileHeight() / 2));
 
         Queue<Point> todoQueue = new LinkedList<>();
         ArrayList<Point> visited = new ArrayList<>();
@@ -101,6 +104,14 @@ public class SimulatorObject {
 
         }
 
+    }
+
+    /**
+     * Calculates the centre point of this object
+     * @return  The centre point of this object
+     */
+    private Point2D getCentre() {
+        return this.location;
     }
 
     /**
@@ -151,5 +162,13 @@ public class SimulatorObject {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    public boolean isWithin(Point2D point){
+        Rectangle2D rectangle = new Rectangle2D.Double(location.getX(), location.getY(), width, height);
+        AffineTransform rectangleTransform = new AffineTransform();
+        rectangleTransform.rotate(Math.toRadians(this.rotation), this.location.getX(), this.location.getY());
+
+        return rectangle.contains(point);
     }
 }

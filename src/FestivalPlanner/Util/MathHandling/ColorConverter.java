@@ -3,7 +3,7 @@ package FestivalPlanner.Util.MathHandling;
 import javafx.scene.paint.Color;
 
 /**
- * Contains methods for converting JavaFX colors to AWT colors.
+ * Contains methods for converting JavaFX colors to AWT colors and vice versa.
  */
 public class ColorConverter {
 
