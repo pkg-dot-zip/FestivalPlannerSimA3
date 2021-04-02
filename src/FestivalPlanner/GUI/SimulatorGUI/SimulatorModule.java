@@ -1,19 +1,16 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
-import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
-import javafx.geometry.Insets;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import FestivalPlanner.Logic.SimulatorHandler;
-import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -32,14 +29,36 @@ public class SimulatorModule extends AbstractGUI {
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();
 
+    //Handler
     private SimulatorHandler handler;
+    private AgendaModule agendaModule;
+
+    //Pane Classes
     private SimulatorCanvas simulatorCanvas;
+
+    //Ux Items
     private BorderPane mainPane;
     private Stage stage;
     private Scene simulatorScene;
-    private AgendaModule agendaModule;
-    private ComboBox<String> comboBox;
-    private Button button;
+
+    // MenuBar
+    private MenuBar menuBar = new MenuBar();
+    //FileMenu
+    private Menu fileMenu = new Menu(messages.getString("file"));
+    private MenuItem loadAgendaMenuItem = new MenuItem(messages.getString("load"));
+    private MenuItem saveAgendaMenuItem = new MenuItem(messages.getString("save"));
+    private MenuItem exitMenuItem = new MenuItem(messages.getString("exit"));
+    //EditMenu
+    private Menu optionsMenu = new Menu(messages.getString("options"));
+    private MenuItem viewPartMenuItem = new MenuItem(messages.getString("view_Item"));
+    private MenuItem timeEditMenuItem = new MenuItem(messages.getString("edit_Time_Speed"));
+    private MenuItem npcEditMenuItem = new MenuItem(messages.getString("npc_menu"));
+    //HelpMenu
+    private Menu helpMenu = new Menu(messages.getString("help"));
+    private MenuItem helpGuideMenuItem = new MenuItem(messages.getString("help_guide"));
+    private MenuItem javaDocMenuItem = new MenuItem(messages.getString("javadoc"));
+    private MenuItem aboutMenuItem = new MenuItem(messages.getString("about"));
+
 
     Button agendaButton = new Button(messages.getString("agenda"));
     Button simulatorButton = new Button(messages.getString("simulator"));
@@ -66,55 +85,39 @@ public class SimulatorModule extends AbstractGUI {
         setup();
         actionHandlingSetup();
 
-        //Initialise values.
-        HBox toggleHBox = new HBox();
-
-        //Adding the buttons
-        toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
-        toggleHBox.setAlignment(Pos.CENTER);
-        toggleHBox.setSpacing(HBOX_SPACING);
-
-        // Disabling button
-        this.simulatorButton.setDisable(true);
-
-        this.mainPane.setTop(toggleHBox);
     }
 
     @Override
     public void setup() {
 
-        //Select NPC part
-        // initialising
-        VBox npcVBox = new VBox();
-        ComboBox npcComboBox = new ComboBox();
+        //Adding all the children.
+        //MenuBar
+        fileMenu.getItems().addAll(loadAgendaMenuItem, saveAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
+        optionsMenu.getItems().addAll(viewPartMenuItem, new SeparatorMenuItem(), timeEditMenuItem, new SeparatorMenuItem(), npcEditMenuItem);
+        helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
+        menuBar.getMenus().addAll(fileMenu, optionsMenu, helpMenu);
 
-        //spacing
-        npcVBox.setSpacing(VBOX_SPACING);
-        npcVBox.setAlignment(Pos.TOP_CENTER);
 
-        //placeholder text
-        npcComboBox.setPromptText(messages.getString("select_NPC"));
+        //Switching buttons
+            //Initialise values.
+            HBox toggleHBox = new HBox();
 
-        //assigning
-        npcVBox.getChildren().addAll(new Label(messages.getString("view_NPC")),
-                new Label(messages.getString("click_NPC")), npcComboBox);
+            //Adding the buttons
+            toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
+            toggleHBox.setAlignment(Pos.CENTER);
+            toggleHBox.setSpacing(HBOX_SPACING);
 
-        // Podium zoom to part
-        VBox podiumZoomVBox = new VBox();
-        podiumZoomVBox.setSpacing(VBOX_SPACING);
-        podiumZoomVBox.setAlignment(Pos.TOP_CENTER);
-        this.comboBox = new ComboBox<>(agendaModule.getPodiumManager().getObservablePodiumList());
-        this.button = new Button(messages.getString("go_to"));
-        this.comboBox.setPromptText(messages.getString("select_podium"));
+            // Disabling button
+            this.simulatorButton.setDisable(true);
 
-        this.button.setOnAction(event -> {
-//            simulatorCanvas.moveToPoint();
-        });
-        podiumZoomVBox.getChildren().addAll(new Label(messages.getString("zoom_to")), this.comboBox, this.button);
+        // Top bar
+        VBox topVBox = new VBox();
+        topVBox.getChildren().addAll(this.menuBar, toggleHBox);
+        topVBox.setSpacing(5);
 
-        this.mainPane.setPadding(new Insets(10,10,10,10));
-        this.mainPane.setRight(podiumZoomVBox);
-        this.mainPane.setLeft(npcVBox);
+        // Setup mainPane
+
+        this.mainPane.setTop(topVBox);
         this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
 
         this.simulatorScene = new Scene(this.mainPane);
@@ -122,6 +125,47 @@ public class SimulatorModule extends AbstractGUI {
 
     @Override
     public void actionHandlingSetup() {
+        //Generic
+        this.stage.setOnCloseRequest(e -> { //When the main window is closed -> Close the entire program.
+            Platform.exit();
+        });
+
+        //MenuBar
+        //FileMenu
+        loadAgendaMenuItem.setOnAction(e -> {
+
+        });
+
+        saveAgendaMenuItem.setOnAction(e -> {
+
+        });
+
+        exitMenuItem.setOnAction(e -> {
+            AbstractDialogPopUp.showExitConfirmationPopUp();
+        });
+
+        //EditMenu
+        viewPartMenuItem.setOnAction(e -> {
+            ViewObjectView simulatorViewPopUp = new ViewObjectView();
+            simulatorViewPopUp.load();
+        });
+
+        timeEditMenuItem.setOnAction(e -> {
+            TimeEditGUI simulatorTimePopUp = new TimeEditGUI();
+            simulatorTimePopUp.load();
+        });
+
+        npcEditMenuItem.setOnAction(e -> {
+            NPCEditGUI npcEditGUI = new NPCEditGUI();
+            npcEditGUI.load();
+        });
+
+        //HelpMenu
+        aboutMenuItem.setOnAction(e -> {
+            AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
+            aboutPopUp.load();
+        });
+
         this.agendaButton.setOnAction(event -> {
             this.mainGUI.loadAgendaCallBack();
         });
