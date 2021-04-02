@@ -18,6 +18,7 @@ public class SimulatorHandler {
     // Final values
     private final double SHOW_CHECK_TIME = 60 * 15; //how often to check per in-game second
     private final double NPC_SPAWN_TIME = 60 * 3; //how ofter to spawn a new NPC if not all NPC's have been spawned
+    private static final double TOILET_CHANCE = 0.2;
 
     // NPC attributes
     private ArrayList<NPC> npcList;
@@ -37,6 +38,7 @@ public class SimulatorHandler {
     // TileMap attributes
     private TileMap tileMap;
     private ArrayList<SimulatorObject> simulatorObjects;
+    private ArrayList<SimulatorToilet> simulatorToilets = new ArrayList<>();
     private SimulatorObject spawn;
 
     // Time attributes
@@ -158,6 +160,11 @@ public class SimulatorHandler {
                             if (correspondingPodium != null) {
                                 this.danceObjectHashMap.put(correspondingPodium.getName(), simulatorObject);
                             }
+                            break;
+                        case "Dixi":
+                            SimulatorToilet toilet = new SimulatorToilet(tileObject.getLocation(), tileObject.getWidth(), tileObject.getHeight(), tileObject.getRotation(), tileObject.getName(), this.tileMap.getPathFindingLayer(), tileObject.getLocationString());
+                            this.simulatorObjects.add(toilet);
+                            this.simulatorToilets.add(toilet);
                             break;
                     }
                 }
@@ -317,7 +324,6 @@ public class SimulatorHandler {
             podium.setActive(true);
             for (Artist artist : show.getArtists()) {
                 this.artistNPCHashMap.get(artist.getName()).setTargetObject(podium);
-                System.out.println("Done for " + artist);
             }
         }
 
@@ -334,13 +340,28 @@ public class SimulatorHandler {
     }
 
     private void onShowEnd(Show show) {
-
-
         SimulatorPodium podium = this.podiumObjectHashMap.get(show.getPodium().getName());
         if (podium != null) {
             podium.setActive(false);
-        }
 
+            for (NPC npc : this.npcList) {
+                if (npc.getTargetObject().equals(podium)) {
+
+                    if (Math.random() > TOILET_CHANCE) {
+                        for (SimulatorToilet toilet : this.simulatorToilets) {
+                            if (!toilet.isOccupied()) {
+                                npc.setTargetObject(toilet);
+                                System.out.println("to " + toilet);
+                                break;
+                            }
+                        }
+                    } else {
+                        npc.setTargetObject(null);
+                    }
+
+                }
+            }
+        }
     }
 
     private double debugTimer = 15;
@@ -454,6 +475,9 @@ public class SimulatorHandler {
     public void setSpeed(double speed) {
         this.speed = speed;
         for (NPC npc : this.npcList) {
+            npc.setGameSpeed(speed);
+        }
+        for (NPC npc : this.artistNPCList) {
             npc.setGameSpeed(speed);
         }
     }
