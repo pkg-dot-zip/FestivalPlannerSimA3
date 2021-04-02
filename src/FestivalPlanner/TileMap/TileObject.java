@@ -11,6 +11,7 @@ public class TileObject {
     private String type;
 
     private Point2D location;
+    private String locationString;
     private int width;
     private int height;
     private double rotation;
@@ -23,13 +24,14 @@ public class TileObject {
      * @param width  The width of this object
      * @param height  The height of the object
      */
-    public TileObject(String name, String type, Point2D location, int width, int height, double rotation) {
+    public TileObject(String name, String type, Point2D location, int width, int height, double rotation, String locationString) {
         this.name = name;
         this.type = type;
         this.location = location;
         this.width = width;
         this.height = height;
         this.rotation = rotation;
+        this.locationString = locationString;
     }
 
     /**
@@ -100,7 +102,11 @@ public class TileObject {
         return rotation;
     }
 
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
+    /**
+     * Getter for <code>this.locationString</code>
+     * @return  <code>this.locationString</code>
+     */
+    public String getLocationString() {
+        return locationString;
     }
 }

@@ -3,7 +3,9 @@ package FestivalPlanner.GUI.SimulatorGUI;
 import FestivalPlanner.Agenda.Agenda;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
+import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import FestivalPlanner.Logic.SimulatorHandler;
 import javafx.application.Application;
@@ -24,8 +26,8 @@ import java.util.ResourceBundle;
  */
 public class SimulatorModule extends AbstractGUI {
 
-    private Scene simulatorScene;
-    private Scene agendaScene;
+    private MainGUI mainGUI;
+
 
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();
@@ -34,6 +36,7 @@ public class SimulatorModule extends AbstractGUI {
     private SimulatorCanvas simulatorCanvas;
     private BorderPane mainPane;
     private Stage stage;
+    private Scene simulatorScene;
     private AgendaModule agendaModule;
     private ComboBox<String> comboBox;
     private Button button;
@@ -48,12 +51,13 @@ public class SimulatorModule extends AbstractGUI {
      *              simulator module should assign itself to
      * @param agendaModule the <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI.html">SimulatorModule</a>.
      */
-    public SimulatorModule(Stage stage, AgendaModule agendaModule) {
+    public SimulatorModule(MainGUI mainGUI, Stage stage, AgendaModule agendaModule) {
+        this.mainGUI = mainGUI;
         this.stage = stage;
         this.mainPane = new BorderPane();
         this.agendaModule = agendaModule;
 
-        this.handler = new SimulatorHandler(this.agendaModule.getAgenda());
+        this.handler = new SimulatorHandler(this.agendaModule.getAgenda(), this.agendaModule.getPodiumManager());
         this.simulatorCanvas = new SimulatorCanvas(this.handler, this, 800, 700);
     }
 
@@ -108,28 +112,19 @@ public class SimulatorModule extends AbstractGUI {
         });
         podiumZoomVBox.getChildren().addAll(new Label(messages.getString("zoom_to")), this.comboBox, this.button);
 
+        this.mainPane.setPadding(new Insets(10,10,10,10));
         this.mainPane.setRight(podiumZoomVBox);
         this.mainPane.setLeft(npcVBox);
+        this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
+
         this.simulatorScene = new Scene(this.mainPane);
     }
 
     @Override
     public void actionHandlingSetup() {
         this.agendaButton.setOnAction(event -> {
-            this.stage.setScene(this.agendaScene);
-            this.stage.setWidth(1450);
-            this.stage.setHeight(350);
+            this.mainGUI.loadAgendaCallBack();
         });
-    }
-
-    /**
-     * Saves the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> of the agenda
-     * so this class can swap back to that <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a>
-     * whenever necessary.
-     * @param agendaScene the scene representing the agenda module
-     */
-    public void setAgendaScene(Scene agendaScene) {
-        this.agendaScene = agendaScene;
     }
 
     /**
@@ -137,7 +132,7 @@ public class SimulatorModule extends AbstractGUI {
      * @return The <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> this class is
      * responsible for
      */
-    public Scene getSimulatorScene() {
+    public Scene getScene() {
         return this.simulatorScene;
     }
 
@@ -160,4 +155,10 @@ public class SimulatorModule extends AbstractGUI {
         return this.stage;
     }
 
+    /**
+     * Resets <code>this.handler</code>
+     */
+    public void resetHandler(){
+        this.handler.reset(this.agendaModule.getAgenda());
+    }
 }

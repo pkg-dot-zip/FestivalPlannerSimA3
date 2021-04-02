@@ -12,6 +12,8 @@ import java.util.Queue;
 public class SimulatorObject {
 
     protected Point2D location;
+    private String locationString;
+
     protected int width;
     protected int height;
 
@@ -27,8 +29,10 @@ public class SimulatorObject {
      * @param width  The width of the object
      * @param height  The height of the object
      */
-    public SimulatorObject(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer) {
+    public SimulatorObject(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer, String locationString) {
         this.location = location;
+        this.locationString = locationString;
+
         this.width = width;
         this.height = height;
 
@@ -39,6 +43,10 @@ public class SimulatorObject {
         buildPathMap();
     }
 
+
+    /**
+     * Builds the pathfinding map to this object
+     */
     protected void buildPathMap() {
         this.pathMap = new Point[collisionLayer.getWidth()][collisionLayer.getHeight()];
         for (int x = 0; x < collisionLayer.getWidth(); x++) {
@@ -47,7 +55,8 @@ public class SimulatorObject {
             }
         }
 
-        Point thisLocation = new Point((int)this.location.getX() + (collisionLayer.getTileWidth() / 2), (int)this.location.getY() + (collisionLayer.getTileHeight() / 2));
+        Point thisLocation = new Point((int)this.location.getX() + (this.width / 2) + (collisionLayer.getTileWidth() / 2),
+                (int)this.location.getY() + (this.height / 2) + (collisionLayer.getTileHeight() / 2));
 
         Queue<Point> todoQueue = new LinkedList<>();
         ArrayList<Point> visited = new ArrayList<>();
@@ -94,6 +103,11 @@ public class SimulatorObject {
 
     }
 
+    /**
+     * Given a point, it looks in the pathfinding map to see what point to go to.
+     * @param currentPoint  The position to look for
+     * @return  The position to go to, based on given currentPoint
+     */
     public Point2D getNextDirection(Point2D currentPoint) {
         Point toPoint = this.pathMap[(int)Math.floor(currentPoint.getY() / collisionLayer.getTileHeight())][(int)Math.floor(currentPoint.getX() / collisionLayer.getTileWidth())];
         if (toPoint == null) {
@@ -123,4 +137,7 @@ public class SimulatorObject {
 
     public void debugDraw(Graphics2D g2d){}
 
+    public String getLocationString() {
+        return locationString;
+    }
 }

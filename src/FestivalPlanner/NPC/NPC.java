@@ -1,6 +1,7 @@
 package FestivalPlanner.NPC;
 
 import FestivalPlanner.Logic.SimulatorObject;
+import FestivalPlanner.Util.ImageLoader;
 import com.sun.istack.internal.Nullable;
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.time.MonthDay;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +19,8 @@ import java.util.ArrayList;
  */
 public class NPC {
     private Point2D position;
-    private final double SPEED = 1;
+    private final double SPEED = 1.0 / (60*5);
+    private double gameSpeed;
     private double frame;
 
     private Point2D target;
@@ -25,15 +28,15 @@ public class NPC {
 
     private Direction direction = Direction.UP;
 
-    private NPCState npcState = new IdleState();
+    private NPCState npcState = new MovingState();
 
     private final int npcTileX = 4;
     private final int npcTileY = 3;
 
-    private ArrayList<BufferedImage> spritesUp = new ArrayList<>(4);
-    private ArrayList<BufferedImage> spritesDown = new ArrayList<>(4);
-    private ArrayList<BufferedImage> spritesLeft = new ArrayList<>(4);
-    private ArrayList<BufferedImage> spritesRight = new ArrayList<>(4);
+    private ArrayList<BufferedImage> spritesUp;
+    private ArrayList<BufferedImage> spritesDown;
+    private ArrayList<BufferedImage> spritesLeft;
+    private ArrayList<BufferedImage> spritesRight;
 
     private static String[] characterFiles = {"char_1", "char_2"};
 
@@ -55,55 +58,45 @@ public class NPC {
         this.target = position;
         this.frame = Math.random() * 10;
 
-        try {
-            BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/characters/" + characterFiles[spriteSheet] + ".png"));
-            int width = image.getWidth() / npcTileX;
-            int height = image.getHeight() / npcTileY;
-
-            splitImages(image, spritesLeft, 0, width, height);
-            splitImages(image, spritesDown, 1, width, height);
-            splitImages(image, spritesUp, 2, width, height);
-            splitImages(image, spritesRight, 3, width, height);
-
-            this.centerX = spritesLeft.get(0).getWidth() / 2;
-            this.centerY = spritesLeft.get(0).getHeight() / 2;
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-            //TODO: Merge Development and showExceptionPopUp.
-        }
+        this.gameSpeed = (60 * 5);
+        ArrayList<ArrayList<BufferedImage>> spriteSheets = ImageLoader.getLists(spriteSheet);
+        this.spritesUp = spriteSheets.get(2);
+        this.spritesDown = spriteSheets.get(1);
+        this.spritesLeft = spriteSheets.get(0);
+        this.spritesRight = spriteSheets.get(3);
+        //now here
+        this.centerX = spritesLeft.get(0).getWidth() / 2;
+        this.centerY = spritesLeft.get(0).getHeight() / 2;
     }
 
-    //TODO: Make something that works with all type of sheets.
-    public void splitImages(BufferedImage image, ArrayList<BufferedImage> list, int x, int width, int height){
-        int xToSplit = x * width;
-        list.add(image.getSubimage(xToSplit, 0, width, height));
-        list.add(image.getSubimage(xToSplit, height, width, height));
-        list.add(image.getSubimage(xToSplit, 0, width, height));
-        list.add(image.getSubimage(xToSplit, 2 * height, width, height));
-    }
+
+
 
     public void update(ArrayList<NPC> NPCs) {
-        if(target.distanceSq(position) < 32) {
-            return;
-        }
-
         if (this.targetObject != null) {
             this.target = this.targetObject.getNextDirection(this.position);
         }
 
+        if(this.target.distanceSq(position) < 3) {
+            this.npcState = new IdleState();
+        } else {
+            this.npcState = new MovingState();
+        }
+
         Point2D oldPosition = this.position;
 
-        this.updateDirectionToFace();
-        this.walkOnAxis();
+        this.npcState.handle(this);
+
+//        this.updateDirectionToFace();
+//        this.walkOnAxis();
 
         boolean hasCollision = false;
-        hasCollision = hasCollision || checkCollision(NPCs);
+        //hasCollision = hasCollision || checkCollision(NPCs);
 
         if(hasCollision) {
             this.position = oldPosition;
             this.frame = 0;
-        } else {
+        } else if (this.npcState.getClass().equals(MovingState.class)){
             this.frame += 0.1;
         }
     }
@@ -112,13 +105,13 @@ public class NPC {
      * Updates this NPC' direction to the direction it should face to walk straight forward to its' target.
      */
     public void updateDirectionToFace(){
-        if (this.position.getX() != this.target.getX()) {
+        if ((int)this.position.getX() != (int)this.target.getX()) {
             if (this.position.getX() < this.target.getX()) {
                 this.direction = Direction.RIGHT;
             } else {
                 this.direction = Direction.LEFT;
             }
-        } else if (this.position.getY() != this.target.getY()) {
+        } else if ((int)this.position.getY() != (int)this.target.getY()) {
             if (this.position.getY() > this.target.getY()) {
                 this.direction = Direction.UP;
             } else {
@@ -138,21 +131,21 @@ public class NPC {
             case UP:
                 this.position = new Point2D.Double(
                         this.position.getX(),
-                        this.position.getY() - this.SPEED);
+                        this.position.getY() - (this.SPEED * this.gameSpeed));
                 break;
             case DOWN:
                 this.position = new Point2D.Double(
                         this.position.getX(),
-                        this.position.getY() + this.SPEED);
+                        this.position.getY() + (this.SPEED * this.gameSpeed));
                 break;
             case LEFT:
                 this.position = new Point2D.Double(
-                        this.position.getX() - this.SPEED,
+                        this.position.getX() - (this.SPEED * this.gameSpeed),
                         this.position.getY());
                 break;
             case RIGHT:
                 this.position = new Point2D.Double(
-                        this.position.getX() + this.SPEED,
+                        this.position.getX() + (this.SPEED * this.gameSpeed),
                         this.position.getY());
         }
     }
@@ -177,7 +170,7 @@ public class NPC {
     public void draw(Graphics2D g2d) {
         AffineTransform tx = new AffineTransform();
         tx.translate(position.getX() - centerX, position.getY() - centerY);
-        tx.translate(0, 10);
+        tx.translate(0, 0);
 
         //Draws the NPC-sprite on the canvas.
         drawImage(g2d, listOfDirection(), tx);
@@ -223,13 +216,23 @@ public class NPC {
         this.target = newTarget;
     }
 
+    /**
+     * Getter for <code>this.TargetObject</code>.
+     * @return <code>this.TargetObject</code>
+     */
     public SimulatorObject getTargetObject() {
         return targetObject;
     }
 
+    /**
+     * Setter for <code>this.TargetObject</code>.
+     * @param targetObject  The Object to set <code>this.TargetObject</code> to
+     */
     public void setTargetObject(SimulatorObject targetObject) {
         this.targetObject = targetObject;
     }
+
+
 
     /**
      * Returns the length of the <code>characterFiles[]</code> array.
@@ -237,6 +240,37 @@ public class NPC {
      */
     public static int getCharacterFiles(){
         return characterFiles.length;
+    }
+
+
+    /**
+     * Getter for <code>this.gameSpeed</code>.
+     * @param gameSpeed  <code>this.gameSpeed</code>
+     */
+    public void setGameSpeed(double gameSpeed) {
+        this.gameSpeed = gameSpeed;
+    }
+
+    /**
+     * Setter for <code>this.direction</code>
+     * @param direction  <code>this.direction</code>
+     */
+    public void setDirection(Direction direction){
+        this.direction = direction;
+    }
+
+    /**
+     * Getter for <code>this.target</code>.
+     */
+    public Point2D getTarget(){
+        return this.target;
+    }
+
+    /**
+     * Getter for <code>this.position</code>
+     */
+    public Point2D getPosition(){
+        return this.position;
     }
 
     /**
@@ -250,7 +284,9 @@ public class NPC {
         g2d.draw(new Ellipse2D.Double(position.getX() - COLLISION_RADIUS / 2f, position.getY() + COLLISION_RADIUS / 4f, COLLISION_RADIUS, COLLISION_RADIUS));
         g2d.draw(new Line2D.Double(position, target));
 
-        this.targetObject.debugDraw(g2d);
+        if(this.targetObject != null) {
+            this.targetObject.debugDraw(g2d);
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ import FestivalPlanner.NPC.NPC;
 import FestivalPlanner.TileMap.TileMap;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -24,7 +25,7 @@ import java.awt.geom.Point2D;
  */
 public class SimulatorCanvas extends AbstractGUI {
 
-        private Canvas canvas;
+        private ResizableCanvas canvas;
         private SimulatorModule simulatorModule;
         private SimulatorHandler simulatorHandler;
         private BorderPane mainPane;
@@ -56,7 +57,7 @@ public class SimulatorCanvas extends AbstractGUI {
     public SimulatorCanvas(SimulatorHandler simulatorHandler, SimulatorModule simulatorModule, double canvasWidth, double canvasHeight) {
         this.simulatorHandler = simulatorHandler;
         this.simulatorModule = simulatorModule;
-        this.mainPane = simulatorModule.getMainPane();
+        this.mainPane = new BorderPane();
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
@@ -92,6 +93,8 @@ public class SimulatorCanvas extends AbstractGUI {
     @Override
     public void setup() {
         this.mainPane.setCenter(this.canvas);
+        this.mainPane.setPadding(new Insets(10,10,10,10));
+
         this.startX = 0;
         this.endX= this.simulatorHandler.getTileMap().getMapWidth() * this.simulatorHandler.getTileMap().getTileWidth();
         this.startY = 0;
@@ -130,8 +133,6 @@ public class SimulatorCanvas extends AbstractGUI {
         g2d.translate(-this.startX, -this.startY);
 
         this.simulatorHandler.draw(g2d);
-        this.canvas.setHeight(this.canvasHeight);
-        this.canvas.setWidth(this.canvasWidth);
 
     }
 

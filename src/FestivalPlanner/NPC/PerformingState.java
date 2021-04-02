@@ -5,7 +5,7 @@ package FestivalPlanner.NPC;
  */
 public class PerformingState extends NPCState {
     @Override
-    public void handle() {
+    public void handle(NPC npc) {
 
     }
 }

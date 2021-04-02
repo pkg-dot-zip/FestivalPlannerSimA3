@@ -10,6 +10,7 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
+import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.GUI.PreferencesGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
@@ -32,6 +33,7 @@ import javafx.stage.Stage;
 public class AgendaModule extends AbstractGUI implements Serializable {
 
     private Stage stage;
+    private MainGUI mainGUI;
 
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();
@@ -44,7 +46,6 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
     // Scenes
     private Scene agendaScene;
-    private Scene simulatorScene;
 
     // Panes
     private BorderPane mainLayoutPane = new BorderPane();
@@ -52,6 +53,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     // ToggleButtons
     Button agendaButton = new Button(messages.getString("agenda"));
     Button simulatorButton = new Button(messages.getString("simulator"));
+    Button useButton = new Button(messages.getString("Simulate_Agenda"));
 
     // MenuBar
     private MenuBar menuBar = new MenuBar();
@@ -92,7 +94,8 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      *              as a parameter so this stage can be referenced as the owner of the sub stages
      *              <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
      */
-    public AgendaModule(Stage stage) {
+    public AgendaModule(MainGUI mainGUI, Stage stage) {
+        this.mainGUI = mainGUI;
         this.stage = stage;
     }
 
@@ -131,15 +134,16 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         contextMenu.getItems().addAll(swapContextItem, editContextItem, new SeparatorMenuItem(), removeContextItem);
 
         //Setting VBox spacing
-        topVBox.getChildren().addAll(toggleHBox, this.menuBar);
+        topVBox.getChildren().addAll(this.menuBar, toggleHBox);
         topVBox.setSpacing(VBOX_SPACING);
         //Adding the buttons
-        toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
+        toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton, this.useButton);
         toggleHBox.setAlignment(Pos.CENTER);
         toggleHBox.setSpacing(HBOX_SPACING);
 
         // Disabling button
         this.agendaButton.setDisable(true);
+        this.simulatorButton.setDisable(true);
 
         //Adding it all together.
         this.mainLayoutPane.setTop(topVBox);
@@ -170,10 +174,14 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             }
         });
 
+        //Top Buttons
         this.simulatorButton.setOnAction(event -> {
-            stage.setScene(this.simulatorScene);
-            stage.setWidth(1100);
-            stage.setHeight(800);
+            this.mainGUI.loadSimulatorCallBack();
+        });
+
+        this.useButton.setOnAction(e -> {
+            this.mainGUI.constructSimulatorCallBack(this);
+            this.simulatorButton.setDisable(false);
         });
 
         //MenuBar
@@ -426,10 +434,6 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             this.agenda.addShow(show);
             this.agendaCanvas.reBuildAgendaCanvas();
         }
-    }
-
-    public void setSimulatorScene(Scene simulatorScene) {
-        this.simulatorScene = simulatorScene;
     }
 
     /**
