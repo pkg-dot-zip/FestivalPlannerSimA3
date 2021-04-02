@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
  */
 public class PreferencesGUI extends AbstractGUI{
 
-    //LanguageHandling
+    //LanguageHandling.
     private ResourceBundle messages = LanguageHandler.getMessages();
 
     private final int STAGE_WIDTH = 360;
@@ -35,28 +35,28 @@ public class PreferencesGUI extends AbstractGUI{
 
     private VBox generalSettingsVBox = new VBox();
 
-    //Languages
+    //Languages.
     private HBox languagesHBox = new HBox();
     private Label languagesLabel = new Label(messages.getString("select_language"));
     private ComboBox<Locale> languagesComboBox = new ComboBox<>();
     private Label languagesFlagLabel = new Label();
 
-    //Animations
+    //Animations.
     private HBox useAnimationsHBox = new HBox();
     private Label useAnimationsLabel = new Label(messages.getString("use_animations"));
     private CheckBox useAnimationsCheckbox = new CheckBox();
 
-    //Delete Cache
+    //Delete Cache.
     private Button removeCacheButton = new Button(messages.getString("remove_cache_button"));
     private Tooltip removeCacheTooltip = new Tooltip(messages.getString("remove_cache_tooltip"));
 
-    //Colors
+    //Colors.
     private HBox colorHBox = new HBox();
     private Button selectedColorButton = new Button(messages.getString("color_for_selected_show"));
     private Button unselectedColorButton = new Button(messages.getString("color_for_shows_that_are_not_selected"));
     private Button colorResetToDefaultButton = new Button(messages.getString("reset_colors_to_default"));
 
-    //ExceptionPopUps
+    //ExceptionPopUps.
     private HBox exceptionHBox = new HBox();
     private Label exceptionLabel = new Label(messages.getString("exception_label"));
     private CheckBox exceptionCheckBox = new CheckBox();
@@ -91,40 +91,40 @@ public class PreferencesGUI extends AbstractGUI{
         this.exceptionCheckBox.setSelected(SaveSettingsHandler.getPreference("use_exception_popups").contains("true"));
 
         //Alignment & Spacing.
-            //HBox
-        languagesHBox.setAlignment(Pos.CENTER);
-        languagesHBox.setSpacing(HBOX_SPACING);
-        useAnimationsHBox.setAlignment(Pos.CENTER);
-        useAnimationsHBox.setSpacing(HBOX_SPACING);
-        colorHBox.setAlignment(Pos.CENTER);
-        colorHBox.setSpacing(HBOX_SPACING);
-        exceptionHBox.setAlignment(Pos.CENTER);
-        exceptionHBox.setSpacing(HBOX_SPACING);
-            //GeneralSettingsVBox
-        generalSettingsVBox.setSpacing(VBOX_SPACING);
-        generalSettingsVBox.setAlignment(Pos.CENTER);
-            //ButtonHBox
-        buttonHBox.setSpacing(HBOX_SPACING);
-        buttonHBox.setAlignment(Pos.CENTER);
-            //Gridpane
-        gridPane.setHgap(GRIDPANE_HGAP);
-        gridPane.setVgap(GRIDPANE_VGAP);
-        gridPane.setAlignment(Pos.CENTER);
+            //HBox.
+        this.languagesHBox.setAlignment(Pos.CENTER);
+        this.languagesHBox.setSpacing(HBOX_SPACING);
+        this.useAnimationsHBox.setAlignment(Pos.CENTER);
+        this.useAnimationsHBox.setSpacing(HBOX_SPACING);
+        this.colorHBox.setAlignment(Pos.CENTER);
+        this.colorHBox.setSpacing(HBOX_SPACING);
+        this.exceptionHBox.setAlignment(Pos.CENTER);
+        this.exceptionHBox.setSpacing(HBOX_SPACING);
+            //GeneralSettingsVBox.
+        this.generalSettingsVBox.setSpacing(VBOX_SPACING);
+        this.generalSettingsVBox.setAlignment(Pos.CENTER);
+            //ButtonHBox.
+        this.buttonHBox.setSpacing(HBOX_SPACING);
+        this.buttonHBox.setAlignment(Pos.CENTER);
+            //GridPane.
+        this.gridPane.setHgap(GRIDPANE_HGAP);
+        this.gridPane.setVgap(GRIDPANE_VGAP);
+        this.gridPane.setAlignment(Pos.CENTER);
 
         //Tooltips.
-        removeCacheButton.setTooltip(removeCacheTooltip);
+        this.removeCacheButton.setTooltip(this.removeCacheTooltip);
 
         //Adding the children.
-        languagesHBox.getChildren().addAll(languagesLabel, languagesComboBox, languagesFlagLabel);
-        useAnimationsHBox.getChildren().addAll(useAnimationsLabel, useAnimationsCheckbox);
-        colorHBox.getChildren().addAll(selectedColorButton, unselectedColorButton, colorResetToDefaultButton);
-        exceptionHBox.getChildren().addAll(exceptionLabel, exceptionCheckBox);
-        generalSettingsVBox.getChildren().addAll(languagesHBox, useAnimationsHBox, removeCacheButton, colorHBox, exceptionHBox);
-        buttonHBox.getChildren().addAll(applyButton, closeButton);
+        this.languagesHBox.getChildren().addAll(this.languagesLabel, this.languagesComboBox, this.languagesFlagLabel);
+        this.useAnimationsHBox.getChildren().addAll(this.useAnimationsLabel, this.useAnimationsCheckbox);
+        this.colorHBox.getChildren().addAll(this.selectedColorButton, this.unselectedColorButton, this.colorResetToDefaultButton);
+        this.exceptionHBox.getChildren().addAll(this.exceptionLabel, this.exceptionCheckBox);
+        this.generalSettingsVBox.getChildren().addAll(this.languagesHBox, this.useAnimationsHBox, this.removeCacheButton, this.colorHBox, this.exceptionHBox);
+        this.buttonHBox.getChildren().addAll(this.applyButton, this.closeButton);
 
         //Adding it all together.
-        gridPane.addRow(0, generalSettingsVBox);
-        gridPane.addRow(1, buttonHBox);
+        this.gridPane.addRow(0, this.generalSettingsVBox);
+        this.gridPane.addRow(1, this.buttonHBox);
     }
 
     //TODO: Refactor so that there is no duplicate code.

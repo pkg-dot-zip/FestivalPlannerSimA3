@@ -1,10 +1,6 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
-import java.awt.geom.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
@@ -23,9 +19,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.awt.geom.Point2D;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * Responsible for placing everything in the correct place in the Agenda GUI and making sure all the buttons work.
@@ -38,47 +41,49 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();
 
-    // Agenda variables
+    //Agenda variables
     private Agenda agenda = new Agenda();
     private ArtistManager artistManager = new ArtistManager();
     private PodiumManager podiumManager = new PodiumManager();
     private ArrayList<Show> selectedShows = new ArrayList<>();
 
-    // Scenes
+    //Scenes
     private Scene agendaScene;
 
-    // Panes
+    //Panes
     private BorderPane mainLayoutPane = new BorderPane();
+    private VBox topVBox = new VBox();
+    private HBox toggleHBox = new HBox();
 
-    // ToggleButtons
-    Button agendaButton = new Button(messages.getString("agenda"));
-    Button simulatorButton = new Button(messages.getString("simulator"));
-    Button useButton = new Button(messages.getString("Simulate_Agenda"));
+    //ToggleButtons
+    private Button agendaButton = new Button(messages.getString("agenda"));
+    private Button simulatorButton = new Button(messages.getString("simulator"));
+    private Button useButton = new Button(messages.getString("simulate_agenda"));
 
-    // MenuBar
+    //MenuBar.
     private MenuBar menuBar = new MenuBar();
-    //FileMenu
+    //FileMenu.
     private Menu fileMenu = new Menu(messages.getString("file"));
     private MenuItem loadAgendaMenuItem = new MenuItem(messages.getString("load"));
     private MenuItem saveAgendaMenuItem = new MenuItem(messages.getString("save"));
     private MenuItem exitMenuItem = new MenuItem(messages.getString("exit"));
-    //EditMenu
+    //EditMenu.
     private Menu editMenu = new Menu(messages.getString("edit"));
     private MenuItem editCurrentlySelectedShow = new MenuItem(messages.getString("edit_show"));
     private MenuItem editArtistsAndPodiumsMenuItem = new MenuItem(messages.getString("edit_artists_and_podiums"));
     private MenuItem preferencesMenuItem = new MenuItem(messages.getString("preferences"));
-    //HelpMenu
+    //HelpMenu.
     private Menu helpMenu = new Menu(messages.getString("help"));
     private MenuItem helpGuideMenuItem = new MenuItem(messages.getString("help_guide"));
     private MenuItem javaDocMenuItem = new MenuItem(messages.getString("javadoc"));
     private MenuItem aboutMenuItem = new MenuItem(messages.getString("about"));
 
-    // Layout components
+    //Layout components.
     private AgendaCanvas agendaCanvas;
 
-    //ContextMenu
+    //ContextMenu.
     private ContextMenu contextMenu = new ContextMenu();
-    private MenuItem swapContextItem = new MenuItem(messages.getString("swap")); //TODO: Allow multiple items to be selected. Only swap if 2 are selected.
+    private MenuItem swapContextItem = new MenuItem(messages.getString("swap"));
     private MenuItem editContextItem = new MenuItem(messages.getString("edit"));
     private MenuItem removeContextItem = new MenuItem(messages.getString("remove"));
 
@@ -88,8 +93,6 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * The given <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> will be stored
      * as a parameter so this stage can be referenced as the main
      * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>.
-     * </p>
-     *
      * @param stage will be stored
      *              as a parameter so this stage can be referenced as the owner of the sub stages
      *              <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
@@ -120,36 +123,29 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     public void setup() {
         //Initialise values.
         this.agendaCanvas = new AgendaCanvas(this.agenda, this);
-        VBox topVBox = new VBox();
-        HBox toggleHBox = new HBox();
-
-
-        //Adding all the children.
-        //MenuBar
-        fileMenu.getItems().addAll(loadAgendaMenuItem, saveAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
-        editMenu.getItems().addAll(editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), editCurrentlySelectedShow, new SeparatorMenuItem(), preferencesMenuItem);
-        helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
-        menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
-        //ContextMenu
-        contextMenu.getItems().addAll(swapContextItem, editContextItem, new SeparatorMenuItem(), removeContextItem);
-
-        //Setting VBox spacing
-        topVBox.getChildren().addAll(this.menuBar, toggleHBox);
-        topVBox.setSpacing(VBOX_SPACING);
-        //Adding the buttons
-        toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton, this.useButton);
-        toggleHBox.setAlignment(Pos.CENTER);
-        toggleHBox.setSpacing(HBOX_SPACING);
-
-        // Disabling button
         this.agendaButton.setDisable(true);
         this.simulatorButton.setDisable(true);
 
-        //Adding it all together.
-        this.mainLayoutPane.setTop(topVBox);
-        this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
+        //Alignment & Spacing.
+        this.topVBox.setSpacing(VBOX_SPACING);
+        this.toggleHBox.setAlignment(Pos.CENTER);
+        this.toggleHBox.setSpacing(HBOX_SPACING);
 
-        //Making it into a scene
+        //Adding all the children.
+            //MenuBar.
+        this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, this.saveAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
+        this.editMenu.getItems().addAll(this.editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), this.editCurrentlySelectedShow, new SeparatorMenuItem(), this.preferencesMenuItem);
+        this.helpMenu.getItems().addAll(this.helpGuideMenuItem, this.javaDocMenuItem, this.aboutMenuItem);
+        this.menuBar.getMenus().addAll(this.fileMenu, this.editMenu, this.helpMenu);
+            //ContextMenu.
+        this.contextMenu.getItems().addAll(this.swapContextItem, this.editContextItem, new SeparatorMenuItem(), this.removeContextItem);
+            //Panes.
+        this.topVBox.getChildren().addAll(this.menuBar, this.toggleHBox);
+        this.toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton, this.useButton);
+
+        //Adding it all together.
+        this.mainLayoutPane.setTop(this.topVBox);
+        this.mainLayoutPane.setCenter(this.agendaCanvas.getMainPane());
         this.agendaScene = new Scene(this.mainLayoutPane);
     }
 
@@ -165,11 +161,11 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             if (e.getButton() == MouseButton.PRIMARY) { //You can only select with a left-click.
                 //In case it still shows it should be hidden, since a new item is selected and some
                 //actions executed by the ContextMenu depend on selected items.
-                contextMenu.hide();
+                this.contextMenu.hide();
                 onPrimaryButton(e);
             } else if (e.getButton() == MouseButton.SECONDARY) {
                 if (getCurrentShow() != null){
-                    contextMenu.show(agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
+                    this.contextMenu.show(this.agendaCanvas.getMainPane(), e.getScreenX(), e.getScreenY());
                 }
             }
         });
@@ -186,27 +182,27 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
         //MenuBar
             //FileMenu
-        loadAgendaMenuItem.setOnAction(e -> {
+        this.loadAgendaMenuItem.setOnAction(e -> {
             loadAgenda();
         });
 
-        saveAgendaMenuItem.setOnAction(e -> {
+        this.saveAgendaMenuItem.setOnAction(e -> {
             saveAgenda();
         });
 
-        exitMenuItem.setOnAction(e -> {
+        this.exitMenuItem.setOnAction(e -> {
             AbstractDialogPopUp.showExitConfirmationPopUp();
         });
 
             //EditMenu
-        editArtistsAndPodiumsMenuItem.setOnAction(e -> {
+        this.editArtistsAndPodiumsMenuItem.setOnAction(e -> {
             ArtistAndPodiumEditorGUI artistAndPodiumEditorGUI = new ArtistAndPodiumEditorGUI(this,
                     this.podiumManager.getObservablePodiumList(),
                     this.artistManager.getObservableArtistList());
             artistAndPodiumEditorGUI.load();
         });
 
-        editCurrentlySelectedShow.setOnAction(e -> {
+        this.editCurrentlySelectedShow.setOnAction(e -> {
             if (!this.artistManager.getAllArtistNames().isEmpty() && !this.podiumManager.getAllPodiumNames().isEmpty()) {
                 ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
                 showEditorGUI.load();
@@ -215,19 +211,19 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             }
         });
 
-        preferencesMenuItem.setOnAction(e -> {
+        this.preferencesMenuItem.setOnAction(e -> {
             PreferencesGUI preferencesGUI = new PreferencesGUI(this.stage);
             preferencesGUI.load();
         });
             //HelpMenu
-        aboutMenuItem.setOnAction(e -> {
+        this.aboutMenuItem.setOnAction(e -> {
             AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
             aboutPopUp.load();
         });
 
         //ContextMenu
             //Edit
-        editContextItem.setOnAction(e -> {
+        this.editContextItem.setOnAction(e -> {
             if (getCurrentShow() != null) {
                 ShowEditorGUI showEditorGUI = new ShowEditorGUI(this);
                 showEditorGUI.load();
@@ -238,7 +234,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         });
 
             //Swap
-        swapContextItem.setOnAction(e -> {
+        this.swapContextItem.setOnAction(e -> {
             if (getSelectedShows().size() < 2){
                 AbstractDialogPopUp.showNoLayerSelectedPopUp();
             } else if (getSelectedShows().size() > 2){
@@ -257,7 +253,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         });
 
             //Remove
-        removeContextItem.setOnAction(e -> {
+        this.removeContextItem.setOnAction(e -> {
             removeCurrentShows();
         });
     }
@@ -277,7 +273,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     /**
      * CallBack method to open <code>this.artistPopup</code>.
      */
-    public void artistPopupCallBack() {
+    void artistPopupCallBack() {
         ArtistPopUp artistPopUp = new ArtistPopUp(this.stage, this.artistManager);
         artistPopUp.load();
     }
@@ -285,28 +281,28 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     /**
      * CallBack method to open <code>this.podiumCallBack</code>.
      */
-    public void podiumPopupCallBack() {
+    void podiumPopupCallBack() {
         PodiumPopup podiumPopup = new PodiumPopup(this.stage, this.podiumManager);
-        podiumPopup.load();
+        podiumPopup.load(); //TODO: Refactor so this is one line.
     }
 
     /**
      * CallBack method to open <code>this.artistPopup</code> to edit an
      * <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a>.
-     * @param selectedArtist the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> that will be edited
+     * @param selectedArtist  the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> that will be edited
      */
-    public void artistPopupEditCallBack(Artist selectedArtist) {
+    void artistPopupEditCallBack(Artist selectedArtist) {
         ArtistPopUp artistPopUp = new ArtistPopUp(this.stage, this.artistManager, selectedArtist);
-        artistPopUp.load();
+        artistPopUp.load(); //TODO: Refactor so this is one line.
         this.agendaCanvas.reBuildAgendaCanvas();
     }
 
     /**
      * CallBack method to open <code>this.podiumPopup</code> to edit a
      * <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>.
-     * @param selectedPodium the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> that will be edited
+     * @param selectedPodium  the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> that will be edited
      */
-    public void podiumPopupEditCallBack(Podium selectedPodium) {
+    void podiumPopupEditCallBack(Podium selectedPodium) {
         PodiumPopup podiumPopup = new PodiumPopup(this.stage, this.podiumManager, selectedPodium);
         podiumPopup.load();
         this.agendaCanvas.reBuildAgendaCanvas();
@@ -364,12 +360,10 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     /**
      * Handles the selecting of <a href="{@docRoot}/FestivalPlanner/AgendaGUI/ShowRectangle2D.html">Rectangle2D</a> in
      * <code>this.agendaCanvas</code>.
-     *
      * @param e  MouseEvent that was set on the mouseButtonClick
      */
     private void onPrimaryButton(MouseEvent e) {
         Show selectedShow = this.agendaCanvas.showAtPoint(new Point2D.Double(e.getX(), e.getY()));
-//        this.agendaCanvas.rectangleOnShow(selectedShow).setColor(java.awt.Color.getHSBColor(100 / 360f, .7f, .7f));
 
         if (selectedShow != null) {
             //Allowing multiple shows to be selected.
@@ -423,7 +417,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     /**
      * Sets the <code>this.currentShow</code> attribute to the parameter's value.
      */
-    public void setCurrentShow(Show show) {
+    void setCurrentShow(Show show) {
         this.selectedShows.clear();
         this.selectedShows.add(show);
 
@@ -441,7 +435,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * @return  this.currentShow
      */
     @Nullable
-    public Show getCurrentShow() {
+    Show getCurrentShow() {
         if (!this.selectedShows.isEmpty()){
             return this.selectedShows.get(this.selectedShows.size() - 1);
         } else {
@@ -449,7 +443,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         }
     }
 
-    public ArrayList<Show> getSelectedShows() {
+    ArrayList<Show> getSelectedShows() {
         return this.selectedShows;
     }
 
@@ -467,7 +461,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * @return  this.artistManager
      */
     @NotNull
-    public ArtistManager getArtistManager() {
+    ArtistManager getArtistManager() {
         return this.artistManager;
     }
 

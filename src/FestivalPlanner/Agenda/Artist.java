@@ -89,7 +89,6 @@ public class Artist implements Serializable {
         out.defaultWriteObject();
         //TODO: NOTE : DO NOT CHANGE ACCESS-MODIFIER.
         try {
-            System.out.println("test");
             File pictureFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Picture.png");
             pictureFile.mkdirs();
             File spriteFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Sprite.png");

@@ -82,7 +82,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         //Initialise values.
         this.nameField.clear();
 
-        //make items for picturesHBox
+        //Make items for picturesHBox.
         pictureView.setImage(null);
         pictureView.setFitHeight(50);
         pictureView.setFitWidth(50);

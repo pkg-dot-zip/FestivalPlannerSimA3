@@ -42,5 +42,4 @@ public class SaveHandler implements Serializable {
 
         return agenda;
     }
-
 }
