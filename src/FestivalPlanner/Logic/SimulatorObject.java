@@ -27,9 +27,13 @@ public class SimulatorObject {
 
     /**
      * Main constructor for SimulatorPodium
-     * @param location  The location the object is at
-     * @param width  The width of the object
-     * @param height  The height of the object
+     * @param location       The location the object is at
+     * @param width          The width of the object
+     * @param height         The height of the object
+     * @param rotation       The rotation of the object
+     * @param name           The name of the object
+     * @param collisionLayer The Layer to base pathfinding on
+     * @param locationString The location name the object is at
      */
     public SimulatorObject(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer, String locationString) {
         this.location = location;
