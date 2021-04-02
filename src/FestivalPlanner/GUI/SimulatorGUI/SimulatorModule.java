@@ -133,11 +133,11 @@ public class SimulatorModule extends AbstractGUI {
         //MenuBar
         //FileMenu
         loadAgendaMenuItem.setOnAction(e -> {
-
+            //todo: implement
         });
 
         saveAgendaMenuItem.setOnAction(e -> {
-
+            //todo: implement
         });
 
         exitMenuItem.setOnAction(e -> {
@@ -156,7 +156,7 @@ public class SimulatorModule extends AbstractGUI {
         });
 
         npcEditMenuItem.setOnAction(e -> {
-            NPCEditGUI npcEditGUI = new NPCEditGUI();
+            NPCEditGUI npcEditGUI = new NPCEditGUI(this.handler);
             npcEditGUI.load();
         });
 
@@ -166,6 +166,7 @@ public class SimulatorModule extends AbstractGUI {
             aboutPopUp.load();
         });
 
+        //Agenda button
         this.agendaButton.setOnAction(event -> {
             this.mainGUI.loadAgendaCallBack();
         });

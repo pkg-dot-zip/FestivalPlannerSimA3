@@ -407,4 +407,19 @@ public class SimulatorHandler {
         }
     }
 
+    /**
+     * Getter for <code>this.NPCAmount</code>
+     * @return <code>this.NPCAmount</code>
+     */
+    public int getNPCAmount() {
+        return NPCAmount;
+    }
+
+    /**
+     * Setter for <code>this.NPCAmount</code>
+     * @param NPCAmount  Sets <code>this.NPCAmount</code> to the given value
+     */
+    public void setNPCAmount(int NPCAmount) {
+        this.NPCAmount = NPCAmount;
+    }
 }

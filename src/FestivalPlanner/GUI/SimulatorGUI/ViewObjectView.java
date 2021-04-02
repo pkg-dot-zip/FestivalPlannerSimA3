@@ -1,6 +1,7 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
 import FestivalPlanner.GUI.AbstractGUI;
+import FestivalPlanner.Logic.SimulatorHandler;
 
 public class ViewObjectView extends AbstractGUI {
 
