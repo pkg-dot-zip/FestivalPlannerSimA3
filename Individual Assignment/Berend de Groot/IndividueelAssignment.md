@@ -200,7 +200,54 @@ Dit is hoe de ColorPicker GUI eruit ziet:
 Dit is hoe de shows eruit zien nadat ik deze kleur geselecteerd heb:
 ![JavaDoc](Images/Colors2.png)
 
+Dit is de code die de kleuren opslaat:
+```
+@NotNull
+public static void setSelectedColor(javafx.scene.paint.Color colorInput){
+    Color color = ColorConverter.fromJavaFXToAwt(colorInput);
+    setPreference("selected_show_color", String.valueOf(color.getRGB()));
+    Color.decode(getPreference("selected_show_color"));
+}
+```
+
+Dit is de code die de kleuren zet naar de standaard waarden:
+```
+public static void restoreDefaultColors(){
+    Color selectedColor = Color.getHSBColor(190 / 360f, .7f, .7f);
+    Color unselectedColor = Color.getHSBColor(100 / 360f, .7f, .9f);
+
+    setPreference("selected_show_color", String.valueOf(selectedColor.getRGB()));
+    setPreference("unselected_show_color", String.valueOf(unselectedColor.getRGB()));
+}
+```
+
 ###Cache Verwijderen
 Jesse en ik hadden overlegd over het opslaan van afbeeldingen en hebben besloten dit te doen in de gebruiker
 zijn / haar / hun / het (?) appdata. 
 
+//TODO: Afbeeldingen hier.
+
+Dit is de code die de afbeeldingen schrijft:
+```
+try {
+    File pictureFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Picture.png");
+    pictureFile.mkdirs();
+    File spriteFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Sprite.png");
+    spriteFile.mkdirs();
+    ImageIO.write(this.picture, "png", pictureFile);
+    ImageIO.write(this.sprite, "png", spriteFile);
+} catch (Exception e) {
+    e.printStackTrace();
+    AbstractDialogPopUp.showExceptionPopUp(e);
+}
+```
+
+###Week 5
+
+
+###Week 6
+
+###Week 7
+
+###Week 8
+//TODO: In week 8 werken.
