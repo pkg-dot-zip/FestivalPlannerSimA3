@@ -73,13 +73,18 @@ public class NPC {
             this.target = this.targetObject.getNextDirection(this.position);
         }
 
-        if (this.target.distanceSq(position) < 3){
-            this.isSeparating = false;
-            this.npcState = new IdleState();
+        if (this.targetObject != null) {
+            if ((targetObject.isWithin(this.position)) &&
+                    !this.npcState.getClass().equals(ViewingState.class)) {
+                this.npcState = new ViewingState();
+            }if (this.target.distanceSq(position) > 3) {
+                this.npcState = new MovingState();
+            }
         } else if (this.target.distanceSq(position) > 3) {
             this.npcState = new MovingState();
-        } else if (!(this.npcState.getClass().equals(ViewingState.class))){ //TODO: maken zodat er gekeken wordt naar positie/targetobject
-            this.npcState = new ViewingState();
+        } else {
+            this.isSeparating = false;
+            this.npcState = new IdleState();
         }
 
         Point2D oldPosition = this.position;
@@ -172,7 +177,7 @@ public class NPC {
             }
         }
 
-//        this.debugPrint();
+        //this.debugPrint();
     }
 
 

@@ -4,7 +4,9 @@ import FestivalPlanner.TileMap.TileLayer;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -151,5 +153,13 @@ public class SimulatorObject {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    public boolean isWithin(Point2D point){
+        Rectangle2D rectangle = new Rectangle2D.Double(location.getX(), location.getY(), width, height);
+        AffineTransform rectangleTransform = new AffineTransform();
+        rectangleTransform.rotate(Math.toRadians(this.rotation), this.location.getX(), this.location.getY());
+
+        return rectangle.contains(point);
     }
 }
