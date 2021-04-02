@@ -14,8 +14,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 /**
@@ -40,13 +42,16 @@ public class SimulatorModule extends AbstractGUI {
     private BorderPane mainPane;
     private Stage stage;
     private Scene simulatorScene;
+    private VBox topVBox;
+
+    //Time label
+    private Label timeLabel;
 
     // MenuBar
     private MenuBar menuBar = new MenuBar();
     //FileMenu
     private Menu fileMenu = new Menu(messages.getString("file"));
     private MenuItem loadAgendaMenuItem = new MenuItem(messages.getString("load"));
-    private MenuItem saveAgendaMenuItem = new MenuItem(messages.getString("save"));
     private MenuItem exitMenuItem = new MenuItem(messages.getString("exit"));
     //EditMenu
     private Menu optionsMenu = new Menu(messages.getString("options"));
@@ -92,10 +97,10 @@ public class SimulatorModule extends AbstractGUI {
 
         //Adding all the children.
         //MenuBar
-        fileMenu.getItems().addAll(loadAgendaMenuItem, saveAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
+        fileMenu.getItems().addAll(loadAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
         optionsMenu.getItems().addAll(viewPartMenuItem, new SeparatorMenuItem(), timeEditMenuItem, new SeparatorMenuItem(), npcEditMenuItem);
         helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
-        menuBar.getMenus().addAll(fileMenu, optionsMenu, helpMenu);
+        menuBar.getMenus().addAll(optionsMenu, helpMenu);
 
 
         //Switching buttons
@@ -111,7 +116,7 @@ public class SimulatorModule extends AbstractGUI {
             this.simulatorButton.setDisable(true);
 
         // Top bar
-        VBox topVBox = new VBox();
+        topVBox = new VBox();
         topVBox.getChildren().addAll(this.menuBar, toggleHBox);
         topVBox.setSpacing(5);
 
@@ -121,6 +126,12 @@ public class SimulatorModule extends AbstractGUI {
         this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
 
         this.simulatorScene = new Scene(this.mainPane);
+
+        //Set time label
+        this.timeLabel = new Label("Time: " + handler.getTime());
+        this.timeLabel.setFont(new Font(16));
+
+        topVBox.getChildren().add(timeLabel);
     }
 
     @Override
@@ -131,14 +142,6 @@ public class SimulatorModule extends AbstractGUI {
         });
 
         //MenuBar
-        //FileMenu
-        loadAgendaMenuItem.setOnAction(e -> {
-            //todo: implement
-        });
-
-        saveAgendaMenuItem.setOnAction(e -> {
-            //todo: implement
-        });
 
         exitMenuItem.setOnAction(e -> {
             AbstractDialogPopUp.showExitConfirmationPopUp();
@@ -170,6 +173,11 @@ public class SimulatorModule extends AbstractGUI {
         this.agendaButton.setOnAction(event -> {
             this.mainGUI.loadAgendaCallBack();
         });
+    }
+
+    public void updateTime() {
+        LocalTime time = handler.getTime();
+        timeLabel.setText("    Time: " + time.getHour() + ":" + time.getMinute());
     }
 
     /**
