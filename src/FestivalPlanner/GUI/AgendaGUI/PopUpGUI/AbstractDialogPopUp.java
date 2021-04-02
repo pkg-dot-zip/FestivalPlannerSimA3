@@ -2,7 +2,6 @@ package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
-import FestivalPlanner.Util.SoundHandling.SystemSoundEnum;
 import FestivalPlanner.Util.SoundHandling.WindowsSystemSoundHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -40,7 +39,7 @@ public class AbstractDialogPopUp {
         alert.setHeaderText(messages.getString("are_you_sure_you_want_to_exit"));
         alert.setContentText(messages.getString("any_unsaved_changes_will_be_lost"));
 
-        WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
+        WindowsSystemSoundHandler.load(WindowsSystemSoundHandler.HAND);
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
@@ -57,7 +56,7 @@ public class AbstractDialogPopUp {
         alert.setHeaderText(messages.getString("are_you_sure_you_want_to_remove_this_show"));
         alert.setContentText(messages.getString("the_show_will_be_lost"));
 
-        WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
+        WindowsSystemSoundHandler.load(WindowsSystemSoundHandler.HAND);
 
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
@@ -72,7 +71,7 @@ public class AbstractDialogPopUp {
         alert.setTitle(messages.getString("empty_textfields"));
         alert.setHeaderText(messages.getString("missing_values"));
         alert.setContentText(messages.getString("please_fill_in_the_required_textfields"));
-        WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
+        WindowsSystemSoundHandler.load(WindowsSystemSoundHandler.DEFAULT);
         alert.showAndWait();
     }
 
@@ -86,7 +85,7 @@ public class AbstractDialogPopUp {
         alert.setTitle(messages.getString("duplicate_artists"));
         alert.setHeaderText(messages.getString("artist_already_occupied"));
         alert.setContentText(messages.getString("please_remove_already_assigned_artists"));
-        WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
+        WindowsSystemSoundHandler.load(WindowsSystemSoundHandler.DEFAULT);
         alert.showAndWait();
     }
 
@@ -109,7 +108,7 @@ public class AbstractDialogPopUp {
             alert.setTitle(messages.getString("exception"));
             alert.setHeaderText(messages.getString("program_interrupted"));
             alert.setContentText(messages.getString("an_exception_has_occurred"));
-            WindowsSystemSoundHandler.load(SystemSoundEnum.HAND);
+            WindowsSystemSoundHandler.load(WindowsSystemSoundHandler.HAND);
 
             exceptionGridPane.setMaxWidth(Double.MAX_VALUE);
             exceptionGridPane.addRow(0, textArea);
@@ -129,7 +128,7 @@ public class AbstractDialogPopUp {
         alert.setTitle(messages.getString("cant_create_show"));
         alert.setHeaderText(messages.getString("no_artists_and_or_podiums_to_choose_from"));
         alert.setContentText(messages.getString("please_open_the_artist"));
-        WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
+        WindowsSystemSoundHandler.load(WindowsSystemSoundHandler.DEFAULT);
         alert.showAndWait();
     }
 
@@ -142,7 +141,7 @@ public class AbstractDialogPopUp {
         alert.setTitle(messages.getString("cant_get_selected_show"));
         alert.setHeaderText(messages.getString("no_selected_layer"));
         alert.setContentText(messages.getString("please_select_a_show_and_try_again"));
-        WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
+        WindowsSystemSoundHandler.load(WindowsSystemSoundHandler.DEFAULT);
         alert.showAndWait();
     }
 
@@ -157,7 +156,7 @@ public class AbstractDialogPopUp {
         alert.setTitle(messages.getString("too_many_layers_selected"));
         alert.setHeaderText(messages.getString("expected_two_layers"));
         alert.setContentText(messages.getString("expected_two_layers_content") + showCount + "!");
-        WindowsSystemSoundHandler.load(SystemSoundEnum.DEFAULT);
+        WindowsSystemSoundHandler.load(WindowsSystemSoundHandler.DEFAULT);
         alert.showAndWait();
     }
 }

@@ -173,6 +173,11 @@ public class SimulatorHandler {
      */
     public void draw(FXGraphics2D g2d) {
         this.tileMap.draw(g2d);
+
+        for (SimulatorObject object : this.podiumObjectHashMap.values()) {
+            object.draw(g2d);
+        }
+
         for (NPC npc : this.npcList) {
             npc.draw(g2d);
         }
@@ -180,11 +185,7 @@ public class SimulatorHandler {
         for (NPC npc : this.artistNPCList) {
             npc.draw(g2d);
         }
-
-        for (SimulatorObject object : this.podiumObjectHashMap.values()) {
-            object.draw(g2d);
-        }
-
+        
         //Todo: remove bc debug
         g2d.setColor(Color.black);
         g2d.drawString(this.time.toString(), 0, 10);
@@ -204,7 +205,7 @@ public class SimulatorHandler {
         // Updating NPC's
         setupNPC(deltaTime * this.speed);
         for (NPC npc : this.npcList) {
-            npc.update(this.npcList);
+            npc.update(npcList);
         }
 
         for (NPC artistNPC : this.artistNPCList) {
@@ -458,4 +459,27 @@ public class SimulatorHandler {
         }
     }
 
+    /**
+     * Getter for <code>this.NPCAmount</code>
+     * @return <code>this.NPCAmount</code>
+     */
+    public int getNPCAmount() {
+        return NPCAmount;
+    }
+
+    /**
+     * Setter for <code>this.NPCAmount</code>
+     * @param NPCAmount  Sets <code>this.NPCAmount</code> to the given value
+     */
+    public void setNPCAmount(int NPCAmount) {
+        this.NPCAmount = NPCAmount;
+    }
+
+    /**
+     * Gets a list of all the SimulatorPodiums that are used in the <code>this.agenda</code>.
+     * @return  A list with all the values in <code>this.podiumObjectHashMap</code>
+     */
+    public ArrayList<SimulatorPodium> getPodiums() {
+        return new ArrayList<>(this.podiumObjectHashMap.values());
+    }
 }

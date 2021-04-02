@@ -134,10 +134,22 @@ public class SimulatorObject {
 
     }
 
+    /**
+     * Getter for <code>this.location</code>
+     * @return <code>this.location</code>
+     */
+    public Point2D getLocation() {
+        return location;
+    }
 
     public void debugDraw(Graphics2D g2d){}
 
     public String getLocationString() {
         return locationString;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }
