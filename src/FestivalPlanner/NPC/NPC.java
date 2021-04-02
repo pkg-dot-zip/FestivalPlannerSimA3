@@ -69,6 +69,22 @@ public class NPC {
         this.centerY = spritesLeft.get(0).getHeight() / 2;
     }
 
+    public NPC(Point2D position, ArrayList<ArrayList<BufferedImage>> spriteSheets) {
+        this.targetObject = null;
+        this.position = position;
+        this.target = position;
+        this.frame = Math.random() * 10;
+
+        this.gameSpeed = (60 * 5);
+        this.spritesUp = spriteSheets.get(2);
+        this.spritesDown = spriteSheets.get(1);
+        this.spritesLeft = spriteSheets.get(0);
+        this.spritesRight = spriteSheets.get(3);
+        //now here
+        this.centerX = spritesLeft.get(0).getWidth() / 2;
+        this.centerY = spritesLeft.get(0).getHeight() / 2;
+    }
+
 
 
 

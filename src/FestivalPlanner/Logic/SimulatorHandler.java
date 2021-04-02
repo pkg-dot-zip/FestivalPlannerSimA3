@@ -1,16 +1,15 @@
 package FestivalPlanner.Logic;
 
-import FestivalPlanner.Agenda.Agenda;
-import FestivalPlanner.Agenda.Podium;
-import FestivalPlanner.Agenda.PodiumManager;
-import FestivalPlanner.Agenda.Show;
+import FestivalPlanner.Agenda.*;
 import FestivalPlanner.NPC.NPC;
 import FestivalPlanner.TileMap.*;
+import FestivalPlanner.Util.ImageLoader;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -22,11 +21,13 @@ public class SimulatorHandler {
 
     // NPC attributes
     private ArrayList<NPC> npcList;
+    private ArrayList<NPC> artistNPCList;
     private int NPCAmount = 10;
 
     // Agenda attributes
     private Agenda agenda;
     private PodiumManager podiumManager;
+    private ArtistManager artistManager;
 
     private HashMap<String, SimulatorPodium> podiumObjectHashMap;
     private HashMap<String, SimulatorObject> danceObjectHashMap;
@@ -48,12 +49,12 @@ public class SimulatorHandler {
      * Empty constructor for SimulatorHandler.
      */
     public SimulatorHandler() {
-        this(new Agenda(), new PodiumManager());
+        this(new Agenda(), new PodiumManager(), new ArtistManager());
     }
 
-    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager) {
+    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArtistManager artistManager) {
         //Todo: remember to remove when loading maps is implemented
-        this(agenda, podiumManager, new JsonConverter().JSONToTileMap("/testMap.json"));
+        this(agenda, podiumManager, artistManager, new JsonConverter().JSONToTileMap("/testMap.json"));
     }
 
     /**
@@ -61,12 +62,14 @@ public class SimulatorHandler {
      *
      * @param tileMap The TileMap to set <code>this.tileMap</code> to
      */
-    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, TileMap tileMap) {
+    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArtistManager artistManager, TileMap tileMap) {
         this.npcList = new ArrayList<>();
+        this.artistNPCList = new ArrayList<>();
         this.tileMap = tileMap;
 
         this.agenda = agenda;
         this.podiumManager = podiumManager;
+        this.artistManager = artistManager;
 
         reset(agenda);
     }
@@ -96,9 +99,12 @@ public class SimulatorHandler {
 
         generatePodiumHashMap();
 
+
         this.time = LocalTime.MIDNIGHT;
 
         this.npcList.clear();
+        this.artistNPCList.clear();
+        spawnAllArtistNPCs();
     }
 
     /**
@@ -131,6 +137,7 @@ public class SimulatorHandler {
      *
      */
     private void generateObjects() {
+
         for (Layer layer : this.tileMap.getLayers()) {
             if (layer instanceof ObjectLayer) {
                 for (TileObject tileObject : ((ObjectLayer) layer).getTileObjects()) {
@@ -168,6 +175,10 @@ public class SimulatorHandler {
             npc.draw(g2d);
         }
 
+        for (NPC npc : this.artistNPCList) {
+            npc.draw(g2d);
+        }
+
         for (SimulatorObject object : this.podiumObjectHashMap.values()) {
             object.draw(g2d);
         }
@@ -194,6 +205,10 @@ public class SimulatorHandler {
             npc.update(this.npcList);
         }
 
+        for (NPC artistNPC : this.artistNPCList) {
+            artistNPC.update(this.npcList);
+        }
+
         //Updating set Podiums
         for (SimulatorObject object : this.simulatorObjects){
             object.update(deltaTime);
@@ -216,6 +231,7 @@ public class SimulatorHandler {
      * @param timePast  The time spend since last update
      */
     private void setupNPC(double timePast) {
+
         this.currentNPCSpawnTime -= timePast;
 
         if (this.currentNPCSpawnTime < 0) {
@@ -240,15 +256,36 @@ public class SimulatorHandler {
         }
     }
 
+    //TODO Change spawn point.
+    public void spawnAllArtistNPCs() {
+        for (String artist : this.artistManager.getAllArtistNames()) {
+            Artist currentArtist = this.artistManager.getArtist(artist);
+
+            ArrayList<ArrayList<BufferedImage>> customSpriteSheet = ImageLoader.loadImage(currentArtist.getSprite());
+
+            boolean running = true;
+            while (running) {
+                System.out.println("HELP");
+                Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
+                NPC artistNPC = new NPC(location, customSpriteSheet);
+                artistNPC.setGameSpeed(this.speed);
+
+                    this.npcList.add(artistNPC);
+                    running = false;
+
+            }
+        }
+    }
+
     private void checkShows() {
         ArrayList<Show> oldActiveShows = this.activeShows;
         this.activeShows = getActiveShows(this.time);
-
 
         if (this.activeShows.size() > 0) {
             ArrayList<Show> startingShows = new ArrayList<>(activeShows);
             startingShows.removeAll(oldActiveShows);
             for (Show show : startingShows) {
+
                 //shows that have started
                 onShowStart(show);
             }
