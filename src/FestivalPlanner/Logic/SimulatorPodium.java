@@ -31,7 +31,7 @@ public class SimulatorPodium extends SimulatorObject{
         super(location, width, height, rotation, name, collisionLayer, locationString);
         this.activeSprite = 0;
 
-        final int NUMBER_OF_IMAGES = 4;
+        final int NUMBER_OF_IMAGES = 6;
         try {
             this.offImage = ImageIO.read(getClass().getResourceAsStream("/Images/Stages/Stage_Off.png"));
 
@@ -39,7 +39,7 @@ public class SimulatorPodium extends SimulatorObject{
 
             this.activeImages = new BufferedImage[NUMBER_OF_IMAGES];
             for (int i = 0; i < NUMBER_OF_IMAGES; i++) {
-                this.activeImages[i] = activeImage.getSubimage(0, 100 * i, 200, 100);
+                this.activeImages[i] = activeImage.getSubimage(0, 111 * i, 207, 111);
             }
 
         } catch (IOException e) {
@@ -90,7 +90,7 @@ public class SimulatorPodium extends SimulatorObject{
         this.activeAnimationTimer -= deltaTime;
 
         if (this.activeAnimationTimer < 0) {
-            this.activeAnimationTimer = 1.0;
+            this.activeAnimationTimer = 0.5;
             if (this.activeSprite < this.activeImages.length - 1) {
                 this.activeSprite++;
             } else {
