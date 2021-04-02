@@ -22,6 +22,7 @@ public class NPC {
     private final double SPEED = 1.0 / (60*5);
     private double gameSpeed;
     private double frame;
+    private double frameOffset;
 
     private Point2D target;
     private SimulatorObject targetObject;
@@ -72,32 +73,35 @@ public class NPC {
 
 
 
-    public void update(ArrayList<NPC> NPCs) {
+    public void update() {
         if (this.targetObject != null) {
             this.target = this.targetObject.getNextDirection(this.position);
         }
 
-        if(this.target.distanceSq(position) < 3) {
-            this.npcState = new IdleState();
-        } else {
+        if (this.target.distanceSq(position) > 3) {
             this.npcState = new MovingState();
+        } else if (!(this.npcState.getClass().equals(ViewingState.class))){
+            this.npcState = new ViewingState();
+        } else {
+            //this.npcState = new IdleState();
         }
 
         Point2D oldPosition = this.position;
 
-        this.npcState.handle(this);
 
-//        this.updateDirectionToFace();
-//        this.walkOnAxis();
+        this.npcState.handle(this);
 
         boolean hasCollision = false;
         //hasCollision = hasCollision || checkCollision(NPCs);
 
+        if (this.npcState.getClass().equals(MovingState.class)){
+            this.frame += Math.random() * 0.07;
+        } else {
+            this.frame = 1;
+        }
         if(hasCollision) {
             this.position = oldPosition;
-            this.frame = 0;
-        } else if (this.npcState.getClass().equals(MovingState.class)){
-            this.frame += 0.1;
+            this.frame = 1;
         }
     }
 
@@ -175,7 +179,7 @@ public class NPC {
         //Draws the NPC-sprite on the canvas.
         drawImage(g2d, listOfDirection(), tx);
         //Draws a circle (resembling the collider), and a line (from the current position to the destination).
-        debugDraw(g2d);
+        //debugDraw(g2d);
     }
 
     /**
@@ -257,6 +261,14 @@ public class NPC {
      */
     public void setDirection(Direction direction){
         this.direction = direction;
+    }
+
+    /**
+     * Getter for <code>this.direction</code>
+     * @return  current <code>Direction</code> of the <code>NPC</code>
+     */
+    public Direction getDirection(){
+        return this.direction;
     }
 
     /**
