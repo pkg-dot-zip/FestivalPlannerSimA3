@@ -9,7 +9,7 @@ public class ViewingState extends NPCState {
     @Override
     public void handle(NPC npc) {
         timer++;
-        System.out.println(timer);
+        //System.out.println(timer);
         if (timer % 500 == 0) {
             if (npc.getDirection().equals(Direction.LEFT)){
                 npc.setDirection(Direction.RIGHT);
