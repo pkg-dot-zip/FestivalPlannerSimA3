@@ -2,7 +2,6 @@ package FestivalPlanner.GUI.AgendaGUI.PopUpGUI;
 
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
-import FestivalPlanner.Util.SoundHandling.SystemSoundEnum;
 import FestivalPlanner.Util.SoundHandling.WindowsSystemSoundHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
