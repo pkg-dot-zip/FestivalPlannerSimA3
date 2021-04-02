@@ -22,7 +22,7 @@ public class SimulatorHandler {
     // NPC attributes
     private ArrayList<NPC> npcList;
     private ArrayList<NPC> artistNPCList;
-    private int NPCAmount = 10;
+    private int NPCAmount = 0;
 
     // Agenda attributes
     private Agenda agenda;
@@ -251,7 +251,7 @@ public class SimulatorHandler {
         Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
         NPC npc = new NPC(location, r.nextInt(NPC.getCharacterFiles()));
         npc.setGameSpeed(this.speed);
-        if (!npc.checkCollision(this.npcList)) {
+        if (!npc.checkCollision(this.npcList) && !npc.checkCollision(this.artistNPCList)) {
             this.npcList.add(npc);
         }
     }
@@ -261,18 +261,23 @@ public class SimulatorHandler {
         for (String artist : this.artistManager.getAllArtistNames()) {
             Artist currentArtist = this.artistManager.getArtist(artist);
 
-            ArrayList<ArrayList<BufferedImage>> customSpriteSheet = ImageLoader.loadImage(currentArtist.getSprite());
+            ArrayList<ArrayList<BufferedImage>> spriteSheet;
+
+            if (currentArtist.getSprite() != null) {
+                spriteSheet = ImageLoader.loadImage(currentArtist.getSprite());
+            } else {
+                spriteSheet = ImageLoader.getLists((int)(Math.random()));
+            }
 
             boolean running = true;
             while (running) {
-                System.out.println("HELP");
                 Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
-                NPC artistNPC = new NPC(location, customSpriteSheet);
+                NPC artistNPC = new NPC(location, spriteSheet);
                 artistNPC.setGameSpeed(this.speed);
-
+                if (!artistNPC.checkCollision(this.npcList) && !artistNPC.checkCollision(this.artistNPCList)) {
                     this.npcList.add(artistNPC);
                     running = false;
-
+                }
             }
         }
     }
