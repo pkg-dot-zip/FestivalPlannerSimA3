@@ -146,7 +146,7 @@ public class SimulatorModule extends AbstractGUI {
 
         //EditMenu
         viewPartMenuItem.setOnAction(e -> {
-            ViewObjectView simulatorViewPopUp = new ViewObjectView();
+            ViewObjectView simulatorViewPopUp = new ViewObjectView(this.handler, this.simulatorCanvas);
             simulatorViewPopUp.load();
         });
 

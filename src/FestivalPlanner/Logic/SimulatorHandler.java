@@ -422,4 +422,12 @@ public class SimulatorHandler {
     public void setNPCAmount(int NPCAmount) {
         this.NPCAmount = NPCAmount;
     }
+
+    /**
+     * Gets a list of all the SimulatorPodiums that are used in the <code>this.agenda</code>.
+     * @return  A list with all the values in <code>this.podiumObjectHashMap</code>
+     */
+    public ArrayList<SimulatorPodium> getPodiums() {
+        return new ArrayList<>(this.podiumObjectHashMap.values());
+    }
 }
