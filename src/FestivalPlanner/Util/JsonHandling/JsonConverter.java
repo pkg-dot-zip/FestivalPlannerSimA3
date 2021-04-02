@@ -49,9 +49,9 @@ public class JsonConverter extends AbstractDialogPopUp {
             return tileMap;
         } catch (Exception e) {
             showExceptionPopUp(e);
+        } finally {
+            return null;
         }
-
-        return null;
     }
 
     /**
@@ -169,7 +169,7 @@ public class JsonConverter extends AbstractDialogPopUp {
 
                 int tileWidth = tileSet.getInt("tilewidth");
                 int tileHeight = tileSet.getInt("tileheight");
-                int collums = tileSet.getInt("columns");
+                int collums = tileSet.getInt("columns"); //TODO: Remove this if this will never be used.
 
                 //Loading image in tileSet.
                 BufferedImage tileImage = ImageIO.read(getClass().getResourceAsStream(tileSet.getString("image")));
