@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class NPCEditGUI extends AbstractGUI {
 
-    SimulatorHandler handler;
+    private SimulatorHandler handler;
 
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();

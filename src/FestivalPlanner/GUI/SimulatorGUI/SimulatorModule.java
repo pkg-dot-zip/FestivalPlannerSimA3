@@ -151,7 +151,7 @@ public class SimulatorModule extends AbstractGUI {
         });
 
         timeEditMenuItem.setOnAction(e -> {
-            TimeEditGUI simulatorTimePopUp = new TimeEditGUI();
+            TimeEditGUI simulatorTimePopUp = new TimeEditGUI(this.handler);
             simulatorTimePopUp.load();
         });
 
