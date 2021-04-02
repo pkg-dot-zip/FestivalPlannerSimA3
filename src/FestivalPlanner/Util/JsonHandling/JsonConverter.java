@@ -49,9 +49,8 @@ public class JsonConverter extends AbstractDialogPopUp {
             return tileMap;
         } catch (Exception e) {
             showExceptionPopUp(e);
-        } finally {
-            return null;
         }
+        return null;
     }
 
     /**
