@@ -125,7 +125,7 @@
          "name":"Stage",
          "objects":[
                 {
-                 "height":100,
+                 "height":111,
                  "id":1,
                  "name":"StageA",
                  "properties":[
@@ -137,12 +137,12 @@
                  "rotation":0,
                  "type":"Podium",
                  "visible":true,
-                 "width":200,
-                 "x":1395.83666666667,
-                 "y":692.667
+                 "width":207.333333333333,
+                 "x":1391.83666666667,
+                 "y":688.333666666667
                 }, 
                 {
-                 "height":100,
+                 "height":112.666666666667,
                  "id":4,
                  "name":"StageB",
                  "properties":[
@@ -154,12 +154,12 @@
                  "rotation":90,
                  "type":"Podium",
                  "visible":true,
-                 "width":200,
-                 "x":1565.66333333333,
-                 "y":33.3333
+                 "width":206.666666666667,
+                 "x":1568.99666666666,
+                 "y":32.3333
                 }, 
                 {
-                 "height":103,
+                 "height":110.333333333333,
                  "id":8,
                  "name":"StageC",
                  "properties":[
@@ -171,12 +171,12 @@
                  "rotation":0,
                  "type":"Podium",
                  "visible":true,
-                 "width":198,
-                 "x":35.5,
-                 "y":18.5
+                 "width":208.333333333333,
+                 "x":32.1666666666667,
+                 "y":16.8333333333333
                 }, 
                 {
-                 "height":100,
+                 "height":111.333333333333,
                  "id":9,
                  "name":"StageD",
                  "properties":[
@@ -188,9 +188,9 @@
                  "rotation":270,
                  "type":"Podium",
                  "visible":true,
-                 "width":200,
-                 "x":53.6666666666667,
-                 "y":748.666666666666
+                 "width":208,
+                 "x":48.3333333333334,
+                 "y":751.999999999999
                 }, 
                 {
                  "height":100,

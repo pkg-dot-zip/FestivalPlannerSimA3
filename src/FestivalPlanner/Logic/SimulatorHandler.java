@@ -164,14 +164,13 @@ public class SimulatorHandler {
      */
     public void draw(FXGraphics2D g2d) {
         this.tileMap.draw(g2d);
-        for (NPC npc : this.npcList) {
-            npc.draw(g2d);
-        }
-
         for (SimulatorObject object : this.podiumObjectHashMap.values()) {
             object.draw(g2d);
         }
 
+        for (NPC npc : this.npcList) {
+            npc.draw(g2d);
+        }
         //Todo: remove bc debug
         g2d.setColor(Color.black);
         g2d.drawString(this.time.toString(), 0, 10);
@@ -191,7 +190,7 @@ public class SimulatorHandler {
         // Updating NPC's
         setupNPC(deltaTime * this.speed);
         for (NPC npc : this.npcList) {
-            npc.update(this.npcList);
+            npc.update(npcList);
         }
 
         //Updating set Podiums

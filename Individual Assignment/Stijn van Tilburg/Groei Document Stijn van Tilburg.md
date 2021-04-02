@@ -209,3 +209,204 @@ de artiesten en podiums, ik had ook meteen moeten nadenken over hoe die
 informatie werd verspreden.
 
 ## Week 5
+
+Deze week was het tijd om te zorgen dat het agenda gedeelte en het
+simulator gedeelte zichtbaar was in hetzelfde venster. Hiervoor was al
+een design gemaakt, dus aan ons (Ik heb hierbij samengewerkt met Jason)
+de taak om het een realiteit te maken. De moeilijkheid deze week zat niet
+in de code maar in de keuzes die we moesten maken.
+
+##### Simulator design
+
+![Simulator Design](./Images/simulatorDesign.png)
+
+Als we naar dit design kijken zien we onderaan 2 functies die optioneel zijn
+dus die knoppen hebben we niet erin geprogrammeerd totdat we zeker
+weten dat die functies in het programma komen.
+
+De eerste stap die we nomen was nadenken over hoe we de knoppen bovenaan
+om te wisselen wouden realiseren. Het was belangrijk dat er maar in knop
+te gelijk ingedrukt was, en dat de andere knop aangaf op een manier dat
+hij ingedrukt was.
+
+Ons eerste idee was om een Toggle Button te gebruiken. Die knop had alles
+wat we wouden, zolang we zorgde dat het naast elkaar kwam zou het exact zijn
+wat we willen. Maar toen kwamen we voor een probleem, het was niet 
+mogelijk om te zorgen dat je een knop niet kon in drukken zonder hem
+vervaagd te maken. Dat was natturlijk niet wat we wouden en het haalde al
+het nut van Toggle Buttons te gebruiken weg.
+
+We konden dit op te lossen door de actie van de uigedrukte knop indrukken
+de knop uitdrukken te maken. Of we moesten kiezen om normale knoppen te
+gebruiken en te accepteren dat ze vervaagd eruit gingen zien om aan
+te geven dat ze ingedrukt waren.
+
+We hebben ervoor gekozen om normale knoppen te gebruiken en te 
+accepteren dat ze er vervaagd uit gingen zien. Als anderen het er niet mee 
+eens waren dat kregen we het wel te horen, we waren op dit punt al 
+2 uur bezig alleen hiermee!
+
+##### Uiteindelijke design Simulator
+
+![Uitendelijke Simulator Design](./Images/simulatorGUI.png)
+
+Zoals te zien is hebben we het design van de zoom to podium verandert.
+Dit hebben we gedaan omdat we niet weten of de gebruiker alle podiums wilt
+gebruiken. Bij het oude design zouden daar dan onnodige radiobuttons zitten,
+En dat terwijl radiobuttons in mijn mening er slechter uitzien hierbij
+dan een ComboBox
+
+De rest van de code is niets bijzonders, wel hebben we nog wat design 
+improvements gemaakt. We hadden bijvoorbeeld twee ObservableLists, de 
+eerste met alle podia en de tweede met alle artiesten. Maar die 
+ObservableList werd opgeslaen in onze AgendaGui. Dat is een heel slechte plek
+om zoiets op te slaan. We hebben gezorgd dat dat nu in hun eigen manager
+word opgeslagen (waar het hoort).
+
+## Week 6
+
+Deze week wouden we zorgen dat een paar van de knoppen in de simulator GUI
+functioneel werden. We kozen ervoor om eerst het zoom to podium gedeelte 
+functioneel te maken.
+
+Maar daar kwamen we eigenlijk al meteen voor een probleem. De simulatorGUI
+had toegankelijkhijd nodig tot heel wat klassen die hij momenteel niet had 
+om dat succesvol te implementeren. Maar als we de GUI toegankelijkheid
+tot al die klassen zouden geven zouden we een slecht design krijgen. Veel
+van de klassen waren klassen die we echt lostaand wouden hebben van de 
+simulatorGUI
+
+Ook realiseerde we dat het aanpassen van onderdelen van onderdelen
+wanneer de simulatie al bezig was voor veel problemen zou gaan zorgen.
+
+1. Wij geven de optie om je eigen sprites mee te geven aan artiesten. Maar
+als je een nieuwe artiest maakt moet die dus ingeladen worden. Als je dit doet
+tijdens de simulatie zou dat dus zorgen voor problemen.
+
+2. Hoe reageren NPC's wanneer ze in een show staan en er wordt een nieuwe
+show gemaakt die gelijk afspeeld terwijl alle NPC's al bj een show staan.
+
+3. Het bewerken van podium locatie's tijdens shows, hoe gaan we daar mee om.
+
+4. Het bewerken van artiesten tijdens shows, hoe gaan we daar mee om? Zeker
+omdat nieuwe sprites dus ook weer moeten worden ingeladen.
+
+5. Het bewerken van shows, bv. de artiesten veranderen. Hoe gaan we daar mee om?
+
+Dit zijn heel veel problemen en de deadline is in de buurt aan het komen.
+Een manier om heel veel problemen te voorkomen is te zorgen dat je een festival
+kan starten met alle momentele informatie, en als je iets aan wilt passen dat
+je dan het festival opnieuw moet starten. Veel minder leuk, maar voorkomt 
+een heleboel problemen. Ook is het zo dat de simulatorGUI met veel minder 
+rekening moet houden omdat het alleen maar uitmaakt of hij beschikt over de
+informatielijst. Veel van onze problemen ontstonden doordat we actief alle
+gegevens moesten bijhouden in de simulatorGUI.
+ 
+Hiermom hadden we beslist dat we ervoor gingen zorgen dat je een knop had 
+om de simulatie op te starten met de gegevens die je momenteel had.
+
+Maar nu dat design probleem opgelost was gingen we weer terug naar het originele onderdeel waar we aan 
+werkten. Het zorgen dat gemaakte podiums een podium in de tilemap representeerden.
+
+Hier hadden we weer verschillende manieren voor bedacht:
+
+1. Zorgen dat wanneer je een podium maakt dat er automatisch een podium
+aan gegeven wordt
+
+2. In de tilemap een variabele locatie maken en controleren of de ingevulde 
+locatie in de software overeenkomt met variabele in de tilemap.
+
+3. Een ComboBox toevoegen aan de editor waar je een podium kon selecteren.
+
+Oplossing 3 was al heel snel afgekeurd want daar moest je heel veel aanpassingen
+doen in oude code. Ook zouder er veel problemen bij ontstaan die we liever
+voorkomen dan oplossen.
+
+Eerst was ik een fan van oplossing 1 omdat dat ervoor zorgde dat de 
+gebruiker niks fout kon doen. Het probleem wat ik zag in de locatie namen
+is dat de gebruik van te voren de kennis nodig heeft om het succesvol te 
+laten werken. Maakte het zoveel uit dat de gebruiker het podium niet zelf 
+kon kiezen?
+
+Ik ben nu van mening absoluut. Het feit dat de gebruiker de Tilemap moet 
+kennen en afstemmen op het programma was zoiezo al het geval. Het is van 
+enorm belang dat de gebruiker controle heeft over waar een podium staat 
+voor het plannen van shows van artiesten. 
+
+## In het bedrijfsleven wordt steeds meer in de software gesimuleerd.
+
+Dat dit waar is, is geen geheim meer. Of het nou gaat om
+het simuleren van een hartklep, of het simuleren van natuurrampen. het 
+is heel duidelijk dat er steeds meer gebruik word van simulaties door 
+bedrijven voor enorm veel verschillende doeleindes.
+
+##### Wat zijn de voordelen van simulaties gebruiken in het bedrijfsleven?
+Simulaties zijn enorm flexibel, je kunt ze voor enorm veel verschillende
+doeleindes gebruiken. Wil je weten of een festival goed genoeg is beschermt tegen een brand?
+Simulaties kunnen het antwoord bieden. Wil je testen hoe goed een product
+in elkaar zit voordat het gemaakt is? Simulaties kunnen het antwoord bieden.
+
+Als we dan verder gaan met het laatste voorbeeld, die informatie is goud waard.
+Een simulatie kan inzicht geven in de werking en gedrag van een ontwerp 
+zonder het te moeten produceren. Dat bespaart bedrijven enorm veel moeite en kosten.
+Het produceren van een product geberut pas laat in de 
+ontwerpproces, terwijl het verbeteren van het product het best kan in de
+eerste fase van het ontwerpproces. Door het simuleren is het wel mogelijk om
+die ontwerpfouten de vinden tijdens de eerste processen. Dit bespaard enorm
+veel tijd en geld
+
+Ook zorgen simulaties ervoor dat veranderingen makkelijk uit te testen zijn.
+Er zit een enorm verschil tussen het zien van een product op papier en het 
+kunnen uit testen. Doormiddel van simulaties word het uittesten van
+producten veel makkelijker waardoor de kwaliteit van het design veel makkelijker
+omhoog kan gaan. Maar dit is niet alleen belangrijk voor de het uit 
+testen van de kwaliteit. Hoe weet je of een product goed genoeg is om te 
+voldoen aan de eisen die je bedrijf stelt? Normaal is dit alleen mogelijk 
+door het te maken. Maar via simulaties kun je dus ook heel simpel testen of
+een product goed genoeg is om op de markt te vrengen, ook dit bespaart veel
+tijd en geld.
+
+##### Waarom zijn simulaties in het bedrijfsleven in opkomst en niet al veelgebruikt onderdeel.
+
+Dat software development beschikbaar is tot bedrijven is nog relatief nieuw.
+Zeker wanneer je realiseert dat de meeste directeurs van bedrijven oudere mensen
+zijn, de mensen die het meeste moeite hebben met de overstap naar technologie
+in bedrijven. Zelfs als iedere directeur begreep wat de voordelen waren van een team
+verantwoordelijk hiervoor hebben zijn, betekent dat niet dat ze begreipen 
+hoe het ook gerealiseerd in hun bedrijf kan worden. Langzaam maar zeker worden
+de oude bedrijven geleerd dat het toch echt tijd is voor een overstap. 
+Maar ook is het zo dat de meeste software ontwikkeld voor bedrijven
+veel tijd nodig heeft voordat het gebruikt word. Sommige overheid projecten
+duren 20 jaar voordat ze gebruikt word. Tegen die tijd is de software natuurlijk
+al enorm veroudert. En zelfs als er een team is die de software kan maken
+is het nog maar de vraag hoe goed de software is.
+ 
+Omdat software zoiets nieuws is, is het zo dat het vaak nog fout begrepen word. maar naarmate de
+jaren vooruit gaan zal sofware steeds beter begrepen worden.
+Momenteel kun je duidelijk merken dat Steeds meer bedrijven beginnen door
+te hebben wat de kracht van software is, en hoe je ermee om moet gaan.
+Lanzaam maar zeker begint software Development zijn troon bovenaan het
+bedrijfsleven te nemen.
+
+Er zijn veel voordelen aan het gebruik van simulaties in het bedrijfsleven.
+Of het nou gaat om het testen van een design voordat het gemaakt is. Of 
+om het feit dat een design dat je aanpast meteen kunt uittesten enorm veel
+geld zal besparen. Simulaties helpen enorm in de kwaliteit van een product
+en besparen ook nog eens enorm veel geld. Waarom zijn simulaties dan in 
+opkomst en word het niet al constant gebruikt? Het maken van software is 
+enorm moeilijk. Het is moeilijk voor veel bedrijven om succesvol een team
+te krijgen dat goeie simulaties kan maken. Veel bedrijven blijven liever 
+hangen in de tak waar ze al succes kennen, maar nu begint het toch wel 
+duidelijk te worden hoeveel succes de bedrijven die het goed gebruiken hebben.
+Simulaties zijn iets enorm moeilijk om goed te maken, maar als het een bedrijf
+lukt dan is het letterlijk goud waard.
+
+Onderzoeksmethodiek: Ik heb eerst een groot aantal bronnen bezocht en gelezen.
+Daarna heb ik de bronnen vergeleken en de bronnen gepakt die het beste de 
+standpunten die ik wou vertellen beschreven.
+
+Bronnen: de Groot, M. (2015, 9 april). Hoe kan simulatie software bijdragen aan betere innovaties? 
+designsolutions. Geraadpleegd op 27 maart 2020, van https://blog.designsolutions.nl/hoe-kan-simulatie-software-bijdragen-aan-betere-innovaties
+
+Vissia, H. (2015, 3 maart). 6 redenen waarom software bouwen zo verschrikkelijk lastig is. DutchCowboys. 
+Geraadpleegd op 27 maart 2020, van https://www.dutchcowboys.nl/online/6-redenen-waarom-software-bouwen-zo-verschrikkelijk-lastig-is

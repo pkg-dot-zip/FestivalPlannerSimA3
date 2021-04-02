@@ -85,7 +85,7 @@ public class Artist implements Serializable {
      * @param out  the stream the images needs to be written to
      */
     //TODO: Separate agenda resources from other agendas to avoid overriding files.
-    private void writeObject(ObjectOutputStream out) throws IOException, URISyntaxException {
+     void writeObject(ObjectOutputStream out) throws IOException, URISyntaxException {
         out.defaultWriteObject();
 
         try {
@@ -97,7 +97,6 @@ public class Artist implements Serializable {
             ImageIO.write(this.picture, "png", pictureFile);
             ImageIO.write(this.sprite, "png", spriteFile);
         } catch (Exception e) {
-            e.printStackTrace();
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
@@ -115,7 +114,6 @@ public class Artist implements Serializable {
             this.picture = ImageIO.read(pictureFile);
             this.sprite = ImageIO.read(spriteFile);
         } catch (FileNotFoundException e) {
-            AbstractDialogPopUp.showExceptionPopUp(e);
             this.picture = null;
             this.sprite = null;
         } catch (Exception e) {

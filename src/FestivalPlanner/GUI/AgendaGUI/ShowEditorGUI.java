@@ -88,7 +88,6 @@ public class ShowEditorGUI extends AbstractGUI {
         //Value init
         //If no layer is selected, create a new one.
         isNewShow = this.agendaModule.getCurrentShow() == null;
-        loadPropertiesFromShow();
 
         //Alignment & Spacing
             //TimeAndPopularity
@@ -142,6 +141,8 @@ public class ShowEditorGUI extends AbstractGUI {
                 this.eventArtistsRemoveButton,
                 new Label(messages.getString("select_podium") + ": "),
                 this.podiumComboBox);
+
+        loadPropertiesFromShow();
 
             //Generic
         buttonHBox.getChildren().addAll(applyButton, closeButton);
@@ -227,6 +228,7 @@ public class ShowEditorGUI extends AbstractGUI {
 
         //TimeAndPopularityPanel
         this.popularitySlider.setValue(selectedShow.getExpectedPopularity());
+        this.popularityLabel.setText(messages.getString("expected_popularity") + ": " + (int)this.popularitySlider.getValue() + "%");
         this.startTimeTextField.setText(selectedShow.getStartTime().toString());
         this.endTimeTextField.setText(selectedShow.getEndTime().toString());
         //ShowName

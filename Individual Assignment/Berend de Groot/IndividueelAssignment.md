@@ -141,3 +141,113 @@ meegegeven bij het initialiseren van de scene in de klasse.
 ```
 In deze methode stellen we in wat er moet gebeuren op het moment dat de gebruiker op een bepaalde manier
 interacteert met grafische elementen in de scene. Het meest voorkomende voorbeeld hiervan is het klikken op knoppen.
+
+
+##Week 4
+#### Reflectie
+In week 4 heb ik de puntjes op de i gezet in onze software. Ik heb onder andere een knop gemaakt om de cache
+te verwijderen, om shows qua tijden om te draaien door middel van een context menu, en een implementatie van de voorkeuren
+omtrent kleuren. Verder heb ik natuurlijk gewerkt aan de documentatie en heb ik de code schoongehouden. Als
+dit programmeerg-gebeuren niks wordt kan ik altijd nog schoonmaker worden!
+
+###Discord webhook
+Ik streef er altijd naar de arbeidsethos van mijn groep te verhogen. Ik merkte dat de groep en ik soms
+niet door hadden of iemand nou al wat gedaan had of niet, ondanks dat dit vaak verteld was. Ik moest dus een manier vinden
+om te zorgen dat we dit makkelijk terug konden vinden...
+
+Ik realiseerde me dat we dit al hadden; ik besefte me dat we al die tijd beschrijvingen bij commits geschreven hebben!
+Wij gebruiken Discord voor de communicatie, dus moest ik ervoor zorgen dat we een kanaal hadden waar alleen
+de commits van onze GitHub repository te zien is.
+
+GitHub en Discord ondersteunen beide het gebruik van zogenaamde webhooks.[^2] Ik heb deze toegevoegd aan de server, en het werkte meteen.
+Dit heeft ons erg geholpen tijdens het project.
+Dit is hoe het er uit kwam te zien:
+![JavaDoc](Images/Webhook1.png)
+Er staat een link bij naar de commit, waardoor we voor meer informatie alleen maar hoeven te klikken.
+
+[^2]: Een methode om het gedrag van een webpagina of webtoepassing te vergroten of te wijzigen met aangepaste callbacks.
+
+###Context Menu
+De gebruiker kan nu meerdere shows selecteren door de knoppen shift en ctrl te gebruiken bij het klikken
+van de linker-muisknop. Als er twee shows geselecteerd zijn kan de gebruiker op *swap* drukken. Hierdoor zullen de tijden van de shows
+omgewisseld worden.
+![JavaDoc](Images/ContextMenu2.png)
+
+Verder kan de gebruiker de show aanpassen. Als de gebruiker één show geselecteerd heeft en op *edit* drukt zal er een nieuw venster
+verschijnen op het scherm van de gebruiker.
+![JavaDoc](Images/ContextMenu1.png)
+![JavaDoc](Images/EditScreen.png)
+
+###Voorkeuren - Kleuren
+Ik heb natuurlijk een prachtig system geïntegreerd in ons programma om voorkeuren op te slaan in een *.XML*
+bestand. Ik heb deze week gewerkt aan het ondersteunen van door de gebruiker geselecteerde kleuren.
+
+Wij hebben twee verschillende kleuren nodig:
+* Één kleur voor geselecteerde shows.
+* Één kleur voor **NIET** geselecteerde shows.
+
+
+Dit is hoe de standaard kleuren eruit zien:
+![JavaDoc](Images/Colors1.png)
+
+Dit is hoe het voorkeuren scherm eruit ziet:
+![JavaDoc](Images/Preferences.png)
+
+Om de gebruiker kleuren te laten selecteren heb ik een simpele GUI gemaakt die een ColorPicker opent.
+Dit is hoe de ColorPicker GUI eruit ziet:
+![JavaDoc](Images/ColorPicker.png)
+
+Dit is hoe de shows eruit zien nadat ik deze kleur geselecteerd heb:
+![JavaDoc](Images/Colors2.png)
+
+Dit is de code die de kleuren opslaat:
+```
+@NotNull
+public static void setSelectedColor(javafx.scene.paint.Color colorInput){
+    Color color = ColorConverter.fromJavaFXToAwt(colorInput);
+    setPreference("selected_show_color", String.valueOf(color.getRGB()));
+    Color.decode(getPreference("selected_show_color"));
+}
+```
+
+Dit is de code die de kleuren zet naar de standaard waarden:
+```
+public static void restoreDefaultColors(){
+    Color selectedColor = Color.getHSBColor(190 / 360f, .7f, .7f);
+    Color unselectedColor = Color.getHSBColor(100 / 360f, .7f, .9f);
+
+    setPreference("selected_show_color", String.valueOf(selectedColor.getRGB()));
+    setPreference("unselected_show_color", String.valueOf(unselectedColor.getRGB()));
+}
+```
+
+###Cache Verwijderen
+Jesse en ik hadden overlegd over het opslaan van afbeeldingen en hebben besloten dit te doen in de gebruiker
+zijn / haar / hun / het (?) appdata. 
+
+//TODO: Afbeeldingen hier.
+
+Dit is de code die de afbeeldingen schrijft:
+```
+try {
+    File pictureFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Picture.png");
+    pictureFile.mkdirs();
+    File spriteFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Sprite.png");
+    spriteFile.mkdirs();
+    ImageIO.write(this.picture, "png", pictureFile);
+    ImageIO.write(this.sprite, "png", spriteFile);
+} catch (Exception e) {
+    e.printStackTrace();
+    AbstractDialogPopUp.showExceptionPopUp(e);
+}
+```
+
+###Week 5
+
+
+###Week 6
+
+###Week 7
+
+###Week 8
+//TODO: In week 8 werken.
