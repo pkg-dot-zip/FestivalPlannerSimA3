@@ -84,35 +84,6 @@ public class NPC {
         this.centerY = spritesLeft.get(0).getHeight() / 2;
     }
 
-    public void update() {
-        if (this.targetObject != null) {
-            this.target = this.targetObject.getNextDirection(this.position);
-        }
-        if(this.target.distanceSq(position) < 3) {
-            this.npcState = new IdleState();
-        } else {
-            this.npcState = new MovingState();
-        }
-
-        Point2D oldPosition = this.position;
-
-        this.npcState.handle(this);
-
-//        this.updateDirectionToFace();
-//        this.walkOnAxis();
-
-        boolean hasCollision = false;
-        //hasCollision = hasCollision || checkCollision(NPCs);
-
-        if(hasCollision) {
-            this.position = oldPosition;
-            this.frame = 0;
-        } else if (this.npcState.getClass().equals(MovingState.class)){
-            this.frame += 0.1;
-        }
-    }
-
-
     public void update(ArrayList<NPC> NPCs) {
         if (this.targetObject != null) {
             this.target = this.targetObject.getNextDirection(this.position);
