@@ -64,8 +64,8 @@ public class NPC {
         this.spritesLeft = spriteSheets.get(0);
         this.spritesRight = spriteSheets.get(3);
         //Now here.
-        this.centerX = spritesLeft.get(0).getWidth() / 2;
-        this.centerY = spritesLeft.get(0).getHeight() / 2;
+        this.centerX = (spritesLeft.get(0).getWidth() / 2);
+        this.centerY = (spritesLeft.get(0).getHeight() / 2) - 10;
     }
 
     public NPC(Point2D position, ArrayList<ArrayList<BufferedImage>> spriteSheets) {
@@ -79,9 +79,9 @@ public class NPC {
         this.spritesDown = spriteSheets.get(1);
         this.spritesLeft = spriteSheets.get(0);
         this.spritesRight = spriteSheets.get(3);
-        //now here
-        this.centerX = spritesLeft.get(0).getWidth() / 2;
-        this.centerY = spritesLeft.get(0).getHeight() / 2;
+        //Now here.
+        this.centerX = (spritesLeft.get(0).getWidth() / 2);
+        this.centerY = (spritesLeft.get(0).getHeight() / 2) - 10;
     }
 
     public void update(ArrayList<NPC> NPCs) {
@@ -243,7 +243,7 @@ public class NPC {
 
     public void draw(Graphics2D g2d) {
         AffineTransform tx = new AffineTransform();
-        tx.translate(position.getX() - centerX, position.getY() - centerY);
+        tx.translate(position.getX() - centerX, position.getY() - centerY - 25);
         tx.translate(0, 0);
 
         //Draws the NPC-sprite on the canvas.
@@ -367,8 +367,8 @@ public class NPC {
      */
     private void debugDraw(Graphics2D g2d){
         g2d.setColor(Color.white);
-        g2d.draw(new Ellipse2D.Double(position.getX() - COLLISION_RADIUS / 2f, position.getY() + COLLISION_RADIUS / 4f, COLLISION_RADIUS, COLLISION_RADIUS));
-        g2d.draw(new Line2D.Double(position, target));
+        g2d.draw(new Ellipse2D.Double(position.getX() - COLLISION_RADIUS / 2f, position.getY() + COLLISION_RADIUS / 4f -25 , COLLISION_RADIUS, COLLISION_RADIUS));
+        g2d.draw(new Line2D.Double(new Point2D.Double(this.position.getX(), this.position.getY() - (double) this.centerY*2), new Point2D.Double(this.target.getX() + 0.01, this.target.getY() + 0.01)));
 
         if(this.targetObject != null) {
             this.targetObject.debugDraw(g2d);
