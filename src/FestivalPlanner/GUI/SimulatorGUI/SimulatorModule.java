@@ -46,7 +46,6 @@ public class SimulatorModule extends AbstractGUI {
     //FileMenu
     private Menu fileMenu = new Menu(messages.getString("file"));
     private MenuItem loadAgendaMenuItem = new MenuItem(messages.getString("load"));
-    private MenuItem saveAgendaMenuItem = new MenuItem(messages.getString("save"));
     private MenuItem exitMenuItem = new MenuItem(messages.getString("exit"));
     //EditMenu
     private Menu optionsMenu = new Menu(messages.getString("options"));
@@ -92,10 +91,10 @@ public class SimulatorModule extends AbstractGUI {
 
         //Adding all the children.
         //MenuBar
-        fileMenu.getItems().addAll(loadAgendaMenuItem, saveAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
+        fileMenu.getItems().addAll(loadAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
         optionsMenu.getItems().addAll(viewPartMenuItem, new SeparatorMenuItem(), timeEditMenuItem, new SeparatorMenuItem(), npcEditMenuItem);
         helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
-        menuBar.getMenus().addAll(fileMenu, optionsMenu, helpMenu);
+        menuBar.getMenus().addAll(optionsMenu, helpMenu);
 
 
         //Switching buttons
@@ -131,14 +130,6 @@ public class SimulatorModule extends AbstractGUI {
         });
 
         //MenuBar
-        //FileMenu
-        loadAgendaMenuItem.setOnAction(e -> {
-            //todo: implement
-        });
-
-        saveAgendaMenuItem.setOnAction(e -> {
-            //todo: implement
-        });
 
         exitMenuItem.setOnAction(e -> {
             AbstractDialogPopUp.showExitConfirmationPopUp();

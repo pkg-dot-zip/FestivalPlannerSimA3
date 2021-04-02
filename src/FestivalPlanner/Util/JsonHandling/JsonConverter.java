@@ -25,8 +25,7 @@ public class JsonConverter extends AbstractDialogPopUp {
     public TileMap JSONToTileMap(String fileName) {
         TileManager tileManager = new TileManager();
 
-
-        try (InputStream inputStream = getClass().getResourceAsStream(fileName);) {
+        try (InputStream inputStream = getClass().getResourceAsStream(fileName)) {
 
             JsonReader reader = Json.createReader(inputStream);
             JsonObject root = reader.readObject();
