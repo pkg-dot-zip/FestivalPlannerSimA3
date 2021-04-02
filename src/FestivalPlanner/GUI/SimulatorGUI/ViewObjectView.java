@@ -21,12 +21,14 @@ import javafx.stage.Stage;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class ViewObjectView extends AbstractGUI {
 
     private SimulatorHandler handler;
     private SimulatorCanvas canvas;
+    private HashMap<String, NPC> artistNPCMap;
 
     //LanguageHandling
     private ResourceBundle messages = LanguageHandler.getMessages();
@@ -43,7 +45,7 @@ public class ViewObjectView extends AbstractGUI {
     private Button viewPodiumButton = new Button(messages.getString("view"));
 
     private Label artistSelectLabel = new Label(messages.getString("select_artist_view"));
-    private ComboBox<NPC> artistSelectBox = new ComboBox<>();
+    private ComboBox<String> artistSelectBox = new ComboBox<>();
     private Button viewArtistButton = new Button(messages.getString("view"));
 
     private Button closeButton = new Button(messages.getString("close"));
@@ -63,7 +65,7 @@ public class ViewObjectView extends AbstractGUI {
         this.stage.setTitle(messages.getString("show_editor"));
         this.stage.setScene(new Scene(gridPane));
         this.stage.setResizable(true);
-        this.stage.setWidth(450);
+        this.stage.setWidth(350);
         this.stage.setHeight(250);
         this.stage.setIconified(false);
         this.stage.initModality(Modality.APPLICATION_MODAL);
@@ -73,7 +75,10 @@ public class ViewObjectView extends AbstractGUI {
     @Override
     public void setup() {
         this.podiumSelectBox.setItems(FXCollections.observableArrayList(this.handler.getPodiums()));
-        //set artist ding
+
+        this.artistNPCMap = this.handler.getArtistNPCHashMap();
+        this.artistSelectBox.setItems(FXCollections.observableArrayList(this.artistNPCMap.keySet()));
+
 
         HBox mainHBox = new HBox();
 
@@ -97,7 +102,7 @@ public class ViewObjectView extends AbstractGUI {
 
         //Main VBox setup
         mainPanel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        mainPanel.setMaxHeight(250);
+        mainPanel.setMinHeight(150);
         mainPanel.setAlignment(Pos.BASELINE_CENTER);
         mainPanel.setSpacing(10);
 
@@ -118,6 +123,7 @@ public class ViewObjectView extends AbstractGUI {
     public void actionHandlingSetup() {
 
         this.viewPodiumButton.setOnAction(e -> this.canvas.moveToPoint(this.podiumSelectBox.getSelectionModel().getSelectedItem().getLocation()));
+        this.viewArtistButton.setOnAction(e -> this.canvas.moveToPoint(this.artistNPCMap.get(this.artistSelectBox.getSelectionModel().getSelectedItem()).getPosition()));
 
         closeButton.setOnAction(e -> {
             this.stage.close();

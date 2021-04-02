@@ -41,7 +41,7 @@ public class SimulatorHandler {
 
     // Time attributes
     private LocalTime time;
-    private double speed = (60 * 5); //value in game second per real second (s/s)
+    private double speed = (60 * 2); //value in game second per real second (s/s)
 
 
 
@@ -480,5 +480,13 @@ public class SimulatorHandler {
      */
     public ArrayList<SimulatorPodium> getPodiums() {
         return new ArrayList<>(this.podiumObjectHashMap.values());
+    }
+
+    /**
+     * Getter for <code>this.ArtistNPCHasMap</code>.
+     * @return  <code>this.ArtistNPCHasMap</code>
+     */
+    public HashMap<String, NPC> getArtistNPCHashMap() {
+        return artistNPCHashMap;
     }
 }
