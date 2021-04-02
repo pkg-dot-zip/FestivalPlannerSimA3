@@ -110,8 +110,18 @@ public class SimulatorObject {
      * Calculates the centre point of this object
      * @return  The centre point of this object
      */
-    private Point2D getCentre() {
-        return this.location;
+     Point2D getCentre() {
+         Point2D centre = new Point2D.Double(this.location.getX() + (this.width / 2f),
+                 this.location.getY() + (this.height / 2f));
+
+         Rectangle2D rectangle2D = new Rectangle2D.Double(centre.getX(), centre.getY(), 0, 0);
+
+         AffineTransform tx = new AffineTransform();
+         tx.rotate(Math.toRadians(this.rotation), this.location.getX(), this.location.getY());
+
+         Shape shape = tx.createTransformedShape(rectangle2D);
+
+        return new Point2D.Double(shape.getBounds().getX(), shape.getBounds().getY());
     }
 
     /**

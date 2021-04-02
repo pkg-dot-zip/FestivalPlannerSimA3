@@ -461,7 +461,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * @return  this.artistManager
      */
     @NotNull
-    ArtistManager getArtistManager() {
+    public ArtistManager getArtistManager() {
         return this.artistManager;
     }
 

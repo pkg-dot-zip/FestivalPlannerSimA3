@@ -50,7 +50,6 @@ public class SimulatorPodium extends SimulatorObject{
 
     @Override
     public void draw(FXGraphics2D g2d) {
-
         AffineTransform imageTransform = new AffineTransform();
         imageTransform.rotate(Math.toRadians(this.rotation), this.location.getX(), this.location.getY());
         imageTransform.translate(location.getX(), location.getY());
@@ -61,6 +60,10 @@ public class SimulatorPodium extends SimulatorObject{
             g2d.drawImage(this.offImage, imageTransform, null);
         }
 
+        Ellipse2D ellipse2D = new Ellipse2D.Double(this.getCentre().getX(), this.getCentre().getY(), 10,10);
+        g2d.setColor(Color.white);
+        g2d.fill(ellipse2D);
+        g2d.setColor(Color.black);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class SaveHandler implements Serializable {
      */
     public void writeAgendaToFile(String fileName, Agenda agenda){
         try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(fileName))){
-            output.writeObject(new Agenda(agenda.getName(), agenda.getShows()));
+            output.writeObject(agenda);
         } catch (Exception e){
             AbstractDialogPopUp.showExceptionPopUp(e);
         }

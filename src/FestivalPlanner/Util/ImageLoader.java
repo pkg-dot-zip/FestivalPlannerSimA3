@@ -55,6 +55,36 @@ public class ImageLoader extends AbstractDialogPopUp {
         }
     }
 
+    public static ArrayList<ArrayList<BufferedImage>> loadImage(BufferedImage image) {
+        ArrayList<ArrayList<BufferedImage>> allFourSpriteSheets = new ArrayList<>(4);
+
+        try {
+
+            ArrayList<BufferedImage> spritesLeft = new ArrayList<>(4);
+            ArrayList<BufferedImage> spritesDown = new ArrayList<>(4);
+            ArrayList<BufferedImage> spritesUp = new ArrayList<>(4);
+            ArrayList<BufferedImage> spritesRight = new ArrayList<>(4);
+
+            int width = image.getWidth() / npcTileX;
+            int height = image.getHeight() / npcTileY;
+
+            splitImages(image, spritesLeft, 0, width, height);
+            splitImages(image, spritesDown, 1, width, height);
+            splitImages(image, spritesUp, 2, width, height);
+            splitImages(image, spritesRight, 3, width, height);
+
+            allFourSpriteSheets.add(spritesLeft);
+            allFourSpriteSheets.add(spritesDown);
+            allFourSpriteSheets.add(spritesUp);
+            allFourSpriteSheets.add(spritesRight);
+
+             return allFourSpriteSheets;
+        } catch (Exception e) {
+            showExceptionPopUp(e);
+            return lists[(int)(Math.random())];
+        }
+    }
+
     //TODO: Make something that works with all type of sheets.
     public static void splitImages(BufferedImage image, ArrayList<BufferedImage> list, int x, int width, int height){
         int xToSplit = x * width;
