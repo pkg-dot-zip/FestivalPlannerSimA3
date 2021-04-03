@@ -2,6 +2,7 @@ package FestivalPlanner.NPC;
 
 import FestivalPlanner.Logic.SimulatorObject;
 import FestivalPlanner.Util.ImageLoader;
+import FestivalPlanner.Util.MathHandling.NPCMathHandler;
 import com.sun.istack.internal.Nullable;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -144,8 +145,8 @@ public class NPC {
             }
         }
 
-        int xToMove = separateRandomNumber();
-        int yToMove = separateRandomNumber();
+        int xToMove = NPCMathHandler.separateRandomNumber(COLLISION_RADIUS);
+        int yToMove = NPCMathHandler.separateRandomNumber(COLLISION_RADIUS);
 
         if (xToMove != 0){
            xToMove += npcTileX;
@@ -155,24 +156,6 @@ public class NPC {
         }
 
         this.target = new Point2D.Double(this.target.getX() + xToMove, this.target.getY() + yToMove);
-    }
-
-    /**
-     * Returns a random number specifically made for usage by the movement for separating the NPCs based on their colliders.
-     * @return  partially random integer
-     */
-    private int separateRandomNumber(){
-        double random = Math.random();
-
-        if (random < 0.6){
-            return 0;
-        } else if (random < 0.8){
-            return (this.COLLISION_RADIUS / 10);
-        } else if (random < 0.9){
-            return (this.COLLISION_RADIUS / 5);
-        } else {
-            return 3;
-        }
     }
 
     /**
@@ -195,7 +178,6 @@ public class NPC {
 
         //this.debugPrint();
     }
-
 
     /**
      * Updates the NPC' position to the current one, plus or minus the speed. This is dependent on the direction this NPC is facing.
