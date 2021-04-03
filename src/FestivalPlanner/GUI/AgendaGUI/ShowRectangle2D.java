@@ -113,17 +113,21 @@ public class ShowRectangle2D {
     }
 
     private String getString(FXGraphics2D graphics, String string) {
-        double stringLength = graphics.getFontMetrics().stringWidth(string);
-        String editString = string;
-        while (stringLength >= this.rectangle.getWidth() - 20) {
-            editString = editString.substring(0, editString.length() - 1);
-            stringLength = graphics.getFontMetrics().stringWidth(editString);
-        }
+        if (string.length() > 10){
+            double stringLength = graphics.getFontMetrics().stringWidth(string);
+            String editString = string;
+            while (stringLength >= this.rectangle.getWidth() - 20) {
+                editString = editString.substring(0, editString.length() - 1);
+                stringLength = graphics.getFontMetrics().stringWidth(editString);
+            }
 
-        if (!editString.equals(string)) {
-            editString += "...";
-        }
+            if (!editString.equals(string)) {
+                editString += "...";
+            }
 
-        return editString;
+            return editString;
+        } else {
+            return "";
+        }
     }
 }
