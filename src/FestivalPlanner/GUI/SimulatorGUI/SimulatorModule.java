@@ -4,6 +4,7 @@ import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
+import FestivalPlanner.GUI.HelpMenu;
 import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
@@ -58,11 +59,6 @@ public class SimulatorModule extends AbstractGUI {
     private MenuItem viewPartMenuItem = new MenuItem(messages.getString("view_Item"));
     private MenuItem timeEditMenuItem = new MenuItem(messages.getString("edit_Time_Speed"));
     private MenuItem npcEditMenuItem = new MenuItem(messages.getString("npc_menu"));
-        //HelpMenu.
-    private Menu helpMenu = new Menu(messages.getString("help"));
-    private MenuItem helpGuideMenuItem = new MenuItem(messages.getString("github"));
-    private MenuItem javaDocMenuItem = new MenuItem(messages.getString("javadoc"));
-    private MenuItem aboutMenuItem = new MenuItem(messages.getString("about"));
 
     //Buttons.
     private Button agendaButton = new Button(messages.getString("agenda"));
@@ -106,8 +102,7 @@ public class SimulatorModule extends AbstractGUI {
             //MenuBar
         this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
         this.optionsMenu.getItems().addAll(this.viewPartMenuItem, new SeparatorMenuItem(), this.timeEditMenuItem, new SeparatorMenuItem(), this.npcEditMenuItem);
-        this.helpMenu.getItems().addAll(this.helpGuideMenuItem, this.javaDocMenuItem, this.aboutMenuItem);
-        this.menuBar.getMenus().addAll(this.optionsMenu, this.helpMenu);
+        this.menuBar.getMenus().addAll(this.optionsMenu, HelpMenu.helpMenu(this.stage));
 
         //Adding it all together.
         this.mainPane.setTop(this.topVBox);
@@ -140,12 +135,6 @@ public class SimulatorModule extends AbstractGUI {
         this.npcEditMenuItem.setOnAction(e -> {
             NPCEditGUI npcEditGUI = new NPCEditGUI(this.handler);
             npcEditGUI.load();
-        });
-
-            //HelpMenu
-        this.aboutMenuItem.setOnAction(e -> {
-            AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
-            aboutPopUp.load();
         });
 
         //Agenda button

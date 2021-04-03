@@ -6,6 +6,7 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
+import FestivalPlanner.GUI.HelpMenu;
 import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.GUI.PreferencesGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
@@ -73,11 +74,6 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     private MenuItem editCurrentlySelectedShow = new MenuItem(messages.getString("edit_show"));
     private MenuItem editArtistsAndPodiumsMenuItem = new MenuItem(messages.getString("edit_artists_and_podiums"));
     private MenuItem preferencesMenuItem = new MenuItem(messages.getString("preferences"));
-    //HelpMenu.
-    private Menu helpMenu = new Menu(messages.getString("help"));
-    private MenuItem gitHubMenuItem = new MenuItem(messages.getString("github"));
-    private MenuItem javaDocMenuItem = new MenuItem(messages.getString("javadoc"));
-    private MenuItem aboutMenuItem = new MenuItem(messages.getString("about"));
 
     //Layout components.
     private AgendaCanvas agendaCanvas;
@@ -136,8 +132,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             //MenuBar.
         this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, this.saveAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
         this.editMenu.getItems().addAll(this.editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), this.editCurrentlySelectedShow, new SeparatorMenuItem(), this.preferencesMenuItem);
-        this.helpMenu.getItems().addAll(this.gitHubMenuItem, this.javaDocMenuItem, this.aboutMenuItem);
-        this.menuBar.getMenus().addAll(this.fileMenu, this.editMenu, this.helpMenu);
+        this.menuBar.getMenus().addAll(this.fileMenu, this.editMenu, HelpMenu.helpMenu(this.stage));
             //ContextMenu.
         this.contextMenu.getItems().addAll(this.swapContextItem, this.editContextItem, new SeparatorMenuItem(), this.removeContextItem);
             //Panes.
@@ -215,19 +210,6 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         this.preferencesMenuItem.setOnAction(e -> {
             PreferencesGUI preferencesGUI = new PreferencesGUI(this.stage);
             preferencesGUI.load();
-        });
-            //HelpMenu
-        this.gitHubMenuItem.setOnAction(e -> {
-            try {
-                java.awt.Desktop.getDesktop().browse(new URI("https://github.com/ZimonIsHim/FestivalPlannerSimA3/tree/devAftermath"));
-            } catch (Exception ex){
-                AbstractDialogPopUp.showExceptionPopUp(ex);
-            }
-        });
-
-        this.aboutMenuItem.setOnAction(e -> {
-            AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
-            aboutPopUp.load();
         });
 
         //ContextMenu
