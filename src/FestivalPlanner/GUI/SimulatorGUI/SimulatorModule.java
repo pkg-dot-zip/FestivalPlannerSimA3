@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
- * Responsible for placing everything in the correct place in the Simulator GUI and making sure all the buttons work.
+ * Contains methods for placing all elements in the Simulator GUI, and making sure all the buttons work.
  */
 public class SimulatorModule extends AbstractGUI {
 
@@ -144,6 +144,9 @@ public class SimulatorModule extends AbstractGUI {
         });
     }
 
+    /**
+     * Sets / updates the timeLabel to the handler's current time.
+     */
     void updateTime() {
         LocalTime time = this.handler.getTime();
         this.timeLabel.setText("    Time: " + time.format(dateTimeFormatter));

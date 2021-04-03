@@ -20,9 +20,12 @@ public abstract class AbstractEditGUI extends AbstractGUI {
     VBox mainPanel = CommonNodeRetriever.getEditGUIMainPanel();
     HBox bottomHBox = new HBox();
 
-    Button applyButton = new Button(messages.getString("apply"));
-    Button closeButton = new Button(messages.getString("close"));
+    private Button applyButton = new Button(messages.getString("apply"));
+    private Button closeButton = new Button(messages.getString("close"));
 
+    /**
+     * Sets properties commonly shared between subclasses.
+     */
     void genericSetup(){
         //Alignment & Spacing.
         gridPane.setVgap(50);
@@ -34,6 +37,9 @@ public abstract class AbstractEditGUI extends AbstractGUI {
         bottomHBox.getChildren().addAll(this.applyButton, this.closeButton);
     }
 
+    /**
+     * Assigns actions commonly shared between subclasses.
+     */
     void genericActionHandlingSetup(){
         this.applyButton.setOnAction(e -> onApply());
 
@@ -42,5 +48,8 @@ public abstract class AbstractEditGUI extends AbstractGUI {
         });
     }
 
+    /**
+     * Runs the code whenever this applyButton is pressed with the mouseButton.
+     */
     abstract void onApply();
 }

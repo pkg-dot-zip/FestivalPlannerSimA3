@@ -26,7 +26,10 @@ public class NPCEditGUI extends AbstractEditGUI {
     private Button add5Button = new Button(messages.getString("add") + " " + 5);
     private Button add1Button = new Button(messages.getString("add") + " " + 1);
 
-
+    /**
+     * Constructor of <b>NPCEditGUI</b> taking a <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorHandler.html">SimulatorHandler</a> as parameter.
+     * @param handler  handler to set <code>this.handler</code> to
+     */
     public NPCEditGUI(SimulatorHandler handler) {
         this.handler = handler;
     }

@@ -10,11 +10,11 @@ import javafx.scene.layout.HBox;
 
 public class TimeEditGUI extends AbstractEditGUI {
 
-    private HBox setTimeHBox = CommonNodeRetriever.getEditGUIHBox();
-    private double speed;
-
+    //Time.
     private Label currentTimeLabel = new Label(messages.getString("current_time"));
     private Label currentSpeedLabel = new Label(messages.getString("current_speed"));
+    private HBox setTimeHBox = CommonNodeRetriever.getEditGUIHBox();
+    private double speed;
 
     //Buttons.
         //Remove Buttons.
@@ -26,7 +26,10 @@ public class TimeEditGUI extends AbstractEditGUI {
     private Button x2Button = new Button("x2");
     private Button x125Button = new Button("x1.25");
 
-
+    /**
+     * Constructor of <b>TimeEditGUI</b> taking a <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorHandler.html">SimulatorHandler</a> as parameter.
+     * @param handler  handler to set <code>this.handler</code> to
+     */
     public TimeEditGUI(SimulatorHandler handler) {
         this.handler = handler;
     }
@@ -68,6 +71,7 @@ public class TimeEditGUI extends AbstractEditGUI {
         this.x2Button.setOnAction(e -> addTime(2.0));
     }
 
+    //TODO: Rename if this doesn't add time, but changes the speed instead.
     private void addTime(double factor) {
         this.speed *= factor;
 

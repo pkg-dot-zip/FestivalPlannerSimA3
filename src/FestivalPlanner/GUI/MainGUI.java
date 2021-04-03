@@ -41,7 +41,7 @@ public class MainGUI extends Application {
     }
 
     /**
-     * creates a new <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorModule.html">Simulatormodule</a> if
+     * creates a new <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorModule.html">SimulatorModule</a> if
      * <code>this.simulatorModule</code> is <i>null</i>.
      * <b>
      * Else it calls the {@link SimulatorModule#resetHandler()} method.
