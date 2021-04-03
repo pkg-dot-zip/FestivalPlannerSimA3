@@ -499,6 +499,10 @@ public class SimulatorHandler {
         return this.artistNPCHashMap;
     }
 
+    /**
+     * Returns <code>this.paused</code>.
+     * @return  <code>this.paused</code>
+     */
     public boolean isPaused() {
         return this.paused;
     }

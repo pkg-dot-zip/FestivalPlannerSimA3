@@ -1,6 +1,5 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
-import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
@@ -8,8 +7,6 @@ import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,8 +18,6 @@ import javafx.stage.Stage;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.ResourceBundle;
 
 /**
@@ -68,8 +63,7 @@ public class SimulatorModule extends AbstractGUI {
     //Buttons.
     private Button agendaButton = new Button(messages.getString("agenda"));
     private Button simulatorButton = new Button(messages.getString("simulator"));
-
-    private Button pauseButton = new Button("Pause");
+    private Button pauseButton = new Button(messages.getString("pause"));
 
     private ListView<String> listView;
 
