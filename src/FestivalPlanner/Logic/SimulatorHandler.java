@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
 public class SimulatorHandler {
@@ -38,7 +39,7 @@ public class SimulatorHandler {
     private HashMap<String, SimulatorPodium> podiumObjectHashMap;
     private HashMap<String, NPC> artistNPCHashMap;
     private HashMap<String, SimulatorObject> danceObjectHashMap;
-    private ArrayList<Show> activeShows = new ArrayList<>();
+    private HashSet<Show> activeShows = new HashSet<>();
 
     // TileMap attributes.
     private TileMap tileMap;
@@ -283,7 +284,7 @@ public class SimulatorHandler {
     }
 
     private void checkShows() {
-        ArrayList<Show> oldActiveShows = this.activeShows;
+        HashSet<Show> oldActiveShows = this.activeShows;
         this.activeShows = getActiveShows(this.time);
 
         if (this.activeShows.size() > 0) {
@@ -369,8 +370,8 @@ public class SimulatorHandler {
      * @param currentTime  the time to check the shows for
      * @return  <code>ArrayList</code> with current active <code>Show</code>s
      */
-    private ArrayList<Show> getActiveShows(LocalTime currentTime) {
-        ArrayList<Show> activeShows = new ArrayList<>();
+    public HashSet<Show> getActiveShows(LocalTime currentTime) {
+        HashSet<Show> activeShows = new HashSet<>();
         for (Show show : this.agenda.getShows()) {
             if (show.getStartTime().isBefore(currentTime) && show.getEndTime().isAfter(currentTime)) {
                 activeShows.add(show);

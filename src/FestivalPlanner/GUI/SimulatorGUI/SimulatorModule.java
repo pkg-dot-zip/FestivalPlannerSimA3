@@ -1,5 +1,6 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
+import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
@@ -8,6 +9,7 @@ import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,6 +21,8 @@ import javafx.stage.Stage;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 /**
@@ -65,6 +69,8 @@ public class SimulatorModule extends AbstractGUI {
     private Button agendaButton = new Button(messages.getString("agenda"));
     private Button simulatorButton = new Button(messages.getString("simulator"));
 
+    private ListView<String> listView;
+
     /**
      * The constructor of this class.
      * @param mainGUI  the parent class responsible for making switching work.
@@ -78,6 +84,7 @@ public class SimulatorModule extends AbstractGUI {
         this.agendaModule = agendaModule;
         this.handler = new SimulatorHandler(this.agendaModule.getAgenda(), this.agendaModule.getPodiumManager(), this.agendaModule.getArtistManager());
         this.simulatorCanvas = new SimulatorCanvas(this.handler, this, 800, 700);
+        this.listView = new ListView();
     }
 
     @Override
@@ -109,6 +116,7 @@ public class SimulatorModule extends AbstractGUI {
         //Adding it all together.
         this.mainPane.setTop(this.topVBox);
         this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
+        this.mainPane.setRight(this.listView);
         this.simulatorScene = new Scene(this.mainPane);
     }
 
@@ -151,6 +159,11 @@ public class SimulatorModule extends AbstractGUI {
     void updateTime() {
         LocalTime time = this.handler.getTime();
         this.timeLabel.setText("    Time: " + time.format(dateTimeFormatter));
+
+        this.listView.getItems().clear();
+        this.handler.getActiveShows(time).forEach(e -> {
+            this.listView.getItems().add(e.getName());
+        });
     }
 
     /**
