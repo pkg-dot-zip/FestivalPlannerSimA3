@@ -392,7 +392,7 @@ Dat reddit Json gebruikt is iets wat heel duidelijk is.
 Dat is zo omdat als je bij een url van reddit .json erachter zet de 
 pagina word getoond in een json formaat.
 
- ![Reddit json format](./Images/Reddit+Json.png)
+ ![Reddit json format](./Images/redditJson.png)
  
 ### Twitter
 
