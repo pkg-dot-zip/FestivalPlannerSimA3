@@ -2,7 +2,10 @@ package FestivalPlanner.Logic;
 
 import FestivalPlanner.Agenda.*;
 import FestivalPlanner.NPC.NPC;
-import FestivalPlanner.TileMap.*;
+import FestivalPlanner.TileMap.Layer;
+import FestivalPlanner.TileMap.ObjectLayer;
+import FestivalPlanner.TileMap.TileMap;
+import FestivalPlanner.TileMap.TileObject;
 import FestivalPlanner.Util.ImageLoader;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import org.jfree.fx.FXGraphics2D;
@@ -11,21 +14,23 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class SimulatorHandler {
 
-    // Final values
+    // Final values.
     private final double SHOW_CHECK_TIME = 60 * 15; //how often to check per in-game second
     private final double NPC_SPAWN_TIME = 60 * 3; //how ofter to spawn a new NPC if not all NPC's have been spawned
     private static final double TOILET_CHANCE = 0.2;
 
-    // NPC attributes
+    // NPC attributes.
     private ArrayList<NPC> npcList;
     private ArrayList<NPC> artistNPCList;
     private int NPCAmount = 10;
 
-    // Agenda attributes
+    // Agenda attributes.
     private Agenda agenda;
     private PodiumManager podiumManager;
     private ArtistManager artistManager;
@@ -35,18 +40,15 @@ public class SimulatorHandler {
     private HashMap<String, SimulatorObject> danceObjectHashMap;
     private ArrayList<Show> activeShows = new ArrayList<>();
 
-    // TileMap attributes
+    // TileMap attributes.
     private TileMap tileMap;
     private ArrayList<SimulatorObject> simulatorObjects;
     private ArrayList<SimulatorToilet> simulatorToilets = new ArrayList<>();
     private SimulatorObject spawn;
 
-    // Time attributes
+    // Time attributes.
     private LocalTime time;
     private double speed = (60 * 2); //value in game second per real second (s/s)
-
-
-
 
     /**
      * Empty constructor for SimulatorHandler.
@@ -61,9 +63,8 @@ public class SimulatorHandler {
     }
 
     /**
-     * Top constructor for SimulatorHandler
-     *
-     * @param tileMap The TileMap to set <code>this.tileMap</code> to
+     * Top constructor for SimulatorHandler.
+     * @param tileMap  the TileMap to set <code>this.tileMap</code> to
      */
     public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArtistManager artistManager, TileMap tileMap) {
         this.npcList = new ArrayList<>();
@@ -78,8 +79,8 @@ public class SimulatorHandler {
     }
 
     /**
-     * Resets the different parts that need to be changed after a change in <code>this.agenda</code>
-     * <b>
+     * Resets the different parts that need to be changed after a change in <code>this.agenda</code>.
+     * <p>
      * The different parts that are changed are:
      * <ul>
      *     <li><code>this.agenda</code> to the new changed <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a>.</li>
@@ -88,8 +89,7 @@ public class SimulatorHandler {
      *     <li><code>this.time</code> to 00:00.</li>
      *     <li>Resets all the NPC's</li>
      * </ul>
-     *
-     * @param agenda <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> That is loaded into the simulator
+     * @param agenda  <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> That is loaded into the simulator
      */
     public void reset(Agenda agenda) {
         this.agenda = agenda;
@@ -100,9 +100,7 @@ public class SimulatorHandler {
         this.simulatorObjects = new ArrayList<>();
 
         generateObjects();
-
         generatePodiumHashMap();
-
 
         this.time = LocalTime.MIDNIGHT;
 
@@ -114,7 +112,7 @@ public class SimulatorHandler {
     /**
      * Looks trough all the <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorPodium.html">SimulatorPodiums</a> to find
      * the corresponding <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>.
-     * <b>
+     * <p>
      * Adds the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> to the <code>this.podiumObjectHashMap</code>.
      */
     private void generatePodiumHashMap() {
@@ -131,17 +129,16 @@ public class SimulatorHandler {
 
     /**
      * Scans through the <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layers</a> in <code>this.tileMap</code>.
-     * <b>
+     * <p>
      * Creates the following objects:
+     * <p>
      * <ul>
      *     <li>All the <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorPodium.html">SimulatorPodiums</a> in the list.</li>
      *     <li>The Spawn object in <code>this.spawn</code>.</li>
      *     <li>All the other normal <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorObject.html">SimulatorObject</a></li>
      * </ul>
-     *
      */
     private void generateObjects() {
-
         for (Layer layer : this.tileMap.getLayers()) {
             if (layer instanceof ObjectLayer) {
                 for (TileObject tileObject : ((ObjectLayer) layer).getTileObjects()) {
@@ -174,9 +171,8 @@ public class SimulatorHandler {
 
 
     /**
-     * Draws <code>this.tileMap</code>, all the NPC's and the objects to the given screen.
-     *
-     * @param g2d The object to draw to
+     * Draws <code>this.tileMap</code>, all the <b>NPC</b>s and the objects to the given screen.
+     * @param g2d  the object to draw to
      */
     public void draw(FXGraphics2D g2d) {
         this.tileMap.draw(g2d);
@@ -197,18 +193,16 @@ public class SimulatorHandler {
         g2d.setColor(Color.black);
     }
 
-
     private double currentShowTime = this.SHOW_CHECK_TIME;
 
     /**
-     * Updates all the NPC's and the objects to the given screen.
-     *
-     * @param deltaTime The time it took sinds last update
+     * Updates all the <b>NPC</b>s and the objects to the given screen.
+     * @param deltaTime  the time it took since last update
      */
     public void update(double deltaTime) {
         this.time = this.time.plusSeconds((long) (deltaTime * this.speed));
 
-        // Updating NPC's
+        // Updating NPC's.
         setupNPC(deltaTime * this.speed);
         for (NPC npc : this.npcList) {
             npc.update(this.npcList);
@@ -218,12 +212,12 @@ public class SimulatorHandler {
             artistNPC.update(this.npcList);
         }
 
-        //Updating set Podiums
+        //Updating set Podiums.
         for (SimulatorObject object : this.simulatorObjects){
             object.update(deltaTime);
         }
 
-        // Handling assigning shows
+        // Handling assigning shows.
         this.currentShowTime -= (deltaTime * this.speed);
         if (this.currentShowTime < 0) {
             checkShows();
@@ -236,8 +230,8 @@ public class SimulatorHandler {
     private double currentNPCSpawnTime = this.NPC_SPAWN_TIME;
 
     /**
-     * Handles spawning NPC's
-     * @param timePast  The time spend since last update
+     * Handles spawning <b>NPC</b>s.
+     * @param timePast  the time spend since last update.
      */
     private void setupNPC(double timePast) {
 
@@ -301,7 +295,7 @@ public class SimulatorHandler {
             startingShows.removeAll(oldActiveShows);
             for (Show show : startingShows) {
 
-                //shows that have started
+                //Shows that have started.
                 onShowStart(show);
             }
         }
@@ -310,7 +304,7 @@ public class SimulatorHandler {
             ArrayList<Show> endedShows = new ArrayList<>(oldActiveShows);
             endedShows.removeAll(activeShows);
             for (Show show : endedShows) {
-                // Shows that have ended
+                // Shows that have ended.
                 onShowEnd(show);
             }
         }
@@ -358,7 +352,6 @@ public class SimulatorHandler {
                     } else {
                         npc.setTargetObject(null);
                     }
-
                 }
             }
         }
@@ -378,10 +371,9 @@ public class SimulatorHandler {
     }
 
     /**
-     * Returns an ArrayList with current active shows
-     *
-     * @param currentTime The time to check the shows for
-     * @return <code>ArrayList</code> with current active <code>Show</code>s
+     * Returns an ArrayList with current active shows.
+     * @param currentTime  the time to check the shows for
+     * @return  <code>ArrayList</code> with current active <code>Show</code>s
      */
     public ArrayList<Show> getActiveShows(LocalTime currentTime) {
         ArrayList<Show> activeShows = new ArrayList<>();
@@ -394,8 +386,7 @@ public class SimulatorHandler {
     }
 
     /**
-     * Getter for <code>this.npcList</code>
-     *
+     * Returns <code>this.npcList</code>.
      * @return <code>this.npcList</code>
      */
     public ArrayList<NPC> getNpcList() {
@@ -403,8 +394,7 @@ public class SimulatorHandler {
     }
 
     /**
-     * Setter for <code>this.npcList</code>
-     *
+     * Setter for <code>this.npcList</code>.
      * @param npcList <code>this.npcList</code>
      */
     public void setNpcList(ArrayList<NPC> npcList) {
@@ -412,44 +402,39 @@ public class SimulatorHandler {
     }
 
     /**
-     * Getter for the <code>this.tileMap</code>
-     *
-     * @return <code>this.tileMap</code>
+     * Returns <code>this.tileMap</code>.
+     * @return  <code>this.tileMap</code>
      */
     public TileMap getTileMap() {
         return tileMap;
     }
 
     /**
-     * Setter for the <code>this.tileMap</code>
-     *
-     * @param tileMap <code>this.tileMap</code>
+     * Setter for the <code>this.tileMap</code>.
+     * @param tileMap  <code>this.tileMap</code>
      */
     public void setTileMap(TileMap tileMap) {
         this.tileMap = tileMap;
     }
 
     /**
-     * Getter for <code>this.Agenda</code>
-     *
-     * @return <code>this.Agenda</code>
+     * Returns <code>this.Agenda</code>.
+     * @return  <code>this.Agenda</code>
      */
     public Agenda getAgenda() {
-        return agenda;
+        return this.agenda;
     }
 
     /**
-     * Getter for <code>this.time</code>
-     *
-     * @return <code>this.time</code>
+     * Returns <code>this.time</code>.
+     * @return  <code>this.time</code>
      */
     public LocalTime getTime() {
-        return time;
+        return this.time;
     }
 
     /**
-     * Setter for <code>this.time</code>
-     *
+     * Setter for <code>this.time</code>.
      * @param time The value to set <code>this.time</code> to
      */
     public void setTime(LocalTime time) {
@@ -457,20 +442,18 @@ public class SimulatorHandler {
     }
 
     /**
-     * Getter for <code>this.speed</code>
-     *
+     * Returns <code>this.speed</code>.
      * @return <code>this.speed</code>
      */
     public double getSpeed() {
-        return speed;
+        return this.speed;
     }
 
     /**
      * Setter for <code>this.speed</code>.
-     * <b>
-     * Also sets the correct speed to all the NPC's in <code>this.NPCList</code>
-     *
-     * @param speed The value to set <code>this.speed</code> to
+     * <p>
+     * Also sets the correct speed to all the <b>NPC</b>s in <code>this.NPCList</code>.
+     * @param speed  the value to set <code>this.speed</code> to
      */
     public void setSpeed(double speed) {
         this.speed = speed;
@@ -483,34 +466,34 @@ public class SimulatorHandler {
     }
 
     /**
-     * Getter for <code>this.NPCAmount</code>
+     * Returns <code>this.NPCAmount</code>.
      * @return <code>this.NPCAmount</code>
      */
     public int getNPCAmount() {
-        return NPCAmount;
+        return this.NPCAmount;
     }
 
     /**
      * Setter for <code>this.NPCAmount</code>
-     * @param NPCAmount  Sets <code>this.NPCAmount</code> to the given value
+     * @param NPCAmount  sets <code>this.NPCAmount</code> to the given value
      */
     public void setNPCAmount(int NPCAmount) {
         this.NPCAmount = NPCAmount;
     }
 
     /**
-     * Gets a list of all the SimulatorPodiums that are used in the <code>this.agenda</code>.
-     * @return  A list with all the values in <code>this.podiumObjectHashMap</code>
+     * Returns a list of all the SimulatorPodiums that are used in the <code>this.agenda</code>.
+     * @return  a list with all the values in <code>this.podiumObjectHashMap</code>
      */
     public ArrayList<SimulatorPodium> getPodiums() {
         return new ArrayList<>(this.podiumObjectHashMap.values());
     }
 
     /**
-     * Getter for <code>this.ArtistNPCHasMap</code>.
+     * Returns <code>this.ArtistNPCHasMap</code>.
      * @return  <code>this.ArtistNPCHasMap</code>
      */
     public HashMap<String, NPC> getArtistNPCHashMap() {
-        return artistNPCHashMap;
+        return this.artistNPCHashMap;
     }
 }

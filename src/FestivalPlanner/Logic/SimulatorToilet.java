@@ -4,26 +4,27 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.TileMap.TileLayer;
 import org.jfree.fx.FXGraphics2D;
 
-import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * Contains methods to handle everything toilet-related.
+ */
 public class SimulatorToilet extends SimulatorObject{
 
     private BufferedImage image;
     private boolean occupied = false;
 
     /**
-     * Main constructor for SimulatorPodium
-     *
-     * @param location       The location the object is at
-     * @param width          The width of the object
-     * @param height         The height of the object
-     * @param rotation       The rotation of the object
-     * @param name           The name of the object
-     * @param collisionLayer The Layer to base pathfinding on
-     * @param locationString The location name the object is at
+     * Main constructor for <b>SimulatorPodium</b>.
+     * @param location  the location the object is at
+     * @param width  the width of the object
+     * @param height  the height of the object
+     * @param rotation  the rotation of the object
+     * @param name  the name of the object
+     * @param collisionLayer  the Layer to base pathFinding on
+     * @param locationString  the location name the object is at
      */
     public SimulatorToilet(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer, String locationString) {
         super(location, width, height, rotation, name, collisionLayer, locationString);
@@ -31,7 +32,7 @@ public class SimulatorToilet extends SimulatorObject{
         try {
             //this.image = ImageIO.read(getClass().getResourceAsStream("/Images/Toilet.png"));
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
@@ -46,10 +47,9 @@ public class SimulatorToilet extends SimulatorObject{
 
             g2d.drawImage(this.image, imageTransform, null);
         }
-
     }
 
-    public boolean isOccupied() {
+    boolean isOccupied() {
         return occupied;
     }
 

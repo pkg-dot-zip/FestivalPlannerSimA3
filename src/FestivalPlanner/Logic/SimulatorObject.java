@@ -20,22 +20,22 @@ public class SimulatorObject {
     protected int height;
 
     protected String name;
-    protected double rotation;
+    double rotation;
 
     private TileLayer collisionLayer;
-    protected Point[][] pathMap;
+    Point[][] pathMap;
 
     /**
-     * Main constructor for SimulatorPodium
-     * @param location       The location the object is at
-     * @param width          The width of the object
-     * @param height         The height of the object
-     * @param rotation       The rotation of the object
-     * @param name           The name of the object
-     * @param collisionLayer The Layer to base pathfinding on
-     * @param locationString The location name the object is at
+     * Main constructor for <b>SimulatorPodium</b>.
+     * @param location  the location the object is at
+     * @param width  the width of the object
+     * @param height  the height of the object
+     * @param rotation  the rotation of the object
+     * @param name  the name of the object
+     * @param collisionLayer  the Layer to base pathFinding on
+     * @param locationString  the location name the object is at
      */
-    public SimulatorObject(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer, String locationString) {
+    SimulatorObject(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer, String locationString) {
         this.location = location;
         this.locationString = locationString;
 
@@ -51,9 +51,9 @@ public class SimulatorObject {
 
 
     /**
-     * Builds the pathfinding map to this object
+     * Builds the pathFinding map for this object.
      */
-    protected void buildPathMap() {
+    private void buildPathMap() {
         this.pathMap = new Point[collisionLayer.getWidth()][collisionLayer.getHeight()];
         for (int x = 0; x < collisionLayer.getWidth(); x++) {
             for (int y = 0; y < collisionLayer.getHeight(); y++) {
@@ -111,8 +111,8 @@ public class SimulatorObject {
     }
 
     /**
-     * Calculates the centre point of this object
-     * @return  The centre point of this object
+     * Calculates the centre point of this object.
+     * @return  the centre point of this object
      */
      Point2D getCentre() {
          Point2D centre = new Point2D.Double(this.location.getX() + (this.width / 2f),
@@ -129,9 +129,9 @@ public class SimulatorObject {
     }
 
     /**
-     * Given a point, it looks in the pathfinding map to see what point to go to.
-     * @param currentPoint  The position to look for
-     * @return  The position to go to, based on given currentPoint
+     * Given a point, it looks in the pathFinding map to see what point to go to.
+     * @param currentPoint  the position to look for
+     * @return  the position to go to, based on given currentPoint
      */
     public Point2D getNextDirection(Point2D currentPoint) {
         Point toPoint = this.pathMap[(int)Math.floor(currentPoint.getY() / collisionLayer.getTileHeight())][(int)Math.floor(currentPoint.getX() / collisionLayer.getTileWidth())];
@@ -145,7 +145,7 @@ public class SimulatorObject {
 
     /**
      * Draws the object to the given screen.
-     * @param g2d  The object to draw to
+     * @param g2d  the object to draw to
      */
     public void draw(FXGraphics2D g2d) {
 
@@ -160,8 +160,8 @@ public class SimulatorObject {
     }
 
     /**
-     * Getter for <code>this.location</code>
-     * @return <code>this.location</code>
+     * Returns <code>this.location</code>
+     * @return  <code>this.location</code>
      */
     public Point2D getLocation() {
         return location;
@@ -169,7 +169,11 @@ public class SimulatorObject {
 
     public void debugDraw(Graphics2D g2d){}
 
-    public String getLocationString() {
+    /**
+     * Returns <code>this.locationString</code>
+     * @return  <code>this.locationString</code>
+     */
+    String getLocationString() {
         return locationString;
     }
 
