@@ -3,17 +3,21 @@ package FestivalPlanner.Util.JsonHandling;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.TileMap.*;
 import com.sun.istack.internal.NotNull;
+
 import javax.imageio.ImageIO;
-import javax.json.*;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import java.awt.geom.Point2D;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
  * Contains methods for converting <i>.JSON</i> files into usable TileMaps for our software.
  */
-public class JsonConverter extends AbstractDialogPopUp {
+public class JsonConverter {
 
     /**
      * Reads the <i>.JSON</i> file and turns it into
@@ -48,7 +52,7 @@ public class JsonConverter extends AbstractDialogPopUp {
 
             return tileMap;
         } catch (Exception e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return null;
     }
@@ -84,7 +88,7 @@ public class JsonConverter extends AbstractDialogPopUp {
                 }
             }
         } catch (Exception e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 
@@ -184,7 +188,7 @@ public class JsonConverter extends AbstractDialogPopUp {
                 }
             }
         } catch (Exception e) {
-            showExceptionPopUp(e);
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
     }
 }

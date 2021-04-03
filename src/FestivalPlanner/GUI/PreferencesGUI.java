@@ -1,11 +1,8 @@
 package FestivalPlanner.GUI;
 
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
-import FestivalPlanner.Util.MathHandling.ColorConverter;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -128,7 +126,6 @@ public class PreferencesGUI extends AbstractGUI{
         this.gridPane.addRow(1, this.buttonHBox);
     }
 
-    //TODO: Refactor so that there is no duplicate code.
     @Override
     public void actionHandlingSetup() {
         this.applyButton.setOnAction(e -> {
