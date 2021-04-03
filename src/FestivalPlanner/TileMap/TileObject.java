@@ -23,6 +23,8 @@ public class TileObject {
      * @param location  the start location of this object, top right corner
      * @param width  the width of this object
      * @param height  the height of the object
+     * @param rotation  the rotation of the object
+     * @param locationString  TODO: write this
      */
     public TileObject(String name, String type, Point2D location, int width, int height, double rotation, String locationString) {
         this.name = name;

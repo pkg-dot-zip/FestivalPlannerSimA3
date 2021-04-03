@@ -57,10 +57,10 @@ public class PodiumManager {
 
     /**
      * changes a <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> within PodiumManager to have the same
-     * values as the given a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>.
-     * @param originalName the name of the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> you
+     * values as the given <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>.
+     * @param originalName  the name of the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> you
      *                     want to edit
-     * @param editedPodium the new version of the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>
+     * @param editedPodium  the new version of the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>
      */
     public void editPodium(String originalName, Podium editedPodium) {
         Podium oldPodium = getPodium(originalName);
@@ -76,7 +76,7 @@ public class PodiumManager {
      * Searches for a <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> was not found.
      * @param name  String representing the name of the podium that is being requested.
-     * @return <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html"> Podium</a> with the given name, returns
+     * @return  <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html"> Podium</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> was not found
      */
     @Nullable
@@ -87,7 +87,7 @@ public class PodiumManager {
     /**
      * Returns the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> with the given location as
      * location.
-     * @param location  The location the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> should be at
+     * @param location  the location the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> should be at
      * @return  <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> with correct location
      */
     @Nullable
@@ -103,7 +103,7 @@ public class PodiumManager {
     /**
      * Returns a <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html">Set</a> with all the
      * names of the known podiums.
-     * @return <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html"> Set</a> containing all the names
+     * @return  <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html"> Set</a> containing all the names
      * of the known podiums
      */
     public Set<String> getAllPodiumNames() {

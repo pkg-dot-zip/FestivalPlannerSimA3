@@ -20,10 +20,14 @@ public class SimulatorPodium extends SimulatorObject{
     private int activeSprite;
 
     /**
-     * Main constructor for SimulatorPodium
-     * @param location  The location the object is at
-     * @param width  The width of the object
-     * @param height  The height of the object
+     * Main constructor for SimulatorPodium.
+     * @param location  the location the object is at
+     * @param width  the width of the object
+     * @param height  the height of the object
+     * @param rotation  TODO: Write this
+     * @param name  TODO: Write this
+     * @param collisionLayer   TODO: Write this
+     * @param locationString   TODO: Write this
      */
     public SimulatorPodium(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer, String locationString) {
         super(location, width, height, rotation, name, collisionLayer, locationString);

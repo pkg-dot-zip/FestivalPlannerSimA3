@@ -323,6 +323,7 @@ public class NPC {
 
     /**
      * Returns <code>this.target</code>.
+     * @return  <code>this.target</code>
      */
     public Point2D getTarget(){
         return this.target;
@@ -330,6 +331,7 @@ public class NPC {
 
     /**
      * Returns <code>this.position</code>.
+     * @return <code>this.position</code>
      */
     public Point2D getPosition(){
         return this.position;
@@ -337,6 +339,7 @@ public class NPC {
 
     /**
      * Returns <code>this.isSeparating</code>.
+     * @return  <code>this.isSeparating</code>
      */
     private boolean isSeparating() {
         return this.isSeparating;

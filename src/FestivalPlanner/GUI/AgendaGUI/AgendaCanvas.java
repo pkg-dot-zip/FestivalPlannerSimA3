@@ -46,6 +46,7 @@ public class AgendaCanvas {
      * <p>
      * Uses the <b>Agenda</b> given as parameter for <code>this.agenda</code>.
      * @param agenda  sets <code>this.agenda</code> to this object
+     * @param agendaModule  TODO: Write this
      */
     AgendaCanvas(Agenda agenda, AgendaModule agendaModule) {
         this(agenda, 1920 / 4f, 1080 / 3f, agendaModule);
@@ -56,8 +57,10 @@ public class AgendaCanvas {
      * <p>
      * Last action is calling the <code>draw()</code> method,
      * so the canvas will be drawn after initialising this <code>AgendaCanvas</code>.
+     * @param agenda  TODO: Write this
      * @param width  sets <code>this.canvas.setWidth</code> to this value
      * @param height  sets <code>this.canvas.setHeight</code> to this value
+     * @param agendaModule  TODO: Write this
      */
     private AgendaCanvas(Agenda agenda, double width, double height, AgendaModule agendaModule) {
         this.agendaModule = agendaModule;
@@ -157,7 +160,7 @@ public class AgendaCanvas {
      * When an update has been made to <code>this.agenda</code>, this method will make the canvas run the methods mentioned above.
      * <p>
      * This method is also called in the constructor of this object and after setting <code>this.agenda</code>.
-     * <i>After these actions it is <b><unnecessary</b> to call this method</i>.
+     * <i>After these actions it is <b>unnecessary</b> to call this method</i>.
      */
     private void buildAgendaCanvas() {
         calculateBounds();

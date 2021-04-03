@@ -20,6 +20,7 @@ public class WindowsSystemSoundHandler {
      * The sound is based on the parameter's value, the string.
      * For more information check <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/swing/1.4/w2k_props.html">here</a>
      * and <a href="https://stackoverflow.com/questions/3927941/system-sounds-in-java">here</a>
+     * @param propertyName  sound to play
      */
     public static void load(String propertyName){
         if (System.getProperty("os.name").contains("Windows")) {

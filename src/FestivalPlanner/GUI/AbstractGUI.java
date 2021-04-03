@@ -32,7 +32,7 @@ public abstract class AbstractGUI {
      * Runs initialisation methods and sets general stage settings, then runs the <code>show()</code> or <code>showAndWait()</code> method.
      * <p>
      * These include, but are not limited to:
-     * <p></ul>
+     * <p><ul>
      * <li><code>setScene(Scene value)</code>
      * <li><code>setTitle(String value)</code>
      * <li><code>setWidth(Double value)</code>

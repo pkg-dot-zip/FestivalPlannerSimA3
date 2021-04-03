@@ -91,6 +91,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * @param stage  will be stored
      *              as a parameter so this stage can be referenced as the owner of the sub stages
      *              <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
+     * @param mainGUI  TODO: Write this
      */
     public AgendaModule(MainGUI mainGUI, Stage stage) {
         this.mainGUI = mainGUI;
@@ -405,6 +406,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
     /**
      * Sets the <code>this.currentShow</code> attribute to the parameter's value.
+     * @param show  TODO: Write this
      */
     void setCurrentShow(Show show) {
         this.selectedShows.clear();
