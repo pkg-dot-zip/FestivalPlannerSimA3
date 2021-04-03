@@ -1,7 +1,7 @@
 package FestivalPlanner.NPC;
 
 /**
- * Abstract class containing the main method all our NPC-state classes use.
+ * Contains the main method all NPC-state classes use.
  */
 public abstract class NPCState {
     /**
