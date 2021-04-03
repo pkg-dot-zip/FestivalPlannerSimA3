@@ -60,7 +60,7 @@ public class SimulatorModule extends AbstractGUI {
     private MenuItem npcEditMenuItem = new MenuItem(messages.getString("npc_menu"));
     //HelpMenu
     private Menu helpMenu = new Menu(messages.getString("help"));
-    private MenuItem helpGuideMenuItem = new MenuItem(messages.getString("help_guide"));
+    private MenuItem helpGuideMenuItem = new MenuItem(messages.getString("github"));
     private MenuItem javaDocMenuItem = new MenuItem(messages.getString("javadoc"));
     private MenuItem aboutMenuItem = new MenuItem(messages.getString("about"));
 
