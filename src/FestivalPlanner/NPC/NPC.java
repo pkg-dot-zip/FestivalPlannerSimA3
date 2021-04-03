@@ -4,6 +4,7 @@ import FestivalPlanner.Logic.SimulatorObject;
 import FestivalPlanner.Util.ImageLoader;
 import FestivalPlanner.Util.MathHandling.NPCMathHandler;
 import com.sun.istack.internal.Nullable;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
@@ -16,17 +17,19 @@ import java.util.ArrayList;
  * Contains methods for everything related to NPC instances, which can be seen in <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorCanvas.html">SimulatorCanvas</a>.
  */
 public class NPC {
-    private Point2D position;
-    private final double SPEED = 1.0 / (60*5);
-    private double gameSpeed;
-    private double frame;
 
+    //Movement.
+    private NPCState npcState = new MovingState();
+    private Direction direction = Direction.UP;
+    private Point2D position;
     private Point2D target;
     private SimulatorObject targetObject;
+    private final double SPEED = 1.0 / (60*5);
+    private double gameSpeed;
 
-    private Direction direction = Direction.UP;
-
-    private NPCState npcState = new MovingState();
+    //Images.
+    private static String[] characterFiles = {"char_1", "char_2"};
+    private double frame;
 
     private final int npcTileX = 4;
     private final int npcTileY = 3;
@@ -36,19 +39,16 @@ public class NPC {
     private ArrayList<BufferedImage> spritesLeft;
     private ArrayList<BufferedImage> spritesRight;
 
-    private static String[] characterFiles = {"char_1", "char_2"};
-
+    //Collision.
+    private final int COLLISION_RADIUS = 20;
     private int centerX;
     private int centerY;
-
-    private final int COLLISION_RADIUS = 20;
-
     private boolean isSeparating = false;
 
     /**
      * Constructor for the <code>NPC</code> class.
      * <p>
-     * Sets the position to the parameter's value, and sets the appearance of the NPC by cutting up the imagine designated to it.
+     * Sets the position to the parameter's value, and sets the appearance of the <b>NPC</b> by cutting up the imagine designated to it.
      * @param position  changes <code>this.position</code> to the parameter's value
      * @param spriteSheet  changes the appearance of the NPC in question
      */
@@ -64,7 +64,7 @@ public class NPC {
         this.spritesDown = spriteSheets.get(1);
         this.spritesLeft = spriteSheets.get(0);
         this.spritesRight = spriteSheets.get(3);
-        //Now here.
+
         this.centerX = (spritesLeft.get(0).getWidth() / 2);
         this.centerY = (spritesLeft.get(0).getHeight() / 2) - 10;
     }
@@ -80,7 +80,7 @@ public class NPC {
         this.spritesDown = spriteSheets.get(1);
         this.spritesLeft = spriteSheets.get(0);
         this.spritesRight = spriteSheets.get(3);
-        //Now here.
+
         this.centerX = (spritesLeft.get(0).getWidth() / 2);
         this.centerY = (spritesLeft.get(0).getHeight() / 2) - 10;
     }
@@ -130,21 +130,23 @@ public class NPC {
     }
 
     /**
-     * Moves the NPC away from the others to make sure no collisions are happening.
+     * Moves the <b>NPC</b> away from the others to make sure no collisions are happening.
      * <p>
-     * It does this one by one; there can never be two NPCs moving at the same time.
-     * In order to do this we check the boolean isSeparating for every NPC in the list given as a parameter.
-     * @param npcs  list of NPC to check
+     * It does this one by one; there can never be two <b>NPC</b>s moving at the same time.
+     * In order to do this we check the boolean isSeparating for every <b>NPC</b> in the list given as a parameter.
+     * @param npcs  list of <b>NPC</b> to check
      */
     private void separateNPC(ArrayList<NPC> npcs) {
         this.isSeparating = true;
 
+        //Checks whether other NPCs are separating, and if so wait until that NPC is done.
         for (NPC npc : npcs){
             if (npc.isSeparating() && npc != this){
                 return;
             }
         }
 
+        //Calculating target to move to.
         int xToMove = NPCMathHandler.separateRandomNumber(COLLISION_RADIUS);
         int yToMove = NPCMathHandler.separateRandomNumber(COLLISION_RADIUS);
 
@@ -155,11 +157,12 @@ public class NPC {
             yToMove += npcTileY;
         }
 
+        //Setting target to move to.
         this.target = new Point2D.Double(this.target.getX() + xToMove, this.target.getY() + yToMove);
     }
 
     /**
-     * Updates this NPC' direction to the direction it should face to walk straight forward to its' target.
+     * Updates this <b>NPC</b>' direction to the direction it should face to walk straight forward to its' target.
      */
     public void updateDirectionToFace(){
         if ((int)this.position.getX() != (int)this.target.getX()) {
@@ -175,12 +178,11 @@ public class NPC {
                 this.direction = Direction.DOWN;
             }
         }
-
         //this.debugPrint();
     }
 
     /**
-     * Updates the NPC' position to the current one, plus or minus the speed. This is dependent on the direction this NPC is facing.
+     * Updates the <b>NPC</b>' position to the current one, plus or minus the speed. This is dependent on the direction this <b>NPC</b> is facing.
      */
     public void walkOnAxis(){
         switch(this.direction){
@@ -207,9 +209,9 @@ public class NPC {
     }
 
     /**
-     * Returns a boolean, which is true if this NPC hits/enters another NPC' collider.
-     * @param npcs  ArrayList of NPC instances to check
-     * @return  boolean, whether the NPC hit another NPC instance
+     * Returns a boolean, which is true if this <b>NPC</b> hits/enters another <b>NPC</b>' collider.
+     * @param npcs  ArrayList of <b>NPC</b> instances to check
+     * @return  boolean, whether the <b>NPC</b> hit another <b>NPC</b> instance
      */
     public boolean checkCollision(ArrayList<NPC> npcs) {
         boolean hasCollision = false;
@@ -235,7 +237,7 @@ public class NPC {
     }
 
     /**
-     * Draws the <code>NPC</code>-sprite/character on the canvas.
+     * Draws the <b>NPC</b>-sprite/character on the canvas.
      * @param g2d  Graphics2D-canvas to draw on
      * @param list  ArrayList containing images of the direction's walk-cycle
      * @param tx  AffineTransform which values will be used for positioning the image
@@ -245,8 +247,8 @@ public class NPC {
     }
 
     /**
-     * Returns an ArrayList containing the images for the direction this <code>NPC</code> is facing.
-     * @return  ArrayList containing images of the NPC' direction
+     * Returns an ArrayList containing the images for the direction this <b>NPC</b> is facing.
+     * @return  ArrayList containing images of the <b>NPC</b>' direction
      */
     @Nullable
     private ArrayList<BufferedImage> listOfDirection(){
@@ -263,7 +265,7 @@ public class NPC {
     }
 
     /**
-     * Sets a target/destination for this NPC to move to.
+     * Sets a target/destination for this <b>NPC</b> to move to.
      * <p>
      * Sets <code>this.target</code> to the parameter's value, which is an instance of Point2D.
      * @param newTarget  Point2D to travel to
@@ -274,7 +276,7 @@ public class NPC {
 
     /**
      * Getter for <code>this.TargetObject</code>.
-     * @return <code>this.TargetObject</code>
+     * @return  <code>this.TargetObject</code>
      */
     public SimulatorObject getTargetObject() {
         return targetObject;
@@ -282,7 +284,7 @@ public class NPC {
 
     /**
      * Setter for <code>this.TargetObject</code>.
-     * @param targetObject  the Object to set <code>this.TargetObject</code> to
+     * @param targetObject  the object to set <code>this.TargetObject</code> to
      */
     public void setTargetObject(SimulatorObject targetObject) {
         this.targetObject = targetObject;
