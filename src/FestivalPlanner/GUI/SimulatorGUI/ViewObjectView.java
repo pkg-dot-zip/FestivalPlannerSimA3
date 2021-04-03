@@ -96,6 +96,7 @@ public class ViewObjectView extends AbstractGUI {
         gridPane.setVgap(50);
         gridPane.setHgap(50);
         gridPane.setAlignment(Pos.CENTER);
+            //MainPanel.
         mainPanel.setMinHeight(150);
         mainPanel.setAlignment(Pos.BASELINE_CENTER);
         mainPanel.setSpacing(10);
@@ -112,11 +113,11 @@ public class ViewObjectView extends AbstractGUI {
 
     @Override
     public void actionHandlingSetup() {
-        this.viewPodiumButton.setOnAction(e -> this.canvas.moveToPoint(this.podiumSelectBox.getSelectionModel().getSelectedItem().getLocation()));
-        this.viewArtistButton.setOnAction(e -> this.canvas.moveToPoint(this.artistNPCMap.get(this.artistSelectBox.getSelectionModel().getSelectedItem()).getPosition()));
+        this.viewPodiumButton.setOnAction(e ->
+                this.canvas.moveToPoint(this.podiumSelectBox.getSelectionModel().getSelectedItem().getLocation()));
+        this.viewArtistButton.setOnAction(e ->
+                this.canvas.moveToPoint(this.artistNPCMap.get(this.artistSelectBox.getSelectionModel().getSelectedItem()).getPosition()));
 
-        closeButton.setOnAction(e -> {
-            this.stage.close();
-        });
+        this.closeButton.setOnAction(e -> this.stage.close());
     }
 }
