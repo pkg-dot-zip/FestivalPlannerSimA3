@@ -14,6 +14,7 @@ import animatefx.animation.JackInTheBox;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -24,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
@@ -146,11 +148,6 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
     @Override
     public void actionHandlingSetup() {
-        //Generic
-        this.stage.setOnCloseRequest(e -> { //When the main window is closed -> Close the entire program.
-            Platform.exit();
-        });
-
         //Canvas
         this.agendaCanvas.getCanvas().setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) { //You can only select with a left-click.

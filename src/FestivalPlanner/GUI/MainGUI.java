@@ -1,11 +1,15 @@
 package FestivalPlanner.GUI;
 
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.SimulatorGUI.SimulatorModule;
 import FestivalPlanner.Util.ImageLoader;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainGUI extends Application {
 
@@ -38,6 +42,7 @@ public class MainGUI extends Application {
         this.stage.setHeight(800);
 
         this.stage.setScene(this.simulatorModule.getScene());
+        preventExit();
     }
 
     /**
@@ -71,5 +76,17 @@ public class MainGUI extends Application {
         this.stage.setHeight(350);
 
         this.stage.setScene(this.agendaModule.getAgendaScene());
+        preventExit();
+    }
+
+    private void preventExit(){
+        Platform.setImplicitExit(false);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+                AbstractDialogPopUp.showExitConfirmationPopUp();
+            }
+        });
     }
 }

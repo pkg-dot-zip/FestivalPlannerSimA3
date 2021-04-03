@@ -122,11 +122,6 @@ public class SimulatorModule extends AbstractGUI {
 
     @Override
     public void actionHandlingSetup() {
-        //Generic
-        this.stage.setOnCloseRequest(e -> { //When the main window is closed -> Close the entire program.
-            Platform.exit();
-        });
-
         //MenuBar
         this.exitMenuItem.setOnAction(e -> {
             AbstractDialogPopUp.showExitConfirmationPopUp();
