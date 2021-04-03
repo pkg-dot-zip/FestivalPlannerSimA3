@@ -146,15 +146,34 @@ public class NPC {
 
         switch (this.direction) {
             case UP:
-                System.out.println(this.position);
-                System.out.println(otherNPC.position);
-                System.out.println(this.position.getY() - (this.COLLISION_RADIUS / 2f));
-                System.out.println(otherNPC.position.getY() + (otherNPC.COLLISION_RADIUS / 2f));
 
                 double penetrationUp = (this.position.getY() - (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getY() + (otherNPC.COLLISION_RADIUS / 2f));
-                this.position = new Point2D.Double(this.position.getX(), this.position.getY() + penetrationUp);
-                System.out.println(penetrationUp);
+                this.position = new Point2D.Double(this.position.getX(), this.position.getY() - (penetrationUp / 2f));
+                otherNPC.position = new Point2D.Double(otherNPC.position.getX(), otherNPC.position.getY() + (penetrationUp / 2f));
+
                 break;
+            case DOWN:
+
+                double penetrationDown = (this.position.getY() + (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getY() - (otherNPC.COLLISION_RADIUS / 2f));
+                this.position = new Point2D.Double(this.position.getX(), this.position.getY() - (penetrationDown / 2f));
+                otherNPC.position = new Point2D.Double(otherNPC.position.getX(), otherNPC.position.getY() + (penetrationDown / 2f));
+
+                break;
+            case LEFT:
+
+                double penetrationLeft = (this.position.getX() - (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getX() + (otherNPC.COLLISION_RADIUS / 2f));
+                this.position = new Point2D.Double(this.position.getX() - (penetrationLeft / 2f), this.position.getY());
+                otherNPC.position = new Point2D.Double(otherNPC.position.getX() + (penetrationLeft / 2f), otherNPC.position.getY());
+
+                break;
+            case RIGHT:
+
+                double penetrationRight = (this.position.getX() + (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getX() - (otherNPC.COLLISION_RADIUS / 2f));
+                this.position = new Point2D.Double(this.position.getX() - (penetrationRight / 2f), this.position.getY());
+                otherNPC.position = new Point2D.Double(otherNPC.position.getX() + (penetrationRight / 2f), otherNPC.position.getY());
+
+                break;
+
         }
 
     }
