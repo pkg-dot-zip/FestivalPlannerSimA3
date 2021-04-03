@@ -25,24 +25,24 @@ import java.util.ResourceBundle;
  */
 public class ShowEditorGUI extends AbstractGUI {
 
-    //LanguageHandling
+    //LanguageHandling.
     private ResourceBundle messages = LanguageHandler.getMessages();
 
     //Main Scene Components.
     private Stage stage = new Stage();
 
-    //TimeAndPopularity
+    //TimeAndPopularity.
     private VBox timeAndPopularityVBox = CommonNodeRetriever.getEditGUIMainPanel();
     private Slider popularitySlider = new Slider();
     private Label popularityLabel = new Label(" " + messages.getString("expected_popularity") + " : 50%");
     private TextField startTimeTextField = new TextField();
     private TextField endTimeTextField = new TextField();
 
-    //ShowName
+    //ShowName.
     private VBox showNameVBox = CommonNodeRetriever.getShowEditorVBox();
     private TextField showNameTextField = new TextField();
 
-    //ArtistsAndPodiumPanel
+    //ArtistsAndPodiumPanel.
     private VBox artistAtEventSetterVBox = new VBox();
     private VBox artistVBox = new VBox();
     private ComboBox<String> podiumComboBox = new ComboBox<>();
@@ -51,7 +51,7 @@ public class ShowEditorGUI extends AbstractGUI {
     private Button eventArtistsRemoveButton = new Button(messages.getString("remove_artist"));
     private ListView<Artist> artistsList = new ListView<>();
 
-    //Generic
+    //Generic.
     private Button applyButton = new Button(messages.getString("apply"));
 
     //Non-node attributes.
@@ -84,20 +84,20 @@ public class ShowEditorGUI extends AbstractGUI {
 
     @Override
     public void setup() {
-        //Value init
+        //Initialising values.
         //If no layer is selected, create a new one.
         isNewShow = this.agendaModule.getCurrentShow() == null;
 
-        //Alignment & Spacing
-            //TimeAndPopularity
-                //Slider
+        //Alignment & Spacing.
+            //TimeAndPopularity.
+                //Slider.
         this.popularitySlider.setMin(0);
         this.popularitySlider.setMax(100);
         this.popularitySlider.setValue(50);
-                //TextFields
+                //TextFields.
         this.startTimeTextField.setMinWidth(220);
         this.endTimeTextField.setMinWidth(220);
-                //ArtistAndPodiumPanel
+                //ArtistAndPodiumPanel.
         artistVBox.setSpacing(VBOX_SPACING);
         artistAtEventSetterVBox.setSpacing(VBOX_SPACING);
         this.artistsList.setMaxHeight(130);
@@ -111,24 +111,24 @@ public class ShowEditorGUI extends AbstractGUI {
         this.eventArtistsAddButton.setPrefWidth(120);
         this.eventArtistsRemoveButton.setPrefWidth(120);
 
-           //Generic
-                //ButtonHBox
+           //Generic.
+                //ButtonHBox.
         this.buttonHBox.setSpacing(HBOX_SPACING);
         this.buttonHBox.setAlignment(Pos.CENTER);
-                //GridPane
+                //GridPane.
         gridPane.setVgap(50);
         gridPane.setHgap(50);
         gridPane.setAlignment(Pos.CENTER);
 
-        //Adding all the children
-            //TimeAndPopularity
+        //Adding all the children.
+            //TimeAndPopularity.
         timeAndPopularityVBox.getChildren().addAll(new Label(messages.getString("select_time")), this.startTimeTextField,
                 this.endTimeTextField, this.popularityLabel, this.popularitySlider);
-            //ShowName
+            //ShowName.
         showNameVBox.getChildren().addAll(new Label(messages.getString("enter_name_and_save")),
                 new Label(messages.getString("enter_show_name") + ":"),
                 this.showNameTextField);
-            //ArtistAndPodiumPanel
+            //ArtistAndPodiumPanel.
         artistVBox.getChildren().addAll(this.artistsList);
         artistAtEventSetterVBox.getChildren().addAll(this.artistComboBox,
                 this.eventArtistsAddButton,
@@ -138,10 +138,10 @@ public class ShowEditorGUI extends AbstractGUI {
 
         loadPropertiesFromShow();
 
-            //Generic
+            //Generic.
         buttonHBox.getChildren().addAll(applyButton, closeButton);
 
-        //Adding it all together
+        //Adding it all together.
         gridPane.add(timeAndPopularityVBox, 0, 0);
         gridPane.add(showNameVBox, 1, 0);
         gridPane.add(CommonNodeRetriever.getShowEditorMainPane(artistVBox, artistAtEventSetterVBox), 2, 0);
@@ -150,12 +150,12 @@ public class ShowEditorGUI extends AbstractGUI {
 
     @Override
     public void actionHandlingSetup(){
-        //TimeAndPopularity
+        //TimeAndPopularity.
         this.popularitySlider.setOnMouseDragged(event -> {
             this.popularityLabel.setText(" " + messages.getString("expected_popularity") + ": " + (int) this.popularitySlider.getValue() + "%");
         });
 
-        //ArtistsAndPodiumPanel
+        //ArtistsAndPodiumPanel.
         this.eventArtistsAddButton.setOnAction(event -> {
             Artist selectedArtist = this.agendaModule.getArtistManager().getArtist(this.artistComboBox.getValue());
             if (selectedArtist != null) {
@@ -174,19 +174,19 @@ public class ShowEditorGUI extends AbstractGUI {
 
         applyButton.setOnAction(e -> {
             if (isAllowedToApply() && !containsDuplicateArtist()) {
-                //TimeAndPopularityPanel
+                //TimeAndPopularityPanel.
                 selectedShow.setExpectedPopularity((int) this.popularitySlider.getValue());
                 selectedShow.setStartTime(this.attemptedStartTime);
                 selectedShow.setEndTime(this.attemptedEndTime);
 
-                //ShowName
+                //ShowName.
                 selectedShow.setName(this.showNameTextField.getText());
 
-                //ArtistAndPodiumPane;
+                //ArtistAndPodiumPane.
                 selectedShow.setArtists(this.selectedShowArtistArrayList);
                 selectedShow.setPodium(this.agendaModule.getPodiumManager().getPodium(this.podiumComboBox.getSelectionModel().getSelectedItem()));
 
-                //Apply to AgendaModule
+                //Apply to AgendaModule.
                 if (isNewShow) {
                     this.agendaModule.setCurrentShow(selectedShow);
                 } else {
@@ -215,14 +215,14 @@ public class ShowEditorGUI extends AbstractGUI {
             selectedShow = this.agendaModule.getCurrentShow();
         }
 
-        //TimeAndPopularityPanel
+        //TimeAndPopularityPanel.
         this.popularitySlider.setValue(selectedShow.getExpectedPopularity());
         this.popularityLabel.setText(messages.getString("expected_popularity") + ": " + (int)this.popularitySlider.getValue() + "%");
         this.startTimeTextField.setText(selectedShow.getStartTime().toString());
         this.endTimeTextField.setText(selectedShow.getEndTime().toString());
-        //ShowName
+        //ShowName.
         this.showNameTextField.setText(selectedShow.getName());
-        //ArtistAndPodiumPanel
+        //ArtistAndPodiumPanel.
         this.artistsList.getItems().clear();
         this.artistComboBox.setItems(FXCollections.observableArrayList(this.agendaModule.getArtistManager().getAllArtistNames()));
         this.podiumComboBox.setItems(FXCollections.observableArrayList(this.agendaModule.getPodiumManager().getAllPodiumNames()));
@@ -248,14 +248,14 @@ public class ShowEditorGUI extends AbstractGUI {
      */
     private boolean isAllowedToApply() {
         if (
-            //TimeAndPopularityPane
+            //TimeAndPopularityPane.
             startTimeTextField.getText().isEmpty() ||
             endTimeTextField.getText().isEmpty() ||
 
-             //ShowName
+             //ShowName.
             showNameTextField.getText().isEmpty() ||
 
-            //ArtistAndPodiumPanel
+            //ArtistAndPodiumPanel.
             artistsList.getItems().isEmpty() ||
             podiumComboBox.getItems().isEmpty() ||
             podiumComboBox.getSelectionModel().isEmpty() ||

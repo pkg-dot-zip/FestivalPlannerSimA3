@@ -52,7 +52,7 @@ public class ShowRectangle2D {
     }
 
     /**
-     * Getter for <code>this.show</code>.
+     * Returns <code>this.show</code>.
      * @return  <code>this.show</code>
      */
     public Show getShow() {
@@ -60,7 +60,7 @@ public class ShowRectangle2D {
     }
 
     /**
-     * Getter for <code>this.color</code>.
+     * Returns <code>this.color</code>.
      * @return  <code>this.color</code>
      */
     public Color getColor() {
@@ -76,10 +76,10 @@ public class ShowRectangle2D {
     }
 
     /**
-     * Getter for <code>this.rectangle</code>.
+     * Returns <code>this.rectangle</code>.
      * @return  the value of <code>this.rectangle</code>
      */
-    public Rectangle2D getRectangle() {
+    Rectangle2D getRectangle() {
         return this.rectangle;
     }
 

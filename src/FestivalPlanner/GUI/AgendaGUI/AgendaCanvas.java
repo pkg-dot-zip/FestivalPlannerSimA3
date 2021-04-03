@@ -1,8 +1,8 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.Agenda;
-import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.Agenda.Podium;
+import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import com.sun.istack.internal.Nullable;
 import javafx.scene.Node;
@@ -11,9 +11,11 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
-import java.awt.geom.*;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -40,32 +42,13 @@ public class AgendaCanvas {
     private ArrayList<Podium> usedStages;
 
     /**
-     * Blank constructor of <code>AgendaCanvas</code>.
-     */
-    public AgendaCanvas(AgendaModule agendaModule) {
-        this(new Agenda(), 1920 / 4f, 1080 / 3f, agendaModule);
-    }
-
-    /**
      * Constructor of <code>AgendaCanvas</code>.
      * <p>
-     * Uses the Agenda given as parameter for <code>this.agenda</code>.
+     * Uses the <b>Agenda</b> given as parameter for <code>this.agenda</code>.
      * @param agenda  sets <code>this.agenda</code> to this object
      */
-    public AgendaCanvas(Agenda agenda, AgendaModule agendaModule) {
+    AgendaCanvas(Agenda agenda, AgendaModule agendaModule) {
         this(agenda, 1920 / 4f, 1080 / 3f, agendaModule);
-    }
-
-    /**
-     * Constructor of <code>AgendaCanvas</code>.
-     * <p>
-     * Uses the the given width and height for <code>this.canvas.setWidth</code> and <code>this.canvas.setHeight</code>
-     * respectively. It creates a new blank <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> for <code>this.agenda</code>.
-     * @param width  sets <code>this.canvas.setWidth</code> to this value
-     * @param height  sets <code>this.canvas.setHeight</code> to this value
-     */
-    public AgendaCanvas(double width, double height, AgendaModule agendaModule) {
-        this(new Agenda(), width, height, agendaModule);
     }
 
     /**
@@ -76,7 +59,7 @@ public class AgendaCanvas {
      * @param width  sets <code>this.canvas.setWidth</code> to this value
      * @param height  sets <code>this.canvas.setHeight</code> to this value
      */
-    public AgendaCanvas(Agenda agenda, double width, double height, AgendaModule agendaModule) {
+    private AgendaCanvas(Agenda agenda, double width, double height, AgendaModule agendaModule) {
         this.agendaModule = agendaModule;
         this.agenda = agenda;
 
@@ -97,25 +80,24 @@ public class AgendaCanvas {
     }
     /**
      * Builds the AgendaCanvas, and redraws after.
-     * <p>
      * See {@link #buildAgendaCanvas()}.
      */
-    public void reBuildAgendaCanvas() {
+    void reBuildAgendaCanvas() {
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     /**
-     * Getter for <code>this.mainPane</code>.
+     * Returns <code>this.mainPane</code>.
      * @return  this.mainPane
      */
-    public Node getMainPane() {
+    Node getMainPane() {
         buildAgendaCanvas();
         return mainPane;
     }
 
     /**
      * Returns <code>this.agenda</code>.
-     * @return  Value of <code>this.agenda</code>
+     * @return  value of <code>this.agenda</code>
      */
     public Agenda getAgenda() {
         return this.agenda;
@@ -137,7 +119,7 @@ public class AgendaCanvas {
      * Returns <code>this.canvas</code>.
      * @return  <code>this.canvas</code>
      */
-    public Canvas getCanvas() {
+    Canvas getCanvas() {
         return this.canvas;
     }
 
@@ -151,7 +133,7 @@ public class AgendaCanvas {
      * <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a> represents.
      */
     @Nullable
-    public Show showAtPoint(Point2D point) {
+    Show showAtPoint(Point2D point) {
         //Adjust the point to the cameraTransform and startTranslate.
         Point2D adjustedPoint = new Point2D.Double(point.getX() + this.startX - this.cameraTransform.getTranslateX(),
                 point.getY() + this.startY - this.cameraTransform.getTranslateY());
@@ -197,12 +179,13 @@ public class AgendaCanvas {
 
     /**
      * Creates a Rectangle that represents the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>.
-     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that the returned <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle</a> is based on
+     * @param show  the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that the returned <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle</a> is based on
      * @return  a rectangle, this rectangle isn't shown yet but has a size and location based on the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>
      */
     private ShowRectangle2D createShowRectangle(Show show) {
         ArrayList<Show> selectedShows = this.agendaModule.getSelectedShows();
 
+        //Calculating values.
         double hourLength = 60 * this.scale;
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute() / 60f);
         double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute() / 60f);
@@ -305,19 +288,19 @@ public class AgendaCanvas {
         graphics.drawLine(this.startX, 0, this.endX, 0);
         graphics.drawLine(0, this.startY, 0, this.endY);
 
-        double hourLenght = 60 * this.scale;
+        double HourLength = 60 * this.scale;
 
         graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
-        graphics.fill(new Rectangle2D.Double(0, 0, hourLenght / 2, this.endY));
+        graphics.fill(new Rectangle2D.Double(0, 0, HourLength / 2, this.endY));
         graphics.setColor(Color.BLACK);
 
-        for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
-            int x = (int)(i * hourLenght + hourLenght);
-            graphics.drawString(i + ".00", x - ((int)hourLenght / 2 ) - 15, -25); //numbers will later be based on cameraTransform etc.
+        for (int i = 0; i < 24; i++) {
+            int x = (int)(i * HourLength + HourLength);
+            graphics.drawString(i + ".00", x - ((int)HourLength / 2 ) - 15, -25);
             graphics.setColor(Color.lightGray);
             graphics.drawLine(x, this.startY, x, this.endY);
             graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
-            graphics.fill(new Rectangle2D.Double(x, 0, hourLenght / 2, this.endY));
+            graphics.fill(new Rectangle2D.Double(x, 0, HourLength / 2, this.endY));
             graphics.setColor(Color.BLACK);
         }
     }
@@ -374,5 +357,4 @@ public class AgendaCanvas {
                 this.cameraTransform.getTranslateY() + transform.getTranslateY() >= -(this.endY - this.startY - this.canvas.getHeight())
         );
     }
-
 }

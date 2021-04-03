@@ -38,24 +38,24 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     private Stage stage;
     private MainGUI mainGUI;
 
-    //LanguageHandling
+    //LanguageHandling.
     private ResourceBundle messages = LanguageHandler.getMessages();
 
-    //Agenda variables
+    //Agenda variables.
     private Agenda agenda = new Agenda();
     private ArtistManager artistManager = new ArtistManager();
     private PodiumManager podiumManager = new PodiumManager();
     private ArrayList<Show> selectedShows = new ArrayList<>();
 
-    //Scenes
+    //Scenes.
     private Scene agendaScene;
 
-    //Panes
+    //Panes.
     private BorderPane mainLayoutPane = new BorderPane();
     private VBox topVBox = new VBox();
     private HBox toggleHBox = new HBox();
 
-    //ToggleButtons
+    //ToggleButtons.
     private Button agendaButton = new Button(messages.getString("agenda"));
     private Button simulatorButton = new Button(messages.getString("simulator"));
     private Button useButton = new Button(messages.getString("simulate_agenda"));
@@ -432,6 +432,10 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         }
     }
 
+    /**
+     * Returns the <code>this.selectedShows</code> attribute.
+     * @return  this.selectedShows
+     */
     ArrayList<Show> getSelectedShows() {
         return this.selectedShows;
     }
@@ -463,7 +467,12 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         return this.podiumManager;
     }
 
+    /**
+     * Returns the <code>this.agendaScene</code> attribute.
+     * @return  this.agendaScene
+     */
+    @NotNull
     public Scene getAgendaScene() {
-        return agendaScene;
+        return this.agendaScene;
     }
 }
