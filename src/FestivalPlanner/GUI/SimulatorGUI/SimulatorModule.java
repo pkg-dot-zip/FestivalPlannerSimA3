@@ -69,6 +69,8 @@ public class SimulatorModule extends AbstractGUI {
     private Button agendaButton = new Button(messages.getString("agenda"));
     private Button simulatorButton = new Button(messages.getString("simulator"));
 
+    private Button pauseButton = new Button("Pause");
+
     private ListView<String> listView;
 
     /**
@@ -107,7 +109,7 @@ public class SimulatorModule extends AbstractGUI {
 
         //Adding all the children.
         this.toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
-        this.topVBox.getChildren().addAll(this.menuBar, this.toggleHBox, this.timeLabel);
+        this.topVBox.getChildren().addAll(this.menuBar, this.toggleHBox, this.timeLabel, this.pauseButton);
             //MenuBar
         this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
         this.optionsMenu.getItems().addAll(this.viewPartMenuItem, new SeparatorMenuItem(), this.timeEditMenuItem, new SeparatorMenuItem(), this.npcEditMenuItem);
@@ -142,9 +144,14 @@ public class SimulatorModule extends AbstractGUI {
             npcEditGUI.load();
         });
 
-        //Agenda button
+        //Agenda button.
         this.agendaButton.setOnAction(event -> {
             this.mainGUI.loadAgendaCallBack();
+        });
+
+        //Pause button.
+        this.pauseButton.setOnAction(e -> {
+            this.handler.setPaused(!this.handler.isPaused());
         });
     }
 

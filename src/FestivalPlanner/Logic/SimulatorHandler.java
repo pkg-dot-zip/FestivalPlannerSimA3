@@ -51,6 +51,8 @@ public class SimulatorHandler {
     private LocalTime time;
     private double speed = (60 * 2); //value in game second per real second (s/s)
 
+    private boolean paused = false;
+
     /**
      * Empty constructor for SimulatorHandler.
      */
@@ -199,6 +201,11 @@ public class SimulatorHandler {
      * @param deltaTime  the time it took since last update
      */
     public void update(double deltaTime) {
+        if (this.paused){
+            System.out.println("Paused");
+            return;
+        }
+
         this.time = this.time.plusSeconds((long) (deltaTime * this.speed));
 
         //Updating NPCs.
@@ -490,5 +497,13 @@ public class SimulatorHandler {
      */
     public HashMap<String, NPC> getArtistNPCHashMap() {
         return this.artistNPCHashMap;
+    }
+
+    public boolean isPaused() {
+        return this.paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }
