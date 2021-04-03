@@ -3,7 +3,7 @@ package FestivalPlanner.GUI.SimulatorGUI;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
-import FestivalPlanner.GUI.HelpMenu;
+import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
@@ -101,7 +101,7 @@ public class SimulatorModule extends AbstractGUI {
             //MenuBar
         this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
         this.optionsMenu.getItems().addAll(this.viewPartMenuItem, new SeparatorMenuItem(), this.timeEditMenuItem, new SeparatorMenuItem(), this.npcEditMenuItem);
-        this.menuBar.getMenus().addAll(this.optionsMenu, HelpMenu.getHelpMenu(this.stage));
+        this.menuBar.getMenus().addAll(this.optionsMenu, CommonNodeRetriever.getHelpMenu(this.stage));
 
         //Adding it all together.
         this.mainPane.setTop(this.topVBox);

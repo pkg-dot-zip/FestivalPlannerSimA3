@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 /**
  * Contains static methods for retrieval of common GUI elements such as the helpMenu, since it is used in both modules of our software.
  */
-public class HelpMenu {
+public class CommonNodeRetriever {
 
     //LanguageHandling.
     private static ResourceBundle messages = LanguageHandler.getMessages();

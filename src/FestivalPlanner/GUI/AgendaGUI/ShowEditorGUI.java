@@ -4,7 +4,7 @@ import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
-import FestivalPlanner.GUI.HelpMenu;
+import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
@@ -32,14 +32,14 @@ public class ShowEditorGUI extends AbstractGUI {
     private Stage stage = new Stage();
 
     //TimeAndPopularity
-    private VBox timeAndPopularityVBox = HelpMenu.getEditGUIMainPanel();
+    private VBox timeAndPopularityVBox = CommonNodeRetriever.getEditGUIMainPanel();
     private Slider popularitySlider = new Slider();
     private Label popularityLabel = new Label(" " + messages.getString("expected_popularity") + " : 50%");
     private TextField startTimeTextField = new TextField();
     private TextField endTimeTextField = new TextField();
 
     //ShowName
-    private VBox showNameVBox = HelpMenu.getShowEditorVBox();
+    private VBox showNameVBox = CommonNodeRetriever.getShowEditorVBox();
     private TextField showNameTextField = new TextField();
 
     //ArtistsAndPodiumPanel
@@ -144,7 +144,7 @@ public class ShowEditorGUI extends AbstractGUI {
         //Adding it all together
         gridPane.add(timeAndPopularityVBox, 0, 0);
         gridPane.add(showNameVBox, 1, 0);
-        gridPane.add(HelpMenu.getShowEditorMainPane(artistVBox, artistAtEventSetterVBox), 2, 0);
+        gridPane.add(CommonNodeRetriever.getShowEditorMainPane(artistVBox, artistAtEventSetterVBox), 2, 0);
         gridPane.add(buttonHBox, 1, 1);
     }
 

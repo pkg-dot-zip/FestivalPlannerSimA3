@@ -1,7 +1,7 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
-import FestivalPlanner.GUI.HelpMenu;
+import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.Logic.SimulatorHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +14,7 @@ public class NPCEditGUI extends AbstractEditGUI {
     private Label npcAmountLabel = new Label(messages.getString("npc_Amount"));
     private TextField npcAmountField = new TextField();
 
-    private HBox addNpcHBox = HelpMenu.getEditGUIHBox();
+    private HBox addNpcHBox = CommonNodeRetriever.getEditGUIHBox();
 
     //Buttons.
         //Remove Buttons.
@@ -37,7 +37,7 @@ public class NPCEditGUI extends AbstractEditGUI {
         this.actionHandlingSetup();
 
         //Stage Settings.
-        HelpMenu.processEditGUIStage(this.stage, this.gridPane);
+        CommonNodeRetriever.processEditGUIStage(this.stage, this.gridPane);
     }
 
     @Override

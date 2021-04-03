@@ -5,7 +5,7 @@ import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
-import FestivalPlanner.GUI.HelpMenu;
+import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.GUI.PreferencesGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
@@ -130,7 +130,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             //MenuBar.
         this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, this.saveAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
         this.editMenu.getItems().addAll(this.editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), this.editCurrentlySelectedShow, new SeparatorMenuItem(), this.preferencesMenuItem);
-        this.menuBar.getMenus().addAll(this.fileMenu, this.editMenu, HelpMenu.getHelpMenu(this.stage));
+        this.menuBar.getMenus().addAll(this.fileMenu, this.editMenu, CommonNodeRetriever.getHelpMenu(this.stage));
             //ContextMenu.
         this.contextMenu.getItems().addAll(this.swapContextItem, this.editContextItem, new SeparatorMenuItem(), this.removeContextItem);
             //Panes.

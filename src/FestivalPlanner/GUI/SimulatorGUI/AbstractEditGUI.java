@@ -1,7 +1,7 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
 import FestivalPlanner.GUI.AbstractGUI;
-import FestivalPlanner.GUI.HelpMenu;
+import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.geometry.Pos;
@@ -17,7 +17,7 @@ public abstract class AbstractEditGUI extends AbstractGUI {
     SimulatorHandler handler;
     ResourceBundle messages = LanguageHandler.getMessages();
     Stage stage = new Stage();
-    VBox mainPanel = HelpMenu.getEditGUIMainPanel();
+    VBox mainPanel = CommonNodeRetriever.getEditGUIMainPanel();
     HBox bottomHBox = new HBox();
 
     Button applyButton = new Button(messages.getString("apply"));

@@ -1,7 +1,7 @@
 package FestivalPlanner.GUI.SimulatorGUI;
 
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
-import FestivalPlanner.GUI.HelpMenu;
+import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.Logic.SimulatorHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 
 public class TimeEditGUI extends AbstractEditGUI {
 
-    private HBox setTimeHBox = HelpMenu.getEditGUIHBox();
+    private HBox setTimeHBox = CommonNodeRetriever.getEditGUIHBox();
     private double speed;
 
     private Label currentTimeLabel = new Label(messages.getString("current_time"));
@@ -41,7 +41,7 @@ public class TimeEditGUI extends AbstractEditGUI {
         currentSpeedLabel.setText(messages.getString("current_speed") + " " + this.speed + " game s/s");
 
         //Stage Settings.
-        HelpMenu.processEditGUIStage(this.stage, this.gridPane);
+        CommonNodeRetriever.processEditGUIStage(this.stage, this.gridPane);
     }
 
     @Override
