@@ -22,7 +22,7 @@ public class SimulatorHandler {
 
     // Final values.
     private final double SHOW_CHECK_TIME = 60 * 15; //how often to check per in-game second
-    private final double NPC_SPAWN_TIME = 60 * 3; //how ofter to spawn a new NPC if not all NPC's have been spawned
+    private final double NPC_SPAWN_TIME = 60; //how ofter to spawn a new NPC if not all NPC's have been spawned
     private static final double TOILET_CHANCE = 0.2;
 
     // NPC attributes.

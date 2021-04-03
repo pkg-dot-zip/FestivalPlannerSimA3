@@ -24,7 +24,7 @@ public class NPC {
     private Point2D position;
     private Point2D target;
     private SimulatorObject targetObject;
-    private final double SPEED = 1.0 / (60*5);
+    private final double SPEED = 1.0 / (60*4);
     private double gameSpeed;
 
     //Images.
@@ -94,10 +94,10 @@ public class NPC {
             if ((targetObject.isWithin(this.position)) &&
                     !this.npcState.getClass().equals(ViewingState.class)) {
                 this.npcState = new ViewingState();
-            }if (this.target.distanceSq(position) > 3) {
+            }if (this.target.distanceSq(position) > 2) {
                 this.npcState = new MovingState();
             }
-        } else if (this.target.distanceSq(position) > 3) {
+        } else if (this.target.distanceSq(position) > 2) {
             this.npcState = new MovingState();
         } else {
             this.isSeparating = false;

@@ -94,8 +94,14 @@ public class Artist implements Serializable {
             pictureFile.mkdirs();
             File spriteFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Sprite.png");
             spriteFile.mkdirs();
-            ImageIO.write(this.picture, "png", pictureFile);
-            ImageIO.write(this.sprite, "png", spriteFile);
+
+            if (this.picture != null) {
+                ImageIO.write(this.picture, "png", pictureFile);
+            }
+
+            if (this.sprite != null) {
+                ImageIO.write(this.sprite, "png", spriteFile);
+            }
         } catch (Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
