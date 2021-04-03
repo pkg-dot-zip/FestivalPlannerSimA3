@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -74,7 +75,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
     private MenuItem preferencesMenuItem = new MenuItem(messages.getString("preferences"));
     //HelpMenu.
     private Menu helpMenu = new Menu(messages.getString("help"));
-    private MenuItem helpGuideMenuItem = new MenuItem(messages.getString("help_guide"));
+    private MenuItem gitHubMenuItem = new MenuItem(messages.getString("github"));
     private MenuItem javaDocMenuItem = new MenuItem(messages.getString("javadoc"));
     private MenuItem aboutMenuItem = new MenuItem(messages.getString("about"));
 
@@ -93,7 +94,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * The given <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> will be stored
      * as a parameter so this stage can be referenced as the main
      * <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>.
-     * @param stage will be stored
+     * @param stage  will be stored
      *              as a parameter so this stage can be referenced as the owner of the sub stages
      *              <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
      */
@@ -135,7 +136,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             //MenuBar.
         this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, this.saveAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
         this.editMenu.getItems().addAll(this.editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), this.editCurrentlySelectedShow, new SeparatorMenuItem(), this.preferencesMenuItem);
-        this.helpMenu.getItems().addAll(this.helpGuideMenuItem, this.javaDocMenuItem, this.aboutMenuItem);
+        this.helpMenu.getItems().addAll(this.gitHubMenuItem, this.javaDocMenuItem, this.aboutMenuItem);
         this.menuBar.getMenus().addAll(this.fileMenu, this.editMenu, this.helpMenu);
             //ContextMenu.
         this.contextMenu.getItems().addAll(this.swapContextItem, this.editContextItem, new SeparatorMenuItem(), this.removeContextItem);
@@ -216,6 +217,14 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             preferencesGUI.load();
         });
             //HelpMenu
+        this.gitHubMenuItem.setOnAction(e -> {
+            try {
+                java.awt.Desktop.getDesktop().browse(new URI("https://github.com/ZimonIsHim/FestivalPlannerSimA3/tree/devAftermath"));
+            } catch (Exception ex){
+                AbstractDialogPopUp.showExceptionPopUp(ex);
+            }
+        });
+
         this.aboutMenuItem.setOnAction(e -> {
             AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
             aboutPopUp.load();
