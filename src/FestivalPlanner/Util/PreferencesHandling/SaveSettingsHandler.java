@@ -11,7 +11,7 @@ import java.util.Properties;
  * Contains methods for saving preferences in a <i>.XML</i> file.
  * <p>
  * Based on code found on the internet.
- * For more information, check <a href="https://www.binarytides.com/read-write-save-configuration-file-java/">here</>.
+ * For more information, check <a href="https://www.binarytides.com/read-write-save-configuration-file-java/">here</a>.
  */
 public class SaveSettingsHandler implements Serializable {
 

@@ -51,6 +51,7 @@ public class AbstractDialogPopUp {
 
     /**
      * Prompts the user with the choice to delete a show or cancel this operation.
+     * @return choice the user made
      */
     public static boolean showDeleteConfirmationPopUp(){
         //Exception window.

@@ -67,6 +67,7 @@ public class SimulatorModule extends AbstractGUI {
 
     /**
      * The constructor of this class.
+     * @param mainGUI  TODO: Write this
      * @param stage  the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> the
      *              simulator module should assign itself to
      * @param agendaModule  the <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI.html">SimulatorModule</a>

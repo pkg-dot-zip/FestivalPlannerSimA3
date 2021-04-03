@@ -64,6 +64,9 @@ public class SimulatorHandler {
 
     /**
      * Top constructor for SimulatorHandler.
+     * @param agenda  TODO: Write this
+     * @param podiumManager  TODO: Write this
+     * @param artistManager  TODO: Write this
      * @param tileMap  the TileMap to set <code>this.tileMap</code> to
      */
     public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArtistManager artistManager, TileMap tileMap) {

@@ -44,6 +44,7 @@ public class ShowRectangle2D {
      * Constructor for <code>ShowRectangle2D</code>.
      * @param rectangle  the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a> that is given
      * @param show  the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
+     * @param color  TODO: Write this
      */
     public ShowRectangle2D(Rectangle2D rectangle, Show show, Color color) {
         this.rectangle = rectangle;

@@ -130,6 +130,8 @@ public class CommonNodeRetriever {
     /**
      * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
      * that contains the parts of the GUI responsible for selecting a podium for an event.
+     * @param artistVBox  TODO: Write this
+     * @param artistAtEventSetterVBox  TODO: Write this
      * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
      * the parts of the GUI responsible for selecting a podium for an event
      */
