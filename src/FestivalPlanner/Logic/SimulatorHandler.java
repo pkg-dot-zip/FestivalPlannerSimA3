@@ -29,7 +29,7 @@ public class SimulatorHandler {
     // NPC attributes.
     private ArrayList<NPC> npcList;
     private ArrayList<NPC> allNPCList;
-    private int NPCAmount = 2;
+    private int NPCAmount = 20;
 
     // Agenda attributes.
     private Agenda agenda;

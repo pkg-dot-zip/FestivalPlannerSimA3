@@ -110,8 +110,6 @@ public class NPC {
             this.npcState = new IdleState();
         }
 
-        Point2D oldPosition = this.position;
-
         this.npcState.handle(this);
 
         this.frame += Math.random() * 0.07;
@@ -144,37 +142,19 @@ public class NPC {
      */
     private void separateNPC(NPC otherNPC) {
 
-        switch (this.direction) {
-            case UP:
+        double distance = this.position.distance(otherNPC.position);
 
-                double penetrationUp = (this.position.getY() - (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getY() + (otherNPC.COLLISION_RADIUS / 2f));
-                this.position = new Point2D.Double(this.position.getX(), this.position.getY() - (penetrationUp / 2f));
-                otherNPC.position = new Point2D.Double(otherNPC.position.getX(), otherNPC.position.getY() + (penetrationUp / 2f));
+        double xFactor = (this.position.getX() - otherNPC.position.getX()) / distance;
+        double yFactor = (this.position.getY() - otherNPC.position.getY()) / distance;
 
-                break;
-            case DOWN:
+        this.position = new Point2D.Double(otherNPC.position.getX() + ((this.COLLISION_RADIUS) * xFactor),
+                otherNPC.position.getY() + ((this.COLLISION_RADIUS) * yFactor)
+        );
 
-                double penetrationDown = (this.position.getY() + (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getY() - (otherNPC.COLLISION_RADIUS / 2f));
-                this.position = new Point2D.Double(this.position.getX(), this.position.getY() - (penetrationDown / 2f));
-                otherNPC.position = new Point2D.Double(otherNPC.position.getX(), otherNPC.position.getY() + (penetrationDown / 2f));
-
-                break;
-            case LEFT:
-
-                double penetrationLeft = (this.position.getX() - (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getX() + (otherNPC.COLLISION_RADIUS / 2f));
-                this.position = new Point2D.Double(this.position.getX() - (penetrationLeft / 2f), this.position.getY());
-                otherNPC.position = new Point2D.Double(otherNPC.position.getX() + (penetrationLeft / 2f), otherNPC.position.getY());
-
-                break;
-            case RIGHT:
-
-                double penetrationRight = (this.position.getX() + (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getX() - (otherNPC.COLLISION_RADIUS / 2f));
-                this.position = new Point2D.Double(this.position.getX() - (penetrationRight / 2f), this.position.getY());
-                otherNPC.position = new Point2D.Double(otherNPC.position.getX() + (penetrationRight / 2f), otherNPC.position.getY());
-
-                break;
-
-        }
+        otherNPC.position = new Point2D.Double(this.position.getX() - ((this.COLLISION_RADIUS) * xFactor),
+                this.position.getY() - ((this.COLLISION_RADIUS) * yFactor)
+        );
+        
 
     }
 
