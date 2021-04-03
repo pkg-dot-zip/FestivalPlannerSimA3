@@ -192,7 +192,7 @@ public class CommonNodeRetriever {
 
         return getColorPickerStage(ownerStage, colorPicker);
     }
-    
+
     private static Stage getColorPickerStage(Stage ownerStage, ColorPicker colorPicker){
         //Initialising Values.
         Stage stage = new Stage();

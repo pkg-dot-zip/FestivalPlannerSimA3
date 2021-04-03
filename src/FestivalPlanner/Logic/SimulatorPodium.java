@@ -8,13 +8,10 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class SimulatorPodium extends SimulatorObject{
-
-
 
     private boolean isActive;
 
@@ -98,9 +95,7 @@ public class SimulatorPodium extends SimulatorObject{
         }
     }
 
-
     public void setActive(boolean active) {
         isActive = active;
     }
-
 }
