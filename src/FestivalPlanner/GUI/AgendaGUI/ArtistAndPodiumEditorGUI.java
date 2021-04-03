@@ -2,7 +2,6 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.util.ResourceBundle;
 
 /**
@@ -23,22 +23,29 @@ import java.util.ResourceBundle;
  */
 public class ArtistAndPodiumEditorGUI extends AbstractGUI {
 
+    //LanguageHandling.
     private ResourceBundle messages = LanguageHandler.getMessages();
 
     private Stage stage = new Stage();
-
     private AgendaModule agendaModule;
 
+    //Panes.
     private VBox creationPanelVBox = new VBox();
     private HBox artistHBox = new HBox();
     private HBox podiumHBox = new HBox();
+
+    //ComboBoxes.
     private ObservableList<String> observablePodiumList;
     private ObservableList<String> observableArtistList;
     private ComboBox<String> podiumComboBox;
     private ComboBox<String> artistComboBox;
+
+    //Labels.
     private Label availablePodiumsAndArtistsLabel = new Label(messages.getString("available_podiums_and_artists"));
     private Label existingArtistsLabel = new Label(messages.getString("existing_artists") + ": ");
     private Label existingPodiumsLabel = new Label(messages.getString("existing_podiums") + ": ");
+
+    //Buttons.
     private Button podiumRemoveButton = new Button("-");
     private Button artistRemoveButton = new Button("-");
     private Button artistAddButton = new Button("+");
@@ -54,7 +61,6 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
 
         this.artistComboBox = new ComboBox<>(this.observableArtistList);
         this.podiumComboBox = new ComboBox<>(this.observablePodiumList);
-
     }
 
     @Override
@@ -120,7 +126,7 @@ public class ArtistAndPodiumEditorGUI extends AbstractGUI {
 
     @Override
     public void actionHandlingSetup(){
-        //CreationPanel
+        //CreationPanel.
         this.artistAddButton.setOnAction(event -> {
             agendaModule.artistPopupCallBack();
             updateArtistComboBox();
