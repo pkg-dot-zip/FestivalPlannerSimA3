@@ -31,7 +31,6 @@ Jesse en ik hebben hierbij alles samen gedaan. Dit vind ik achteraf gezien een g
 door af te wisselen met programmeren langer door konden en sneller problemen op konden lossen. Hierdoor
 ging het denkproces ook een stuk sneller.
 
----
 ### Vakinhoudelijke reflectie
 
 Het belangrijkste waar we aan gewerkt hebben was het zoomen en het horizontaal en verticaal scrollen over het
@@ -105,7 +104,34 @@ de backend (de functionaliteiten) van de simulator. Tot slot was er ook een wire
 de agenda in week 1. <br>
 
 In de planning hebben we afgesproken dat Stijn, Jesse, Max en ik met zijn vieren het klassendiagram voor het uitlezen van de tilemaps zouden opstellen. 
-Berend was deze week ziek dus we hebben hem niet ingepland. 
+Berend was deze week ziek dus we hebben hem niet ingepland. Verder hebben Max en ik de wireframe van de GUI opgesteld.
+
+Achteraf was het een goede keuze om gezamelijk het klassendiagram van de tilemap op te stellen. De senior had ons in het college hier uitleg over gegeven 
+maar het bleef een ingewikkeld onderwerp. Daarom was het fijn dat iedereen meedacht en hielp met het uitdenken van de structuur. <br>
+Ook was het een goede keuze om samen met Max het wireframe op te stellen. Dit was achteraf best lastig omdat we nog niet goed wisten wat voor functies er 
+in de simulator moesten komen. Om deze rede was het fijn om hier met zijn tweeën over na te denken.
+
+
+### Vakinhoudelijke reflectie
+
+We hebben deze week, op wat kleine bugfixes na, geen code geschreven. Daarentegen gaat het technische gedeelte nu over het modelleren van het volgende 
+deel van ons programma.
+
+Het klassendiagram over de tilemaps ziet er uit als volgt: 
+
+![](Images/Tilemap_class_diagram_v1.3.jpg)
+
+Het inlezen begint bij de rechterkant van het klassendiagram in de JSONConverter. Deze klasse heeft één methode, `public TileMap JSONToTileMap(String fileName)`.
+Zoals in de note in het klassendiagram te zien is, zorgt deze methode ervoor dat het meegegeven .json bestand de klasse omgezet wordt naar een TileMap.
+Deze TileMap heeft onder anderen een lijst van Layers, bestaande uit de onderliggende klassen.
+
+Na verschillende iteraties is dit het eindontwerp. Ik heb niet het gevoel dat we hier later iets aan hoeven te veranderen. Ik ben blij dat we wat extra moeite hebben
+gestoken in het ontwerpen van deze klasse omdat dit een essentiele functie is om het programma te laten functioneren. Ook scheelt dit werk in de toekomst omdat deze 
+klasse waarschijnlijk niet meer gerefactored hoeft te worden.
+
+---
+Verder hebben Max en ik een visueel ontwerp (wireframe) gemaakt van de GUI, deze ziet er als volgt uit.   
+
  
       
 
