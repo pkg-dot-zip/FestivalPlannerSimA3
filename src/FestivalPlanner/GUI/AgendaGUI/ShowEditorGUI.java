@@ -7,14 +7,13 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.HelpMenu;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -40,11 +39,11 @@ public class ShowEditorGUI extends AbstractGUI {
     private TextField endTimeTextField = new TextField();
 
     //ShowName
-    private VBox showNameVBox = genericVBox();
+    private VBox showNameVBox = HelpMenu.getShowEditorVBox();
     private TextField showNameTextField = new TextField();
 
     //ArtistsAndPodiumPanel
-    private VBox ArtistAtEventSetterVBox = new VBox();
+    private VBox artistAtEventSetterVBox = new VBox();
     private VBox artistVBox = new VBox();
     private ComboBox<String> podiumComboBox = new ComboBox<>();
     private ComboBox<String> artistComboBox = new ComboBox<>();
@@ -53,7 +52,6 @@ public class ShowEditorGUI extends AbstractGUI {
     private ListView<Artist> artistsList = new ListView<>();
 
     //Generic
-        //Buttons
     private Button applyButton = new Button(messages.getString("apply"));
 
     //Non-node attributes.
@@ -101,7 +99,7 @@ public class ShowEditorGUI extends AbstractGUI {
         this.endTimeTextField.setMinWidth(220);
                 //ArtistAndPodiumPanel
         artistVBox.setSpacing(VBOX_SPACING);
-        ArtistAtEventSetterVBox.setSpacing(VBOX_SPACING);
+        artistAtEventSetterVBox.setSpacing(VBOX_SPACING);
         this.artistsList.setMaxHeight(130);
         this.artistsList.setMaxWidth(200);
         this.artistComboBox.setMinWidth(120);
@@ -132,7 +130,7 @@ public class ShowEditorGUI extends AbstractGUI {
                 this.showNameTextField);
             //ArtistAndPodiumPanel
         artistVBox.getChildren().addAll(this.artistsList);
-        ArtistAtEventSetterVBox.getChildren().addAll(this.artistComboBox,
+        artistAtEventSetterVBox.getChildren().addAll(this.artistComboBox,
                 this.eventArtistsAddButton,
                 this.eventArtistsRemoveButton,
                 new Label(messages.getString("select_podium") + ": "),
@@ -146,7 +144,7 @@ public class ShowEditorGUI extends AbstractGUI {
         //Adding it all together
         gridPane.add(timeAndPopularityVBox, 0, 0);
         gridPane.add(showNameVBox, 1, 0);
-        gridPane.add(generateMainPane(), 2, 0);
+        gridPane.add(HelpMenu.getShowEditorMainPane(artistVBox, artistAtEventSetterVBox), 2, 0);
         gridPane.add(buttonHBox, 1, 1);
     }
 
@@ -174,16 +172,10 @@ public class ShowEditorGUI extends AbstractGUI {
             }
         });
 
-        /*
-         * GENERIC :
-         * */
-
-        //
         applyButton.setOnAction(e -> {
             if (isAllowedToApply() && !containsDuplicateArtist()) {
                 //TimeAndPopularityPanel
                 selectedShow.setExpectedPopularity((int) this.popularitySlider.getValue());
-
                 selectedShow.setStartTime(this.attemptedStartTime);
                 selectedShow.setEndTime(this.attemptedEndTime);
 
@@ -212,7 +204,8 @@ public class ShowEditorGUI extends AbstractGUI {
     /**
      * Executes all code you would normally find in a <code>setup()</code> method under the
      * <i>//Initialising values.</i> comment.
-     *
+     * <p>
+     *  We do this to prevent other methods from getting too big, and ensure an efficient workflow.
      * @see AbstractGUI#setup()
      */
     private void loadPropertiesFromShow() {
@@ -251,7 +244,6 @@ public class ShowEditorGUI extends AbstractGUI {
      * <p>
      * It checks for empty TextFields and list selections. If any of these checks return false this method
      * itself will return false and the configured values will <b>not</b> be applied.
-     *
      * @return  boolean to check whether we set the current show's values to the ones in the GUI
      */
     private boolean isAllowedToApply() {
@@ -281,7 +273,6 @@ public class ShowEditorGUI extends AbstractGUI {
 	 * <p>
 	 * It checks if the selected artists are available at the given time. If one of the artists is not available this
 	 * method will return false, open an error pop up and the current show settings will <b>not</b> be applied.
-	 *
 	 * @return  boolean to check whether we set the current show's values to the ones in the GUI
 	 */
     private boolean containsDuplicateArtist() {
@@ -310,41 +301,5 @@ public class ShowEditorGUI extends AbstractGUI {
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return false;
-    }
-
-    //TODO: Embed all code under this line into other methods.
-    private VBox genericVBox() {
-        VBox vBoxToReturn = new VBox();
-        vBoxToReturn.setSpacing(5);
-        vBoxToReturn.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        vBoxToReturn.setPadding(new Insets(0, 2, 10, 2));
-        vBoxToReturn.setMaxHeight(150);
-        vBoxToReturn.setAlignment(Pos.BASELINE_CENTER);
-        return vBoxToReturn;
-    }
-
-
-    /**
-     * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
-     * that contains the parts of the GUI responsible for selecting a podium for an event.
-     *
-     * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
-     * the parts of the GUI responsible for selecting a podium for an event
-     */
-    private VBox generateMainPane() {
-        VBox mainVBox = new VBox();
-        mainVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        mainVBox.setMaxHeight(150);
-        mainVBox.setPadding(new Insets(0,2,10,2));
-        mainVBox.setAlignment(Pos.CENTER);
-        mainVBox.setSpacing(5);
-
-        HBox hBox = new HBox();
-        hBox.setSpacing(5);
-        hBox.getChildren().addAll(artistVBox, ArtistAtEventSetterVBox);
-        hBox.setAlignment(Pos.CENTER);
-
-        mainVBox.getChildren().addAll(new Label(messages.getString("select_artists_and_podium")), hBox);
-        return mainVBox;
     }
 }

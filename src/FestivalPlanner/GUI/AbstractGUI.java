@@ -4,6 +4,7 @@ import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+
 import java.util.ResourceBundle;
 
 /**
@@ -60,5 +61,4 @@ public abstract class AbstractGUI {
      * Sets EventHandling of <i>JavaFX</i> <code>Nodes</code>. Mostly <code>setOnAction</code>s for <code>Button</code>s.
      */
     public abstract void actionHandlingSetup();
-
 }
