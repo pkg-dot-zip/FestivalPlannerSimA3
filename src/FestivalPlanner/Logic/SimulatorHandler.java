@@ -186,6 +186,10 @@ public class SimulatorHandler {
             object.draw(g2d);
         }
 
+        for(SimulatorToilet toilet : this.simulatorToilets) {
+            toilet.draw(g2d);
+        }
+
         for (NPC npc : this.allNPCList) {
             npc.draw(g2d);
         }
@@ -340,13 +344,15 @@ public class SimulatorHandler {
         if (podium != null) {
             podium.setActive(false);
 
+        SimulatorObject podiumObject = (SimulatorObject)podium;
             for (NPC npc : this.npcList) {
-                if (npc.getTargetObject().equals(podium)) {
+                if (npc.getTargetObject().equals(podiumObject)) {
 
-                    if (Math.random() > TOILET_CHANCE) {
+                    if (Math.random() < TOILET_CHANCE) {
                         for (SimulatorToilet toilet : this.simulatorToilets) {
                             if (!toilet.isOccupied()) {
                                 npc.setTargetObject(toilet);
+                                toilet.setOccupied(true);
                                 System.out.println("to " + toilet);
                                 break;
                             }

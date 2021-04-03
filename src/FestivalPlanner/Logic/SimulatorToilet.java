@@ -4,6 +4,7 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.TileMap.TileLayer;
 import org.jfree.fx.FXGraphics2D;
 
+import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,7 @@ import java.awt.image.BufferedImage;
 public class SimulatorToilet extends SimulatorObject{
 
     private BufferedImage image;
+
     private boolean occupied = false;
 
     /**
@@ -30,7 +32,7 @@ public class SimulatorToilet extends SimulatorObject{
         super(location, width, height, rotation, name, collisionLayer, locationString);
 
         try {
-            //this.image = ImageIO.read(getClass().getResourceAsStream("/Images/Toilet.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/Images/toilet.png"));
 
         } catch (Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);

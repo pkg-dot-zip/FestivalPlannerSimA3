@@ -184,4 +184,9 @@ public class SimulatorObject {
 
         return rectangle.contains(point);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.toString().equals(obj.toString());
+    }
 }
