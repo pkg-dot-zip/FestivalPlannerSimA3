@@ -164,7 +164,7 @@ public class NPC {
     /**
      * Updates this <b>NPC</b>' direction to the direction it should face to walk straight forward to its' target.
      */
-    public void updateDirectionToFace(){
+    void updateDirectionToFace(){
         if ((int)this.position.getX() != (int)this.target.getX()) {
             if (this.position.getX() < this.target.getX()) {
                 this.direction = Direction.RIGHT;
@@ -178,7 +178,6 @@ public class NPC {
                 this.direction = Direction.DOWN;
             }
         }
-        //this.debugPrint();
     }
 
     /**
@@ -307,18 +306,18 @@ public class NPC {
     }
 
     /**
-     * Sets <code>this.direction</code>
+     * Sets <code>this.direction</code>.
      * @param direction  <code>this.direction</code>
      */
-    public void setDirection(Direction direction){
+    void setDirection(Direction direction){
         this.direction = direction;
     }
 
     /**
-     * Returns <code>this.direction</code>
+     * Returns <code>this.direction</code>.
      * @return  current <code>Direction</code> of the <code>NPC</code>
      */
-    public Direction getDirection(){
+    Direction getDirection(){
         return this.direction;
     }
 
@@ -339,7 +338,7 @@ public class NPC {
     /**
      * Returns <code>this.isSeparating</code>.
      */
-    public boolean isSeparating() {
+    private boolean isSeparating() {
         return this.isSeparating;
     }
 
@@ -357,18 +356,6 @@ public class NPC {
         if(this.targetObject != null) {
             this.targetObject.debugDraw(g2d);
         }
-    }
-
-    /**
-     * Prints <code>this.position</code> and <code>this.target</code> for both the X- and Y-axis.
-     * <p>
-     * <b>Is only used for debugging purposes.</b>
-     */
-    private void debugPrint(){
-        System.out.println("PosY: " + this.position.getY());
-        System.out.println("TarY: " + this.target.getY());
-        System.out.println("PosX: " + this.position.getX());
-        System.out.println("TarX: " + this.target.getX());
     }
 }
 
