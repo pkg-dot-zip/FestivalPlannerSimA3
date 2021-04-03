@@ -19,8 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -30,20 +28,23 @@ public class ViewObjectView extends AbstractGUI {
     private SimulatorCanvas canvas;
     private HashMap<String, NPC> artistNPCMap;
 
-    //LanguageHandling
+    //LanguageHandling.
     private ResourceBundle messages = LanguageHandler.getMessages();
 
     //Main Scene Components.
     private Stage stage = new Stage();
 
-    //JavaFX Components
+    //Panes.
     private VBox mainPanel = new VBox();
+    private HBox mainHBox = new HBox();
+    private VBox podiumBox = new VBox();
+    private VBox artistBox = new VBox();
 
-    //Podium select
+    //Podium select.
     private Label podiumSelectLabel = new Label(messages.getString("select_podium_view"));
     private ComboBox<SimulatorObject> podiumSelectBox = new ComboBox<>();
     private Button viewPodiumButton = new Button(messages.getString("view"));
-
+    //Artist select.
     private Label artistSelectLabel = new Label(messages.getString("select_artist_view"));
     private ComboBox<String> artistSelectBox = new ComboBox<>();
     private Button viewArtistButton = new Button(messages.getString("view"));
@@ -74,54 +75,43 @@ public class ViewObjectView extends AbstractGUI {
 
     @Override
     public void setup() {
+        //Initialising Values.
         this.podiumSelectBox.setItems(FXCollections.observableArrayList(this.handler.getPodiums()));
-
         this.artistNPCMap = this.handler.getArtistNPCHashMap();
         this.artistSelectBox.setItems(FXCollections.observableArrayList(this.artistNPCMap.keySet()));
+        mainPanel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
 
-
-        HBox mainHBox = new HBox();
-
-        //Set podium panel
-        VBox podiumBox = new VBox();
+        //Alignment & Spacing.
+            //Podium.
         podiumBox.setMaxHeight(150);
         podiumBox.setMinWidth(150);
         podiumBox.setAlignment(Pos.BASELINE_CENTER);
         podiumBox.setSpacing(10);
-        podiumBox.getChildren().addAll(this.podiumSelectLabel, this.podiumSelectBox, this.viewPodiumButton);
-
-        //Set artist panel
-        VBox artistBox = new VBox();
+            //Artist.
         artistBox.setMaxHeight(150);
         artistBox.setMinWidth(150);
         artistBox.setAlignment(Pos.BASELINE_CENTER);
         artistBox.setSpacing(10);
-        artistBox.getChildren().addAll(this.artistSelectLabel, this.artistSelectBox, this.viewArtistButton);
-
-        mainHBox.getChildren().addAll(podiumBox, new Separator(Orientation.VERTICAL), artistBox);
-
-        //Main VBox setup
-        mainPanel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
+            //GridPane.
+        gridPane.setVgap(50);
+        gridPane.setHgap(50);
+        gridPane.setAlignment(Pos.CENTER);
         mainPanel.setMinHeight(150);
         mainPanel.setAlignment(Pos.BASELINE_CENTER);
         mainPanel.setSpacing(10);
 
+        //Adding all the children.
+        podiumBox.getChildren().addAll(this.podiumSelectLabel, this.podiumSelectBox, this.viewPodiumButton);
         mainPanel.getChildren().addAll(mainHBox, this.closeButton);
+        artistBox.getChildren().addAll(this.artistSelectLabel, this.artistSelectBox, this.viewArtistButton);
+        mainHBox.getChildren().addAll(podiumBox, new Separator(Orientation.VERTICAL), artistBox);
 
-        //GridPane
-        gridPane.setVgap(50);
-        gridPane.setHgap(50);
-        gridPane.setAlignment(Pos.CENTER);
-
-        //Adding it all together
+        //Adding it all together.
         gridPane.add(mainPanel, 0, 0);
-
-
     }
 
     @Override
     public void actionHandlingSetup() {
-
         this.viewPodiumButton.setOnAction(e -> this.canvas.moveToPoint(this.podiumSelectBox.getSelectionModel().getSelectedItem().getLocation()));
         this.viewArtistButton.setOnAction(e -> this.canvas.moveToPoint(this.artistNPCMap.get(this.artistSelectBox.getSelectionModel().getSelectedItem()).getPosition()));
 
@@ -129,5 +119,4 @@ public class ViewObjectView extends AbstractGUI {
             this.stage.close();
         });
     }
-
 }
