@@ -22,7 +22,7 @@ import java.util.Random;
 public class SimulatorHandler {
 
     // Final values.
-    private final double SHOW_CHECK_TIME = 60 * 15; //how often to check per in-game second
+    private final double SHOW_CHECK_TIME = 60 * 5; //how often to check per in-game second
     private final double NPC_SPAWN_TIME = 60; //how ofter to spawn a new NPC if not all NPC's have been spawned
     private static final double TOILET_CHANCE = 0.2;
 
@@ -344,9 +344,8 @@ public class SimulatorHandler {
         if (podium != null) {
             podium.setActive(false);
 
-        SimulatorObject podiumObject = (SimulatorObject)podium;
             for (NPC npc : this.npcList) {
-                if (npc.getTargetObject().equals(podiumObject)) {
+                if (npc.getTargetObject().equals(podium)) {
 
                     if (Math.random() < TOILET_CHANCE) {
                         for (SimulatorToilet toilet : this.simulatorToilets) {

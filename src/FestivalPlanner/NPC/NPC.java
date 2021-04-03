@@ -1,6 +1,7 @@
 package FestivalPlanner.NPC;
 
 import FestivalPlanner.Logic.SimulatorObject;
+import FestivalPlanner.Logic.SimulatorToilet;
 import FestivalPlanner.Util.ImageLoader;
 import FestivalPlanner.Util.MathHandling.NPCMathHandler;
 import com.sun.istack.internal.Nullable;
@@ -90,9 +91,16 @@ public class NPC {
             this.target = this.targetObject.getNextDirection(this.position);
         }
 
+        //Handle Toilet item
+        if (this.targetObject != null && this.targetObject instanceof SimulatorToilet && this.targetObject.getLocation().distanceSq(position) < 5){
+            ((SimulatorToilet) this.targetObject).setOccupied(false);
+            this.targetObject = null;
+            this.npcState = new IdleState();
+        }
+
         if (this.targetObject != null) {
-            if ((targetObject.isWithin(this.position)) &&
-                    !this.npcState.getClass().equals(ViewingState.class)) {
+            if ((targetObject.isWithin(this.position)) && !this.npcState.getClass().equals(ViewingState.class)
+            ) {
                 this.npcState = new ViewingState();
             }if (this.target.distanceSq(position) > 2) {
                 this.npcState = new MovingState();
