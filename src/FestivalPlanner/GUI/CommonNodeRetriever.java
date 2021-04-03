@@ -3,12 +3,14 @@ package FestivalPlanner.GUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import FestivalPlanner.Util.MathHandling.ColorConverter;
+import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -149,5 +151,77 @@ public class CommonNodeRetriever {
         hBox.getChildren().addAll(artistVBox, artistAtEventSetterVBox);
         mainVBox.getChildren().addAll(new Label(messages.getString("select_artists_and_podium")), hBox);
         return mainVBox;
+    }
+
+    /**
+     * Returns a stage with a fully setup GUI for the ColorPickerGUI.
+     * This method is used for the unselected shows.
+     * @param ownerStage  stage that should be set as the owner of the new stage
+     * @return  stage for ColorPickerGUI
+     */
+    static Stage getUnselectedColorPickerStage(Stage ownerStage){
+        java.awt.Color c = SaveSettingsHandler.getUnselectedColor();
+        ColorPicker colorPicker = new ColorPicker(ColorConverter.fromAwtToJavaFX(c));
+
+        colorPicker.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                SaveSettingsHandler.setUnselectedColor(colorPicker.getValue());
+            }
+        });
+
+        return getColorPickerStage(ownerStage, colorPicker);
+    }
+
+    /**
+     * Returns a stage with a fully setup GUI for the ColorPickerGUI.
+     * This method is used for the selected shows.
+     * @param ownerStage  stage that should be set as the owner of the new stage
+     * @return  stage for ColorPickerGUI
+     */
+    static Stage getSelectedColorPickerStage(Stage ownerStage){
+        java.awt.Color c = SaveSettingsHandler.getSelectedColor();
+        ColorPicker colorPicker = new ColorPicker(ColorConverter.fromAwtToJavaFX(c));
+
+        colorPicker.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                SaveSettingsHandler.setSelectedColor(colorPicker.getValue());
+            }
+        });
+
+        return getColorPickerStage(ownerStage, colorPicker);
+    }
+    
+    private static Stage getColorPickerStage(Stage ownerStage, ColorPicker colorPicker){
+        //Initialising Values.
+        Stage stage = new Stage();
+        VBox vBox = new VBox();
+        Button closeButton =  new Button(messages.getString("close"));
+
+        //Actions.
+        closeButton.setOnAction(actionEvent -> {
+            stage.close();
+        });
+
+        //Alignment & spacing.
+        closeButton.setAlignment(Pos.CENTER);
+        vBox.setAlignment(Pos.CENTER);
+
+        //Adding all the children.
+        vBox.getChildren().addAll(colorPicker, closeButton);
+
+        //Stage Settings.
+        stage.setScene(new Scene(vBox));
+        stage.setResizable(true);
+        stage.setHeight(300);
+        stage.setWidth(300);
+        stage.setIconified(false);
+        stage.setAlwaysOnTop(true);
+        stage.initOwner(ownerStage);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+
+        return stage;
     }
 }

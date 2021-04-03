@@ -70,6 +70,7 @@ public class PreferencesGUI extends AbstractGUI{
         this.setup();
         this.actionHandlingSetup();
 
+        //Stage Settings.
         this.stage.setTitle(messages.getString("preferences"));
         this.stage.setIconified(false);
         this.stage.setScene(new Scene(this.gridPane));
@@ -157,72 +158,11 @@ public class PreferencesGUI extends AbstractGUI{
 
             //Colors
         this.selectedColorButton.setOnAction(e -> {
-            Stage stage = new Stage();
-            java.awt.Color c = SaveSettingsHandler.getSelectedColor();
-            ColorPicker colorPicker = new ColorPicker(ColorConverter.fromAwtToJavaFX(c)); //TODO: show currently saved color.
-
-            colorPicker.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    SaveSettingsHandler.setSelectedColor(colorPicker.getValue());
-                }
-            });
-
-            VBox vBox = new VBox();
-            Button closeButton =  new Button(messages.getString("close"));
-            closeButton.setOnAction(actionEvent -> {
-                stage.close();
-            });
-
-            closeButton.setAlignment(Pos.CENTER);
-            vBox.setAlignment(Pos.CENTER);
-            vBox.getChildren().addAll(colorPicker, closeButton);
-
-            Scene scene = new Scene(vBox);
-            stage.setScene(scene);
-            stage.setResizable(true);
-            stage.setHeight(300);
-            stage.setWidth(300);
-            stage.setIconified(false);
-            stage.setAlwaysOnTop(true);
-            stage.initOwner(this.stage);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+            CommonNodeRetriever.getSelectedColorPickerStage(this.stage);
         });
 
         this.unselectedColorButton.setOnAction(e -> {
-
-            Stage stage = new Stage();
-            java.awt.Color c = SaveSettingsHandler.getSelectedColor();
-            ColorPicker colorPicker = new ColorPicker(ColorConverter.fromAwtToJavaFX(c)); //TODO: show currently saved color.
-
-            colorPicker.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    SaveSettingsHandler.setUnselectedColor(colorPicker.getValue());
-                }
-            });
-
-            VBox vBox = new VBox();
-            Button closeButton =  new Button(messages.getString("close"));
-            closeButton.setOnAction(actionEvent -> {
-                stage.close();
-            });
-
-            closeButton.setAlignment(Pos.CENTER);
-            vBox.setAlignment(Pos.CENTER);
-            vBox.getChildren().addAll(colorPicker, closeButton);
-
-            Scene scene = new Scene(vBox);
-            stage.setScene(scene);
-            stage.setResizable(true);
-            stage.setHeight(300);
-            stage.setWidth(300);
-            stage.setIconified(false);
-            stage.setAlwaysOnTop(true);
-            stage.initOwner(this.stage);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+            CommonNodeRetriever.getUnselectedColorPickerStage(this.stage);
         });
 
         this.colorResetToDefaultButton.setOnAction(e -> {

@@ -71,5 +71,4 @@ public class MainGUI extends Application {
 
         this.stage.setScene(this.agendaModule.getAgendaScene());
     }
-
 }
