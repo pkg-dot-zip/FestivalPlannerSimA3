@@ -27,7 +27,7 @@ public class SimulatorHandler {
 
     // NPC attributes.
     private ArrayList<NPC> npcList;
-    private ArrayList<NPC> artistNPCList;
+    private ArrayList<NPC> allNPCList;
     private int NPCAmount = 10;
 
     // Agenda attributes.
@@ -68,7 +68,7 @@ public class SimulatorHandler {
      */
     public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArtistManager artistManager, TileMap tileMap) {
         this.npcList = new ArrayList<>();
-        this.artistNPCList = new ArrayList<>();
+        this.allNPCList = new ArrayList<>();
         this.tileMap = tileMap;
 
         this.agenda = agenda;
@@ -105,7 +105,7 @@ public class SimulatorHandler {
         this.time = LocalTime.MIDNIGHT;
 
         this.npcList.clear();
-        this.artistNPCList.clear();
+        this.allNPCList.clear();
         spawnAllArtistNPCs();
     }
 
@@ -181,13 +181,10 @@ public class SimulatorHandler {
             object.draw(g2d);
         }
 
-        for (NPC npc : this.npcList) {
+        for (NPC npc : this.allNPCList) {
             npc.draw(g2d);
         }
 
-        for (NPC npc : this.artistNPCList) {
-            npc.draw(g2d);
-        }
 
         //Todo: remove bc debug
         g2d.setColor(Color.black);
@@ -204,13 +201,10 @@ public class SimulatorHandler {
 
         // Updating NPC's.
         setupNPC(deltaTime * this.speed);
-        for (NPC npc : this.npcList) {
-            npc.update(this.npcList);
+        for (NPC npc : this.allNPCList) {
+            npc.update(this.allNPCList);
         }
 
-        for (NPC artistNPC : this.artistNPCList) {
-            artistNPC.update(this.npcList);
-        }
 
         //Updating set Podiums.
         for (SimulatorObject object : this.simulatorObjects){
@@ -254,8 +248,9 @@ public class SimulatorHandler {
         Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
         NPC npc = new NPC(location, r.nextInt(NPC.getCharacterFiles()));
         npc.setGameSpeed(this.speed);
-        if (!npc.checkCollision(this.npcList) && !npc.checkCollision(this.artistNPCList)) {
+        if (!npc.checkCollision(this.allNPCList)) {
             this.npcList.add(npc);
+            this.allNPCList.add(npc);
         }
     }
 
@@ -277,8 +272,8 @@ public class SimulatorHandler {
                 Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
                 NPC artistNPC = new NPC(location, spriteSheet);
                 artistNPC.setGameSpeed(this.speed);
-                if (!artistNPC.checkCollision(this.npcList) && !artistNPC.checkCollision(this.artistNPCList)) {
-                    this.artistNPCList.add(artistNPC);
+                if (!artistNPC.checkCollision(this.allNPCList)) {
+                    this.allNPCList.add(artistNPC);
                     this.artistNPCHashMap.put(artist, artistNPC);
                     running = false;
                 }
@@ -460,7 +455,7 @@ public class SimulatorHandler {
         for (NPC npc : this.npcList) {
             npc.setGameSpeed(speed);
         }
-        for (NPC npc : this.artistNPCList) {
+        for (NPC npc : this.allNPCList) {
             npc.setGameSpeed(speed);
         }
     }
