@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+
 import java.util.ResourceBundle;
 
 /**
@@ -17,16 +18,19 @@ public class PodiumPopup extends AbstractCreationPopUp{
 
 	//TODO: Rename this since I made a typo; PodiumPopup -> PodiumPopUp
 
-	//LanguageHandling
+	//LanguageHandling.
 	private ResourceBundle messages = LanguageHandler.getMessages();
 
 	private PodiumManager podiumManager;
+	private Podium selectedPodium;
+
+	//Panes.
 	private HBox nameHBox = new HBox();
 	private HBox locationHBox = new HBox();
+
+	//TextFields.
 	private TextField nameField = new TextField();
 	private TextField locationField = new TextField();
-
-	private Podium selectedPodium;
 
 	/**
 	 * Constructor for the <code>PodiumPopUp</code> class.
@@ -63,7 +67,7 @@ public class PodiumPopup extends AbstractCreationPopUp{
 
 	@Override
 	public void additionalSetup() {
-		//Initialise values
+		//Initialising values.
 		this.nameField.clear();
 		this.locationField.clear();
 

@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -26,18 +27,18 @@ import java.util.ResourceBundle;
  */
 public class AboutPopUp extends AbstractCreationPopUp {
 
-    //LanguageHandling
+    //LanguageHandling.
     private ResourceBundle messages = LanguageHandler.getMessages();
 
-    //Text
+    //Text.
     private Text authorText = new Text(messages.getString("author"));
     private Text mottoText = new Text(messages.getString("motto"));
     private Text versionText = new Text(messages.getString("version"));
 
-    //Panes
+    //Panes.
     private VBox aboutVBox = new VBox();
 
-    //Animations
+    //Animations.
     private ArrayList<AnimationFX> animationFXES = new ArrayList<>(3);
 
     /**
@@ -50,16 +51,16 @@ public class AboutPopUp extends AbstractCreationPopUp {
 
     @Override
     public void additionalSetup() {
-        //Alignment & Spacing
+        //Alignment & Spacing.
         this.aboutVBox.setSpacing(10);
         this.aboutVBox.setAlignment(Pos.CENTER);
         this.closeButton.setAlignment(Pos.CENTER);
         this.gridPane.autosize();
 
-        //Adding all the children
+        //Adding all the children.
         this.aboutVBox.getChildren().addAll(authorText, mottoText, versionText);
 
-        //Animations
+        //Animations.
         if (SaveSettingsHandler.getPreference("use_animations").contains("true")) {
             new FadeIn(this.aboutVBox).play();
         }
@@ -81,7 +82,7 @@ public class AboutPopUp extends AbstractCreationPopUp {
             }
         });
 
-        //Adding it all together
+        //Adding it all together.
         this.gridPane.addRow(0, this.aboutVBox);
         this.gridPane.addRow(1, this.buttonHBox);
     }

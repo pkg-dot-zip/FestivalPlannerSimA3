@@ -12,8 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import javax.imageio.ImageIO;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ResourceBundle;
 
@@ -22,23 +23,30 @@ import java.util.ResourceBundle;
  */
 public class ArtistPopUp extends AbstractCreationPopUp{
 
-    //LanguageHandling
+    //LanguageHandling.
     private ResourceBundle messages = LanguageHandler.getMessages();
 
+    //Artist.
     private ArtistManager artistManager;
+    private Artist selectedArtist;
+
+    //Name.
     private HBox nameHBox = new HBox();
+    private TextField nameField = new TextField();
+
+    //Images.
+        //Hbox.
     private HBox picturesHBox = new HBox();
     private HBox spritesHBox = new HBox();
-    private TextField nameField = new TextField();
-    private Button pictureButton = new Button("Picture");
-    private Button spriteButton = new Button("Sprite");
-
+        //BufferedImage.
     private BufferedImage artistPicture;
     private BufferedImage artistSprite;
+        //ImageView.
     private ImageView pictureView = new ImageView();
     private ImageView spriteView = new ImageView();
-
-    private Artist selectedArtist;
+        //Buttons.
+    private Button pictureButton = new Button("Picture");
+    private Button spriteButton = new Button("Sprite");
 
     /**
      * Constructor for the <code>ArtistPopUp</code> class.
@@ -79,7 +87,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
 
     @Override
     public void additionalSetup() {
-        //Initialise values.
+        //Initialising values.
         this.nameField.clear();
 
         //Make items for picturesHBox.
@@ -97,9 +105,9 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         spritesHBox.setAlignment(Pos.BASELINE_LEFT);
 
         //Adding all the children.
-        nameHBox.getChildren().addAll(new Label(messages.getString("name") + ":     "), this.nameField);
-        picturesHBox.getChildren().addAll(pictureButton, new Label("     "), pictureView);
-        spritesHBox.getChildren().addAll(spriteButton, new Label("     "), spriteView);
+        nameHBox.getChildren().addAll(new Label(messages.getString("name") + ":\t"), this.nameField);
+        picturesHBox.getChildren().addAll(pictureButton, new Label("\t"), pictureView);
+        spritesHBox.getChildren().addAll(spriteButton, new Label("\t"), spriteView);
 
         //Adding it all together.
         gridPane.addRow(0, nameHBox);
@@ -108,23 +116,21 @@ public class ArtistPopUp extends AbstractCreationPopUp{
         gridPane.addRow(3, buttonHBox);
     }
 
-    /**
-     * picture button activates the artist picture setter
-     * sprite button activates the artist picture setter
-     */
     @Override
     public void additionalActionHandlingSetup() {
+        //pictureButton activates the artist picture setter.
         pictureButton.setOnAction(event -> {
             setArtistPicture();
         });
 
+        //spriteButton activates the artist picture setter.
         spriteButton.setOnAction(event -> {
             setArtistSprite();
         });
     }
 
     /**
-     * Opens fileChooser dialog to select Artist Photo
+     * Opens fileChooser dialog to select Artist Photo.
      * @return  absolute path to photo of artist
      */
     private String findArtistPicture() {
@@ -141,7 +147,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     /**
      * Sets artist picture to selected picture.
      */
-    public void setArtistPicture() {
+    private void setArtistPicture() {
         try {
             File pictureURL = new File(findArtistPicture());
             this.artistPicture = ImageIO.read(pictureURL);
@@ -152,7 +158,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     }
 
     /**
-     * Opens fileChooser dialog to select Artist Sprite
+     * Opens fileChooser dialog to select Artist Sprite.
      * @return  absolute path to sprite of artist
      */
     private String findArtistSprite() {
@@ -169,7 +175,7 @@ public class ArtistPopUp extends AbstractCreationPopUp{
     /**
      * Sets artist sprite to selected sprite.
      */
-    public void setArtistSprite() {
+    private void setArtistSprite() {
         try {
             File pictureURL = new File(findArtistSprite());
             this.artistSprite = ImageIO.read(pictureURL);

@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.util.ResourceBundle;
 
 /**
@@ -41,7 +42,7 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
      * Constructor for <code>AbstractCreationPopUp</code>.
      * @param primaryStage  <code>Stage</code> set as the <i>initial owner</i> of the class
      */
-    public AbstractCreationPopUp(Stage primaryStage) {
+    AbstractCreationPopUp(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
