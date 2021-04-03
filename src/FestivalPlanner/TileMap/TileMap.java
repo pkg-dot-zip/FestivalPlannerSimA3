@@ -1,10 +1,11 @@
 package FestivalPlanner.TileMap;
 
 import org.jfree.fx.FXGraphics2D;
+
 import java.util.ArrayList;
 
 /**
- * Class responsible for holding the information of a TileMap
+ * Contains information of a TileMap.
  */
 public class TileMap {
 
@@ -18,41 +19,52 @@ public class TileMap {
     private ArrayList<Layer> layers;
     private TileManager tileManager;
 
+    /**
+     * Empty constructor for <b>TileMap</b>.
+     * <p>
+     * This constructor calls another constructor in this class and fills in the following parameters:
+     * <p><ul>
+     * <li>MapWidth - 100
+     * <li>MapHeight - 100
+     * <li>TileWidth - 16
+     * <li>TileHeight - 16
+     * </ul>
+     */
     public TileMap() {
         this(100,100,16,16);
     }
 
     /**
-     * Base constructor for TileMap
-     * @param mapWidth  Width of the map
-     * @param mapHeight  Height of the map
-     * @param tileWidth  Width of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>.
-     * @param tileHeight  Height of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>.
+     * Base constructor for <b>TileMap</b>.
+     * @param mapWidth  width of the map
+     * @param mapHeight  height of the map
+     * @param tileWidth  width of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>.
+     * @param tileHeight  height of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>.
      */
     public TileMap(int mapWidth, int mapHeight, int tileWidth, int tileHeight) {
         this(mapWidth, mapHeight, tileWidth, tileHeight, new ArrayList<>(), new TileManager());
     }
 
     /**
-     * Constructor for TileMap, doesn't include the Layers
-     * @param mapWidth  Width of the map
-     * @param mapHeight  Height of the map
-     * @param tileWidth  Width of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>
-     * @param tileHeight  Height of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>
-     * @param tileManager  The <a href="{@docRoot}/FestivalPlanner/TileMap/TileManager.html">TileManager</a> for tis TileMap
+     * Constructor for TileMap, doesn't include the <b>Layer</b>s.
+     * @param mapWidth  width of the map
+     * @param mapHeight  height of the map
+     * @param tileWidth  width of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>
+     * @param tileHeight  height of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>
+     * @param tileManager  the <a href="{@docRoot}/FestivalPlanner/TileMap/TileManager.html">TileManager</a> for this TileMap
      */
     public TileMap(int mapWidth, int mapHeight, int tileWidth, int tileHeight, TileManager tileManager) {
         this(mapWidth, mapHeight, tileWidth, tileHeight, new ArrayList<>(), tileManager);
     }
 
     /**
-     * Head constructor for TileMap
-     * @param mapWidth  Width of the map
-     * @param mapHeight  Height of the map
-     * @param tileWidth  Width of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>
-     * @param tileHeight  Height of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>
-     * @param layers  The <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layers</a> contained in the TileMap
-     * @param tileManager  The <a href="{@docRoot}/FestivalPlanner/TileMap/TileManager.html">TileManager</a> for tis TileMap
+     * Head constructor for TileMap.
+     * @param mapWidth  width of the map
+     * @param mapHeight  height of the map
+     * @param tileWidth  width of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>
+     * @param tileHeight  height of each individual <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tile</a>
+     * @param layers  the <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layers</a> contained in the <b>TileMap</b>
+     * @param tileManager  the <a href="{@docRoot}/FestivalPlanner/TileMap/TileManager.html">TileManager</a> for tis <b>TileMap</b>
      */
     public TileMap(int mapWidth, int mapHeight, int tileWidth, int tileHeight, ArrayList<Layer> layers, TileManager tileManager) {
         this.mapWidth = mapWidth;
@@ -64,7 +76,7 @@ public class TileMap {
     }
 
     /**
-     * Getter for <code>this.mapWidth</code>
+     * Getter for <code>this.mapWidth</code>.
      * @return  <code>this.mapWidth</code>
      */
     public int getMapWidth() {
@@ -72,7 +84,7 @@ public class TileMap {
     }
 
     /**
-     * Setter for <code>this.mapHeight</code>
+     * Setter for <code>this.mapHeight</code>.
      * @return  <code>this.mapHeight</code>
      */
     public int getMapHeight() {
@@ -80,7 +92,7 @@ public class TileMap {
     }
 
     /**
-     * Getter for <code>this.tileWidth</code>
+     * Getter for <code>this.tileWidth</code>.
      * @return  <code>this.tileWidth</code>
      */
     public int getTileWidth() {
@@ -88,7 +100,7 @@ public class TileMap {
     }
 
     /**
-     * Getter for <code>this.tileHeight</code>
+     * Getter for <code>this.tileHeight</code>.
      * @return  <code>this.tileHeight</code>
      */
     public int getTileHeight() {
@@ -104,7 +116,7 @@ public class TileMap {
     }
 
     /**
-     * Setter for <code>this.Layers</code>
+     * Setter for <code>this.Layers</code>.
      * @param layers  <code>this.Layers</code> to be set to
      */
     public void setLayers(ArrayList<Layer> layers) {
@@ -120,15 +132,15 @@ public class TileMap {
     }
 
     /**
-     * Adds <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layer</a> to <code>this.Layers</code>
-     * @param layer  The <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layer</a> to be added
+     * Adds <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layer</a> to <code>this.Layers</code>.
+     * @param layer  the <a href="{@docRoot}/FestivalPlanner/TileMap/Layer.html">Layer</a> to be added
      */
     public void addLayer(Layer layer) {
         this.layers.add(layer);
     }
 
     /**
-     * Getter for <code>this.tileManager</code>
+     * Getter for <code>this.tileManager</code>.
      * @return  <code>this.tileManager</code>
      */
     public TileManager getTileManager() {
@@ -136,15 +148,15 @@ public class TileMap {
     }
 
     /**
-     * Setter for <code>this.tileManager</code>
-     * @param tileManager  The <a href="{@docRoot}/FestivalPlanner/TileMap/TileManager.html">TileManager</a> that <code>this.tileManager</code> needs to be set to
+     * Setter for <code>this.tileManager</code>.
+     * @param tileManager  the <a href="{@docRoot}/FestivalPlanner/TileMap/TileManager.html">TileManager</a> that <code>this.tileManager</code> needs to be set to
      */
     public void setTileManager(TileManager tileManager) {
         this.tileManager = tileManager;
     }
 
     /**
-     * Draws the complete TileMap to the given graphics, always at point 0.0
+     * Draws the complete <b>TileMap</b> to the given graphics, always at point 0.0.
      * @param g2d  Object to draw on
      */
     public void draw(FXGraphics2D g2d){

@@ -3,9 +3,7 @@ package FestivalPlanner.TileMap;
 import org.jfree.fx.FXGraphics2D;
 
 /**
- * Abstract class
- * <p>
- * Represents one Layer in <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a>
+ * Represents one Layer in <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a>.
  */
 public abstract class Layer {
 
@@ -15,10 +13,10 @@ public abstract class Layer {
     int height;
 
     /**
-     * Constructor for Layer
-     * @param width  The width of the Layer
-     * @param height  The height of the layer
-     * @param tileMap  The <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> that holds this layer
+     * Constructor for <b>Layer</b>.
+     * @param width  the width of the <b>Layer</b>
+     * @param height  the height of the <b>Layer</b>
+     * @param tileMap  the <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> that holds this <b>layer</b>
      */
     public Layer(int width, int height, TileMap tileMap) {
         this.tileMap = tileMap;
@@ -59,10 +57,10 @@ public abstract class Layer {
     }
 
     /**
-     * Abstract method
+     * Draws the complete TileMap to the given graphics, always starts at point 0.0.
      * <p>
-     * Draws the complete TileMap to the given graphics, always starts at point 0.0
-     * @param g2d  Object to draw on
+     * This method is abstract, so this method needs to be overridden by subclasses.
+     * @param g2d  object to draw on
      */
     public abstract void draw(FXGraphics2D g2d);
 }
