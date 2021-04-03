@@ -2,7 +2,6 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.*;
 import FestivalPlanner.GUI.AbstractGUI;
-import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
@@ -28,7 +27,6 @@ import javafx.stage.Stage;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -132,7 +130,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
             //MenuBar.
         this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, this.saveAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
         this.editMenu.getItems().addAll(this.editArtistsAndPodiumsMenuItem, new SeparatorMenuItem(), this.editCurrentlySelectedShow, new SeparatorMenuItem(), this.preferencesMenuItem);
-        this.menuBar.getMenus().addAll(this.fileMenu, this.editMenu, HelpMenu.helpMenu(this.stage));
+        this.menuBar.getMenus().addAll(this.fileMenu, this.editMenu, HelpMenu.getHelpMenu(this.stage));
             //ContextMenu.
         this.contextMenu.getItems().addAll(this.swapContextItem, this.editContextItem, new SeparatorMenuItem(), this.removeContextItem);
             //Panes.

@@ -2,18 +2,16 @@ package FestivalPlanner.GUI.SimulatorGUI;
 
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
+import FestivalPlanner.GUI.HelpMenu;
 import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
@@ -29,12 +27,13 @@ public class NPCEditGUI extends AbstractGUI {
     private Stage stage = new Stage();
 
     //JavaFX Components
-    private VBox mainPanel = new VBox();
+    private VBox mainPanel = HelpMenu.getEditGUIMainPanel();
 
     private Label npcAmountLabel = new Label(messages.getString("npc_Amount"));
     private TextField npcAmountField = new TextField();
 
-    private HBox addNpcHBox = new HBox();
+    private HBox addNpcHBox = HelpMenu.getEditGUIHBox();
+    private HBox bottomHBox = new HBox();
 
         //Remove Buttons
     private Button remove10Button = new Button(messages.getString("remove") + " " + 10);
@@ -59,61 +58,37 @@ public class NPCEditGUI extends AbstractGUI {
         this.actionHandlingSetup();
 
         //Stage Settings.
-        this.stage.setTitle(messages.getString("show_editor"));
-        this.stage.setScene(new Scene(gridPane));
-        this.stage.setResizable(true);
-        this.stage.setWidth(450);
-        this.stage.setHeight(250);
-        this.stage.setIconified(false);
-        this.stage.initModality(Modality.APPLICATION_MODAL);
-        this.stage.showAndWait();
+        HelpMenu.processEditGUIStage(this.stage, this.gridPane);
     }
 
     @Override
     public void setup() {
-
-        //NPC add HBOC setup
-        addNpcHBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        addNpcHBox.setMaxHeight(150);
-        addNpcHBox.setAlignment(Pos.BASELINE_CENTER);
-        addNpcHBox.setSpacing(10);
-
-        addNpcHBox.getChildren().addAll(remove10Button, remove5Button, remove1Button, add1Button, add5Button, add10Button);
-
-
-        //Main VBox setup
-        mainPanel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        mainPanel.setMaxHeight(150);
-        mainPanel.setAlignment(Pos.BASELINE_CENTER);
-        mainPanel.setSpacing(10);
-
+        //Initialising Values.
         npcAmountField.setText(this.handler.getNPCAmount() + "");
 
-        //Apply and close button
-        HBox bottomHBox = new HBox();
-        bottomHBox.setAlignment(Pos.CENTER);
-        bottomHBox.getChildren().addAll(this.applyButton, this.closeButton);
-
-
-        mainPanel.getChildren().addAll(npcAmountLabel, npcAmountField, addNpcHBox, new Label(), new Separator(), bottomHBox);
-
-        //GridPane
+        //Alignment & spacing.
         gridPane.setVgap(50);
         gridPane.setHgap(50);
         gridPane.setAlignment(Pos.CENTER);
+        bottomHBox.setAlignment(Pos.CENTER);
 
-        //Adding it all together
+        //Adding all the children.
+        addNpcHBox.getChildren().addAll(remove10Button, remove5Button, remove1Button, add1Button, add5Button, add10Button);
+        bottomHBox.getChildren().addAll(this.applyButton, this.closeButton);
+        mainPanel.getChildren().addAll(npcAmountLabel, npcAmountField, addNpcHBox, new Label(), new Separator(), bottomHBox);
+
+        //Adding it all together.
         gridPane.add(mainPanel, 0, 0);
-
     }
 
     @Override
     public void actionHandlingSetup() {
-
+        //Remove buttons.
         this.remove1Button.setOnAction(e -> addNPC(-1));
         this.remove5Button.setOnAction(e -> addNPC(-5));
         this.remove10Button.setOnAction(e -> addNPC(-10));
 
+        //Add buttons.
         this.add1Button.setOnAction(e -> addNPC(1));
         this.add5Button.setOnAction(e -> addNPC(5));
         this.add10Button.setOnAction(e -> addNPC(10));
@@ -126,11 +101,9 @@ public class NPCEditGUI extends AbstractGUI {
             }
         });
 
-
         closeButton.setOnAction(e -> {
             this.stage.close();
         });
-
     }
 
     private void addNPC(int number) {
