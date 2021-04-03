@@ -130,7 +130,18 @@ gestoken in het ontwerpen van deze klasse omdat dit een essentiele functie is om
 klasse waarschijnlijk niet meer gerefactored hoeft te worden.
 
 ---
-Verder hebben Max en ik een visueel ontwerp (wireframe) gemaakt van de GUI, deze ziet er als volgt uit.   
+Verder hebben Max en ik een visueel ontwerp (wireframe) gemaakt van de GUI, deze ziet er als volgt uit:
+
+![](Images/WireFrame_GUI.png)
+
+Ik verwacht dat we hiervoor nog een nieuwe versie moeten maken als we meer weten over welke functies we in de GUI willen hebben en wat er mogelijk is.
+Voorlopig kunnen we hier wel goed mee vooruit dus ik ben redelijk tevreden.
+
+---
+# Week 5
+### Procesreflectie
+
+   
 
  
       
