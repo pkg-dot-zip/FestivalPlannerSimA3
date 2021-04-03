@@ -15,8 +15,6 @@ import java.util.Properties;
  */
 public class SaveSettingsHandler implements Serializable {
 
-    //Code from: https://www.binarytides.com/read-write-save-configuration-file-java/
-
     /**
      * Stores the preference given in its parameters.
      * @param Key  string representing the value in the <i>configuration.xml</i> file
@@ -24,13 +22,7 @@ public class SaveSettingsHandler implements Serializable {
      */
     public static void setPreference(String Key, String Value) {
         Properties configFile = new Properties();
-        try {
-            InputStream f = new FileInputStream("configuration.xml");
-            configFile.loadFromXML(f);
-            f.close();
-        } catch(Exception e) {
-            AbstractDialogPopUp.showExceptionPopUp(e);
-        }
+        processConfigFile(configFile);
         configFile.setProperty(Key, Value);
         try {
             OutputStream f = new FileOutputStream("configuration.xml");
@@ -47,6 +39,11 @@ public class SaveSettingsHandler implements Serializable {
      */
     public static String getPreference(String Key) {
         Properties configFile = new Properties();
+        processConfigFile(configFile);
+        return (configFile.getProperty(Key));
+    }
+
+    private static void processConfigFile(Properties configFile){
         try {
             InputStream f = new FileInputStream("configuration.xml");
             configFile.loadFromXML(f);
@@ -54,7 +51,6 @@ public class SaveSettingsHandler implements Serializable {
         } catch(Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
-        return (configFile.getProperty(Key));
     }
 
     /**
