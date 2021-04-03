@@ -4,6 +4,7 @@ import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
+import FestivalPlanner.GUI.HelpMenu;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -32,7 +33,7 @@ public class ShowEditorGUI extends AbstractGUI {
     private Stage stage = new Stage();
 
     //TimeAndPopularity
-    private VBox timeAndPopularityVBox = new VBox();
+    private VBox timeAndPopularityVBox = HelpMenu.getEditGUIMainPanel();
     private Slider popularitySlider = new Slider();
     private Label popularityLabel = new Label(" " + messages.getString("expected_popularity") + " : 50%");
     private TextField startTimeTextField = new TextField();
@@ -98,11 +99,6 @@ public class ShowEditorGUI extends AbstractGUI {
                 //TextFields
         this.startTimeTextField.setMinWidth(220);
         this.endTimeTextField.setMinWidth(220);
-                //VBox
-        timeAndPopularityVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
-        timeAndPopularityVBox.setMaxHeight(150);
-        timeAndPopularityVBox.setAlignment(Pos.BASELINE_CENTER);
-        timeAndPopularityVBox.setSpacing(10);
                 //ArtistAndPodiumPanel
         artistVBox.setSpacing(VBOX_SPACING);
         ArtistAtEventSetterVBox.setSpacing(VBOX_SPACING);
@@ -253,10 +249,10 @@ public class ShowEditorGUI extends AbstractGUI {
     /**
      * Returns a boolean to check whether we set the current show's values to the ones in the GUI.
      * <p>
-     * It checks for empty textfields and list selections. If any of these checks return false this method
+     * It checks for empty TextFields and list selections. If any of these checks return false this method
      * itself will return false and the configured values will <b>not</b> be applied.
      *
-     * @return boolean to check whether we set the current show's values to the ones in the GUI
+     * @return  boolean to check whether we set the current show's values to the ones in the GUI
      */
     private boolean isAllowedToApply() {
         if (
@@ -286,7 +282,7 @@ public class ShowEditorGUI extends AbstractGUI {
 	 * It checks if the selected artists are available at the given time. If one of the artists is not available this
 	 * method will return false, open an error pop up and the current show settings will <b>not</b> be applied.
 	 *
-	 * @return boolean to check whether we set the current show's values to the ones in the GUI
+	 * @return  boolean to check whether we set the current show's values to the ones in the GUI
 	 */
     private boolean containsDuplicateArtist() {
         try {

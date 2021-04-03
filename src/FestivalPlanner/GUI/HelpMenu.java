@@ -64,8 +64,10 @@ public class HelpMenu {
     }
 
     public static VBox getEditGUIMainPanel(){
+        //Initialising Values.
         VBox mainPanel = new VBox();
 
+        //Alignment & spacing.
         mainPanel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
         mainPanel.setMaxHeight(150);
         mainPanel.setAlignment(Pos.BASELINE_CENTER);
@@ -75,7 +77,10 @@ public class HelpMenu {
     }
 
     public static HBox getEditGUIHBox(){
+        //Initialising Values.
         HBox hBox = new HBox();
+
+        //Alignment & spacing.
         hBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(20), new Insets(-5))));
         hBox.setMaxHeight(150);
         hBox.setAlignment(Pos.BASELINE_CENTER);
