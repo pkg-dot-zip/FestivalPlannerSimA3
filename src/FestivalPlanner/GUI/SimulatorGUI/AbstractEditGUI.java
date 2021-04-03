@@ -12,14 +12,22 @@ import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
 
+/**
+ * Contains attributes and methods commonly shared between subclasses. Its purpose is to avoid duplicate code.
+ */
 public abstract class AbstractEditGUI extends AbstractGUI {
 
-    SimulatorHandler handler;
+    //LanguageHandling.
     ResourceBundle messages = LanguageHandler.getMessages();
+
     Stage stage = new Stage();
+    SimulatorHandler handler;
+
+    //Panes.
     VBox mainPanel = CommonNodeRetriever.getEditGUIMainPanel();
     HBox bottomHBox = new HBox();
 
+    //Buttons.
     private Button applyButton = new Button(messages.getString("apply"));
     private Button closeButton = new Button(messages.getString("close"));
 
@@ -28,13 +36,13 @@ public abstract class AbstractEditGUI extends AbstractGUI {
      */
     void genericSetup(){
         //Alignment & Spacing.
-        gridPane.setVgap(50);
-        gridPane.setHgap(50);
-        gridPane.setAlignment(Pos.CENTER);
-        bottomHBox.setAlignment(Pos.CENTER);
+        this.gridPane.setVgap(50);
+        this.gridPane.setHgap(50);
+        this.gridPane.setAlignment(Pos.CENTER);
+        this.bottomHBox.setAlignment(Pos.CENTER);
 
         //Adding all the children.
-        bottomHBox.getChildren().addAll(this.applyButton, this.closeButton);
+        this.bottomHBox.getChildren().addAll(this.applyButton, this.closeButton);
     }
 
     /**
@@ -43,7 +51,7 @@ public abstract class AbstractEditGUI extends AbstractGUI {
     void genericActionHandlingSetup(){
         this.applyButton.setOnAction(e -> onApply());
 
-        closeButton.setOnAction(e -> {
+        this.closeButton.setOnAction(e -> {
             this.stage.close();
         });
     }

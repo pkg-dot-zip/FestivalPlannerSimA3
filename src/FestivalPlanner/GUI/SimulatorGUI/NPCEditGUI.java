@@ -9,6 +9,11 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+/**
+ * Contains methods and attributes seen in the NPCEditGUI window.
+ * <p>
+ * This window is used to edit the amount of <b>NPC</b>s currently in the simulation.
+ */
 public class NPCEditGUI extends AbstractEditGUI {
 
     private Label npcAmountLabel = new Label(messages.getString("npc_Amount"));
@@ -73,6 +78,10 @@ public class NPCEditGUI extends AbstractEditGUI {
         this.add10Button.setOnAction(e -> addNPC(10));
     }
 
+    /**
+     * Adds an amount of <b>NPC</b>s to the current simulation, based on the parameter's value.
+     * @param number  amount of <b>NPC</b>s to add
+     */
     private void addNPC(int number) {
         String text = this.npcAmountField.getText().trim();
         if (Integer.parseInt(text) + number >= 0) {

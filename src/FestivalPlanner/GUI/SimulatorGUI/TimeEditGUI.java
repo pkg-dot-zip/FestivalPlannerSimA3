@@ -8,6 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 
+/**
+ * Contains methods and attributes seen in the TimeEditGUI window.
+ * <p>
+ * This window is used to edit the speed at which the simulation is being run.
+ */
 public class TimeEditGUI extends AbstractEditGUI {
 
     //Time.
@@ -30,7 +35,7 @@ public class TimeEditGUI extends AbstractEditGUI {
      * Constructor of <b>TimeEditGUI</b> taking a <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorHandler.html">SimulatorHandler</a> as parameter.
      * @param handler  handler to set <code>this.handler</code> to
      */
-    public TimeEditGUI(SimulatorHandler handler) {
+    TimeEditGUI(SimulatorHandler handler) {
         this.handler = handler;
     }
 
