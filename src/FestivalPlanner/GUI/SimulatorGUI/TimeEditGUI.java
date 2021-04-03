@@ -46,6 +46,8 @@ public class TimeEditGUI extends AbstractEditGUI {
 
     @Override
     public void setup() {
+        genericSetup();
+
         //Adding all the children.
         setTimeHBox.getChildren().addAll(x025Button, x033Button, x050Button, x125Button, x15Button, x2Button);
         mainPanel.getChildren().addAll(currentTimeLabel, currentSpeedLabel, new Label(), setTimeHBox, new Label(), new Separator(), bottomHBox);
