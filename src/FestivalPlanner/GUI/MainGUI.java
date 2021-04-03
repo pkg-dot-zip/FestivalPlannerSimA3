@@ -5,32 +5,27 @@ import FestivalPlanner.GUI.SimulatorGUI.SimulatorModule;
 import FestivalPlanner.Util.ImageLoader;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MainGUI extends Application {
 
     private Stage stage;
-
     private AgendaModule agendaModule;
     private SimulatorModule simulatorModule;
-
 
     /**
      * Starts the MainGUI.
      * <p>
      * It creates an instance of <code>AgendaModule</code>, and then loads all the settings from <code>SaveSettingsHandler</code>.
      * When that is done it will run the <code>load()</code> method in <code>AgendaModule</code>.
-     *
-     * @param stage the stage that is shown on screen
-     * @throws Exception standard exception in <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/application/Application.html">Application</a>
+     * @param stage  the stage that is shown on screen
+     * @throws Exception  standard exception in <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/application/Application.html">Application</a>
      */
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
 
         loadAgendaCallBack();
-
         ImageLoader.loadImages();
     }
 
@@ -38,7 +33,7 @@ public class MainGUI extends Application {
      * Sets the current scene to the scene of <code>this.simulatorModule</code>.
      */
     public void loadSimulatorCallBack() {
-        //Setting w/h
+        //Setting width & height.
         this.stage.setWidth(1100);
         this.stage.setHeight(800);
 
@@ -47,7 +42,7 @@ public class MainGUI extends Application {
 
     /**
      * creates a new <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorModule.html">Simulatormodule</a> if
-     * <code>this.simulatorModule</code> is null.
+     * <code>this.simulatorModule</code> is <i>null</i>.
      * <b>
      * Else it calls the {@link SimulatorModule#resetHandler()} method.
      */
@@ -67,10 +62,10 @@ public class MainGUI extends Application {
         if (this.agendaModule == null) {
             this.agendaModule = new AgendaModule(this, stage);
             SaveSettingsHandler.firstLaunchSettingsCreation();
-            agendaModule.load();
+            this.agendaModule.load();
         }
 
-        //Setting stage width/height
+        //Setting stage width & height.
         this.stage.setWidth(1450);
         this.stage.setHeight(350);
 
