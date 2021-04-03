@@ -5,10 +5,10 @@ import FestivalPlanner.GUI.AgendaGUI.AgendaModule;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AboutPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.MainGUI;
+import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
-import FestivalPlanner.Logic.SimulatorHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -27,111 +27,92 @@ public class SimulatorModule extends AbstractGUI {
 
     private MainGUI mainGUI;
 
-
-    //LanguageHandling
+    //LanguageHandling.
     private ResourceBundle messages = LanguageHandler.getMessages();
 
-    //Handler
+    //Handler.
     private SimulatorHandler handler;
     private AgendaModule agendaModule;
 
-    //Pane Classes
+    //Pane Classes.
     private SimulatorCanvas simulatorCanvas;
+    private BorderPane mainPane = new BorderPane();
+    private VBox topVBox = new VBox();
+    private HBox toggleHBox = new HBox();
 
-    //Ux Items
-    private BorderPane mainPane;
+    //Ux Items.
     private Stage stage;
     private Scene simulatorScene;
-    private VBox topVBox;
 
-    //Time label
+    //Time label.
     private Label timeLabel;
 
-    // MenuBar
+    // MenuBar.
     private MenuBar menuBar = new MenuBar();
-    //FileMenu
+        //FileMenu.
     private Menu fileMenu = new Menu(messages.getString("file"));
     private MenuItem loadAgendaMenuItem = new MenuItem(messages.getString("load"));
     private MenuItem exitMenuItem = new MenuItem(messages.getString("exit"));
-    //EditMenu
+        //EditMenu.
     private Menu optionsMenu = new Menu(messages.getString("options"));
     private MenuItem viewPartMenuItem = new MenuItem(messages.getString("view_Item"));
     private MenuItem timeEditMenuItem = new MenuItem(messages.getString("edit_Time_Speed"));
     private MenuItem npcEditMenuItem = new MenuItem(messages.getString("npc_menu"));
-    //HelpMenu
+        //HelpMenu.
     private Menu helpMenu = new Menu(messages.getString("help"));
     private MenuItem helpGuideMenuItem = new MenuItem(messages.getString("github"));
     private MenuItem javaDocMenuItem = new MenuItem(messages.getString("javadoc"));
     private MenuItem aboutMenuItem = new MenuItem(messages.getString("about"));
 
-
-    Button agendaButton = new Button(messages.getString("agenda"));
-    Button simulatorButton = new Button(messages.getString("simulator"));
-
+    //Buttons.
+    private Button agendaButton = new Button(messages.getString("agenda"));
+    private Button simulatorButton = new Button(messages.getString("simulator"));
 
     /**
-     * The constructor of this class
-     * @param stage the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> the
+     * The constructor of this class.
+     * @param stage  the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> the
      *              simulator module should assign itself to
-     * @param agendaModule the <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI.html">SimulatorModule</a>.
+     * @param agendaModule  the <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI.html">SimulatorModule</a>
      */
     public SimulatorModule(MainGUI mainGUI, Stage stage, AgendaModule agendaModule) {
         this.mainGUI = mainGUI;
         this.stage = stage;
-        this.mainPane = new BorderPane();
         this.agendaModule = agendaModule;
-
         this.handler = new SimulatorHandler(this.agendaModule.getAgenda(), this.agendaModule.getPodiumManager(), this.agendaModule.getArtistManager());
         this.simulatorCanvas = new SimulatorCanvas(this.handler, this, 800, 700);
     }
 
     @Override
     public void load() {
-        setup();
-        actionHandlingSetup();
-
+        this.setup();
+        this.actionHandlingSetup();
     }
 
     @Override
     public void setup() {
-
-        //Adding all the children.
-        //MenuBar
-        fileMenu.getItems().addAll(loadAgendaMenuItem, new SeparatorMenuItem(), exitMenuItem);
-        optionsMenu.getItems().addAll(viewPartMenuItem, new SeparatorMenuItem(), timeEditMenuItem, new SeparatorMenuItem(), npcEditMenuItem);
-        helpMenu.getItems().addAll(helpGuideMenuItem, javaDocMenuItem, aboutMenuItem);
-        menuBar.getMenus().addAll(optionsMenu, helpMenu);
-
-
-        //Switching buttons
-            //Initialise values.
-            HBox toggleHBox = new HBox();
-
-            //Adding the buttons
-            toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
-            toggleHBox.setAlignment(Pos.CENTER);
-            toggleHBox.setSpacing(HBOX_SPACING);
-
-            // Disabling button
-            this.simulatorButton.setDisable(true);
-
-        // Top bar
-        topVBox = new VBox();
-        topVBox.getChildren().addAll(this.menuBar, toggleHBox);
-        topVBox.setSpacing(5);
-
-        // Setup mainPane
-
-        this.mainPane.setTop(topVBox);
-        this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
-
-        this.simulatorScene = new Scene(this.mainPane);
-
-        //Set time label
+        //Initialise values.
         this.timeLabel = new Label("Time: " + handler.getTime());
+        this.simulatorButton.setDisable(true);
+
+        //Alignment & spacing.
+        this.topVBox.setSpacing(VBOX_SPACING);
+        this.toggleHBox.setAlignment(Pos.CENTER);
+        this.toggleHBox.setSpacing(HBOX_SPACING);
         this.timeLabel.setFont(new Font(16));
 
-        topVBox.getChildren().add(timeLabel);
+        //Adding all the children.
+        this.toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
+        this.topVBox.getChildren().addAll(this.menuBar, this.toggleHBox, this.timeLabel);
+            //MenuBar
+        this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
+        this.optionsMenu.getItems().addAll(this.viewPartMenuItem, new SeparatorMenuItem(), this.timeEditMenuItem, new SeparatorMenuItem(), this.npcEditMenuItem);
+        this.helpMenu.getItems().addAll(this.helpGuideMenuItem, this.javaDocMenuItem, this.aboutMenuItem);
+        this.menuBar.getMenus().addAll(this.optionsMenu, this.helpMenu);
+
+        //Adding it all together.
+        this.mainPane.setTop(this.topVBox);
+        this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
+        this.simulatorScene = new Scene(this.mainPane);
     }
 
     @Override
@@ -142,29 +123,27 @@ public class SimulatorModule extends AbstractGUI {
         });
 
         //MenuBar
-
-        exitMenuItem.setOnAction(e -> {
+        this.exitMenuItem.setOnAction(e -> {
             AbstractDialogPopUp.showExitConfirmationPopUp();
         });
-
-        //EditMenu
-        viewPartMenuItem.setOnAction(e -> {
+            //EditMenu
+        this.viewPartMenuItem.setOnAction(e -> {
             ViewObjectView simulatorViewPopUp = new ViewObjectView(this.handler, this.simulatorCanvas);
             simulatorViewPopUp.load();
         });
 
-        timeEditMenuItem.setOnAction(e -> {
+        this.timeEditMenuItem.setOnAction(e -> {
             TimeEditGUI simulatorTimePopUp = new TimeEditGUI(this.handler);
             simulatorTimePopUp.load();
         });
 
-        npcEditMenuItem.setOnAction(e -> {
+        this.npcEditMenuItem.setOnAction(e -> {
             NPCEditGUI npcEditGUI = new NPCEditGUI(this.handler);
             npcEditGUI.load();
         });
 
-        //HelpMenu
-        aboutMenuItem.setOnAction(e -> {
+            //HelpMenu
+        this.aboutMenuItem.setOnAction(e -> {
             AboutPopUp aboutPopUp = new AboutPopUp(this.stage);
             aboutPopUp.load();
         });
@@ -175,24 +154,23 @@ public class SimulatorModule extends AbstractGUI {
         });
     }
 
-    public void updateTime() {
-        LocalTime time = handler.getTime();
-        timeLabel.setText("    Time: " + time.getHour() + ":" + time.getMinute());
+    void updateTime() {
+        LocalTime time = this.handler.getTime();
+        this.timeLabel.setText("    Time: " + time.getHour() + ":" + time.getMinute());
     }
 
     /**
-     * Getter for the scene this class makes.
-     * @return The <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> this class is
-     * responsible for
+     * Returns the scene this class initialised.
+     * @return  the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html">Scene</a> this class contains
      */
     public Scene getScene() {
         return this.simulatorScene;
     }
 
     /**
-     * Getter for the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/BorderPane.html">Scene</a>
+     * Returns the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/BorderPane.html">Scene</a>
      * the components of this class are assigned to.
-     * @return a https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/BorderPane.html containing all the components
+     * @return  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/BorderPane.html">BorderPane</a> containing all the components
      * of this class
      */
     public BorderPane getMainPane() {
@@ -200,16 +178,15 @@ public class SimulatorModule extends AbstractGUI {
     }
 
     /**
-     * Getter for the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> of the program
-     *
-     * @return the main <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> of the program
+     * Returns the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> of this class.
+     * @return  the main <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a> of the program
      */
     public Stage getStage() {
         return this.stage;
     }
 
     /**
-     * Resets <code>this.handler</code>
+     * Resets <code>this.handler</code> to the agenda in this agendaModule.
      */
     public void resetHandler(){
         this.handler.reset(this.agendaModule.getAgenda());
