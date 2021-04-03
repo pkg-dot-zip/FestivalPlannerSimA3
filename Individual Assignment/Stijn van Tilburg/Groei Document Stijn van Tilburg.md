@@ -333,9 +333,56 @@ kennen en afstemmen op het programma was zoiezo al het geval. Het is van
 enorm belang dat de gebruiker controle heeft over waar een podium staat 
 voor het plannen van shows van artiesten. 
 
+## Week 7
+
+Deze week nam ik de taakop me om te zorgen dat de NPC's van artiesten 
+ingeladen werden en hun eigen sprites kunnen hebben. Verder moest ik ook
+zorgen dat de Artist NPC's naar hun show liepen wanneer die begon.
+
+Veel van de systemen die ik nodig had waren al gemaakt en zorgte ervoor
+dat ik maar kleine aanpassingen nodig had, maar ik begon wel met 1 
+probleem. Waar ga ik de NPC's van de artiesten opslaan? We hadden al een
+artist manager voor de data, wat nou als ik een artistNPC manager maakte?
+Dan zouden ze allemaal op een logsiche plek worden opgeslagen en ...  
+
+Dit bleek allemaal heel dom te zijn want we hadden allang plek om het op
+te slaan in de simulator handler zoals we deden met de podium objecten en
+waar alles te maken met de logica van de simulatie zat. Het was niet alleen
+consequent, het was de plek waar alle informatie zat die nodig was en 
+zorgde voor een minimaal aantal extra werk.
+
+Eerste les van deze week: **verder kijken dan je neus lang is.**
+
+Maar goed, dan komen we bij de volgende vraag: Hoe ga ik de artiesten NPC's
+opslaan? De artiesten moeten bijgehouden worden op een manier dat het mogelijk
+is om voor specefieke artiesten te vragen en moeten bijgehouden worden op een
+manier dat je makkelijk door alle artiesten heen kan gaan. Verder is het belangrijk
+dat artiesten die worden gemaakt nadat de start simulation knop word gedrukt
+niet worden meegerekent.
+
+1. In een Arraylist. Het voordeel hiervan is dat het makkelijk op te slaan
+is en het makkelijk door te geven is. Maar vragen voor specifieke artiesten
+word wel erg moeizaam.
+
+2. In een HashMap. Hierdoor word het makkelijk om voor specifieke artiesten
+te vragen omdat dit dan kan door gebruik te maken van hun naam. Dit beteknt wel
+dat als je een artiest wilt krijgen dat je hun naam nodig hebt. Verder is
+het nog mogelijk om alle artiesten te krijgen door gebruikt te maken van de .Values() methode. 
+
+In dit geval was de keuze makkelijk voor me gemaakt. Ik heb voor de HashMaps
+gekozen.
+
+Verder was het zorgen dat unieke sprites ingeladen konden worden erg simple
+omdat de meeset code al geschreven was voor me.
+
+ ![Sprites laden in actie](./Images/agendaSpriteLoading.gif)
+
+
+
+
 ## In het bedrijfsleven wordt steeds meer in de software gesimuleerd.
 
-Dat dit waar is, is geen geheim meer. Of het nou gaat om
+Dat dit waar is, is in mijn mening duidelijk te merken. Of het nou gaat om
 het simuleren van een hartklep, of het simuleren van natuurrampen. het 
 is heel duidelijk dat er steeds meer gebruik word van simulaties door 
 bedrijven voor enorm veel verschillende doeleindes.
