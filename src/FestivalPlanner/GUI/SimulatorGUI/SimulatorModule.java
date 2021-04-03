@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
@@ -44,8 +45,9 @@ public class SimulatorModule extends AbstractGUI {
     private Stage stage;
     private Scene simulatorScene;
 
-    //Time label.
+    //Time.
     private Label timeLabel;
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_TIME;
 
     // MenuBar.
     private MenuBar menuBar = new MenuBar();
@@ -144,7 +146,7 @@ public class SimulatorModule extends AbstractGUI {
 
     void updateTime() {
         LocalTime time = this.handler.getTime();
-        this.timeLabel.setText("    Time: " + time.getHour() + ":" + time.getMinute());
+        this.timeLabel.setText("    Time: " + time.format(dateTimeFormatter));
     }
 
     /**
