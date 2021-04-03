@@ -15,8 +15,8 @@ public class TileMap {
     private int tileWidth;
     private int tileHeight;
 
-    private TileLayer pathFindingLayer;
     private ArrayList<Layer> layers;
+    private TileLayer pathFindingLayer;
     private TileManager tileManager;
 
     /**
@@ -76,7 +76,7 @@ public class TileMap {
     }
 
     /**
-     * Getter for <code>this.mapWidth</code>.
+     * Returns <code>this.mapWidth</code>.
      * @return  <code>this.mapWidth</code>
      */
     public int getMapWidth() {
@@ -92,7 +92,7 @@ public class TileMap {
     }
 
     /**
-     * Getter for <code>this.tileWidth</code>.
+     * Returns <code>this.tileWidth</code>.
      * @return  <code>this.tileWidth</code>
      */
     public int getTileWidth() {
@@ -100,7 +100,7 @@ public class TileMap {
     }
 
     /**
-     * Getter for <code>this.tileHeight</code>.
+     * Returns <code>this.tileHeight</code>.
      * @return  <code>this.tileHeight</code>
      */
     public int getTileHeight() {
@@ -108,7 +108,7 @@ public class TileMap {
     }
 
     /**
-     * Getter for <code>this.Layers</code>
+     * Returns <code>this.Layers</code>
      * @return  <code>this.Layers</code>
      */
     public ArrayList<Layer> getLayers() {
@@ -116,17 +116,25 @@ public class TileMap {
     }
 
     /**
-     * Setter for <code>this.Layers</code>.
+     * Sets <code>this.Layers</code> to the parameter's value.
      * @param layers  <code>this.Layers</code> to be set to
      */
     public void setLayers(ArrayList<Layer> layers) {
         this.layers = layers;
     }
 
+    /**
+     * Returns <code>this.pathFindingLayer</code>.
+     * @return  <code>this.pathFindingLayer</code>
+     */
     public TileLayer getPathFindingLayer() {
-        return pathFindingLayer;
+        return this.pathFindingLayer;
     }
 
+    /**
+     * Sets <code>this.pathFindingLayer</code> to the parameter's value.
+     * @param pathFindingLayer  value to be set to
+     */
     public void setPathFindingLayer(TileLayer pathFindingLayer) {
         this.pathFindingLayer = pathFindingLayer;
     }
@@ -140,7 +148,7 @@ public class TileMap {
     }
 
     /**
-     * Getter for <code>this.tileManager</code>.
+     * Returns <code>this.tileManager</code>.
      * @return  <code>this.tileManager</code>
      */
     public TileManager getTileManager() {
@@ -148,7 +156,7 @@ public class TileMap {
     }
 
     /**
-     * Setter for <code>this.tileManager</code>.
+     * Sets <code>this.tileManager</code> to the parameter's value.
      * @param tileManager  the <a href="{@docRoot}/FestivalPlanner/TileMap/TileManager.html">TileManager</a> that <code>this.tileManager</code> needs to be set to
      */
     public void setTileManager(TileManager tileManager) {

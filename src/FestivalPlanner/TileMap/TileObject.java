@@ -3,7 +3,7 @@ package FestivalPlanner.TileMap;
 import java.awt.geom.Point2D;
 
 /**
- * Represents a object stored in a JSon-file. Part of <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a>.
+ * Represents an object stored in a <i>.JSON</i> file. Part of <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a>.
  */
 public class TileObject {
 
@@ -17,12 +17,12 @@ public class TileObject {
     private double rotation;
 
     /**
-     * Only constructor for TileObject
-     * @param name  The name this object has
-     * @param type  The type of object this object represents
-     * @param location  The start location of this object, top right corner
-     * @param width  The width of this object
-     * @param height  The height of the object
+     * Only constructor for <b>TileObject</b>.
+     * @param name  the name this object has
+     * @param type  the type of object this object represents
+     * @param location  the start location of this object, top right corner
+     * @param width  the width of this object
+     * @param height  the height of the object
      */
     public TileObject(String name, String type, Point2D location, int width, int height, double rotation, String locationString) {
         this.name = name;
@@ -35,31 +35,31 @@ public class TileObject {
     }
 
     /**
-     * Getter for <code>this.name</code>
+     * Returns <code>this.name</code>.
      * @return  <code>this.name</code>
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
-     * Getter for <code>this.type</code>
+     * Returns <code>this.type</code>.
      * @return  <code>this.type</code>
      */
     public String getType() {
-        return type;
+        return this.type;
     }
 
     /**
-     * Getter for <code>this.location</code>
+     * Returns <code>this.location</code>.
      * @return  <code>this.location</code>
      */
     public Point2D getLocation() {
-        return location;
+        return this.location;
     }
 
     /**
-     * Setter for <code>this.location</code>
+     * Sets <code>this.location</code> to the parameter's value.
      * @param location  Sets <code>this.location</code>
      */
     public void setLocation(Point2D location) {
@@ -67,46 +67,50 @@ public class TileObject {
     }
 
     /**
-     * Getter for <code>this.width</code>
+     * Returns <code>this.width</code>.
      * @return  <code>this.width</code>
      */
     public int getWidth() {
-        return width;
+        return this.width;
     }
 
     /**
-     * Setter for <code>this.width</code>
-     * @param width  Sets <code>this.width</code>
+     * Sets <code>this.width</code> to the parameter's value.
+     * @param width  <code>this.width</code>
      */
     public void setWidth(int width) {
         this.width = width;
     }
 
     /**
-     * Getter for <code>this.height</code>
+     * Returns <code>this.height</code>.
      * @return  <code>this.height</code>
      */
     public int getHeight() {
-        return height;
+        return this.height;
     }
 
     /**
-     * Setter for <code>this.height</code>
-     * @param height  sets <code>this.height</code>
+     * Sets <code>this.height</code> to the parameter's value.
+     * @param height  <code>this.height</code>
      */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     * Returns <code>this.rotation</code>.
+     * @return  <code>this.rotation</code>
+     */
     public double getRotation() {
-        return rotation;
+        return this.rotation;
     }
 
     /**
-     * Getter for <code>this.locationString</code>
+     * Returns <code>this.locationString</code>.
      * @return  <code>this.locationString</code>
      */
     public String getLocationString() {
-        return locationString;
+        return this.locationString;
     }
 }

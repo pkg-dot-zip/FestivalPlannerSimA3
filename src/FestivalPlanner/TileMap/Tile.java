@@ -3,10 +3,10 @@ package FestivalPlanner.TileMap;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
 
 /**
- * Contains one Tile
+ * Contains attributes and methods for an individual tile.
  */
 public class Tile {
 
@@ -14,9 +14,9 @@ public class Tile {
     private int key;
 
     /**
-     * Constructor for Tile
-     * @param image  The image that the tile represents
-     * @param key  The id for this tile
+     * Constructor for <b>Tile</b>.
+     * @param image  the image that the tile represents
+     * @param key  the id for this tile
      */
     public Tile(BufferedImage image, int key) {
         this.image = image;
@@ -32,23 +32,22 @@ public class Tile {
     }
 
     /**
-     * Draws this tile to the FXgraphics
-     * @param g2d  The object to draw to
-     * @param x  The x position to start drawing
-     * @param y  The y posistion to start drawing
+     * Draws this tile on the <b>FXGraphics2D</b> parameter.
+     * @param g2d  the object to draw on
+     * @param x  the x-position to start drawing at
+     * @param y  the y-position to start drawing at
      */
     public void draw(FXGraphics2D g2d, int x, int y){
         g2d.drawImage(this.image, x, y, null);
     }
 
     /**
-     * Draws this tile to the graphics
-     * @param g2d  The object to draw to
-     * @param x  The x position to start drawing
-     * @param y  The y posistion to start drawing
+     * Draws this tile to the <b>Graphics2D</b> parameter.
+     * @param g2d  the object to draw on
+     * @param x  the x-position to start drawing at
+     * @param y  the y-position to start drawing at
      */
     public void draw(Graphics2D g2d, int x, int y){
         g2d.drawImage(this.image, x, y, null);
     }
-
 }
