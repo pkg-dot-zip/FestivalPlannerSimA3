@@ -351,7 +351,8 @@ waar alles te maken met de logica van de simulatie zat. Het was niet alleen
 consequent, het was de plek waar alle informatie zat die nodig was en 
 zorgde voor een minimaal aantal extra werk.
 
-Eerste les van deze week: **verder kijken dan je neus lang is.**
+Hierdoor had ik al snel de eerste les van deze week: 
+**verder kijken dan je neus lang is.**
 
 Maar goed, dan komen we bij de volgende vraag: Hoe ga ik de artiesten NPC's
 opslaan? De artiesten moeten bijgehouden worden op een manier dat het mogelijk
@@ -373,12 +374,100 @@ In dit geval was de keuze makkelijk voor me gemaakt. Ik heb voor de HashMaps
 gekozen.
 
 Verder was het zorgen dat unieke sprites ingeladen konden worden erg simple
-omdat de meeset code al geschreven was voor me.
+omdat de meeste code al geschreven was voor me.
+
+Hier is het sprites laden in actie
 
  ![Sprites laden in actie](./Images/agendaSpriteLoading.gif)
 
 
+## Applicaties die Json gebruiken
 
+Hier ga ik een lijst maken van applicaties die ik denk dat Json gebruiken
+en uitleggen waarom dat ik dat denk.
+
+### Reddit
+
+Dat reddit Json gebruikt is iets wat heel duidelijk is.
+Dat is zo omdat als je bij een url van reddit .json erachter zet de 
+pagina word getoond in een json formaat.
+
+ ![Reddit json format](./Images/Reddit+Json.png)
+ 
+### Twitter
+
+Ook twitter maakt gebruik Van het Json formaat. Dit leggen ze uit op: 
+https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/overview.
+Hierbij hebben ze ook een voorbeeld gegeven van hoe een tweet eruit ziet in
+een Json formaat:
+
+```Json
+{
+  "created_at": "Thu Apr 06 15:24:15 +0000 2017",
+  "id_str": "850006245121695744",
+  "text": "1\/ Today we\u2019re sharing our vision for the future of the Twitter API platform!\nhttps:\/\/t.co\/XweGngmxlP",
+  "user": {
+    "id": 2244994945,
+    "name": "Twitter Dev",
+    "screen_name": "TwitterDev",
+    "location": "Internet",
+    "url": "https:\/\/dev.twitter.com\/",
+    "description": "Your official source for Twitter Platform news, updates & events. Need technical help? Visit https:\/\/twittercommunity.com\/ \u2328\ufe0f #TapIntoTwitter"
+  },
+  "place": {   
+  },
+  "entities": {
+    "hashtags": [      
+    ],
+    "urls": [
+      {
+        "url": "https:\/\/t.co\/XweGngmxlP",
+        "unwound": {
+          "url": "https:\/\/cards.twitter.com\/cards\/18ce53wgo4h\/3xo1c",
+          "title": "Building the Future of the Twitter API Platform"
+        }
+      }
+    ],
+    "user_mentions": [     
+    ]
+  }
+}
+```
+
+### Tiled
+
+Tiled is een applicatie die het makkelijk maakt om met een spritesheet een
+2d map te maken. nadat je een map hebt gemaakt in tiled kun je het laten 
+omzetten naar een data bestandstype. Een van de opties is een Json bestand.
+Een Json bestand van een Tilemap uit Tiled ziet eruit zoals het dit:
+
+```json
+{
+  "backgroundcolor":"#656667",
+  "height":4,
+  "layers":[ ],
+  "nextobjectid":1,
+  "orientation":"orthogonal",
+  "properties":[
+    {
+      "name":"mapProperty1",
+      "type":"string",
+      "value":"one"
+    },
+    {
+      "name":"mapProperty2",
+      "type":"string",
+      "value":"two"
+    }],
+  "renderorder":"right-down",
+  "tileheight":32,
+  "tilesets":[ ],
+  "tilewidth":32,
+  "version":1,
+  "tiledversion":"1.0.3",
+  "width":4
+}
+```
 
 ## In het bedrijfsleven wordt steeds meer in de software gesimuleerd.
 
@@ -387,7 +476,7 @@ het simuleren van een hartklep, of het simuleren van natuurrampen. het
 is heel duidelijk dat er steeds meer gebruik word van simulaties door 
 bedrijven voor enorm veel verschillende doeleindes.
 
-##### Wat zijn de voordelen van simulaties gebruiken in het bedrijfsleven?
+#### Wat zijn de voordelen van simulaties gebruiken in het bedrijfsleven?
 Simulaties zijn enorm flexibel, je kunt ze voor enorm veel verschillende
 doeleindes gebruiken. Wil je weten of een festival goed genoeg is beschermt tegen een brand?
 Simulaties kunnen het antwoord bieden. Wil je testen hoe goed een product
@@ -413,7 +502,7 @@ door het te maken. Maar via simulaties kun je dus ook heel simpel testen of
 een product goed genoeg is om op de markt te vrengen, ook dit bespaart veel
 tijd en geld.
 
-##### Waarom zijn simulaties in het bedrijfsleven in opkomst en niet al veelgebruikt onderdeel.
+#### Waarom zijn simulaties in het bedrijfsleven in opkomst en niet al veelgebruikt onderdeel.
 
 Dat software development beschikbaar is tot bedrijven is nog relatief nieuw.
 Zeker wanneer je realiseert dat de meeste directeurs van bedrijven oudere mensen
