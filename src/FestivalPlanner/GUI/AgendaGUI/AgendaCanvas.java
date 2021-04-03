@@ -46,7 +46,7 @@ public class AgendaCanvas {
      * <p>
      * Uses the <b>Agenda</b> given as parameter for <code>this.agenda</code>.
      * @param agenda  sets <code>this.agenda</code> to this object
-     * @param agendaModule  TODO: Write this
+     * @param agendaModule  the class containing the scene this canvas is connected to
      */
     AgendaCanvas(Agenda agenda, AgendaModule agendaModule) {
         this(agenda, 1920 / 4f, 1080 / 3f, agendaModule);

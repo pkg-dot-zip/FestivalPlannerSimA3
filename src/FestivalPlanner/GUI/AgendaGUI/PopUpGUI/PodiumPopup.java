@@ -47,7 +47,7 @@ public class PodiumPopup extends AbstractCreationPopUp{
 	 * Constructor for the <code>PodiumPopUp</code> class.
 	 * @param primaryStage  the stage that will become the owner of this stage
 	 * @param podiumManager  this class has a method that needs to be called after the list has been updated
-	 * @param selectedPodium  TODO: Write this
+	 * @param selectedPodium  the podium that the user selected to edit.
 	 */
 	public PodiumPopup(Stage primaryStage, PodiumManager podiumManager, Podium selectedPodium) {
 		super(primaryStage);

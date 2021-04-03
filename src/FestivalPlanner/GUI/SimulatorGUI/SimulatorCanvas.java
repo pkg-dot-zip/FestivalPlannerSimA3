@@ -50,7 +50,7 @@ public class SimulatorCanvas extends AbstractGUI {
 
     /**
      * Constructor for SimulatorCanvas
-     * @param simulatorHandler  TODO: Write this
+     * @param simulatorHandler  The class responsible for the logic of the simulator
      * @param simulatorModule  The <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorModule.html">SimulatorModule</a> that contains this canvas
      * @param canvasWidth  The initial width of the canvas
      * @param canvasHeight  The initial height of this canvas
