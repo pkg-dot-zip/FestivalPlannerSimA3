@@ -49,7 +49,6 @@ public class SimulatorObject {
         buildPathMap();
     }
 
-
     /**
      * Builds the pathFinding map for this object.
      */
@@ -105,26 +104,22 @@ public class SimulatorObject {
                 visited.add(newPoint);
                 todoQueue.add(newPoint);
             }
-
         }
-
     }
 
     /**
      * Calculates the centre point of this object.
      * @return  the centre point of this object
      */
-     Point2D getCentre() {
-         Point2D centre = new Point2D.Double(this.location.getX() + (this.width / 2f),
-                 this.location.getY() + (this.height / 2f));
+    Point2D getCentre() {
+        Point2D centre = new Point2D.Double(this.location.getX() + (this.width / 2f),
+             this.location.getY() + (this.height / 2f));
+        Rectangle2D rectangle2D = new Rectangle2D.Double(centre.getX(), centre.getY(), 0, 0);
 
-         Rectangle2D rectangle2D = new Rectangle2D.Double(centre.getX(), centre.getY(), 0, 0);
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(Math.toRadians(this.rotation), this.location.getX(), this.location.getY());
 
-         AffineTransform tx = new AffineTransform();
-         tx.rotate(Math.toRadians(this.rotation), this.location.getX(), this.location.getY());
-
-         Shape shape = tx.createTransformedShape(rectangle2D);
-
+        Shape shape = tx.createTransformedShape(rectangle2D);
         return new Point2D.Double(shape.getBounds().getX(), shape.getBounds().getY());
     }
 

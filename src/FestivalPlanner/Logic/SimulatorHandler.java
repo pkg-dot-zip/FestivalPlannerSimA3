@@ -169,7 +169,6 @@ public class SimulatorHandler {
         }
     }
 
-
     /**
      * Draws <code>this.tileMap</code>, all the <b>NPC</b>s and the objects to the given screen.
      * @param g2d  the object to draw to
@@ -185,7 +184,6 @@ public class SimulatorHandler {
             npc.draw(g2d);
         }
 
-
         //Todo: remove bc debug
         g2d.setColor(Color.black);
     }
@@ -199,7 +197,7 @@ public class SimulatorHandler {
     public void update(double deltaTime) {
         this.time = this.time.plusSeconds((long) (deltaTime * this.speed));
 
-        // Updating NPC's.
+        //Updating NPCs.
         setupNPC(deltaTime * this.speed);
         for (NPC npc : this.allNPCList) {
             npc.update(this.allNPCList);
@@ -211,7 +209,7 @@ public class SimulatorHandler {
             object.update(deltaTime);
         }
 
-        // Handling assigning shows.
+        //Handling assigning shows.
         this.currentShowTime -= (deltaTime * this.speed);
         if (this.currentShowTime < 0) {
             checkShows();
@@ -225,7 +223,7 @@ public class SimulatorHandler {
 
     /**
      * Handles spawning <b>NPC</b>s.
-     * @param timePast  the time spend since last update.
+     * @param timePast  the time spend since last update
      */
     private void setupNPC(double timePast) {
 
@@ -243,7 +241,7 @@ public class SimulatorHandler {
     /**
      * Creates a new <a href="{@docRoot}/FestivalPlanner/NPC/NPC.html">NPC</a> at a rondom location at <code>this.spawn</code>.
      */
-    public void spawnNPC() {
+    private void spawnNPC() {
         Random r = new Random();
         Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
         NPC npc = new NPC(location, r.nextInt(NPC.getCharacterFiles()));
@@ -254,8 +252,8 @@ public class SimulatorHandler {
         }
     }
 
-    //TODO Change spawn point.
-    public void spawnAllArtistNPCs() {
+    //TODO: Change spawn point.
+    private void spawnAllArtistNPCs() {
         for (String artist : this.artistManager.getAllArtistNames()) {
             Artist currentArtist = this.artistManager.getArtist(artist);
 
@@ -324,8 +322,6 @@ public class SimulatorHandler {
                     npc.setTargetObject(danceObject);
             }
         }
-
-
     }
 
     private void onShowEnd(Show show) {
@@ -370,7 +366,7 @@ public class SimulatorHandler {
      * @param currentTime  the time to check the shows for
      * @return  <code>ArrayList</code> with current active <code>Show</code>s
      */
-    public ArrayList<Show> getActiveShows(LocalTime currentTime) {
+    private ArrayList<Show> getActiveShows(LocalTime currentTime) {
         ArrayList<Show> activeShows = new ArrayList<>();
         for (Show show : this.agenda.getShows()) {
             if (show.getStartTime().isBefore(currentTime) && show.getEndTime().isAfter(currentTime)) {
