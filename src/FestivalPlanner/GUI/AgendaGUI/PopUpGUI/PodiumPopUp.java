@@ -16,8 +16,6 @@ import java.util.ResourceBundle;
  */
 public class PodiumPopUp extends AbstractCreationPopUp{
 
-	//TODO: Rename this since I made a typo; PodiumPopUp -> PodiumPopUp
-
 	//LanguageHandling.
 	private ResourceBundle messages = LanguageHandler.getMessages();
 

@@ -26,6 +26,7 @@ public class NPC {
     private SimulatorObject targetObject;
     private final double SPEED = 1.0 / (60*4);
     private double gameSpeed;
+    private boolean collisionIsEnabled = true;
 
     //Images.
     private static String[] characterFiles = {"char_1", "char_2"};
@@ -97,8 +98,8 @@ public class NPC {
         }
 
         if (this.targetObject != null) {
-            if ((targetObject.isWithin(this.position)) && !this.npcState.getClass().equals(ViewingState.class)) {
-                this.npcState = new ViewingState();
+            if ((targetObject.getLocation().distance(this.position) < 150)) {
+                this.setCollisionIsEnabled(true);
             }
             if (this.target.distanceSq(position) > 2) {
                 this.npcState = new MovingState();
@@ -113,7 +114,9 @@ public class NPC {
 
         this.frame += Math.random() * 0.07;
 
-        handleCollision(NPCs);
+        if (this.collisionIsEnabled) {
+            handleCollision(NPCs);
+        }
     }
 
     private void handleCollision(ArrayList<NPC> NPCs) {
@@ -121,7 +124,7 @@ public class NPC {
 
         for(NPC visitor : NPCs) {
             if(visitor != this) {
-                if(visitor.position.distanceSq(position) < COLLISION_RADIUS * COLLISION_RADIUS) {
+                if(visitor.position.distanceSq(position) < COLLISION_RADIUS * COLLISION_RADIUS - 10) {
                     collisionNPC = visitor;
                 }
             }
@@ -305,6 +308,10 @@ public class NPC {
      */
     void setDirection(Direction direction){
         this.direction = direction;
+    }
+
+    public void setCollisionIsEnabled(boolean collisionIsEnabled) {
+        this.collisionIsEnabled = collisionIsEnabled;
     }
 
     /**

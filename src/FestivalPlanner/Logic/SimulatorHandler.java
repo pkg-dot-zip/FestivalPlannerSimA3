@@ -325,7 +325,9 @@ public class SimulatorHandler {
         if (podium != null) {
             podium.setActive(true);
             for (Artist artist : show.getArtists()) {
+                NPC artistNPC = this.artistNPCHashMap.get(artist.getName());
                 this.artistNPCHashMap.get(artist.getName()).setTargetObject(podium);
+                artistNPC.setCollisionIsEnabled(false);
             }
         }
 
@@ -347,6 +349,10 @@ public class SimulatorHandler {
         SimulatorPodium podium = this.podiumObjectHashMap.get(show.getPodium().getName());
         if (podium != null) {
             podium.setActive(false);
+
+            for (Artist artist : show.getArtists()) {
+                this.artistNPCHashMap.get(artist.getName()).setTargetObject(this.simulatorToilets.get((int)(Math.random() * 5)));
+            }
 
             for (NPC npc : this.npcList) {
                 if (npc.getTargetObject() != null && npc.getTargetObject().equals(podium)) {

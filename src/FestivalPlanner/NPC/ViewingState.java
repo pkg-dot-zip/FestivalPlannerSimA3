@@ -5,18 +5,20 @@ package FestivalPlanner.NPC;
  */
 public class ViewingState extends NPCState {
 
-    private int timer = (int)(Math.random()*100);
+    private int timer = (int)(Math.random()*1000);
 
     @Override
     public void handle(NPC npc) {
         timer++;
 
-        if (timer % 500 == 0) {
+        if (timer >= 5000) {
             if (npc.getDirection().equals(Direction.LEFT)){
                 npc.setDirection(Direction.RIGHT);
             } else {
                 npc.setDirection(Direction.LEFT);
             }
+
+            timer = (int)(Math.random()*1000);
         }
 
     }

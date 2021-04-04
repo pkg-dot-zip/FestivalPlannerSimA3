@@ -111,7 +111,7 @@ public class Artist implements Serializable {
      * Reads the sprite and image of the artist to the save file.
      * @param in  the stream used to read the class
      * @throws IOException if an I/O error occurs.
-     * @throws ClassNotFoundException ff the class of a serialized object could not be found.
+     * @throws ClassNotFoundException if the class of a serialized object could not be found.
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
