@@ -1,0 +1,626 @@
+# Portfolio Individueel resultaat
+### Stijn van Tilburg 2171448 TI 1.3 A3
+
+In dit document word het leerproces omtrent de proftaak "Festival Planner"
+van de student Stijn van Tilburg beschreven. Er zal vanaf de 3de week van de proftaak
+wekelijks een update over het leerproces van de student zijn. In deze wekelijkse
+reflectie zal worden beschreven tegen welk probleem de student is aangelopen
+en hoe de student tot de oplossing is gekomen. Dit zal worden gedaan door dingen te 
+beschrijven zoals: 
+
+- Wat is de situatie(context)?
+- Welke keuzemogelijkheden heb je?
+- Welke keuze heb je gemaakt?
+- Waarom heb je deze keuze gemaakt?
+
+Daarnaast zullen er nog 2 pagina's toegevoegd worden rondom de volgende onderwerpen:
+
++ De student zijn reflectie, inclusief onderbouwing, op één van de volgende 
+stellinen: 
+  - “In het bedrijfsleven wordt gebruik gemaakt van JavaFX”
+  - “In het bedrijfsleven wordt steeds meer in software gesimuleerd”
+   
++ een lijst met applicaties die gebruik maken van het JSON formaat. De
+  student geeft ook aan waarom dat hij denkt dat JSON wordt gebruikt.
+  
+Vanaf dit punt zal alles worden beschreven vanuit het oogpunt van de Student Stijn van Tilburg.
+  
+## Week 3
+ 
+Op dit punt van het project was de agenda kant van ons project al bijna
+helemaal af, dus gingen we functies toevoegen om te zorgen dat de gebruiker
+minder fouten kon maken. Het probleem waar ik aan werkte was dat het momenteel
+mogelijk was om dezelfde artiest op meerdere podia tegelijk in te plannen.
+
+Dan kwam nu de probleem analyse, wat zijn de mogelijke manieren om dit op te lossen?
+
+Oplossing 1:  Als je een show maakt en de tijd aanpast word de lijst van artiesten 
+   omgebouwd zodat je alleen de beschikbare artietsen ziet.
+
+Oplossing 2:  Je slaat in elke artiest op wanneer ze spelen en controleert daarmee
+of ze al aan het spelen zijn op een gegeven moment.
+
+Oplossing 3:  wanneer en show word gemaakt/bewerkt haal je alle shows op die spelen
+ rond een overlappende tijd en haalt de artiesten die dan spelen op.
+
+Natuurlijk heeft elke oplossing zo zijn voordelen en nadelen, daar gaan
+we nu naar kijken.
+
+Nadelen:
+1. 1. Dit vereist het volledig ombouwen van de manier hoe we onze artiesten
+   opslaan voor de ComboBox.
+   2.  Vanwege dat we onze tijd parsen uit een textvak zal dit ook elke keer
+   moeten worden gedaan zodra je de tijd aanpast om dit te laten werken.
+   Dit zou betekenen dat zodra je iets fout tiept je meteen een error krijgt,
+   en dat we dus daar een work around voor moeten maken om het goed te laten werken.
+   3. Dit kan verwarend zijn voor de gebruiker omdat er niet word uitgelegd
+   waarom die artiesten zich niet in de lijst bevinden.
+   4. Als de tijd verandert word moet de artiesten lijst geleegd worden om
+   dit te laten werken.
+   
+2. 1. We moeten de artiets nu naderhand veranderen.
+   2. De artiest slaat informatie op die niet heel logisch is om op te
+   slaan in een artiest.
+   3. Je slaat informatie dubbel op want de agenda weet al in welke shows de
+   artiest speelt
+3. 1. Minst efficient van alle methodes.
+   
+Voordelen: 
+1.  Voorkomt fouten I.P.V ze aan te geven
+
+2.  Zelfde functionaliteit als de 3de methode maar sneller.
+
+3.  Er hoeft maar in 1 klasse gewerkt te worden.
+
+Als we kijken naar deze voor- en nadelen Zien we dat het enige echte probleem
+van oplossing 3 is dat het niet zo snel werkt als de andere manieren, terwijl
+het wel voorkomt dat er in extra in anderman's klasse's moet worden gewerkt.
+Dat is een enorm voordeel terwijl het nadeel van efficientie niet van groot
+belang is bij dit onderdeel. Hierdoor vallen oplossing 1 en 2 alebei tekort
+omdat er teveel onnodig gesleutel is in andere klassen.
+
+De daadwerkelijke implementatie ziet eruit als volgt:
+
+```java
+private boolean containsDuplicateArtist() {
+        try {
+            this.attemptedStartTime = LocalTime.parse(this.startTimeTextField.getText());
+            this.attemptedEndTime = LocalTime.parse(this.endTimeTextField.getText());
+
+            this.selectedShowArtistArrayList.clear();
+            this.selectedShowArtistArrayList.addAll(this.artistsList.getItems());
+
+            for (Show show : this.agendaModule.getAgenda().getShows()) {
+                if (show.getStartTime().isBefore(this.selectedShow.getEndTime()) &&
+                        show.getEndTime().isAfter(this.selectedShow.getStartTime()) &&
+                        !show.equals(this.selectedShow)
+                ) {
+                    ArrayList<Artist> artistsFromShow = show.getArtists();
+                    for (Artist artist : this.selectedShowArtistArrayList) {
+                        if (artistsFromShow.contains(artist)) {
+                            AbstractDialogPopUp.showDuplicateArtistPopUp();
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            AbstractDialogPopUp.showExceptionPopUp(e);
+        }
+        return false;
+    }
+```
+
+Deze methode word aangeroepen wanneer een show word aangemaakt of bewerkt
+We beginnen door alle benodigde informatie op te halen. Daarna gaan we kijken
+naar alle shows en controleren we of onze starttijd voor hun eindtijd
+is en of onze eindtijd voor hun starttijd is. Als dat alebei waar is dan hebben
+de shows overlap in tijd. Daarna halen we alle artiesten van die show op
+en kijken we of er in die lijst een artiest zit die ook in de show die we proberen
+te maken/bewerken zit. als dat correct is returnen we true en laten we een
+een popup zien die je vertelt wat je fout doet want dan probeer
+je een artiest in te plannen op hetzelfde moment bij 2 shows.
+
+## Week 4 
+
+We kwamen erachter dat we een heel belangrijk onderdeel waren vergeten, 
+namelijk het bewerken van al bestaande podiums en artiesten. En het
+was mijn taak om dit op te lossen. Maar nou stond ik voor een echt probleem.
+De podiums en artiesten zitten heel diep in ons project verwikkeld, het is niet
+mogelijk om dit te bewerken zonder veel aan oude code te zitten.
+Ik realiseerde me dat ik hier zo voorzichtig in moest gaan werken alsof
+ik door een gebeid met landmijnen aan het lopen was.
+
+Maar dan nu nadenken over hoe ik het ging implementeren? 
+Als ik gewoon de oude artiest verwijder en de nieuwe toevoeg 
+worden ze ook meteen uit alle shows gehaald. Het is natuurlijk veel leuker
+als ze in de shows blijven wanneer je ze bewerkt dat ze wel in de shows blijven
+Ik dacht dat de mallelijkste manier om dat te bereiken was om
+setters aan alle atributen van artiesten en podiums te geven, en
+te zorgen dat die werden aangeroepen wanneer je een podium of
+artiest probeert aan te passen.
+
+```java
+public void editArtist(String originalName, Artist editedArtist) {
+        Artist oldArtist = getArtist(originalName);
+
+        oldArtist.setName(editedArtist.getName());
+        oldArtist.setPicture(editedArtist.getPicture());
+        oldArtist.setSprite(editedArtist.getSprite());
+    }
+```
+
+Simpel toch? Blijkbaar niet want toen ik het had uitgewerkt werkte het niet.
+Maar de artiesten werden aangepast, dat wist ik zeker. Maar waarom was het
+dan zo dat in de comboboxen de oude naam bleef staan. Als ik een artiest of
+podium ergens aan toe wou voegen werd de nieuwe toegevoegd.
+
+Het was tijd om na te denken over elke levenskeuze die me in deze 
+positie heeft gebracht.
+
+Dus ging ik een opsomming maken van wat er nou aan de hand was.
+
+* De artiesten worden aangepast maar het lijkt alsof de oude blijft staan.
+
+* In de agenda staat eerst nog de oude artiest todat je erop klikt zodat
+hij updated.
+
+Het leek dus alsof een stuk van de informatie niet goed aangepast werd.
+Maar hoe kon dat, om daarachter te komen ging ik goed nadenken . Hoe 
+verspreiden we de informatie over de artiesten en podiums? Waar word alle
+informatie opgeslagen?
+
+We slaan de informate op in manager klassen, dus het moest daar zitten. 
+En dat was wanneer ik het eindelijk begreep. We hebben HashMaps die de
+podiums en artiesten opslaan, en om de podiums en artiesten op te vragen moet
+je de naam geven. Maar die naam word niet verandert wanneer je de artiest
+verandert.
+
+We gebruiken zelfs de keyset op sommige plaatsen zodat daar geen onnodige
+informatie is, maar dat betekende dus dat ze ook alleen de oude namen kregen.
+
+Maar de keys in een HashMap zijn final, dus hoe pas ik zoiets aan?
+
+ ```java
+    public void editArtist(String originalName, Artist editedArtist) {
+        Artist oldArtist = getArtist(originalName);
+
+        oldArtist.setName(editedArtist.getName());
+        oldArtist.setPicture(editedArtist.getPicture());
+        oldArtist.setSprite(editedArtist.getSprite());
+
+        this.artists.remove(originalName);
+        this.artists.put(oldArtist.getName(),oldArtist);
+    }
+```
+
+We verwijderen de key en value, en stoppen de key en met de nieuwe value erin.
+
+Doordat we de oude artiest veranderen en meegeven blijft de artiest staan
+bij alle shows waar de artiest origineel was gepland
+
+Alhoewel dit alleen voor de artiest is gebeurt er hetzelfde bij de podium
+maar dan met de variabelen van een podium.
+
+Hoe kon het gebeuren dat ik zoeits over het hoofd zag?
+
+Ik was veelste gefocussed op het veranderen van de informatie binnen
+de artiesten en podiums, ik had ook meteen moeten nadenken over hoe die
+informatie werd verspreden.
+
+## Week 5
+
+Deze week was het tijd om te zorgen dat het agenda gedeelte en het
+simulator gedeelte zichtbaar was in hetzelfde venster. Hiervoor was al
+een design gemaakt, dus aan ons (Ik heb hierbij samengewerkt met Jason)
+de taak om het een realiteit te maken. De moeilijkheid deze week zat niet
+in de code maar in de keuzes die we moesten maken.
+
+##### Simulator design
+
+![Simulator Design](./Images/simulatorDesign.png)
+
+Als we naar dit design kijken zien we onderaan 2 functies die optioneel zijn
+dus die knoppen hebben we niet erin geprogrammeerd totdat we zeker
+weten dat die functies in het programma komen.
+
+De eerste stap die we nomen was nadenken over hoe we de knoppen bovenaan
+om te wisselen wouden realiseren. Het was belangrijk dat er maar in knop
+te gelijk ingedrukt was, en dat de andere knop aangaf op een manier dat
+hij ingedrukt was.
+
+Ons eerste idee was om een Toggle Button te gebruiken. Die knop had alles
+wat we wouden, zolang we zorgde dat het naast elkaar kwam zou het exact zijn
+wat we willen. Maar toen kwamen we voor een probleem, het was niet 
+mogelijk om te zorgen dat je een knop niet kon in drukken zonder hem
+vervaagd te maken. Dat was natturlijk niet wat we wouden en het haalde al
+het nut van Toggle Buttons te gebruiken weg.
+
+We konden dit op te lossen door de actie van de uigedrukte knop indrukken
+de knop uitdrukken te maken. Of we moesten kiezen om normale knoppen te
+gebruiken en te accepteren dat ze vervaagd eruit gingen zien om aan
+te geven dat ze ingedrukt waren.
+
+We hebben ervoor gekozen om normale knoppen te gebruiken en te 
+accepteren dat ze er vervaagd uit gingen zien. Als anderen het er niet mee 
+eens waren dat kregen we het wel te horen, we waren op dit punt al 
+2 uur bezig alleen hiermee!
+
+##### Uiteindelijke design Simulator
+
+![Uitendelijke Simulator Design](./Images/simulatorGUI.png)
+
+Zoals te zien is hebben we het design van de zoom to podium verandert.
+Dit hebben we gedaan omdat we niet weten of de gebruiker alle podiums wilt
+gebruiken. Bij het oude design zouden daar dan onnodige radiobuttons zitten,
+En dat terwijl radiobuttons in mijn mening er slechter uitzien hierbij
+dan een ComboBox
+
+De rest van de code is niets bijzonders, wel hebben we nog wat design 
+improvements gemaakt. We hadden bijvoorbeeld twee ObservableLists, de 
+eerste met alle podia en de tweede met alle artiesten. Maar die 
+ObservableList werd opgeslaen in onze AgendaGui. Dat is een heel slechte plek
+om zoiets op te slaan. We hebben gezorgd dat dat nu in hun eigen manager
+word opgeslagen (waar het hoort).
+
+## Week 6
+
+Deze week wouden we zorgen dat een paar van de knoppen in de simulator GUI
+functioneel werden. We kozen ervoor om eerst het zoom to podium gedeelte 
+functioneel te maken.
+
+Maar daar kwamen we eigenlijk al meteen voor een probleem. De simulatorGUI
+had toegankelijkhijd nodig tot heel wat klassen die hij momenteel niet had 
+om dat succesvol te implementeren. Maar als we de GUI toegankelijkheid
+tot al die klassen zouden geven zouden we een slecht design krijgen. Veel
+van de klassen waren klassen die we echt lostaand wouden hebben van de 
+simulatorGUI
+
+Ook realiseerde we dat het aanpassen van onderdelen van onderdelen
+wanneer de simulatie al bezig was voor veel problemen zou gaan zorgen.
+
+1. Wij geven de optie om je eigen sprites mee te geven aan artiesten. Maar
+als je een nieuwe artiest maakt moet die dus ingeladen worden. Als je dit doet
+tijdens de simulatie zou dat dus zorgen voor problemen.
+
+2. Hoe reageren NPC's wanneer ze in een show staan en er wordt een nieuwe
+show gemaakt die gelijk afspeeld terwijl alle NPC's al bj een show staan.
+
+3. Het bewerken van podium locatie's tijdens shows, hoe gaan we daar mee om.
+
+4. Het bewerken van artiesten tijdens shows, hoe gaan we daar mee om? Zeker
+omdat nieuwe sprites dus ook weer moeten worden ingeladen.
+
+5. Het bewerken van shows, bv. de artiesten veranderen. Hoe gaan we daar mee om?
+
+Dit zijn heel veel problemen en de deadline is in de buurt aan het komen.
+Een manier om heel veel problemen te voorkomen is te zorgen dat je een festival
+kan starten met alle momentele informatie, en als je iets aan wilt passen dat
+je dan het festival opnieuw moet starten. Veel minder leuk, maar voorkomt 
+een heleboel problemen. Ook is het zo dat de simulatorGUI met veel minder 
+rekening moet houden omdat het alleen maar uitmaakt of hij beschikt over de
+informatielijst. Veel van onze problemen ontstonden doordat we actief alle
+gegevens moesten bijhouden in de simulatorGUI.
+ 
+Hiermom hadden we beslist dat we ervoor gingen zorgen dat je een knop had 
+om de simulatie op te starten met de gegevens die je momenteel had.
+
+Maar nu dat design probleem opgelost was gingen we weer terug naar het originele onderdeel waar we aan 
+werkten. Het zorgen dat gemaakte podiums een podium in de tilemap representeerden.
+
+Hier hadden we weer verschillende manieren voor bedacht:
+
+1. Zorgen dat wanneer je een podium maakt dat er automatisch een podium
+aan gegeven wordt
+
+2. In de tilemap een variabele locatie maken en controleren of de ingevulde 
+locatie in de software overeenkomt met variabele in de tilemap.
+
+3. Een ComboBox toevoegen aan de editor waar je een podium kon selecteren.
+
+Oplossing 3 was al heel snel afgekeurd want daar moest je heel veel aanpassingen
+doen in oude code. Ook zouder er veel problemen bij ontstaan die we liever
+voorkomen dan oplossen.
+
+Eerst was ik een fan van oplossing 1 omdat dat ervoor zorgde dat de 
+gebruiker niks fout kon doen. Het probleem wat ik zag in de locatie namen
+is dat de gebruik van te voren de kennis nodig heeft om het succesvol te 
+laten werken. Maakte het zoveel uit dat de gebruiker het podium niet zelf 
+kon kiezen?
+
+Ik ben nu van mening absoluut. Het feit dat de gebruiker de Tilemap moet 
+kennen en afstemmen op het programma was zoiezo al het geval. Het is van 
+enorm belang dat de gebruiker controle heeft over waar een podium staat 
+voor het plannen van shows van artiesten. 
+
+## Week 7
+
+Deze week nam ik de taakop me om te zorgen dat de NPC's van artiesten 
+ingeladen werden en hun eigen sprites kunnen hebben. Verder moest ik ook
+zorgen dat de Artist NPC's naar hun show liepen wanneer die begon.
+
+Veel van de systemen die ik nodig had waren al gemaakt en zorgte ervoor
+dat ik maar kleine aanpassingen nodig had, maar ik begon wel met 1 
+probleem. Waar ga ik de NPC's van de artiesten opslaan? We hadden al een
+artist manager voor de data, wat nou als ik een artistNPC manager maakte?
+Dan zouden ze allemaal op een logsiche plek worden opgeslagen en ...  
+
+Dit bleek allemaal heel dom te zijn want we hadden allang plek om het op
+te slaan in de simulator handler zoals we deden met de podium objecten en
+waar alles te maken met de logica van de simulatie zat. Het was niet alleen
+consequent, het was de plek waar alle informatie zat die nodig was en 
+zorgde voor een minimaal aantal extra werk.
+
+Hierdoor had ik al snel de eerste les van deze week: 
+**verder kijken dan je neus lang is.**
+
+Maar goed, dan komen we bij de volgende vraag: Hoe ga ik de artiesten NPC's
+opslaan? De artiesten moeten bijgehouden worden op een manier dat het mogelijk
+is om voor specefieke artiesten te vragen en moeten bijgehouden worden op een
+manier dat je makkelijk door alle artiesten heen kan gaan. Verder is het belangrijk
+dat artiesten die worden gemaakt nadat de start simulation knop word gedrukt
+niet worden meegerekent.
+
+1. In een Arraylist. Het voordeel hiervan is dat het makkelijk op te slaan
+is en het makkelijk door te geven is. Maar vragen voor specifieke artiesten
+word wel erg moeizaam.
+
+2. In een HashMap. Hierdoor word het makkelijk om voor specifieke artiesten
+te vragen omdat dit dan kan door gebruik te maken van hun naam. Dit beteknt wel
+dat als je een artiest wilt krijgen dat je hun naam nodig hebt. Verder is
+het nog mogelijk om alle artiesten te krijgen door gebruikt te maken van de .Values() methode. 
+
+In dit geval was de keuze makkelijk voor me gemaakt. Ik heb voor de HashMaps
+gekozen.
+
+Verder was het zorgen dat unieke sprites ingeladen konden worden erg simple
+omdat de meeste code al geschreven was voor me.
+
+Hier is het sprites laden in actie
+
+ ![Sprites laden in actie](./Images/agendaSpriteLoading.gif)
+
+
+## Week 8
+
+Deze week staat in het thema van het opschonen van het project, de meeste
+functies zijn er al. Maar met het opschonen liep ik juist tegen nog meer problemen dan ik normaal al doe.
+
+Het beste voorbeeld is hoe het NPCstate switching werkt. Ik vind dat dat
+niet goed in elkaar zit, maar tegelijkertijd is het nu al heel laat om 
+grote veranderinen proberen door te brengen.
+
+Heel het lopen was gebaseerd op hoe het NPCstate switching werkt. Het veranderen
+van onderdelen zou dus makkelijk kunnen zorgen dat de hele simulatie niet fucntioneerd.
+Maar tegelijkertijd werkt het momenteel niet goed en is er in mijn meneing vernadering
+nodig. Het was zelfs zo dat de artiest niet altijd bij zijn podium kwam.
+
+Ik koos ervoor om toch een risico te nemen en proberen verbetering erin 
+te brengen.
+
+Zorgen dat artiesten altijd op het podium kwamen was me na een tijdje werk
+gelukt, collision werkte op een manier dat als je collision eenzijdig outzet
+de artiest alle bezoekers opzei duwt om bij zijn podium te komen.
+
+Maar de echte uitdaging was het proberen op te schonen van het switchen 
+van states van bezoekers. Dat was momenteel zo slecht dat sommige states 
+nooit bereken werden. Heel veel onnodige ifs en heel moeilijk te lezen.
+hierdoor koste het me ook enorm veel tijd om zelfs kleine dingen te bereiken.
+
+Toen kwam ik tot de realisatie dat de problemen te diep zitten in ons systeem
+om nu nog op te lossen. Elke oplossing die ik kon bedenken zorgten voor extra 
+conflicten. Ik zat nu op een punt waar ik begon te realiseren dat met de 
+steeds dichterbij komende deadline het oplossen van de problemen niet meer 
+reëel was. Hoe kon het dat we zo diep zaten met een slecht probleem? Dat 
+zoveel miss was met het systeem maar dat we er pas heel erg laat achter zijn.
+
+Daarom ging ik denken aan wat mogelijk de oorzaak was van deze situatie:
+
+1. Hadden we te weinig gecontroleerd op elkaars code? Hadden we minder vertrouwen
+moeten hebben in elkaar?
+
+2. Moeten we alle schuld gooien op de personen die het gemaakt hadden?
+
+3. Hadden we meer moeen nadenken of de personen die het gemaakt hadden een
+geschikt niveau hadden om het te maken?
+
+4. Waren en niet genoeg testen uitgevoerd door mensen of hun code goed genoeg
+was?
+
+5. Hadden we niet duidelijk genoeg met elkaar gecommuniceert met elkaar 
+wanneer we problemen hadden?
+
+Mijn antwoorden op de punten:
+
+1. We hebben veel gecontroleerd in mijn mening, maar de laatste weken werd dat
+minder vanwege tijdsdruk. Dus het kan hier aan liggen.
+
+2. Dit vind ik een heel domme reden en zo goed als nooit waar.
+
+3. Ik had mijn twijfels op sommige momenten of we dit goed genoeg aanpasten,
+maar als de mensen zelf niet duidelijk aangeven dat het hun niet lukt vind
+ik het moeilijk. Het was me niet duidelijk dat de code niet goed werkte.
+
+4. Dit kan ik zelf niet bepalen, en licht natuurlijk heel erg aan de personen.
+
+5. Ik heb dit altijd gedaan, maar kan moeilijk zeggen of anderen dit altijd
+gedaan hebben. Ik heb wel gezien dat er duidelijk veel om hulp werd gevraagd.
+
+Uiteindelijk als ik naar de punten kijk dan is het gene wat me het meest opviel
+dat er wel veel om hulp werd gevraagd bij het maken van het onderdeel, maar
+dat dat er zoveel vragen kwamen dat ik me niet meer kon focussen op mijn deel.
+Het was dus eigenlijk al wel duidelijk op het moment hoe meer ik er naar terug
+kijk. Maar iedereen was druk bezig met hun eigen gedeelte. En er werd veel geholpen.
+Maar natuurlijk is elke 5 minuten uit je flow worden gehaald een probleem.
+
+Als ik erop terug kijk denk ik dat we de taken anders hadden moeten verdelen
+omdat het wel duidelijk werd dat ze er veel moeite mee hadden (of ze opzenminst
+de optie geven). Ik denk dat we eigenlijk heel het project hier goed op hadden gelet
+maar dat de aankomende deadline ervoor zorgde dat we iets teveel daar op aan
+het focussen waren i.p.v. waar we normaal op focusten. 
+
+## Applicaties die Json gebruiken
+
+Hier ga ik een lijst maken van applicaties die ik denk dat Json gebruiken
+en uitleggen waarom dat ik dat denk.
+
+### Reddit
+
+Dat reddit Json gebruikt is iets wat heel duidelijk is.
+Dat is zo omdat als je bij een url van reddit .json erachter zet de 
+pagina word getoond in een json formaat.
+
+ ![Reddit json format](./Images/redditJson.png)
+ 
+### Twitter
+
+Ook twitter maakt gebruik Van het Json formaat. Dit leggen ze uit op: 
+https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/overview.
+Hierbij hebben ze ook een voorbeeld gegeven van hoe een tweet eruit ziet in
+een Json formaat:
+
+```Json
+{
+  "created_at": "Thu Apr 06 15:24:15 +0000 2017",
+  "id_str": "850006245121695744",
+  "text": "1\/ Today we\u2019re sharing our vision for the future of the Twitter API platform!\nhttps:\/\/t.co\/XweGngmxlP",
+  "user": {
+    "id": 2244994945,
+    "name": "Twitter Dev",
+    "screen_name": "TwitterDev",
+    "location": "Internet",
+    "url": "https:\/\/dev.twitter.com\/",
+    "description": "Your official source for Twitter Platform news, updates & events. Need technical help? Visit https:\/\/twittercommunity.com\/ \u2328\ufe0f #TapIntoTwitter"
+  },
+  "place": {   
+  },
+  "entities": {
+    "hashtags": [      
+    ],
+    "urls": [
+      {
+        "url": "https:\/\/t.co\/XweGngmxlP",
+        "unwound": {
+          "url": "https:\/\/cards.twitter.com\/cards\/18ce53wgo4h\/3xo1c",
+          "title": "Building the Future of the Twitter API Platform"
+        }
+      }
+    ],
+    "user_mentions": [     
+    ]
+  }
+}
+```
+
+### Tiled
+
+Tiled is een applicatie die het makkelijk maakt om met een spritesheet een
+2d map te maken. nadat je een map hebt gemaakt in tiled kun je het laten 
+omzetten naar een data bestandstype. Een van de opties is een Json bestand.
+Een Json bestand van een Tilemap uit Tiled ziet eruit zoals het dit:
+
+```json
+{
+  "backgroundcolor":"#656667",
+  "height":4,
+  "layers":[ ],
+  "nextobjectid":1,
+  "orientation":"orthogonal",
+  "properties":[
+    {
+      "name":"mapProperty1",
+      "type":"string",
+      "value":"one"
+    },
+    {
+      "name":"mapProperty2",
+      "type":"string",
+      "value":"two"
+    }],
+  "renderorder":"right-down",
+  "tileheight":32,
+  "tilesets":[ ],
+  "tilewidth":32,
+  "version":1,
+  "tiledversion":"1.0.3",
+  "width":4
+}
+```
+
+## In het bedrijfsleven wordt steeds meer in de software gesimuleerd.
+
+Dat dit waar is, is in mijn mening duidelijk te merken. Of het nou gaat om
+het simuleren van een hartklep, of het simuleren van natuurrampen. het 
+is heel duidelijk dat er steeds meer gebruik word van simulaties door 
+bedrijven voor enorm veel verschillende doeleindes.
+
+#### Wat zijn de voordelen van simulaties gebruiken in het bedrijfsleven?
+Simulaties zijn enorm flexibel, je kunt ze voor enorm veel verschillende
+doeleindes gebruiken. Wil je weten of een festival goed genoeg is beschermt tegen een brand?
+Simulaties kunnen het antwoord bieden. Wil je testen hoe goed een product
+in elkaar zit voordat het gemaakt is? Simulaties kunnen het antwoord bieden.
+
+Als we dan verder gaan met het laatste voorbeeld, die informatie is goud waard.
+Een simulatie kan inzicht geven in de werking en gedrag van een ontwerp 
+zonder het te moeten produceren. Dat bespaart bedrijven enorm veel moeite en kosten.
+Het produceren van een product geberut pas laat in de 
+ontwerpproces, terwijl het verbeteren van het product het best kan in de
+eerste fase van het ontwerpproces. Door het simuleren is het wel mogelijk om
+die ontwerpfouten de vinden tijdens de eerste processen. Dit bespaard enorm
+veel tijd en geld
+
+Ook zorgen simulaties ervoor dat veranderingen makkelijk uit te testen zijn.
+Er zit een enorm verschil tussen het zien van een product op papier en het 
+kunnen uit testen. Doormiddel van simulaties word het uittesten van
+producten veel makkelijker waardoor de kwaliteit van het design veel makkelijker
+omhoog kan gaan. Maar dit is niet alleen belangrijk voor de het uit 
+testen van de kwaliteit. Hoe weet je of een product goed genoeg is om te 
+voldoen aan de eisen die je bedrijf stelt? Normaal is dit alleen mogelijk 
+door het te maken. Maar via simulaties kun je dus ook heel simpel testen of
+een product goed genoeg is om op de markt te vrengen, ook dit bespaart veel
+tijd en geld.
+
+#### Waarom zijn simulaties in het bedrijfsleven in opkomst en niet al veelgebruikt onderdeel.
+
+Dat software development beschikbaar is tot bedrijven is nog relatief nieuw.
+Zeker wanneer je realiseert dat de meeste directeurs van bedrijven oudere mensen
+zijn, de mensen die het meeste moeite hebben met de overstap naar technologie
+in bedrijven. Zelfs als iedere directeur begreep wat de voordelen waren van een team
+verantwoordelijk hiervoor hebben zijn, betekent dat niet dat ze begreipen 
+hoe het ook gerealiseerd in hun bedrijf kan worden. Langzaam maar zeker worden
+de oude bedrijven geleerd dat het toch echt tijd is voor een overstap. 
+Maar ook is het zo dat de meeste software ontwikkeld voor bedrijven
+veel tijd nodig heeft voordat het gebruikt word. Sommige overheid projecten
+duren 20 jaar voordat ze gebruikt word. Tegen die tijd is de software natuurlijk
+al enorm veroudert. En zelfs als er een team is die de software kan maken
+is het nog maar de vraag hoe goed de software is.
+ 
+Omdat software zoiets nieuws is, is het zo dat het vaak nog fout begrepen word. maar naarmate de
+jaren vooruit gaan zal sofware steeds beter begrepen worden.
+Momenteel kun je duidelijk merken dat Steeds meer bedrijven beginnen door
+te hebben wat de kracht van software is, en hoe je ermee om moet gaan.
+Lanzaam maar zeker begint software Development zijn troon bovenaan het
+bedrijfsleven te nemen.
+
+Er zijn veel voordelen aan het gebruik van simulaties in het bedrijfsleven.
+Of het nou gaat om het testen van een design voordat het gemaakt is. Of 
+om het feit dat een design dat je aanpast meteen kunt uittesten enorm veel
+geld zal besparen. Simulaties helpen enorm in de kwaliteit van een product
+en besparen ook nog eens enorm veel geld. Waarom zijn simulaties dan in 
+opkomst en word het niet al constant gebruikt? Het maken van software is 
+enorm moeilijk. Het is moeilijk voor veel bedrijven om succesvol een team
+te krijgen dat goeie simulaties kan maken. Veel bedrijven blijven liever 
+hangen in de tak waar ze al succes kennen, maar nu begint het toch wel 
+duidelijk te worden hoeveel succes de bedrijven die het goed gebruiken hebben.
+Simulaties zijn iets enorm moeilijk om goed te maken, maar als het een bedrijf
+lukt dan is het letterlijk goud waard.
+
+Onderzoeksmethodiek: Ik heb eerst een groot aantal bronnen bezocht en gelezen.
+Daarna heb ik de bronnen vergeleken en de bronnen gepakt die het beste de 
+standpunten die ik wou vertellen beschreven.
+
+Bronnen: de Groot, M. (2015, 9 april). Hoe kan simulatie software bijdragen aan betere innovaties? 
+designsolutions. Geraadpleegd op 27 maart 2020, van https://blog.designsolutions.nl/hoe-kan-simulatie-software-bijdragen-aan-betere-innovaties
+
+Vissia, H. (2015, 3 maart). 6 redenen waarom software bouwen zo verschrikkelijk lastig is. DutchCowboys. 
+Geraadpleegd op 27 maart 2020, van https://www.dutchcowboys.nl/online/6-redenen-waarom-software-bouwen-zo-verschrikkelijk-lastig-is

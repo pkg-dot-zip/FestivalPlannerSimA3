@@ -2,18 +2,25 @@ package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.Artist;
 import FestivalPlanner.Agenda.Show;
+import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
+import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
-import org.jfree.fx.FXGraphics2D;
-
-//TODO: Add documentation.
+/**
+ * Responsible for the rectangles representing shows on the canvas. This class contains the code for drawing rectangles
+ * and stores the show as a single variable.
+ * <p>
+ * This show contains a Rectangle2D. This rectangle represents a show on the timeline Canvas given to draw it on.
+ * Inside the rectangle text is drawn. This text shows the name and the artist of the show this rectangle represents.
+ */
 public class ShowRectangle2D {
 
+    //LanguageHandling.
     private ResourceBundle messages = LanguageHandler.getMessages();
 
     private Rectangle2D rectangle;
@@ -25,68 +32,67 @@ public class ShowRectangle2D {
      * <p>
      * Creates a new <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> instance based on the
      * given parameters.
-     * @param minX   Start x-coordinate for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
-     * @param minY   Start y-coordinate for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
-     * @param width  Width for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
-     * @param height  Height for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
-     * @param show   The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
+     * @param minX   start x-coordinate for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
+     * @param minY   start y-coordinate for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
+     * @param width  width for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
+     * @param height  height for the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a>
+     * @param show   the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
      */
     public ShowRectangle2D(double minX, double minY, double width, double height, Show show) {
-        this(new Rectangle2D.Double(minX, minY, width, height), show);
+        this(new Rectangle2D.Double(minX, minY, width, height), show, SaveSettingsHandler.getSelectedColor());
+    }
+
+    public ShowRectangle2D(Rectangle2D rectangle, Show show) {
+        this(rectangle, show, SaveSettingsHandler.getSelectedColor());
     }
 
     /**
      * Constructor for <code>ShowRectangle2D</code>.
-     *
-     * @param rectangle The <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a> that is given
-     * @param show      The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
+     * @param rectangle  the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a> that is given
+     * @param show  the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
+     * @param color  the color the rectangles will be filled up with when drawn
      */
-    private ShowRectangle2D(Rectangle2D rectangle, Show show) {
+    public ShowRectangle2D(Rectangle2D rectangle, Show show, Color color) {
         this.rectangle = rectangle;
         this.show = show;
-        this.color = Color.getHSBColor(190 / 360f, .7f, .9f);
+        this.color = color;
     }
 
     /**
-     * Getter for <code>this.Show</code>
-     *
-     * @return <code>this.show</code>
+     * Returns <code>this.show</code>.
+     * @return  <code>this.show</code>
      */
     public Show getShow() {
         return this.show;
     }
 
     /**
-     * Getter for <code>this.Color</code>
-     *
-     * @return <code>this.Color</code>
+     * Returns <code>this.color</code>.
+     * @return  <code>this.color</code>
      */
     public Color getColor() {
         return this.color;
     }
 
     /**
-     * Setter for <code>this.Color</code>
-     *
-     * @param color The color that <code>this.Color</code> should be
+     * Setter for <code>this.color</code>.
+     * @param color  the color that <code>this.color</code> should be
      */
     public void setColor(Color color) {
         this.color = color;
     }
 
     /**
-     * Getter for <code>this.rectangle</code>.
-     *
-     * @return The value of <code>this.rectangle</code>
+     * Returns <code>this.rectangle</code>.
+     * @return  the value of <code>this.rectangle</code>
      */
-    public Rectangle2D getRectangle() {
+    Rectangle2D getRectangle() {
         return this.rectangle;
     }
 
     /**
      * Draws the ShowRectangle2D on the given <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html">Graphics2D</a>.
-     *
-     * @param graphics The <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html">graphics2D</a> the method should draw to
+     * @param graphics  the <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html">graphics2D</a> the method should draw to
      */
     public void draw(FXGraphics2D graphics) {
         graphics.setColor(this.color);
@@ -113,18 +119,21 @@ public class ShowRectangle2D {
     }
 
     private String getString(FXGraphics2D graphics, String string) {
-        double stringLength = graphics.getFontMetrics().stringWidth(string);
-        String editString = string;
-        while (stringLength >= this.rectangle.getWidth() - 20) {
-            editString = editString.substring(0, editString.length() - 1);
-            stringLength = graphics.getFontMetrics().stringWidth(editString);
-        }
+        if (string.length() > 10){
+            double stringLength = graphics.getFontMetrics().stringWidth(string);
+            String editString = string;
+            while (stringLength >= this.rectangle.getWidth() - 20) {
+                editString = editString.substring(0, editString.length() - 1);
+                stringLength = graphics.getFontMetrics().stringWidth(editString);
+            }
 
-        if (!editString.equals(string)) {
-            editString += "...";
-        }
+            if (!editString.equals(string)) {
+                editString += "...";
+            }
 
-        return editString;
+            return editString;
+        } else {
+            return "";
+        }
     }
-
 }

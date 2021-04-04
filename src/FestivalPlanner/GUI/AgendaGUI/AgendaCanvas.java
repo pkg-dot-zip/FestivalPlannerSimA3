@@ -1,8 +1,9 @@
 package FestivalPlanner.GUI.AgendaGUI;
 
 import FestivalPlanner.Agenda.Agenda;
-import FestivalPlanner.Agenda.Show;
 import FestivalPlanner.Agenda.Podium;
+import FestivalPlanner.Agenda.Show;
+import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import com.sun.istack.internal.Nullable;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -10,22 +11,26 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
-import java.awt.geom.*;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Class that will draw a Agenda to a canvas.
+ * Contains all methods that draw an <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> to a canvas.
  */
 public class AgendaCanvas {
 
+    private AgendaModule agendaModule;
     private Canvas canvas;
     private BorderPane mainPane = new BorderPane();
     private AffineTransform cameraTransform;
+    private double scale = 1.0;
     private ArrayList<ShowRectangle2D> showRectangles;
 
     private int startX;
@@ -37,50 +42,32 @@ public class AgendaCanvas {
     private ArrayList<Podium> usedStages;
 
     /**
-     * Blank constructor of <code>AgendaCanvas</code>.
-     */
-    public AgendaCanvas() {
-        this(new Agenda(), 1920 / 4f, 1080 / 3f);
-    }
-
-    /**
      * Constructor of <code>AgendaCanvas</code>.
      * <p>
-     * Uses the Agenda given as parameter for <code>this.agenda</code>.
+     * Uses the <b>Agenda</b> given as parameter for <code>this.agenda</code>.
      * @param agenda  sets <code>this.agenda</code> to this object
+     * @param agendaModule  the class containing the scene this canvas is connected to
      */
-    public AgendaCanvas(Agenda agenda) {
-        this(agenda, 1920 / 4f, 1080 / 3f);
-    }
-
-    /**
-     * Constructor of <code>AgendaCanvas</code>.
-     * <p>
-     * Uses the the given width and height for <code>this.canvas.setWidth</code> and <code>this.canvas.setHeight</code>
-     * respectively. It creates a new blank Agenda for <code>this.agenda</code>.
-     *
-     * @param width  sets <code>this.canvas.setWidth</code> to this value
-     * @param height  sets <code>this.canvas.setHeight</code> to this value
-     */
-    public AgendaCanvas(double width, double height) {
-        this(new Agenda(), width, height);
+    AgendaCanvas(Agenda agenda, AgendaModule agendaModule) {
+        this(agenda, 1920 / 4f, 1080 / 3f, agendaModule);
     }
 
     /**
      * Top constructor of <code>AgendaCanvas</code>.
      * <p>
-     * Initializes all the attributes of <code>AgendaCanvas</code>.
-     * <p>
      * Last action is calling the <code>draw()</code> method,
-     * so the canvas will be drawn after initialisation of <code>AgendaCanvas</code>.
-     *
+     * so the canvas will be drawn after initialising this <code>AgendaCanvas</code>.
+     * @param agenda  the class that contains all the information about the shows.
      * @param width  sets <code>this.canvas.setWidth</code> to this value
      * @param height  sets <code>this.canvas.setHeight</code> to this value
+     * @param agendaModule  the class responsible for the gui parts this class will be a part of.
      */
-    public AgendaCanvas(Agenda agenda, double width, double height) {
+    private AgendaCanvas(Agenda agenda, double width, double height, AgendaModule agendaModule) {
+        this.agendaModule = agendaModule;
         this.agenda = agenda;
 
-        buildAgendaCanvas();
+        this.usedStages = calculateUsedStages();
+        this.showRectangles = showRectanglesToArrayList();
 
         this.cameraTransform = new AffineTransform();
         this.canvas = new ResizableCanvas(this::draw, this.mainPane);
@@ -88,47 +75,41 @@ public class AgendaCanvas {
         this.canvas.setWidth(width);
         this.canvas.setOnScroll(this::setOnScroll);
 
+        calculateBounds();
+
         this.mainPane.setCenter(this.canvas);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         draw(graphics);
     }
     /**
-     * Public method that builds the AgendaCanvas and then redraws.
-     * <p>
+     * Builds the AgendaCanvas, and redraws after.
      * See {@link #buildAgendaCanvas()}.
      */
-    public void reBuildAgendaCanvas() {
-        buildAgendaCanvas();
+    void reBuildAgendaCanvas() {
         draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     /**
-     * Redraws the AgendaCanvas without recalculating all the Rectangle2Ds.
-     */
-    public void reDrawCanvas() {
-        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
-    }
-
-    /**
-     * Getter for <code>this.mainPane</code>.
+     * Returns <code>this.mainPane</code>.
      * @return  this.mainPane
      */
-    public Node getMainPane() {
+    Node getMainPane() {
         buildAgendaCanvas();
         return mainPane;
     }
 
     /**
-     * Getter for <code>this.agenda</code>.
-     * @return  Value of <code>this.agenda</code>
+     * Returns <code>this.agenda</code>.
+     * @return  value of <code>this.agenda</code>
      */
     public Agenda getAgenda() {
-        return agenda;
+        return this.agenda;
     }
 
     /**
-     * Setter for <code>this.agenda</code>.
+     * Sets <code>this.agenda</code> to the parameter's value.
      * <p>
+     * After setting it'll rebuild and redraw this <code>AgendaCanvas</code>
      * @param agenda  sets <code>this.agenda</code> to this value.
      */
     public void setAgenda(Agenda agenda) {
@@ -138,11 +119,11 @@ public class AgendaCanvas {
     }
 
     /**
-     * Getters for <code>this.canvas</code>.
+     * Returns <code>this.canvas</code>.
      * @return  <code>this.canvas</code>
      */
-    public Canvas getCanvas() {
-        return canvas;
+    Canvas getCanvas() {
+        return this.canvas;
     }
 
     /**
@@ -155,8 +136,8 @@ public class AgendaCanvas {
      * <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/Point2D.html">Point2D</a> represents.
      */
     @Nullable
-    public Show showAtPoint(Point2D point) {
-        //Adjust the point to the cameratransform and startTranslate.
+    Show showAtPoint(Point2D point) {
+        //Adjust the point to the cameraTransform and startTranslate.
         Point2D adjustedPoint = new Point2D.Double(point.getX() + this.startX - this.cameraTransform.getTranslateX(),
                 point.getY() + this.startY - this.cameraTransform.getTranslateY());
 
@@ -169,35 +150,17 @@ public class AgendaCanvas {
     }
 
     /**
-     * Returns the <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html">ShowRectangle2D</a> that represents the given
-     * <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a>.
-     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> to look for
-     * @return <a href="{@docRoot}/FestivalPlanner/GUI/ShowRectangle2D.html"> ShowRectangle2D</a> that represents the show.
-     */
-    @Nullable
-    public ShowRectangle2D rectangleOnShow(Show show) {
-        for (ShowRectangle2D showRectangle2D : this.showRectangles) {
-            if (showRectangle2D.getShow().equals(show)) {
-                return showRectangle2D;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * When this method is called it calculates and sets the following attributes:
-     * <p>
-     * <ul>
+     * Sets attributes by running the following methods:
+     * <p><ul>
      * <li>{@link #calculateBounds()}</li>
      * <li>{@link #calculateUsedStages()}</li>
      * <li>{@link #showRectanglesToArrayList()}</li>
      * </ul>
      * <p>
-     * When an update has been made to <code>this.agenda</code> this method will make the canvas recalculate the
-     * things linked above.
+     * When an update has been made to <code>this.agenda</code>, this method will make the canvas run the methods mentioned above.
      * <p>
-     * This method wil also be called in the constructor of this object and after setting <code>this.agenda</code>.
-     * After these actions it is unnecessary to call this method.
+     * This method is also called in the constructor of this object and after setting <code>this.agenda</code>.
+     * <i>After these actions it is <b>unnecessary</b> to call this method</i>.
      */
     private void buildAgendaCanvas() {
         calculateBounds();
@@ -218,32 +181,53 @@ public class AgendaCanvas {
     }
 
     /**
-     * Creates an Rectangle that represents the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>.
-     * @param show  The <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that the returned <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle</a> is based on
+     * Creates a Rectangle that represents the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>.
+     * @param show  the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a> that the returned <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle</a> is based on
      * @return  a rectangle, this rectangle isn't shown yet but has a size and location based on the given <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">show</a>
      */
     private ShowRectangle2D createShowRectangle(Show show) {
+        ArrayList<Show> selectedShows = this.agendaModule.getSelectedShows();
+
+        //Calculating values.
+        double hourLength = 60 * this.scale;
         double startTime = show.getStartTime().getHour() + (show.getStartTime().getMinute() / 60f);
         double endTime = show.getEndTime().getHour() + (show.getEndTime().getMinute() / 60f);
         int stageIndex = this.usedStages.indexOf(show.getPodium());
 
-        return new ShowRectangle2D(startTime * 60, stageIndex * 60 + 5, (endTime * 60) - (startTime * 60), 50, show);
+        Rectangle2D rectangle2D = new Rectangle2D.Double(startTime * hourLength, stageIndex * 80 + 5, (endTime * hourLength) - (startTime * hourLength), 70);
+        if (selectedShows.contains(show)) {
+            return new ShowRectangle2D(rectangle2D, show, SaveSettingsHandler.getUnselectedColor());
+        }
+        return new ShowRectangle2D(rectangle2D, show);
     }
 
     /**
      * Sets the boundaries of the agendaCanvas.
      * <p>
-     * Initializes <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
+     * It sets these boundaries by initialising <code>this.startX</code>, <code>this.endX</code>, <code>this.startY</code>, <code>this.endY</code> based on the calculated boundaries.
      */
     private void calculateBounds() {
         this.startX = -100;
-        this.endX = 1440;
         this.startY = -50;
-        this.endY = 400;
+
+        double monitorToScale = (this.canvas.getWidth() + startX) / (24 * 60 * scale);
+        if (monitorToScale > 1 ) {
+            this.scale = (this.canvas.getWidth() + startX) / (24 * 60);
+        }
+
+        if (this.canvas.getHeight() > this.usedStages.size() * 80) {
+            this.endY = (int)this.canvas.getHeight();
+        } else {
+            this.endY = this.usedStages.size() * 80 + 50;
+        }
+
+        this.endX = (int)(60 * this.scale * 24);
     }
 
     /**
-     * Gets a list of all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>, duplicates won't show up.
+     * Returns a list with all the <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>.
+     * <p>
+     * This method uses a <code>Set</code> to avoid duplicates, and then returns an ArrayList with its contents set to the set's contents.
      * @return  an ArrayList with all the used <a href="{@docRoot}/FestivalPlanner/Agenda/Stages.html">Stages</a> in <code>this.agenda</code>
      */
     private ArrayList<Podium> calculateUsedStages() {
@@ -257,7 +241,7 @@ public class AgendaCanvas {
 
     /**
      * Draws everything on <code>this.canvas</code>.
-     * @param graphics  object that draws on <code>this.canvas</code>
+     * @param graphics  object to be drawn
      */
     private void draw(FXGraphics2D graphics) {
         //Resetting the screen.
@@ -268,6 +252,7 @@ public class AgendaCanvas {
         graphics.setTransform(this.cameraTransform);
         graphics.translate(-this.startX, -this.startY);
 
+        buildAgendaCanvas();
         drawTopBar(graphics);
         drawStages(graphics);
 
@@ -284,7 +269,15 @@ public class AgendaCanvas {
 
     }
 
-    //TODO: Add documentation.
+    /**
+     * Checks if the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a>
+     * overlaps any of the other <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a>'s.
+     * @param mainRect the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> that
+     *                 will be compared to the other rectangles
+     * @return the area where the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a>
+     * overlaps with anothe <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> if
+     * it exists
+     */
     @Nullable
     private Area getIntersectArea(Rectangle2D mainRect) {
         for (ShowRectangle2D otherShowRect : this.showRectangles) {
@@ -306,17 +299,19 @@ public class AgendaCanvas {
         graphics.drawLine(this.startX, 0, this.endX, 0);
         graphics.drawLine(0, this.startY, 0, this.endY);
 
+        double HourLength = 60 * this.scale;
+
         graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
-        graphics.fill(new Rectangle2D.Double(0, 0, 30, this.endY));
+        graphics.fill(new Rectangle2D.Double(0, 0, HourLength / 2, this.endY));
         graphics.setColor(Color.BLACK);
 
-        for (int i = 0; i < 24; i++) { //Later changed in starttime till endtime
-            int x = i * 60 + 60;
-            graphics.drawString(i + ".00", x - 50, -25); //numbers will later be based on cameraTransform etc.
+        for (int i = 0; i < 24; i++) {
+            int x = (int)(i * HourLength + HourLength);
+            graphics.drawString(i + ".00", x - ((int)HourLength / 2 ) - 15, -25);
             graphics.setColor(Color.lightGray);
             graphics.drawLine(x, this.startY, x, this.endY);
             graphics.setColor(Color.getHSBColor(0, 0, 0.75f));
-            graphics.fill(new Rectangle2D.Double(x, 0, 30, this.endY));
+            graphics.fill(new Rectangle2D.Double(x, 0, HourLength / 2, this.endY));
             graphics.setColor(Color.BLACK);
         }
     }
@@ -326,7 +321,7 @@ public class AgendaCanvas {
      * @param graphics  object to draw on
      */
     private void drawStages(FXGraphics2D graphics) {
-        int stageHeight = 60;
+        int stageHeight = 80;
         ArrayList<Podium> usedStages1 = this.usedStages;
         for (int i = 0; i < usedStages1.size(); i++) {
             Podium stage = usedStages1.get(i);
@@ -336,24 +331,33 @@ public class AgendaCanvas {
     }
 
     /**
-     * Handles the ScrollEvent for vertical and horizontal scrolling.
-     * @param scrollEvent is the eventhandler for scrolling
+     * Adds the handlers for <code>ScrollEvent</code> for vertical and horizontal scrolling.
+     * @param scrollEvent the eventHandler (instance of <code>ScrollEvent</code>) for scrolling
      */
     private void setOnScroll(ScrollEvent scrollEvent) {
-        double scrollPixelsY = scrollEvent.getDeltaY() / 1.5;
-        double scrollPixelsX = scrollEvent.getDeltaX() / 1.5;
-        AffineTransform translate = new AffineTransform();
-        translate.translate(scrollPixelsX, scrollPixelsY);
-        if (cameraInBounds(translate)) {
-            this.cameraTransform.translate(scrollPixelsX, scrollPixelsY);
-            draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
+        AffineTransform transform = new AffineTransform();
+
+        if (scrollEvent.isAltDown()) {
+            double zoomFactor = 1 + (scrollEvent.getDeltaY()/1000);
+            transform.scale(zoomFactor, 1);
+            this.scale *= zoomFactor;
+            this.cameraTransform.translate(-this.cameraTransform.getTranslateX(), -this.cameraTransform.getTranslateY());
+        } else {
+            double scrollPixelsY = scrollEvent.getDeltaY() / 1.5;
+            double scrollPixelsX = scrollEvent.getDeltaX() / 1.5;
+            transform.translate(scrollPixelsX, scrollPixelsY);
+            if (cameraInBounds(transform)) {
+                this.cameraTransform.translate(scrollPixelsX, scrollPixelsY);
+            }
         }
+
+        draw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
     }
 
     /**
-     * Calculates if the given translate will fit within the set bounds.
+     * Calculates if the given translate will fit within the set bounds, and then returns false and true dependent on the result.
      * <p>
-     * Currently only works on translations, scale not yet implemented.
+     * Currently only works on translations, scale not implemented <b>YET</b>.
      * @param transform  AffineTransform that is proposed
      * @return  true if the given translate is in bounds
      */
@@ -364,5 +368,4 @@ public class AgendaCanvas {
                 this.cameraTransform.getTranslateY() + transform.getTranslateY() >= -(this.endY - this.startY - this.canvas.getHeight())
         );
     }
-
 }

@@ -1,0 +1,15 @@
+
+FestivalPlanner.Agenda
+FestivalPlanner.GUI
+FestivalPlanner.GUI.AgendaGUI
+FestivalPlanner.GUI.AgendaGUI.PopUpGUI
+FestivalPlanner.GUI.SimulatorGUI
+FestivalPlanner.Logic
+FestivalPlanner.NPC
+FestivalPlanner.TileMap
+FestivalPlanner.Util
+FestivalPlanner.Util.JsonHandling
+FestivalPlanner.Util.LanguageHandling
+FestivalPlanner.Util.MathHandling
+FestivalPlanner.Util.PreferencesHandling
+FestivalPlanner.Util.SoundHandling

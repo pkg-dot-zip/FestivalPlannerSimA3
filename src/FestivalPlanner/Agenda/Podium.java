@@ -35,4 +35,20 @@ public class Podium implements Serializable {
     public String getLocation() {
         return this.location;
     }
+
+    /**
+     * Changes the name to a new name.
+     * @param name the new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Changes the location to a new location.
+     * @param location the new location
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

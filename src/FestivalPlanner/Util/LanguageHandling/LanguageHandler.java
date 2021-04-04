@@ -1,5 +1,6 @@
 package FestivalPlanner.Util.LanguageHandling;
 
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -16,14 +17,13 @@ import java.util.ResourceBundle;
  */
 public class LanguageHandler {
 
-    //LanguageHandling
     private static Locale aLocale = new Locale("en","US");
     private static Locale nlLocale = new Locale("nl","NL");
     private static Locale selectedLocale = restoreSettings();
     private static ResourceBundle messages = ResourceBundle.getBundle("lang", selectedLocale);
 
     /**
-     * Called on launch. Sets <code>this.selectedLocale</code> to the language stored in the <i>configuration.xml</i> file.
+     * Called on application-launch. Sets <code>this.selectedLocale</code> to the language stored in the <i>configuration.xml</i> file.
      * <p>
      * If there is no configuration file yet, it defaults to Dutch <i>(nl_NL)</i>.
      * @return  locale found in the configuration file, or Dutch
@@ -35,13 +35,14 @@ public class LanguageHandler {
             selectedLocale = Locale.forLanguageTag(SaveSettingsHandler.getPreference("Language"));
         } catch (NullPointerException e){
             selectedLocale = nlLocale;
+            AbstractDialogPopUp.showExceptionPopUp(e);
         }
         return selectedLocale;
     }
 
     /**
      * Returns an ArrayList of all supported Locales.
-     * @return
+     * @return  ArrayList containing all supported Locales.
      * @see LanguageHandler
      */
     public static ArrayList<Locale> getAllLocales(){
@@ -51,10 +52,22 @@ public class LanguageHandler {
         return toReturn;
     }
 
+    /**
+     * Getter for <code>selectedLocale</code> used to get the right language when starting our software, and by the preferenceGUI in the setup() method.
+     * <p>
+     * Since this method is static, we do <b>NOT</b> utilize <i>this</i>.
+     * @return  selectedLocale
+     */
     public static Locale getSelectedLocale() {
         return selectedLocale;
     }
 
+    /**
+     * Getter for <code>messages</code> used by other classes to get strings.
+     * <p>
+     * Since this method is static, we do <b>NOT</b> utilize <i>this</i>.
+     * @return  messages
+     */
     public static ResourceBundle getMessages() {
         return messages;
     }
@@ -66,7 +79,8 @@ public class LanguageHandler {
      * <p><ul>
      * <li>Clear the Resource Bundle's cache.
      * <li>Set <code>this.selectedLocale</code> to its parameter's value.
-     * @param locale
+     * </ul>
+     * @param locale  value locale should be set to in the <i>.xml</i> file
      */
     public static void setMessages(Locale locale){
         ResourceBundle.clearCache();

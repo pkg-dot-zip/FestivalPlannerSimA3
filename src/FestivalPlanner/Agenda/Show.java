@@ -51,8 +51,8 @@ public class Show implements Serializable {
      * <li>This startTime to "00:00".
      * <li>This endTime to "23:00".
      * <li>This expectedPopularity to 50.
-     * <li>This podium to null.
-     * <li>This artists to null.
+     * <li>This podium to <i>null</i>.
+     * <li>This artists to <i>null</i>.
      * </ul>
      */
     public Show() {
@@ -62,6 +62,21 @@ public class Show implements Serializable {
         this.expectedPopularity = 50;
         this.podium = null;
         this.artists = null;
+    }
+
+    /**
+     * Constructor containing another Show instance as a parameter.
+     * <p>
+     * This constructor sets all parameters of this instance to the parameter's values.
+     * @param show  instance from whom all values will be copied
+     */
+    public Show(Show show){
+        this.name = show.getName();
+        this.startTime = show.getStartTime();
+        this.endTime = show.getEndTime();
+        this.expectedPopularity = show.getExpectedPopularity();
+        this.podium = show.getPodium();
+        this.artists = show.getArtists();
     }
 
     /**

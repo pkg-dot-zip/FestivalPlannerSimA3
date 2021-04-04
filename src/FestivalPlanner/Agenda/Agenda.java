@@ -3,8 +3,6 @@ package FestivalPlanner.Agenda;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//TODO: Improve documentation.
-
 /**
  * Top-class of the Agenda package; contains all the information needed for the GUI.
  */
@@ -30,7 +28,7 @@ public class Agenda implements Serializable {
      * <p>
      * Sets the name to the parameter's value and sets <code>this.shows</code> to the parameter's value.
      * @param name  changes <code>this.name</code> to the parameter's value
-     * @param shows contains all the shows that will happen
+     * @param shows  contains all the shows that will happen
      */
     public Agenda(String name, ArrayList<Show> shows) {
         this.name = name;

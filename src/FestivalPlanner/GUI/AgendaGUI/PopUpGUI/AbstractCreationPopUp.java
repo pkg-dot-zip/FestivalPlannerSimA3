@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.util.ResourceBundle;
 
 /**
@@ -22,6 +23,8 @@ import java.util.ResourceBundle;
  *  <li><code>setup()</code> calls abstract method <code>additionalSetup()</code>.
  *  <li><code>actionHandlingSetup()</code> calls abstract method <code>additionalActionHandlingSetup()</code>.
  *  </ul>
+ *  <p>
+ *  Furthermore, this class contains attributes for stage width and height, to ensure consistency in our graphical user interface.
  */
 public abstract class AbstractCreationPopUp extends AbstractGUI {
 
@@ -30,7 +33,7 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
     private final int STAGE_WIDTH = 275;
     private final int STAGE_HEIGHT = 200;
 
-    Stage primaryStage;
+    private Stage primaryStage;
     Stage popupStage = new Stage();
 
     Button addButton = new Button(messages.getString("add"));
@@ -39,7 +42,7 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
      * Constructor for <code>AbstractCreationPopUp</code>.
      * @param primaryStage  <code>Stage</code> set as the <i>initial owner</i> of the class
      */
-    public AbstractCreationPopUp(Stage primaryStage) {
+    AbstractCreationPopUp(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
@@ -53,15 +56,11 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
         this.setup();
         this.actionHandlingSetup();
 
-        //TODO: Play after show() for full effect.
-        //Animation to play on launch.
-        new FadeIn(gridPane).play();
-
         //Stage Settings.
-        this.additionalLoad();
         this.popupStage.setScene(new Scene(this.gridPane));
         this.popupStage.setWidth(STAGE_WIDTH);
         this.popupStage.setHeight(STAGE_HEIGHT);
+        this.additionalLoad();
         this.popupStage.setResizable(false);
         this.popupStage.initModality(Modality.APPLICATION_MODAL);
         this.popupStage.initOwner(this.primaryStage);
@@ -83,10 +82,10 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
             //Buttons.
         this.addButton.setMinWidth(50);
             //HBox.
-        this.buttonHBox.setSpacing(5);
+        this.buttonHBox.setSpacing(HBOX_SPACING);
         this.buttonHBox.setAlignment(Pos.CENTER);
             //GridPane.
-        this.gridPane.setVgap(10);
+        this.gridPane.setVgap(GRIDPANE_VGAP);
         this.gridPane.setAlignment(Pos.CENTER);
 
         //Adding all the children.
@@ -102,14 +101,19 @@ public abstract class AbstractCreationPopUp extends AbstractGUI {
      * <p>
      * Sets two <code>setOnAction()</code> lambda expressions. Does this for:
      * <p><ul>
-     * <li>addButton -> <code>onAddButtonPress</code>, an abstract method in this class.
-     * <li>closeButton -> <code>this.popStage.close();</code>
+     * <li>addButton <code>onAddButtonPress</code>, an abstract method in this class.
+     * <li>closeButton, <code>this.popStage.close();</code>
      * </ul>
      * @see #additionalActionHandlingSetup()
      */
     @Override
     public void actionHandlingSetup(){
         additionalActionHandlingSetup();
+
+        this.popupStage.setOnShown(e -> {
+            //Animation to play on launch.
+            new FadeIn(gridPane).play();
+        });
 
         this.addButton.setOnAction(e -> {
             onAddButtonPress();

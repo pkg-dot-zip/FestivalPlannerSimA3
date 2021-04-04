@@ -1,5 +1,8 @@
 package FestivalPlanner.Agenda;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -11,6 +14,8 @@ import java.util.Set;
 public class ArtistManager {
 
     private HashMap<String, Artist> artists;
+
+    private ObservableList<String> observableArtistList = FXCollections.observableArrayList();
 
     /**
      * Empty constructor for the <code>ArtistManager</code>.
@@ -60,16 +65,36 @@ public class ArtistManager {
     }
 
     /**
+     * changes a <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> within PodiumManager to have the same
+     * values as the given a <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a>.
+     * @param originalName the name of the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> you
+     *      *                     want to edit
+     * @param editedArtist the new version of the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a>
+     */
+    public void editArtist(String originalName, Artist editedArtist) {
+        Artist oldArtist = getArtist(originalName);
+
+        oldArtist.setName(editedArtist.getName());
+        oldArtist.setPicture(editedArtist.getPicture());
+        oldArtist.setSprite(editedArtist.getSprite());
+
+        this.artists.remove(originalName);
+        this.artists.put(oldArtist.getName(),oldArtist);
+    }
+
+    /**
      * Searches for an <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> was not found.
      * @param name  String representing the name of the Artist that is being requested.
-     * @return  <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> with the given name, returns
+     * @return <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> with the given name, returns
      * <code>null</code> if the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> was not found
      */
 
     public Artist getArtist(String name) {
         return this.artists.get(name);
     }
+
+
 
     /**
      * Returns a <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Set.html">Set</a> with all the
@@ -80,5 +105,15 @@ public class ArtistManager {
 
     public Set<String> getAllArtistNames() {
         return this.artists.keySet();
+    }
+
+    /**
+     * Getter with an <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html">ObservableList</a>
+     * that automatically updates when new <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a> are made.
+     * @return an <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html">ObservableList</a>
+     * that automatically updates when new <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artists</a> are made.
+     */
+    public ObservableList<String> getObservableArtistList() {
+        return this.observableArtistList;
     }
 }
