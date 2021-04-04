@@ -16,7 +16,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URI;
+
 import java.util.ResourceBundle;
 
 /**
@@ -44,6 +46,14 @@ public class CommonNodeRetriever {
             try {
                 java.awt.Desktop.getDesktop().browse(new URI("https://github.com/ZimonIsHim/FestivalPlannerSimA3"));
             } catch (Exception ex){
+                AbstractDialogPopUp.showExceptionPopUp(ex);
+            }
+        });
+
+        javaDocMenuItem.setOnAction(e -> {
+            try {
+                java.awt.Desktop.getDesktop().open(new File(CommonNodeRetriever.class.getResource("/JavaDoc/overview-summary.html").getPath()));
+            } catch (Exception ex) {
                 AbstractDialogPopUp.showExceptionPopUp(ex);
             }
         });
