@@ -57,10 +57,10 @@ public class AgendaCanvas {
      * <p>
      * Last action is calling the <code>draw()</code> method,
      * so the canvas will be drawn after initialising this <code>AgendaCanvas</code>.
-     * @param agenda  TODO: Write this
+     * @param agenda  the class that contains all the information about the shows.
      * @param width  sets <code>this.canvas.setWidth</code> to this value
      * @param height  sets <code>this.canvas.setHeight</code> to this value
-     * @param agendaModule  TODO: Write this
+     * @param agendaModule  the class responsible for the gui parts this class will be a part of.
      */
     private AgendaCanvas(Agenda agenda, double width, double height, AgendaModule agendaModule) {
         this.agendaModule = agendaModule;
@@ -269,7 +269,15 @@ public class AgendaCanvas {
 
     }
 
-    //TODO: Add documentation.
+    /**
+     * Checks if the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a>
+     * overlaps any of the other <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a>'s.
+     * @param mainRect the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> that
+     *                 will be compared to the other rectangles
+     * @return the area where the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a>
+     * overlaps with anothe <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">Rectangle2D</a> if
+     * it exists
+     */
     @Nullable
     private Area getIntersectArea(Rectangle2D mainRect) {
         for (ShowRectangle2D otherShowRect : this.showRectangles) {

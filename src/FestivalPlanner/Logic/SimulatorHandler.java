@@ -67,9 +67,9 @@ public class SimulatorHandler {
 
     /**
      * Top constructor for SimulatorHandler.
-     * @param agenda  TODO: Write this
-     * @param podiumManager  TODO: Write this
-     * @param artistManager  TODO: Write this
+     * @param agenda  a class containing all of the information about created shows
+     * @param podiumManager  the manager containing all the created podiums
+     * @param artistManager  the manager containing all the created Artists
      * @param tileMap  the TileMap to set <code>this.tileMap</code> to
      */
     public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArtistManager artistManager, TileMap tileMap) {
@@ -267,7 +267,7 @@ public class SimulatorHandler {
         }
     }
 
-    //TODO: Change spawn point.
+    //TODO: Change spawn point. Not necessary anymore.
     private void spawnAllArtistNPCs() {
         for (String artist : this.artistManager.getAllArtistNames()) {
             Artist currentArtist = this.artistManager.getArtist(artist);
@@ -345,7 +345,7 @@ public class SimulatorHandler {
             podium.setActive(false);
 
             for (NPC npc : this.npcList) {
-                if (npc.getTargetObject().equals(podium)) {
+                if (npc.getTargetObject() != null && npc.getTargetObject().equals(podium)) {
 
                     if (Math.random() < TOILET_CHANCE) {
                         for (SimulatorToilet toilet : this.simulatorToilets) {

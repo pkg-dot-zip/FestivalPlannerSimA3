@@ -50,7 +50,8 @@ public class MainGUI extends Application {
      * <code>this.simulatorModule</code> is <i>null</i>.
      * <p>
      * Else it calls the {@link SimulatorModule#resetHandler()} method.
-     * @param agendaModule TODO: Write this
+     * @param agendaModule the <a href="{@docRoot}/FestivalPlanner/GUI/AgendaGUI/AgendaModule.html">AgendaModule</a>
+     *                     that will be called back upon.
      */
     public void constructSimulatorCallBack(AgendaModule agendaModule) {
         if (this.simulatorModule == null) {

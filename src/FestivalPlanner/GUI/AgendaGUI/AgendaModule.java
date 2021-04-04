@@ -4,7 +4,7 @@ import FestivalPlanner.Agenda.*;
 import FestivalPlanner.GUI.AbstractGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.ArtistPopUp;
-import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopup;
+import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.PodiumPopUp;
 import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.GUI.PreferencesGUI;
@@ -13,8 +13,6 @@ import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import animatefx.animation.JackInTheBox;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -25,7 +23,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
@@ -93,7 +90,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * @param stage  will be stored
      *              as a parameter so this stage can be referenced as the owner of the sub stages
      *              <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Podium</a>
-     * @param mainGUI  TODO: Write this
+     * @param mainGUI  the parent class responsible for making switching to and from this scene in the GUI.
      */
     public AgendaModule(MainGUI mainGUI, Stage stage) {
         this.mainGUI = mainGUI;
@@ -269,7 +266,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * CallBack method to open <code>this.podiumCallBack</code>.
      */
     void podiumPopupCallBack() {
-        PodiumPopup podiumPopup = new PodiumPopup(this.stage, this.podiumManager);
+        PodiumPopUp podiumPopup = new PodiumPopUp(this.stage, this.podiumManager);
         podiumPopup.load(); //TODO: Refactor so this is one line.
     }
 
@@ -290,7 +287,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * @param selectedPodium  the <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a> that will be edited
      */
     void podiumPopupEditCallBack(Podium selectedPodium) {
-        PodiumPopup podiumPopup = new PodiumPopup(this.stage, this.podiumManager, selectedPodium);
+        PodiumPopUp podiumPopup = new PodiumPopUp(this.stage, this.podiumManager, selectedPodium);
         podiumPopup.load();
         this.agendaCanvas.reBuildAgendaCanvas();
     }
@@ -403,7 +400,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
 
     /**
      * Sets the <code>this.currentShow</code> attribute to the parameter's value.
-     * @param show  TODO: Write this
+     * @param show a class containing all the information about a show.
      */
     void setCurrentShow(Show show) {
         this.selectedShows.clear();

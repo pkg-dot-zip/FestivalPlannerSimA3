@@ -26,8 +26,8 @@ public class SimulatorPodium extends SimulatorObject{
      * @param height  the height of the object
      * @param rotation  the rotation of the podium
      * @param name  the name of the podium
-     * @param collisionLayer   TODO: Write this
-     * @param locationString   TODO: Write this
+     * @param collisionLayer   the Layer to base pathFinding on
+     * @param locationString   the name of the location the object is at
      */
     public SimulatorPodium(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer, String locationString) {
         super(location, width, height, rotation, name, collisionLayer, locationString);

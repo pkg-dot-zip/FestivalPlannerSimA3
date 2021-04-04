@@ -33,7 +33,7 @@ public class SimulatorObject {
      * @param rotation  the rotation of the object
      * @param name  the name of the object
      * @param collisionLayer  the Layer to base pathFinding on
-     * @param locationString  the location name the object is at
+     * @param locationString  the name of the location the object is at
      */
     SimulatorObject(Point2D location, int width, int height, double rotation, String name, TileLayer collisionLayer, String locationString) {
         this.location = location;

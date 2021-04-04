@@ -11,7 +11,12 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-//TODO: Add documentation.
+/**
+ * Responsible for the rectangles representing shows on the canvas. This class contains the code for drawing rectangles
+ * and stores the show as a single variable.
+ */
+
+//TODO description could be a lot better
 public class ShowRectangle2D {
 
     //LanguageHandling.
@@ -44,7 +49,7 @@ public class ShowRectangle2D {
      * Constructor for <code>ShowRectangle2D</code>.
      * @param rectangle  the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/geom/Rectangle2D.html">rectangle2D</a> that is given
      * @param show  the <a href="{@docRoot}/FestivalPlanner/Agenda/Show.html">Show</a> that this rectangle represents
-     * @param color  TODO: Write this
+     * @param color  the color the rectangles will be filled up with when drawn
      */
     public ShowRectangle2D(Rectangle2D rectangle, Show show, Color color) {
         this.rectangle = rectangle;

@@ -42,7 +42,7 @@ public class CommonNodeRetriever {
         //HelpMenu setOnAction Methods.
         gitHubMenuItem.setOnAction(e -> {
             try {
-                java.awt.Desktop.getDesktop().browse(new URI("https://github.com/ZimonIsHim/FestivalPlannerSimA3/tree/devAftermath"));
+                java.awt.Desktop.getDesktop().browse(new URI("https://github.com/ZimonIsHim/FestivalPlannerSimA3"));
             } catch (Exception ex){
                 AbstractDialogPopUp.showExceptionPopUp(ex);
             }
@@ -130,8 +130,10 @@ public class CommonNodeRetriever {
     /**
      * Creates a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
      * that contains the parts of the GUI responsible for selecting a podium for an event.
-     * @param artistVBox  TODO: Write this
-     * @param artistAtEventSetterVBox  TODO: Write this
+     * @param artistVBox  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+     *                    containing all the current artists.
+     * @param artistAtEventSetterVBox  a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a>
+     *                                 that contains tools to be able to set witch artists are at an event.
      * @return a <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/VBox.html">VBox</a> with
      * the parts of the GUI responsible for selecting a podium for an event
      */

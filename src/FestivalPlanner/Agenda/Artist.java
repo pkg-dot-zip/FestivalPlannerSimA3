@@ -83,7 +83,7 @@ public class Artist implements Serializable {
     /**
      * Writes the sprite and image of this artist to the saveFile.
      * @param out  the stream the images needs to be written to
-     * @throws IOException TODO: Write this
+     * @throws IOException if I/O errors occur while trying to write the images
      */
     //TODO: Separate agenda resources from other agendas to avoid overriding files.
     private void writeObject(ObjectOutputStream out) throws IOException {
@@ -110,8 +110,8 @@ public class Artist implements Serializable {
     /**
      * Reads the sprite and image of the artist to the save file.
      * @param in  the stream used to read the class
-     * @throws IOException TODO: Write this
-     * @throws ClassNotFoundException TODO: Write this
+     * @throws IOException if an I/O error occurs.
+     * @throws ClassNotFoundException ff the class of a serialized object could not be found.
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
