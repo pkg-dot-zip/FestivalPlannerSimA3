@@ -241,7 +241,7 @@ public class SimulatorHandler {
     }
 
     /**
-     * Creates a new <a href="{@docRoot}/FestivalPlanner/NPC/NPC.html">NPC</a> at a rondom location at <code>this.spawn</code>.
+     * Creates a new <a href="{@docRoot}/FestivalPlanner/NPC/NPC.html">NPC</a> at a random location at <code>this.spawn</code>.
      */
     private void spawnNPC() {
         Random r = new Random();

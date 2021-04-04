@@ -17,7 +17,7 @@ Hiernaast komt er na de bovenstaande onderdelen een reflectie op de volgende ste
 bedrijfsleven wordt gebruik gemaakt van JavaFX".
 
 Tot slot volgt er een lijst met applicaties die gebruik maken van het JSON formaat. Inclusief een 
-toelichting waarom ik denk dat JSON wordt gebruikt.
+toelichting waarom ik denk dat JSON in de benoemde gevallen wordt gebruikt.
 
 ---
 # Week 3
@@ -207,19 +207,196 @@ Hieronder is een demonstratie te zien van het navigeren over de tilemap.
 ---
 # Week 6
 ### Procesreflectie
+Aan het begin van de vergadering gaf Berend aan dat hij wat minder aanwezig zou zijn bij projectwerk vanwege privéomstandigheden. Als evaluator vind ik niet dat dit slechte gevolgen heeft voor het project. Het werk van Berend was de 
+afgelopen weken namelijk niet zo goed uitgebalanceerd. Het is in mijn ogen dus niet erg voor het project dat hij nu wat minder beschikbaar is.
+
+Deze week stond verder in het teken van pathfinding; de NPC's (bezoekers) moeten over de paden de snelste weg naar een doel locatie kunnen vinden. Ik vond dat ik de afgelopen weken niet al te veel aan code in het programma geschreven had 
+en ik heb dus voorafgaand aan het plannen aangegeven dat ik wel bereid was om wat meer werk op mezelf te nemen. <br>
+Deze week heb ik mij, naast het oplossen van wat andere bugs, vooral bezig gehouden met het implementeren van de pathfinding voor NPC's samen met Jason en Jesse.
+
+### Vakinhoudelijke reflectie
+Ik heb niet het grootste deel geschreven aan code voor pathfinding, dat deed Jesse samen met Jason. Ik ben vooral bezig geweest met het goed uitlezen van de tilemaps. Met de tilemap komt namelijk een pathlayer mee. Deze pathlayer beschrijft 
+waar de paden zijn op de tilemap. Over deze layer moeten dus locaties kunnen worden opgevraagd. Deze functie heb ik geïmplementeerd in de TileMap klasse.
+
+Verder heb ik geholpen met de kern methode van de pathfinding. Deze staat hieronder beschreven.
+
+    public Point2D getNextDirection(Point2D currentPoint) {
+        Point toPoint = this.pathMap[(int)Math.floor(currentPoint.getY() / collisionLayer.getTileHeight())][(int)Math.floor(currentPoint.getX() / collisionLayer.getTileWidth())];
+        if (toPoint == null) {
+            toPoint = this.pathMap[(int)Math.floor(this.location.getX() / collisionLayer.getTileWidth())]
+                    [(int)Math.floor(this.location.getY() / collisionLayer.getTileHeight())];
+        }
+
+        return new Point2D.Double(toPoint.x, toPoint.y);
+    }
+
+Deze methode geeft het volgende punt op de tilemap aan een NPC waar deze naartoe moet lopen. Deze methode wordt dus iedere stap aangeroepen. Dit zorgt ervoor dat de NPC's het kortste pad kiezen naar hun `targetObject`.
+
+Als laatste heb ik gekeken naar optimalisaties bij het lopen van de NPC's. Dit heb ik samen met Max gedaan door middel van een stresstest. We hebben de collision uitgezet en gekeken hoeveel NPC's we konden laten lopen tegelijk.
+Bij het testen hiervan waren we positief verrast over het aantal NPC's dat tegelijk kan lopen. De tilemap zit eerder vol dan dat je performance issues ervaart. Wel kwamen we erachter dat het opstarten, naarmate er meer NPC's werden
+gespawned, steeds langer duurde. In de onderstaande afbeelding is te zien dat het erg veel RAM geheugen kost om een groot aantal NPC's te laden.
+
+![](Images/NPCerror.png)
+
+Later zijn we er in het senior gesprek achtergekomen dat dit kwam doordat de sprites (afbeeldingen) van de NPC's iedere keer opnieuw werden geladen. Ik ben van plan dit op te lossen door het inladen van de sprites te verplaatsen
+naar een statische klasse en dit dus maar één keer te doen en vervolgens door te verwijzen naar de ingeladen afbeelding.
+
+---
+# Week 7
+### Procesreflectie
+Deze week was het tutorgesprek niet verplicht. Deze hebben we daarentegen wel zelfstandig gevoerd en daar ben ik blij mee. Dit zorgt ervoor dat iedereen de juiste focus vasthoudt, op de hoogte is en goed aan de slag kan. <br>
+Allereerst moest het PVA ingeleverd worden dus dit hebben we direct na de vergadering doorgelezen en hier heb ik nog wat verbeteringen bij aangebracht. 
+
+Verder had deze week een aantal taken gekregen tijdens de planning. Op dit punt spawnden de NPC's op willekeurige plekken over de hele tilemap. Dit moest gebeuren bij de ingang. Het was mijn taak om ervoor te zorgen dat de bezoekers 
+bij de ingang verschijnen, maar niet allemaal op exact dezelfde plek. Ook moest ik nog het vastgestelde probleem oplossen van het inladen van de sprites. Dit is ook bij de vergadering besproken en ik heb de taak gekregen om dit te regelen.
+
+Achteraf was het laatste veel meer werk dan gedacht. Ik heb het uiteindelijk wel in mijn eentje kunnen regelen maar met meer pijn en moeite dan ik gewild zou hebben. Dit had ik liever samen met iemand gedaan.
+
+### Vakinhoudelijke reflectie
+##### NPC spawn
+Het spawnen van de NPC's heb ik opgelost door het spawnen op te splitsen in twee methoden.
+
+    private void setupNPC(double timePast) {
+
+        this.currentNPCSpawnTime -= timePast;
+
+        if (this.currentNPCSpawnTime < 0) {
+            if (this.npcList.size() < this.NPCAmount) {
+                spawnNPC();
+            }
+            this.currentNPCSpawnTime = this.NPC_SPAWN_TIME;
+        }
+
+    }
+
+Hierboven staat de eerste methode `setupNPC`. Deze wacht tot de spawntime voorbij is en als er nog niet voldoende NPC's zijn, roept deze de methode `spawnNPC` aan. Deze staat hieronder beschreven.
+
+    private void spawnNPC() {
+        Random r = new Random();
+        Point2D location = new Point2D.Double(this.spawn.location.getX() + Math.random() * this.spawn.width, this.spawn.location.getY() + Math.random() * this.spawn.height);
+        NPC npc = new NPC(location, r.nextInt(NPC.getCharacterFiles()));
+        npc.setGameSpeed(this.speed);
+        if (!npc.checkCollision(this.allNPCList)) {
+            this.npcList.add(npc);
+            this.allNPCList.add(npc);
+        }
+    }
+
+Deze methode doet het meeste werk. Eerst wordt de locatie bepaald. Deze is op een random locatie binnen de uitgelezen spawn. Voordat ik dit kon doen, moest ik eerst in de tilemap aangeven waar de spawn was
+en hier een layer van maken. Als de locatie verkregen is, wordt er een nieuwe NPC aangemaakt. Deze krijgt de locatie mee en een random sprite. Vervolgens krijgt de NPC een snelheid meegegeven en de NPC wordt 
+toegevoegd als deze niet in de weg staat bij anderen. Achteraf gezien is het misschien niet heel efficiënt om deze collision check als laatst te doen.
+
+Het kostte mij niet al te veel moeite om dit in mijn eentje op te lossen en ik ben ook blij met de manier waarop ik het heb aangepakt.
+
+##### Sprite Images laden
+Mijn andere taak was om ervoor te zorgen dat de sprites niet steeds opnieuw geladen moesten worden. Dit heb ik als volgt aangepakt.
+
+Ik heb de klasse ImageLoader aangemaakt. Deze heeft de volgende statische methode.
+
+    public static void loadImages() {
+        for (int i = 0, characterFilesLength = characterFiles.length; i < characterFilesLength; i++) {
+            String characterFile = characterFiles[i];
+
+            ArrayList<ArrayList<BufferedImage>> allFourSpriteSheets = new ArrayList<>(4);
+
+            try {
+                BufferedImage image = ImageIO.read(ImageLoader.class.getResourceAsStream("/characters/" + characterFile + ".png"));
+
+                //Initialise values.
+                ArrayList<BufferedImage> spritesLeft = new ArrayList<>(4);
+                ArrayList<BufferedImage> spritesDown = new ArrayList<>(4);
+                ArrayList<BufferedImage> spritesUp = new ArrayList<>(4);
+                ArrayList<BufferedImage> spritesRight = new ArrayList<>(4);
+
+                //Calculate width and height per sprite / tile.
+                int width = image.getWidth() / npcTileX;
+                int height = image.getHeight() / npcTileY;
+
+                //Split up the images.
+                splitImages(image, spritesLeft, 0, width, height);
+                splitImages(image, spritesDown, 1, width, height);
+                splitImages(image, spritesUp, 2, width, height);
+                splitImages(image, spritesRight, 3, width, height);
+
+                //Add the images to the ArrayList.
+                allFourSpriteSheets.add(spritesLeft);
+                allFourSpriteSheets.add(spritesDown);
+                allFourSpriteSheets.add(spritesUp);
+                allFourSpriteSheets.add(spritesRight);
+
+                lists[i] = allFourSpriteSheets;
+            } catch (IOException e) {
+                AbstractDialogPopUp.showExceptionPopUp(e);
+            }
+        }
+    }
+
+Het moeilijke aan dit probleem was het feit dat er vier ArrayLists gemaakt moesten worden. De rede dat het langer duurde dan ik had gewild was dat doordat ik moest eindigen met vier lijsten van vier spritesheets. Dit maakte het zo ingewikkeld voor mij 
+dat het probleem lastig te overzien was. In mijn ogen is er achteraf gezien geen andere of betere manier om het door mij gestelde doel te bereiken.
+
+De volgende keer kan ik in ieder geval twee dingen anders doen. Ten eerste, zoals ik al eerder vermeld had, was het beter als ik hier met iemand anders aan gewerkt had. Dit zorgt ervoor dat ik het overzicht beter had kunnen bewaren en samen een beter
+plan had kunnen uitdenken. Het gaat natuurlijk niet altijd het geval zijn dat ik de hulp van iemand anders kan inroepen om een functie te bouwen. Daarom is het tweede verbeterpunt het uitwerken van een plan vooraf. Ik weet van mijzelf bij andere dingen dat ik 
+er baat bij heb als ik voor het uitvoeren een plan bedenk en dat uit ga werken op papier of digitaal. Hierdoor bewaar ik makkelijker het overzicht. Zo'n plan had ik hier ook beter op kunnen stellen en uit kunnen werken in bijvoorbeeld Visual Paradigm.
+
+De klasse heeft verder de methode splitImages en getLists, maar omdat ik aan splitImages niks veranderd heb en getLists automatisch te genereren is, verwerk ik deze niet verder in mijn reflectie. <br>
+
+---
+# Stelling: "In het bedrijfsleven wordt gebruik gemaakt van JavaFx"
+Het is uiteraard onbetwistbaar dat deze stelling waar is. JavaFx wordt namelijk gebruikt in het bedrijfsleven, dat is een simpel antwoord. <br>
+Gelukkig kunnen we op deze stelling ook een genuanceerder antwoord geven. We kunnen namelijk antwoord geven op de volgende vragen.
+
+### Is JavaFx populair in het bedrijfsleven?
+Er is één ding zeker over deze vraag, het is namelijk niet het populairste UI framework. Swing is een veel populairder framework dan JavaFx maar dat wil niet zeggen dat Swing altijd beter is. Swing wordt vaker gebruikt en wordt ook ondersteund door meer Java
+versies dan JavaFx. Ook is Swing erg snel en veel mensen zijn er fan van. Daarentegen vinden mensen JavaFx over het algemeen makkelijker om te leren. Het grote voordeel is dat deze twee frameworks te combineren zijn als er de juiste Java versie wordt gebruikt.
+Dit is dus volgens veel mensen om desktop programming te doen. Over web programming hebben we het in deze reflectie niet omdat dit niet gedaan kan worden met JavaFx.
+
+Hoe populair het framework is, is dus lastig te zeggen. Onder [deze](https://jaxenter.com/20-javafx-real-world-applications-123653.html) link is een lijst met JavaFx programma's te vinden. Dit kan een beter idee geven van de populariteit.
 
 
 
 
+### Wat zijn de meningen over JavaFx?
+Zoals te verwachten, zijn de meningen erg verdeeld. Sommige mensen vinden dat JavaFx een uitgestorven framework is en de industrie niet gehaald heeft. Dit komt vaak doordat de ontwikkeling van JavaFx lang heeft geduurd en omdat de uiteindelijke versie niet helemaal
+aan de gegeven beloftes voldoet. Aan de andere kant zijn mensen helemaal weg van JavaFx, het is gemakkelijk te leren, werkt op desktop op zowel Windows als op Mac en Linux en het is ook nog eens te combineren met Swing. <br>
+Het is dus duidleijk dat de meningen er behoorlijk over verschillen. Wel is het een feit dat, wat je mening over JavaFx ook is, er zijn absoluut succesvolle programma's geschreven met JavaFx. 
 
+---
+# JSON
+Hier volgt een lijst met applicaties die gebruik maken van het JSON formaat, inclusief onderbouwing waarom deze het JSON formaat gebruiken.
 
+#### Google Maps
+De Google Maps API maakt gebruik van het .json formaat om bijvoorbeeld markers op te slaan. Het .json bestand ziet er als volgt uit.
 
+````java
+{
+  "markers": [
+    {
+      "name": "Rixos The Palm Dubai",
+      "position": [25.1212, 55.1535],
+    },
+    {
+      "name": "Shangri-La Hotel",
+      "location": [25.2084, 55.2719]
+    },
+    {
+      "name": "Grand Hyatt",
+      "location": [25.2285, 55.3273]
+    }
+  ]
+}
+````
 
+Ik denk dat Google Maps voor dit doeleinde JSON bestanden gebruikt om twee redenen. De eerste rede is dat het makkelijk is om met dit soort bestanden te werken. Ze zijn makkelijk om te genereren, bewerken en op te slaan. Ideaal voor een database of API.
+De andere rede is dat deze .json bestanden makkelijk te verwerken zijn in een HTML script.
 
+### YouTube
+Een groot deel van de data(op de video's zelf na) die opgeslagen wordt door YouTube, wordt opgeslagen in JSON files. Dit komt doordat YouTube helemaal geen ingewikkelde data gebruikt. Waar het hier om gaat zijn search queries, id's en tags. De manier waarop
+JSON om kan gaan met dit soort data is ideaal voor YouTube.
 
-<br>
-<br>
-<br>
+### Tiled
+Deze hoort uiteraard ook in de lijst. Tiled maakt intensief gebruik van het JSON formaat om tilemaps op te slaan. Het programma kan haar tilemaps ook in andere formaten opslaan zoals .xml maar er is een goede rede dat JSON een optie is.
+Deze rede zijn wij natuurlijk zelf. Het is ons gelukt om een tilemap te laden vanuit een JSON bestand en hier allerlei gave dingen mee te doen. 
+
 
 
 
