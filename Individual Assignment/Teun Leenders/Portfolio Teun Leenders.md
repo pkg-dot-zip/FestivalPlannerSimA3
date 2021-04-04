@@ -2,7 +2,7 @@
 ### Teun Leenders 2171232 TI 1.3 A3
 
 Alle ervaringen, meningen en standpunten in dit bestand zijn, waarbij niet anders vermeld, van de
-auteur Teun Leenders. Dit portfolio bevat een wekelijkse reflectie van week 3 t/m 9 over mijn 
+auteur Teun Leenders. Dit portfolio bevat een wekelijkse reflectie van week 3 t/m 7 over mijn 
 bijdrage aan de proftaak en de procesontwikkelingen hierbij. <br>
 Verder komt er bij deze reflectie op het proces ook een reflectie op mijn technische en 
 vakinhoudelijke bijdrage. <br> 
@@ -140,11 +140,69 @@ Voorlopig kunnen we hier wel goed mee vooruit dus ik ben redelijk tevreden.
 ---
 # Week 5
 ### Procesreflectie
+Deze week begonnen we met het gezamelijk doornemen van de documentatie van het project. Berend had namelijk een aantal stukken belangrijke code 
+geschreven waar iedereen van op de hoogte gebracht moest worden. Dit is verder goed verlopen en het is goed om te weten dat iedereen nu weet hoe
+de code van het programma globaal in elkaar zit. Hierna was het eindelijk tijd om aan de simulator te beginnen. Het plan was er, er was al wat 
+backend code geschreven dus we waren er klaar voor. Deze week hadden Jesse en ik een vergelijkbare taak gekregen met onze taak van week 3. De tilemap
+kon namelijk al getekend worden maar hier kon nog niet over genavigeerd worden. Onze taak was dus het inzoomen, panning (horizontaal scrollen) en 
+de camera over de tilemap laten bewegen. Het was goed om dit samen met Jesse te doen, de techniek hierachter was namelijk niet heel anders dan wat we 
+in week 3 al geleerd hadden. 
 
-   
+### Vakinhoudelijke reflectie
+Voor Jesse en mij was dit een vervolg op de uitdaging die we twee weken geleden hadden. Het navigeren over een Canvas. Dat ging dit keer ook een stuk 
+soepeler dan de eerste keer natuurlijk. 
 
- 
-      
+We begonnen met dezelfde `cameraInBounds` methode die we de vorige keer gebruikten. Deze methode hebben we wel wat aangepast om het zoomen te verbeteren.
+
+    private boolean cameraInBounds(AffineTransform transform) {
+        return ((this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() <= 1 &&
+                (this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() >= -((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX())) &&
+                (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() <= 1 &&
+                (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() >= -((this.endY - this.startY) - (this.canvas.getHeight() / this.cameraTransform.getScaleY())) &&
+                (this.cameraTransform.getScaleX() * transform.getScaleX()) < 4 &&
+                (this.cameraTransform.getScaleX() * transform.getScaleX()) > 0.5
+        );
+    }
+
+Verder hebben wij het scrollen geïmplementeerd door middel van een switch case. Ik weet dat het vaak niet slim is om een switch case te gebruiken maar voor dit geval leek dit mij de meest efficïente manier.
+De methode staat hieronder beschreven.
+
+    private void onWASD(KeyEvent keyEvent) {
+        double verticalPixels = 0;
+        double horizontalPixels = 0;
+
+        switch (keyEvent.getCode()) {
+            case UP:
+            case W:
+                verticalPixels = CAMERA_SPEED;
+                break;
+            case LEFT:
+            case A:
+                horizontalPixels = CAMERA_SPEED;
+                break;
+            case DOWN:
+            case S:
+                verticalPixels = -CAMERA_SPEED;
+                break;
+            case RIGHT:
+            case D:
+                horizontalPixels = -CAMERA_SPEED;
+                break;
+        }
+
+        AffineTransform transform = new AffineTransform();
+        transform.translate(horizontalPixels, verticalPixels);
+
+        this.cameraTransform.translate(horizontalPixels, verticalPixels);
+    }
+    
+Deze methode maakt het mogelijk om met de knoppen W, A, S en D te navigeren over de tilemap. Het enige wat hierbij niet is gelukt is het diagonaal over de tilemap bewegen. Dit komt doordat dit in de switch case juist lastig 
+te realiseren is. De oplossing hiervoor blijft dus voorlopig het snel indrukken van twee verschillende knoppen. <br>
+Hiernaast hebben we ook nog de mogelijkheid toegevoegd om met de muis de tilemap over het scherm te slepen. Hiervoor gebruikten we dezelfde techniek als we bij 2dGraphics geleerd hebben, dit is dus voor dit project niet heel interessant.
+Het inzoomen hebben we verder op dezelfde manier gedaan als bij het `AgendaCanvas` alleen nu over beide assen tegelijk.<br>
+Hieronder is een demonstratie te zien van het navigeren over de tilemap.
+
+![](Images/canvasNavigationDemo.gif)
 
 
 
@@ -154,27 +212,10 @@ Voorlopig kunnen we hier wel goed mee vooruit dus ik ben redelijk tevreden.
 
 
 
+<br>
+<br>
+<br>
 
 
-
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
 
