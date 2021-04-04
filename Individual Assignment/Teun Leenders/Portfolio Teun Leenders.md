@@ -204,6 +204,11 @@ Hieronder is een demonstratie te zien van het navigeren over de tilemap.
 
 ![](Images/canvasNavigationDemo.gif)
 
+---
+# Week 6
+### Procesreflectie
+
+
 
 
 
