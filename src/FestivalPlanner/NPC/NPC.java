@@ -154,7 +154,6 @@ public class NPC {
         otherNPC.position = new Point2D.Double(this.position.getX() - ((this.COLLISION_RADIUS) * xFactor),
                 this.position.getY() - ((this.COLLISION_RADIUS) * yFactor)
         );
-        
 
     }
 
