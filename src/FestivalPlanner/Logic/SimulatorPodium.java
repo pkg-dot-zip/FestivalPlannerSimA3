@@ -69,18 +69,18 @@ public class SimulatorPodium extends SimulatorObject{
 
     @Override
     public void debugDraw(Graphics2D g2d) {
-        Point[][] map = this.pathMap;
-        for (int y = 0; y < map.length; y++) {
-            Point[] points = map[y];
-            for (int x = 0; x < points.length; x++) {
-                Point point = points[x];
-                if (point != null) {
-                    g2d.setColor(Color.black);
-                    g2d.drawLine(x * 16 + 8, y * 16 + 8, point.x, point.y);
-                    g2d.setColor(Color.white);
-                }
-            }
-        }
+//        Point[][] map = this.pathMap;
+//        for (int y = 0; y < map.length; y++) {
+//            Point[] points = map[y];
+//            for (int x = 0; x < points.length; x++) {
+//                Point point = points[x];
+//                if (point != null) {
+//                    g2d.setColor(Color.black);
+//                    g2d.drawLine(x * 16 + 8, y * 16 + 8, point.x, point.y);
+//                    g2d.setColor(Color.white);
+//                }
+//            }
+//        }
     }
 
     private double activeAnimationTimer = 0.5;

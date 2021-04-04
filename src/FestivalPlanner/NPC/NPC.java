@@ -229,7 +229,7 @@ public class NPC {
         //Draws the NPC-sprite on the canvas.
         drawImage(g2d, listOfDirection(), tx);
         //Draws a circle (resembling the collider), and a line (from the current position to the destination).
-        debugDraw(g2d);
+        //debugDraw(g2d);
     }
 
     /**
