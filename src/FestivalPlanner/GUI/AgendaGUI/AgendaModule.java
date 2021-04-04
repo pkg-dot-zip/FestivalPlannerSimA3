@@ -266,8 +266,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * CallBack method to open <code>this.podiumCallBack</code>.
      */
     void podiumPopupCallBack() {
-        PodiumPopUp podiumPopup = new PodiumPopUp(this.stage, this.podiumManager);
-        podiumPopup.load(); //TODO: Refactor so this is one line.
+        new PodiumPopUp(this.stage, this.podiumManager).load();
     }
 
     /**
@@ -276,8 +275,7 @@ public class AgendaModule extends AbstractGUI implements Serializable {
      * @param selectedArtist  the <a href="{@docRoot}/FestivalPlanner/Agenda/Artist.html">Artist</a> that will be edited
      */
     void artistPopupEditCallBack(Artist selectedArtist) {
-        ArtistPopUp artistPopUp = new ArtistPopUp(this.stage, this.artistManager, selectedArtist);
-        artistPopUp.load(); //TODO: Refactor so this is one line.
+        new ArtistPopUp(this.stage, this.artistManager, selectedArtist).load();
         this.agendaCanvas.reBuildAgendaCanvas();
     }
 

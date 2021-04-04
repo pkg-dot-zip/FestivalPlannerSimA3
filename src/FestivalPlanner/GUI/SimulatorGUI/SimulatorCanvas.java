@@ -41,11 +41,9 @@ public class SimulatorCanvas extends AbstractGUI {
         private double canvasWidth;
         private double canvasHeight;
 
-
-        //Todo: remember to remove when loading maps is implemented
         //TESTING PURPOSES
         private JsonConverter converter = new JsonConverter();
-        private TileMap tileMap = converter.JSONToTileMap("/testMap.json");
+        private final TileMap tileMap = converter.JSONToTileMap("/testMap.json");
 
     /**
      * Constructor for SimulatorCanvas
@@ -209,15 +207,14 @@ public class SimulatorCanvas extends AbstractGUI {
      */
     private void onMousePressed(MouseEvent mouseEvent) {
 
-        //Todo: Only for debugging NPC, needs to be removed when done.
-        if(mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
-            Point2D canvasPoint = getCanvasPoint(new Point2D.Double(mouseEvent.getX(), mouseEvent.getY()));
-            for (NPC npc : this.simulatorHandler.getNpcList()) {
-                npc.setTarget(canvasPoint);
-            }
-        } else {
+//        if(mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+//            Point2D canvasPoint = getCanvasPoint(new Point2D.Double(mouseEvent.getX(), mouseEvent.getY()));
+//            for (NPC npc : this.simulatorHandler.getNpcList()) {
+//                npc.setTarget(canvasPoint);
+//            }
+//        } else {
             dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
-        }
+        //}
 
     }
 
@@ -276,20 +273,4 @@ public class SimulatorCanvas extends AbstractGUI {
         );
     }
 
-    //@Todo remove when the new bounds option works correct
-//    /**
-//     * Calculates if the given translate will fit within the set bounds.
-//     * <p>
-//     * Currently only works on translations, scale not yet implemented.
-//     * @return  true if the given translate is in bounds
-//     */
-//    private boolean cameraInBounds(AffineTransform transform) {
-//        return ((this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() <= 1 &&
-//                (this.cameraTransform.getTranslateX() + transform.getTranslateX()) / this.cameraTransform.getScaleX() >= -((this.endX - this.startX) - (this.canvas.getWidth() / this.cameraTransform.getScaleX())) &&
-//                (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() <= 1 &&
-//                (this.cameraTransform.getTranslateY() + transform.getTranslateY()) / this.cameraTransform.getScaleY() >= -((this.endY - this.startY) - (this.canvas.getHeight() / this.cameraTransform.getScaleY())) &&
-//                (this.cameraTransform.getScaleX() * transform.getScaleX()) < 4 &&
-//                (this.cameraTransform.getScaleX() * transform.getScaleX()) > 0.5
-//        );
-//    }
 }

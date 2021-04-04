@@ -58,7 +58,6 @@ public class SimulatorHandler {
     private boolean paused = false;
 
     public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArtistManager artistManager) {
-        //Todo: remember to remove when loading maps is implemented
         this(agenda, podiumManager, artistManager, new JsonConverter().JSONToTileMap("/testMap.json"));
     }
 
@@ -190,7 +189,6 @@ public class SimulatorHandler {
             npc.draw(g2d);
         }
 
-        //Todo: remove bc debug
         g2d.setColor(Color.black);
     }
 
@@ -256,7 +254,6 @@ public class SimulatorHandler {
         }
     }
 
-    //TODO: Change spawn point. Not necessary anymore.
     private void spawnAllArtistNPCs() {
         for (String artist : this.artistManager.getAllArtistNames()) {
             Artist currentArtist = this.artistManager.getArtist(artist);

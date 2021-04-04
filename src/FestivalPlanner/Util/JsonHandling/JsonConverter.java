@@ -171,7 +171,6 @@ public class JsonConverter {
 
                 int tileWidth = tileSet.getInt("tilewidth");
                 int tileHeight = tileSet.getInt("tileheight");
-                int collums = tileSet.getInt("columns"); //TODO: Remove this if this will never be used.
 
                 //Loading image in tileSet.
                 BufferedImage tileImage = ImageIO.read(getClass().getResourceAsStream(tileSet.getString("image")));

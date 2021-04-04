@@ -19,7 +19,12 @@ import java.util.ResourceBundle;
 /**
  * Contains all elements and methods seen in used in the artist and podium creation/removal window.
  * <p>
- * //TODO: More detailed description.
+ *     Contains:
+ * <ul>
+ *     <li>Two comboboxes that show all the available artists and podiums.</li>
+ *     <li>Buttons to create a new Podium or Artist.</li>
+ *     <li>Buttons to edit the selected Podium or Artist</li>
+ * </ul>
  */
 public class ArtistAndPodiumEditorGUI extends AbstractGUI {
 

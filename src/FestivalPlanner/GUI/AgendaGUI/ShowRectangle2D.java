@@ -14,9 +14,10 @@ import java.util.ResourceBundle;
 /**
  * Responsible for the rectangles representing shows on the canvas. This class contains the code for drawing rectangles
  * and stores the show as a single variable.
+ * <p>
+ * This show contains a Rectangle2D. This rectangle represents a show on the timeline Canvas given to draw it on.
+ * Inside the rectangle text is drawn. This text shows the name and the artist of the show this rectangle represents.
  */
-
-//TODO description could be a lot better
 public class ShowRectangle2D {
 
     //LanguageHandling.

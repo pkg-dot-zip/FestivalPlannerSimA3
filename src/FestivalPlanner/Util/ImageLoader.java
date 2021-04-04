@@ -87,7 +87,6 @@ public class ImageLoader {
         }
     }
 
-    //TODO: Make something that works with all type of sheets.
     private static void splitImages(BufferedImage image, ArrayList<BufferedImage> list, int x, int width, int height){
         int xToSplit = x * width;
         list.add(image.getSubimage(xToSplit, 0, width, height));

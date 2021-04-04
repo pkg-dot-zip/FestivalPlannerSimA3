@@ -71,12 +71,12 @@ public class TimeEditGUI extends AbstractEditGUI {
     public void actionHandlingSetup() {
         genericActionHandlingSetup();
 
-        this.x025Button.setOnAction(e -> addTime(0.25));
-        this.x033Button.setOnAction(e -> addTime(0.33));
-        this.x050Button.setOnAction(e -> addTime(0.5));
-        this.x125Button.setOnAction(e -> addTime(1.25));
-        this.x15Button.setOnAction(e -> addTime(1.5));
-        this.x2Button.setOnAction(e -> addTime(2.0));
+        this.x025Button.setOnAction(e -> setSpeedValue(0.25));
+        this.x033Button.setOnAction(e -> setSpeedValue(0.33));
+        this.x050Button.setOnAction(e -> setSpeedValue(0.5));
+        this.x125Button.setOnAction(e -> setSpeedValue(1.25));
+        this.x15Button.setOnAction(e -> setSpeedValue(1.5));
+        this.x2Button.setOnAction(e -> setSpeedValue(2.0));
 
         //Pause button.
         this.pauseButton.setOnAction(e -> {
@@ -84,8 +84,7 @@ public class TimeEditGUI extends AbstractEditGUI {
         });
     }
 
-    //TODO: Rename if this doesn't add time, but changes the speed instead.
-    private void addTime(double factor) {
+    private void setSpeedValue(double factor) {
         this.speed *= factor;
 
         if (this.speed >= 300)

@@ -15,7 +15,7 @@ public class TileManager {
      */
     public TileManager() {
         this(new HashMap<>());
-    } //TODO: Remove this and initialise attribute at the top of the class.
+    }
 
     /**
      * Constructor for TileManager.

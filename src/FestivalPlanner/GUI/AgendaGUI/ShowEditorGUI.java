@@ -21,7 +21,15 @@ import java.util.ResourceBundle;
 /**
  * Contains all elements and methods seen and used in the edit window of the GUI.
  * <p>
- * //TODO: More detailed description.
+ * Contains all the items needed for a Show and a item to enter these values. These are:
+ * <ul>
+ *     <li>Starttime selector</li>
+ *     <li>Endtime selector</li>
+ *     <li>popularity slider</li>
+ *     <li>Name textField</li>
+ *     <li>Artist selector</li>
+ *     <li>podium selector</li>
+ * </ul>
  */
 public class ShowEditorGUI extends AbstractGUI {
 
