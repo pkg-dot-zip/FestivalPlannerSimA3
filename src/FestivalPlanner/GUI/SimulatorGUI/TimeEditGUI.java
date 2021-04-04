@@ -80,8 +80,8 @@ public class TimeEditGUI extends AbstractEditGUI {
     private void addTime(double factor) {
         this.speed *= factor;
 
-        if (this.speed >= 1000)
-            this.speed = 1000;
+        if (this.speed >= 300)
+            this.speed = 300;
         
         currentSpeedLabel.setText(messages.getString("current_speed") + " " + this.speed + " game s/s");
     }
