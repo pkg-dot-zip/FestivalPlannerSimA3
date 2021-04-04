@@ -14,9 +14,9 @@ import java.util.ResourceBundle;
 /**
  * Contains a PopUp used for creating a new <a href="{@docRoot}/FestivalPlanner/Agenda/Podium.html">Podium</a>.
  */
-public class PodiumPopup extends AbstractCreationPopUp{
+public class PodiumPopUp extends AbstractCreationPopUp{
 
-	//TODO: Rename this since I made a typo; PodiumPopup -> PodiumPopUp
+	//TODO: Rename this since I made a typo; PodiumPopUp -> PodiumPopUp
 
 	//LanguageHandling.
 	private ResourceBundle messages = LanguageHandler.getMessages();
@@ -37,7 +37,7 @@ public class PodiumPopup extends AbstractCreationPopUp{
 	 * @param primaryStage  the stage that will become the owner of this stage
 	 * @param podiumManager  this class has a method that needs to be called after the list has been updated
 	 */
-	public PodiumPopup(Stage primaryStage, PodiumManager podiumManager) {
+	public PodiumPopUp(Stage primaryStage, PodiumManager podiumManager) {
 		super(primaryStage);
 		this.podiumManager = podiumManager;
 		this.selectedPodium = null;
@@ -49,7 +49,7 @@ public class PodiumPopup extends AbstractCreationPopUp{
 	 * @param podiumManager  this class has a method that needs to be called after the list has been updated
 	 * @param selectedPodium  the podium that the user selected to edit.
 	 */
-	public PodiumPopup(Stage primaryStage, PodiumManager podiumManager, Podium selectedPodium) {
+	public PodiumPopUp(Stage primaryStage, PodiumManager podiumManager, Podium selectedPodium) {
 		super(primaryStage);
 		this.podiumManager = podiumManager;
 		this.selectedPodium = selectedPodium;
