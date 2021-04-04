@@ -8,6 +8,7 @@ import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -39,6 +40,7 @@ public class SimulatorModule extends AbstractGUI {
     private SimulatorCanvas simulatorCanvas;
     private BorderPane mainPane = new BorderPane();
     private VBox topVBox = new VBox();
+    private VBox rightVBox = new VBox();
     private HBox toggleHBox = new HBox();
 
     //Ux Items.
@@ -65,7 +67,8 @@ public class SimulatorModule extends AbstractGUI {
     private Button agendaButton = new Button(messages.getString("agenda"));
     private Button simulatorButton = new Button(messages.getString("simulator"));
 
-
+    //Active Shows.
+    private Label activeShowsLabel = new Label(messages.getString("active_shows"));
     private ListView<String> listView;
 
     /**
@@ -101,26 +104,26 @@ public class SimulatorModule extends AbstractGUI {
         this.toggleHBox.setAlignment(Pos.CENTER);
         this.toggleHBox.setSpacing(HBOX_SPACING);
         this.timeLabel.setFont(new Font(16));
+        this.activeShowsLabel.setAlignment(Pos.TOP_CENTER);
+            //Right VBox.
+        this.rightVBox.setMinHeight(700);
+        this.rightVBox.setMinWidth(50);
+        this.rightVBox.setMaxWidth(150);
+        this.rightVBox.setPadding(new Insets(0,10,0,0));
+        this.rightVBox.setAlignment(Pos.CENTER);
+        this.rightVBox.setSpacing(VBOX_SPACING);
+            //ListView
+        this.listView.setMinHeight(200);
+        this.listView.setMaxHeight(500);
 
         //Adding all the children.
         this.toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
         this.topVBox.getChildren().addAll(this.menuBar, this.toggleHBox, this.timeLabel);
-            //MenuBar
+        this.rightVBox.getChildren().addAll(this.activeShowsLabel, this.listView);
+            //MenuBar.
         this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
         this.optionsMenu.getItems().addAll(this.viewPartMenuItem, new SeparatorMenuItem(), this.timeEditMenuItem, new SeparatorMenuItem(), this.npcEditMenuItem);
         this.menuBar.getMenus().addAll(this.optionsMenu, CommonNodeRetriever.getHelpMenu(this.stage));
-
-
-        //Right VBOX
-        VBox rightVBox = new VBox();
-        rightVBox.setMinHeight(700);
-        rightVBox.setMinWidth(50);
-        rightVBox.setMaxWidth(150);
-        rightVBox.setPadding(new Insets(0,10,0,0));
-
-        this.listView.setMinHeight(650);
-
-        rightVBox.getChildren().addAll(new Label(messages.getString("active_shows")), this.listView);
 
         //Adding it all together.
         this.mainPane.setTop(this.topVBox);
@@ -131,11 +134,11 @@ public class SimulatorModule extends AbstractGUI {
 
     @Override
     public void actionHandlingSetup() {
-        //MenuBar
+        //MenuBar.
         this.exitMenuItem.setOnAction(e -> {
             AbstractDialogPopUp.showExitConfirmationPopUp();
         });
-            //EditMenu
+            //EditMenu.
         this.viewPartMenuItem.setOnAction(e -> {
             ViewObjectView simulatorViewPopUp = new ViewObjectView(this.handler, this.simulatorCanvas);
             simulatorViewPopUp.load();
@@ -151,11 +154,10 @@ public class SimulatorModule extends AbstractGUI {
             npcEditGUI.load();
         });
 
-        //Agenda button.
+        //Agenda Button.
         this.agendaButton.setOnAction(event -> {
             this.mainGUI.loadAgendaCallBack();
         });
-
     }
 
     /**
@@ -163,7 +165,7 @@ public class SimulatorModule extends AbstractGUI {
      */
     void updateTime() {
         LocalTime time = this.handler.getTime();
-        this.timeLabel.setText("    Time: " + time.format(dateTimeFormatter));
+        this.timeLabel.setText("\tTime: " + time.format(dateTimeFormatter));
 
         this.listView.getItems().clear();
         this.handler.getActiveShows(time).forEach(e -> {
