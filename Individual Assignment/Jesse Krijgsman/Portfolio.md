@@ -987,4 +987,54 @@ Applicaties die gebruik maken van de JSON-datastructuur
 - Numidian JSON
 - JSON Mate
 - AJAX
+- Trello
 
+Het programma Trello gebruikt ook JSON. Het is in trello mogenlijk om een bordt te exporteren naar het JSON formaat.
+Hieronder staat een klein stukje van het bordt dat wij hebben gebruikt
+
+```json
+"cards": [
+    {
+      "id": "6066cf275969dc68c2b31d59",
+      "address": null,
+      "checkItemStates": null,
+      "closed": false,
+      "coordinates": null,
+      "creationMethod": null,
+      "dateLastActivity": "2021-04-02T08:11:55.472Z",
+      "desc": "",
+      "descData": null,
+      "dueReminder": null,
+      "idBoard": "60337e0b3a0c7a7b0944b896",
+      "idLabels": [],
+      "idList": "60337e3017869f35d80997c2",
+      "idMembersVoted": [],
+      "idShort": 80,
+      "idAttachmentCover": null,
+      "locationName": null,
+      "manualCoverAttachment": false,
+      "name": "Artiesten doen een fortnite dance.",
+      "pos": 65535,
+      "shortLink": "rv5KXvB7",
+      "isTemplate": false,
+      "cardRole": null,
+      "badges": {
+        "attachmentsByType": {
+          "trello": {
+            "board": 0,
+            "card": 0
+          }
+        }
+```
+
+Het hele bestand voor ons bord staat ook in dit portfolio, zie: [Files/TrelloBoard.json](Files/TrelloBoard.json).
+
+Waarom ik denk dat JSON wordt gebruikt:
+
+JSON is een taal waarin heel makkelijk allerlij soorten gegevens opgeslagen kunnen worden. Hierdoor is het een perfecte middenman.
+Als je een TileMap of een trellobord hebt, die jij in java wil weergeven wordt dat best lastig. Je moet gaan uitzoeken hoe deze 
+bestanden worden opgeslagen en dat daaromheen een applicatie maken.
+
+Via JSON is dit een stuk makkelijker, alle objecten of variabelen staan er in aangegeven en kan je uitlezen in het programma.
+Ik denk dat JSON gebruikt wordt vanwege de inmense grote flexibilteit die JSON bied en het feit dat het een makkelijk overzicht geeft 
+in hoe gegevens worden opgeslagen.
