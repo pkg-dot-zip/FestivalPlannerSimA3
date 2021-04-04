@@ -341,7 +341,6 @@ public class SimulatorHandler {
                             if (!toilet.isOccupied()) {
                                 npc.setTargetObject(toilet);
                                 toilet.setOccupied(true);
-                                System.out.println("to " + toilet);
                                 break;
                             }
                         }

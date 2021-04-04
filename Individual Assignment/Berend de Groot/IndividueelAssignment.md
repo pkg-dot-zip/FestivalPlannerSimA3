@@ -473,4 +473,5 @@ In week 7 heb ik voornamelijk meegedaan met vergaderingen.
 Verder heb ik niet veel gedaan.
 
 ## Week 8
-//TODO: In week 8 werken.
+#### Schoonmaken
+Ik 

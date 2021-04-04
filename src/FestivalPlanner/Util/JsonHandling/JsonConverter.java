@@ -150,7 +150,6 @@ public class JsonConverter {
         TileLayer tileLayer = new TileLayer(tileMap, width, height, layerTiles);
         if (layerName.equals("PathLayer")) {
             tileMap.setPathFindingLayer(tileLayer);
-            System.out.println(tileMap.getLayers().size());
         }
         return tileLayer;
     }
