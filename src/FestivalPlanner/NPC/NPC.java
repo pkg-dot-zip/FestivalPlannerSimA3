@@ -98,10 +98,10 @@ public class NPC {
         }
 
         if (this.targetObject != null) {
-            if ((targetObject.isWithin(this.position)) && !this.npcState.getClass().equals(ViewingState.class)
-            ) {
+            if ((targetObject.isWithin(this.position)) && !this.npcState.getClass().equals(ViewingState.class)) {
                 this.npcState = new ViewingState();
-            }if (this.target.distanceSq(position) > 2) {
+            }
+            if (this.target.distanceSq(position) > 2) {
                 this.npcState = new MovingState();
             }
         } else if (this.target.distanceSq(position) > 2) {
@@ -118,18 +118,18 @@ public class NPC {
     }
 
     private void handleCollision(ArrayList<NPC> NPCs) {
-        NPC collsionNPC = null;
+        NPC collisionNPC = null;
 
         for(NPC visitor : NPCs) {
             if(visitor != this) {
                 if(visitor.position.distanceSq(position) < COLLISION_RADIUS * COLLISION_RADIUS) {
-                    collsionNPC = visitor;
+                    collisionNPC = visitor;
                 }
             }
         }
 
-        if (collsionNPC != null) {
-            separateNPC(collsionNPC);
+        if (collisionNPC != null) {
+            separateNPC(collisionNPC);
         }
     }
 
@@ -138,7 +138,7 @@ public class NPC {
      * <p>
      * It does this one by one; there can never be two <b>NPC</b>s moving at the same time.
      * In order to do this we check the boolean isSeparating for every <b>NPC</b> in the list given as a parameter.
-     * @param otherNPC  The NPC that has collision with this
+     * @param otherNPC  the NPC that has collision with this
      */
     private void separateNPC(NPC otherNPC) {
 
@@ -154,7 +154,6 @@ public class NPC {
         otherNPC.position = new Point2D.Double(this.position.getX() - ((this.COLLISION_RADIUS) * xFactor),
                 this.position.getY() - ((this.COLLISION_RADIUS) * yFactor)
         );
-
     }
 
     /**
