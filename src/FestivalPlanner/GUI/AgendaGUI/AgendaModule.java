@@ -302,6 +302,12 @@ public class AgendaModule extends AbstractGUI implements Serializable {
         return null;
     }
 
+    /**
+     * Handles the loading of a agenda from a file.
+     * <p>
+     * Calls the method to select a file.
+     * Then update the manager with the new Agenda
+     */
     private void loadAgenda() {
         SaveHandler saveHandler = new SaveHandler();
         this.agenda = saveHandler.readAgendaFromFile(getLoadAgendaPath());

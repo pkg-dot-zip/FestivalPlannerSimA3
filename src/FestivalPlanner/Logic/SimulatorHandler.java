@@ -254,6 +254,11 @@ public class SimulatorHandler {
         }
     }
 
+    /**
+     * Spawns new NPC on the spawn place. Makes sure there is no collision between NPCs
+     * <p>
+     * The amount of NPCs spawned is based on the set amount
+     */
     private void spawnAllArtistNPCs() {
         for (String artist : this.artistManager.getAllArtistNames()) {
             Artist currentArtist = this.artistManager.getArtist(artist);
@@ -280,6 +285,11 @@ public class SimulatorHandler {
         }
     }
 
+    /**
+     * Checks if, since last check, shows have started or ended.
+     * <p>
+     * Calls {@link #onShowStart(Show)} or {@link #onShowEnd(Show)} if shows have started or ended respectively.
+     */
     private void checkShows() {
         HashSet<Show> oldActiveShows = this.activeShows;
         this.activeShows = getActiveShows(this.time);
@@ -304,6 +314,10 @@ public class SimulatorHandler {
         }
     }
 
+    /**
+     * Handles all the action that need to happen when a new shows starts playing.
+     * @param show  The show that started
+     */
     private void onShowStart(Show show) {
         double change = show.getExpectedPopularity();
 
@@ -325,6 +339,10 @@ public class SimulatorHandler {
         }
     }
 
+    /**
+     * Handles everything that needs to happen when a show has ended.
+     * @param show  The show that ended
+     */
     private void onShowEnd(Show show) {
         SimulatorPodium podium = this.podiumObjectHashMap.get(show.getPodium().getName());
         if (podium != null) {

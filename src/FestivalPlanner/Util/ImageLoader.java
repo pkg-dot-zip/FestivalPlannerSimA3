@@ -7,6 +7,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Static class that loads and splits the NPC sprites
+ * <p>
+ * This class stores these Images so these only need to be loaded and split once.
+ */
 public class ImageLoader {
 
     private static String[] characterFiles = {"char_1", "char_2"};
@@ -15,6 +20,9 @@ public class ImageLoader {
 
     private static ArrayList<ArrayList<BufferedImage>>[] lists = new ArrayList[characterFiles.length];
 
+    /**
+     * Loads all the NPC spriteSheets and stores them.
+     */
     public static void loadImages() {
         for (int i = 0, characterFilesLength = characterFiles.length; i < characterFilesLength; i++) {
             String characterFile = characterFiles[i];
@@ -53,6 +61,11 @@ public class ImageLoader {
         }
     }
 
+    /**
+     * This method wil split up one imagesSheet into all the sprites.
+     * @param image  The image to split up
+     * @return  All the sprites
+     */
     public static ArrayList<ArrayList<BufferedImage>> loadImage(BufferedImage image) {
         ArrayList<ArrayList<BufferedImage>> allFourSpriteSheets = new ArrayList<>(4);
 

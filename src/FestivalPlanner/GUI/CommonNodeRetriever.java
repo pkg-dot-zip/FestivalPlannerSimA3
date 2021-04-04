@@ -197,6 +197,12 @@ public class CommonNodeRetriever {
         return getColorPickerStage(ownerStage, colorPicker);
     }
 
+    /**
+     * Opens a windows / popup to select a color. ColorPicker is given.
+     * @param ownerStage  The head stage to open this window from
+     * @param colorPicker  The ColorPicker that is used for picking a color
+     * @return  A new window to select a color
+     */
     private static Stage getColorPickerStage(Stage ownerStage, ColorPicker colorPicker){
         //Initialising Values.
         Stage stage = new Stage();
