@@ -3,7 +3,6 @@ package FestivalPlanner.NPC;
 import FestivalPlanner.Logic.SimulatorObject;
 import FestivalPlanner.Logic.SimulatorToilet;
 import FestivalPlanner.Util.ImageLoader;
-import FestivalPlanner.Util.MathHandling.NPCMathHandler;
 import com.sun.istack.internal.Nullable;
 
 import java.awt.*;
@@ -15,7 +14,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
- * Contains methods for everything related to NPC instances, which can be seen in <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorCanvas.html">SimulatorCanvas</a>.
+ * Contains methods for everything related to <b>NPC</b> instances, which can be seen in <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorCanvas.html">SimulatorCanvas</a>.
  */
 public class NPC {
 
