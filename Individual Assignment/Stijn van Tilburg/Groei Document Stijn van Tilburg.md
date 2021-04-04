@@ -381,6 +381,84 @@ Hier is het sprites laden in actie
  ![Sprites laden in actie](./Images/agendaSpriteLoading.gif)
 
 
+## Week 8
+
+Deze week staat in het thema van het opschonen van het project, de meeste
+functies zijn er al. Maar met het opschonen liep ik juist tegen nog meer problemen dan ik normaal al doe.
+
+Het beste voorbeeld is hoe het NPCstate switching werkt. Ik vind dat dat
+niet goed in elkaar zit, maar tegelijkertijd is het nu al heel laat om 
+grote veranderinen proberen door te brengen.
+
+Heel het lopen was gebaseerd op hoe het NPCstate switching werkt. Het veranderen
+van onderdelen zou dus makkelijk kunnen zorgen dat de hele simulatie niet fucntioneerd.
+Maar tegelijkertijd werkt het momenteel niet goed en is er in mijn meneing vernadering
+nodig. Het was zelfs zo dat de artiest niet altijd bij zijn podium kwam.
+
+Ik koos ervoor om toch een risico te nemen en proberen verbetering erin 
+te brengen.
+
+Zorgen dat artiesten altijd op het podium kwamen was me na een tijdje werk
+gelukt, collision werkte op een manier dat als je collision eenzijdig outzet
+de artiest alle bezoekers opzei duwt om bij zijn podium te komen.
+
+Maar de echte uitdaging was het proberen op te schonen van het switchen 
+van states van bezoekers. Dat was momenteel zo slecht dat sommige states 
+nooit bereken werden. Heel veel onnodige ifs en heel moeilijk te lezen.
+hierdoor koste het me ook enorm veel tijd om zelfs kleine dingen te bereiken.
+
+Toen kwam ik tot de realisatie dat de problemen te diep zitten in ons systeem
+om nu nog op te lossen. Elke oplossing die ik kon bedenken zorgten voor extra 
+conflicten. Ik zat nu op een punt waar ik begon te realiseren dat met de 
+steeds dichterbij komende deadline het oplossen van de problemen niet meer 
+reëel was. Hoe kon het dat we zo diep zaten met een slecht probleem? Dat 
+zoveel miss was met het systeem maar dat we er pas heel erg laat achter zijn.
+
+Daarom ging ik denken aan wat mogelijk de oorzaak was van deze situatie:
+
+1. Hadden we te weinig gecontroleerd op elkaars code? Hadden we minder vertrouwen
+moeten hebben in elkaar?
+
+2. Moeten we alle schuld gooien op de personen die het gemaakt hadden?
+
+3. Hadden we meer moeen nadenken of de personen die het gemaakt hadden een
+geschikt niveau hadden om het te maken?
+
+4. Waren en niet genoeg testen uitgevoerd door mensen of hun code goed genoeg
+was?
+
+5. Hadden we niet duidelijk genoeg met elkaar gecommuniceert met elkaar 
+wanneer we problemen hadden?
+
+Mijn antwoorden op de punten:
+
+1. We hebben veel gecontroleerd in mijn mening, maar de laatste weken werd dat
+minder vanwege tijdsdruk. Dus het kan hier aan liggen.
+
+2. Dit vind ik een heel domme reden en zo goed als nooit waar.
+
+3. Ik had mijn twijfels op sommige momenten of we dit goed genoeg aanpasten,
+maar als de mensen zelf niet duidelijk aangeven dat het hun niet lukt vind
+ik het moeilijk. Het was me niet duidelijk dat de code niet goed werkte.
+
+4. Dit kan ik zelf niet bepalen, en licht natuurlijk heel erg aan de personen.
+
+5. Ik heb dit altijd gedaan, maar kan moeilijk zeggen of anderen dit altijd
+gedaan hebben. Ik heb wel gezien dat er duidelijk veel om hulp werd gevraagd.
+
+Uiteindelijk als ik naar de punten kijk dan is het gene wat me het meest opviel
+dat er wel veel om hulp werd gevraagd bij het maken van het onderdeel, maar
+dat dat er zoveel vragen kwamen dat ik me niet meer kon focussen op mijn deel.
+Het was dus eigenlijk al wel duidelijk op het moment hoe meer ik er naar terug
+kijk. Maar iedereen was druk bezig met hun eigen gedeelte. En er werd veel geholpen.
+Maar natuurlijk is elke 5 minuten uit je flow worden gehaald een probleem.
+
+Als ik erop terug kijk denk ik dat we de taken anders hadden moeten verdelen
+omdat het wel duidelijk werd dat ze er veel moeite mee hadden (of ze opzenminst
+de optie geven). Ik denk dat we eigenlijk heel het project hier goed op hadden gelet
+maar dat de aankomende deadline ervoor zorgde dat we iets teveel daar op aan
+het focussen waren i.p.v. waar we normaal op focusten. 
+
 ## Applicaties die Json gebruiken
 
 Hier ga ik een lijst maken van applicaties die ik denk dat Json gebruiken
