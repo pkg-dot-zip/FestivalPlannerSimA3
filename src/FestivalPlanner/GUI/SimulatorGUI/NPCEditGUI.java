@@ -3,11 +3,10 @@ package FestivalPlanner.GUI.SimulatorGUI;
 import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.Logic.SimulatorHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+
+import javax.tools.Tool;
 
 /**
  * Contains methods and attributes seen in the NPCEditGUI window.
@@ -31,6 +30,16 @@ public class NPCEditGUI extends AbstractEditGUI {
     private Button add5Button = new Button(messages.getString("add") + " " + 5);
     private Button add1Button = new Button(messages.getString("add") + " " + 1);
 
+    //Tooltips.
+        //Remove Button-tooltips.
+    private Tooltip remove10Tooltip = new Tooltip(messages.getString("remove") + " " + 10);
+    private Tooltip remove5Tooltip = new Tooltip(messages.getString("remove") + " " + 5);
+    private Tooltip remove1Tooltip = new Tooltip(messages.getString("remove") + " " + 1);
+        //Add Button-tooltips.
+    private Tooltip add10Tooltip = new Tooltip(messages.getString("add") + " " + 10);
+    private Tooltip add5Tooltip = new Tooltip(messages.getString("add") + " " + 5);
+    private Tooltip add1Tooltip = new Tooltip(messages.getString("add") + " " + 1);
+
     /**
      * Constructor of <b>NPCEditGUI</b> taking a <a href="{@docRoot}/FestivalPlanner/Logic/SimulatorHandler.html">SimulatorHandler</a> as parameter.
      * @param handler  handler to set <code>this.handler</code> to
@@ -53,14 +62,24 @@ public class NPCEditGUI extends AbstractEditGUI {
         genericSetup();
 
         //Initialising Values.
-        npcAmountField.setText(this.handler.getNPCAmount() + "");
+        this.npcAmountField.setText(this.handler.getNPCAmount() + "");
+
+        //Adding Tooltips.
+            //Remove Buttons.
+        this.remove10Button.setTooltip(remove10Tooltip);
+        this.remove5Button.setTooltip(remove5Tooltip);
+        this.remove1Button.setTooltip(remove1Tooltip);
+            //Add Buttons.
+        this.add10Button.setTooltip(add10Tooltip);
+        this.add5Button.setTooltip(add5Tooltip);
+        this.add1Button.setTooltip(add1Tooltip);
 
         //Adding all the children.
-        addNpcHBox.getChildren().addAll(remove10Button, remove5Button, remove1Button, add1Button, add5Button, add10Button);
-        mainPanel.getChildren().addAll(npcAmountLabel, npcAmountField, addNpcHBox, new Label(), new Separator(), bottomHBox);
+        this.addNpcHBox.getChildren().addAll(remove10Button, remove5Button, remove1Button, add1Button, add5Button, add10Button);
+        this.mainPanel.getChildren().addAll(npcAmountLabel, npcAmountField, addNpcHBox, new Label(), new Separator(), bottomHBox);
 
         //Adding it all together.
-        gridPane.add(mainPanel, 0, 0);
+        this.gridPane.add(mainPanel, 0, 0);
     }
 
     @Override

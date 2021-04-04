@@ -26,6 +26,9 @@ public class TimeEditGUI extends AbstractEditGUI {
     private Button x025Button = new Button("x0.25");
     private Button x033Button = new Button("x0.33");
     private Button x050Button = new Button("x0.5");
+
+    private Button pauseButton = new Button(messages.getString("pause"));
+
         //Add Buttons.
     private Button x15Button = new Button("x1.5");
     private Button x2Button = new Button("x2");
@@ -57,7 +60,7 @@ public class TimeEditGUI extends AbstractEditGUI {
         genericSetup();
 
         //Adding all the children.
-        setTimeHBox.getChildren().addAll(x025Button, x033Button, x050Button, x125Button, x15Button, x2Button);
+        setTimeHBox.getChildren().addAll(x025Button, x033Button, x050Button, pauseButton, x125Button, x15Button, x2Button);
         mainPanel.getChildren().addAll(currentTimeLabel, currentSpeedLabel, new Label(), setTimeHBox, new Label(), new Separator(), bottomHBox);
 
         //Adding it all together.
@@ -74,14 +77,19 @@ public class TimeEditGUI extends AbstractEditGUI {
         this.x125Button.setOnAction(e -> addTime(1.25));
         this.x15Button.setOnAction(e -> addTime(1.5));
         this.x2Button.setOnAction(e -> addTime(2.0));
+
+        //Pause button.
+        this.pauseButton.setOnAction(e -> {
+            this.handler.setPaused(!this.handler.isPaused());
+        });
     }
 
     //TODO: Rename if this doesn't add time, but changes the speed instead.
     private void addTime(double factor) {
         this.speed *= factor;
 
-        if (this.speed >= 1000)
-            this.speed = 1000;
+        if (this.speed >= 300)
+            this.speed = 300;
         
         currentSpeedLabel.setText(messages.getString("current_speed") + " " + this.speed + " game s/s");
     }

@@ -760,6 +760,146 @@ Als het nodig is om naar de agenda of simulator te gaan kan een klasse één van
 voor het zorgen dat dit ook echt gebeurt. Ook is een een callback waarmee de simulatorModule kan worden herstart met nieuwe waarden.
 Hierdoor kan een simulatie opnieuw worden gestart met verschillende agenda waarden.
 
+---
+
+# Week 8
+
+---
+
+### Reflectie proces
+
+Deze week was de laatste week voor het project. Wij liepen goed op schema, maar er moest nog veel gebeuren om het project af te
+ronden. Wij hebben met de groep deze week ook een vergadering gehouden. Deze vergadering was minder formeel dan de voorgaande vergaderingen, 
+maar er is uitgebreid besproken wat er moest gebeuren. 
+
+Als planner heb ik de planning in overleg met de groep opgesteld. De afgelopen weken hebben wij vaak de planning in Excel gemaakt.
+De planning hebben wij vervolgens ook in Trello gezet. Het viel mij wel op dat wij Trello eigenlijk niet veel gebruikt hebben.
+Voor deze week was het echter noodzakelijk dat alles wat op de planning stond gebeurt, en alle fouten en dingen die wij tegen zouden komen
+moeten ook gelijk deze week gebeuren. Daarom heb ik in overleg besloten dat wij voor deze week exlusief met Trello gaan werken.
+
+Naast de vijf borden die al op de planning stonden (Zie reflectie week3) zijn er deze week wat uitbreidingen geweest in Trello.
+Voor het overzicht krijgt elke kaart nu ook een label die de prioriteit of waarde van de kaart aangeeft. Zie de foto hieronder:
+
+![](Images/TrelloLabels.png)
+
+Hieronder staat een foto hoe het bord er tegen het eind van het project er uitziet. Met aan elke kaart een persoon en een label gekoppeld.
+
+![](Images/TrelloEind.png)
+
+Het werk op deze manier is erg goed bevallen. Het heeft zijn nadelen voor een groot product, maar voor een eindsprint zoals in
+deze laatste week is een Trello bord heel handig.
+
+Ook ben ik er achter gekomen dat je via gitkraken je git-project aan een bord kan koppelen:
+
+![](Images/gitKrakenTrello.png)
+
+Voor volgende periode wil ik hier zeker naar kijken hoe dit in elkaar steekt.
+
+---
+
+### Reflectie proces
+
+Deze week is er heel veel gebeurd aan de code. Ik ga deze ook niet uitlichten in de reflectie van deze week. Voor deze week wil
+ik alleen de nieuwe collision methode voor ons project laten zien.
+Niet omdat de code voor de collision zeer goed werkt, of geweldig is. Maar om wat ik er door heb geleerd.
+
+##### Collision
+
+Het idee voorde collision: Op het moment dat een NPC na het bewegen in aanraking komt met een andere NPC is het de bedoeling dat
+De NPC terug gezet wordt het aantal pixels dat hij binnen de collision circkel van de ander NPC zit. Hierdoor staan ze niet meer in 
+aanraaking. Om te voorkomen dat NPC stil komen te staan op de plek zodra twee NPC een andere kan op willen was het de bedoeling dat:
+
+De NPC die de collision veroorzaakt wordt niet terug gezet met het aantal pixels dat hij is binnen gedrongen maar slechts de helft.
+De NPC waarmee er aanraking is wordt ook met de helft verschoven, maar dan in de tegengestelde richting. Hierdoor duwt de NPC
+als het ware de andere NPC een klein stukje. Deze NPC zal vervolgens mogenlijk weer terug duwen. De bedoeling van dit systeem is
+dat een NPC niet vast komt te zitten maar dat er altijd beweging is.
+
+Omdat wij er voor gekozen hebben om onze NPC slecht vier richtingen te geven (boven, rechts, onder, links) ging ik er vanuit
+dat ik ook geen rekening hoefte te houden met de angle tussen NPC1 en NPC2. De onderstaande code heb ik geschreven voor de collision:
+
+```java
+switch (this.direction) {
+            case UP:
+
+                double penetrationUp = (this.position.getY() - (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getY() + (otherNPC.COLLISION_RADIUS / 2f));
+                this.position = new Point2D.Double(this.position.getX(), this.position.getY() - (penetrationUp / 2f));
+                otherNPC.position = new Point2D.Double(otherNPC.position.getX(), otherNPC.position.getY() + (penetrationUp / 2f));
+
+                break;
+            case DOWN:
+
+                double penetrationDown = (this.position.getY() + (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getY() - (otherNPC.COLLISION_RADIUS / 2f));
+                this.position = new Point2D.Double(this.position.getX(), this.position.getY() - (penetrationDown / 2f));
+                otherNPC.position = new Point2D.Double(otherNPC.position.getX(), otherNPC.position.getY() + (penetrationDown / 2f));
+
+                break;
+            case LEFT:
+
+                double penetrationLeft = (this.position.getX() - (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getX() + (otherNPC.COLLISION_RADIUS / 2f));
+                this.position = new Point2D.Double(this.position.getX() - (penetrationLeft / 2f), this.position.getY());
+                otherNPC.position = new Point2D.Double(otherNPC.position.getX() + (penetrationLeft / 2f), otherNPC.position.getY());
+
+                break;
+            case RIGHT:
+
+                double penetrationRight = (this.position.getX() + (this.COLLISION_RADIUS / 2f)) - (otherNPC.position.getX() - (otherNPC.COLLISION_RADIUS / 2f));
+                this.position = new Point2D.Double(this.position.getX() - (penetrationRight / 2f), this.position.getY());
+                otherNPC.position = new Point2D.Double(otherNPC.position.getX() + (penetrationRight / 2f), otherNPC.position.getY());
+
+                break;
+
+        }
+```
+
+Voor elke richting die de NPC kan hebben is er een case in de switch case. Er wordt vervolgens berekend hoever de NPC radius binnen de
+radius van de andere NPC in binnen gedrongen. Dan wordt NPC1 de helft van deze afstand terug gezet en NPC2 de helft naar voren.
+
+En deze code werkt. Alleen kwam ik er achter dat, ondanks dat NPC alleen over de asses kunen bewegen, zij wel onder een hoek konden colliden.
+Dit zorgte voor problemen. Het was dus tijd om collision anders te gaan doen, bovendien is de code hierboven niet echt mooi.
+
+Ik heb veel geprobeerd, bijvoorbeeld met een angle via:
+```java
+double angle = Math.atan2(this.position.getY() - ontherNPC.postion.getY(), this.podistion.getX() - otherNPC.location.getX());
+```
+
+Met een hoek werdt het toch zeer complex, en alleen kwam ik er niet uit om het goed te krijgen. Maar toen vondt ik een geweldige uitleg
+online die uitleg gaf over hoe je collision met 2 circels kan afhandelen. Deze code was zo imeens veel simpeler dan ik mij ooit had voorgesteld, 
+dat toen ik het zag ik mij gewoon dom voelde dat ik hier niet aan hebt gedacht.
+
+Je berekend simpel de X afstand die er in binnen gedrongen en de Y afstand die er in binnen gedrongen. Dan verplaats je de NPC met 
+de vector die je daar uit krijgt. Super simpel. Voor credits heb ik de video ook hieronder er in gezet:
+
+[![](Images/CollisionVideo.png)](https://www.youtube.com/watch?v=nlwtgvZCz0k&t=3s "collision")
+
+De code werk niet altijd zonder problemen, maar de oplossing in zoveel makkelijker dan ik mij ooit had voor kunnen stellen dat 
+ik in dit portfolio moest behandelen.
+
+```java
+    /**
+     * Moves the <b>NPC</b> away from the others to make sure no collisions are happening.
+     * <p>
+     * It does this one by one; there can never be two <b>NPC</b>s moving at the same time.
+     * In order to do this we check the boolean isSeparating for every <b>NPC</b> in the list given as a parameter.
+     * @param otherNPC  The NPC that has collision with this
+     */
+    private void separateNPC(NPC otherNPC) {
+
+        double distance = this.position.distance(otherNPC.position);
+
+        double xFactor = (this.position.getX() - otherNPC.position.getX()) / distance;
+        double yFactor = (this.position.getY() - otherNPC.position.getY()) / distance;
+
+        this.position = new Point2D.Double(otherNPC.position.getX() + ((this.COLLISION_RADIUS) * xFactor),
+                otherNPC.position.getY() + ((this.COLLISION_RADIUS) * yFactor)
+        );
+
+        otherNPC.position = new Point2D.Double(this.position.getX() - ((this.COLLISION_RADIUS) * xFactor),
+                this.position.getY() - ((this.COLLISION_RADIUS) * yFactor)
+        );
+        
+    }
+
+```
 
 ---
 # Reflectie op de gegeven stelling
@@ -847,4 +987,54 @@ Applicaties die gebruik maken van de JSON-datastructuur
 - Numidian JSON
 - JSON Mate
 - AJAX
+- Trello
 
+Het programma Trello gebruikt ook JSON. Het is in trello mogenlijk om een bordt te exporteren naar het JSON formaat.
+Hieronder staat een klein stukje van het bordt dat wij hebben gebruikt
+
+```json
+"cards": [
+    {
+      "id": "6066cf275969dc68c2b31d59",
+      "address": null,
+      "checkItemStates": null,
+      "closed": false,
+      "coordinates": null,
+      "creationMethod": null,
+      "dateLastActivity": "2021-04-02T08:11:55.472Z",
+      "desc": "",
+      "descData": null,
+      "dueReminder": null,
+      "idBoard": "60337e0b3a0c7a7b0944b896",
+      "idLabels": [],
+      "idList": "60337e3017869f35d80997c2",
+      "idMembersVoted": [],
+      "idShort": 80,
+      "idAttachmentCover": null,
+      "locationName": null,
+      "manualCoverAttachment": false,
+      "name": "Artiesten doen een fortnite dance.",
+      "pos": 65535,
+      "shortLink": "rv5KXvB7",
+      "isTemplate": false,
+      "cardRole": null,
+      "badges": {
+        "attachmentsByType": {
+          "trello": {
+            "board": 0,
+            "card": 0
+          }
+        }
+```
+
+Het hele bestand voor ons bord staat ook in dit portfolio, zie: [Files/TrelloBoard.json](Files/TrelloBoard.json).
+
+Waarom ik denk dat JSON wordt gebruikt:
+
+JSON is een taal waarin heel makkelijk allerlij soorten gegevens opgeslagen kunnen worden. Hierdoor is het een perfecte middenman.
+Als je een TileMap of een trellobord hebt, die jij in java wil weergeven wordt dat best lastig. Je moet gaan uitzoeken hoe deze 
+bestanden worden opgeslagen en dat daaromheen een applicatie maken.
+
+Via JSON is dit een stuk makkelijker, alle objecten of variabelen staan er in aangegeven en kan je uitlezen in het programma.
+Ik denk dat JSON gebruikt wordt vanwege de inmense grote flexibilteit die JSON bied en het feit dat het een makkelijk overzicht geeft 
+in hoe gegevens worden opgeslagen.

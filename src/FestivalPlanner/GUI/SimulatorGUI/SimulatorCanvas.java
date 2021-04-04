@@ -7,7 +7,6 @@ import FestivalPlanner.TileMap.TileMap;
 import FestivalPlanner.Util.JsonHandling.JsonConverter;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -21,7 +20,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 /**
- * Class that will draw a <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> to a canvas.
+ * Contains methods to draw a <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> to a canvas.
  */
 public class SimulatorCanvas extends AbstractGUI {
 
@@ -45,17 +44,17 @@ public class SimulatorCanvas extends AbstractGUI {
 
         //Todo: remember to remove when loading maps is implemented
         //TESTING PURPOSES
-        JsonConverter converter = new JsonConverter();
+        private JsonConverter converter = new JsonConverter();
         private TileMap tileMap = converter.JSONToTileMap("/testMap.json");
 
     /**
      * Constructor for SimulatorCanvas
-     * @param simulatorHandler  TODO: Write this
-     * @param simulatorModule  The <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorModule.html">SimulatorModule</a> that contains this canvas
-     * @param canvasWidth  The initial width of the canvas
-     * @param canvasHeight  The initial height of this canvas
+     * @param simulatorHandler  the class responsible for the logic of the simulator
+     * @param simulatorModule  the <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI/SimulatorModule.html">SimulatorModule</a> that contains this canvas
+     * @param canvasWidth  the initial width of the canvas
+     * @param canvasHeight  the initial height of this canvas
      */
-    public SimulatorCanvas(SimulatorHandler simulatorHandler, SimulatorModule simulatorModule, double canvasWidth, double canvasHeight) {
+    SimulatorCanvas(SimulatorHandler simulatorHandler, SimulatorModule simulatorModule, double canvasWidth, double canvasHeight) {
         this.simulatorHandler = simulatorHandler;
         this.simulatorModule = simulatorModule;
         this.mainPane = new BorderPane();
@@ -116,7 +115,7 @@ public class SimulatorCanvas extends AbstractGUI {
      * Getter for <code>this.mainPane</code>
      * @return  <code>this.mainPane</code>
      */
-    public BorderPane getMainPane() {
+    BorderPane getMainPane() {
         return mainPane;
     }
 
@@ -138,30 +137,29 @@ public class SimulatorCanvas extends AbstractGUI {
     }
 
     /**
-     * Updates all the items, cals {@link #draw(FXGraphics2D)} when done
-     * @param deltaTime  The time it took between last update call (FPS = 1/deltaTime)
+     * Updates all the items, calls {@link #draw(FXGraphics2D)} when done.
+     * @param deltaTime  the time it took between last update call (FPS = 1/deltaTime)
      */
     public void update(Double deltaTime) {
-//        System.out.println(1/deltaTime);
         this.simulatorHandler.update(deltaTime);
         this.simulatorModule.updateTime();
     }
 
     /**
      * Handles the event when the user scrolls.
-     * @param scrollEvent  The ScrollEvent that was used to scroll
+     * @param scrollEvent  the ScrollEvent that was used to scroll
      */
     private void onScrolled(ScrollEvent scrollEvent) {
         double scaleFactor = 1 + (scrollEvent.getDeltaY() / 1000);
         AffineTransform transform = new AffineTransform();
         transform.scale(scaleFactor, scaleFactor);
-        //if (cameraInBounds(transform)) {
-            double tempX = this.cameraTransform.getTranslateX();
-            double tempY = this.cameraTransform.getTranslateY();
-            this.cameraTransform.translate(-tempX, -tempY);
-            this.cameraTransform.scale(scaleFactor, scaleFactor);
-            this.cameraTransform.translate(tempX, tempY);
-        //}
+
+        double tempX = this.cameraTransform.getTranslateX();
+        double tempY = this.cameraTransform.getTranslateY();
+
+        this.cameraTransform.translate(-tempX, -tempY);
+        this.cameraTransform.scale(scaleFactor, scaleFactor);
+        this.cameraTransform.translate(tempX, tempY);
     }
 
     /**
@@ -169,7 +167,7 @@ public class SimulatorCanvas extends AbstractGUI {
      * <p>
      * When WASD or Arrow-keys are pressed the method will move the screen in
      * the corresponding direction.
-     * @param keyEvent  The KeyEvent that detected the users keyboardpress
+     * @param keyEvent  the KeyEvent that detected the users keyboardpress
      */
     private void onWASD(KeyEvent keyEvent) {
         double verticalPixels = 0;
@@ -196,9 +194,8 @@ public class SimulatorCanvas extends AbstractGUI {
 
         AffineTransform transform = new AffineTransform();
         transform.translate(horizontalPixels, verticalPixels);
-        //if(cameraInBounds(transform)) {
-            this.cameraTransform.translate(horizontalPixels, verticalPixels);
-        //}
+
+        this.cameraTransform.translate(horizontalPixels, verticalPixels);
     }
 
     private Point2D dragPoint = null;
@@ -208,7 +205,7 @@ public class SimulatorCanvas extends AbstractGUI {
      * <p>
      * If the primary button is pressed <code>this.dragPoint</code> will be set to the
      * position the mouse has at that time.
-     * @param mouseEvent  The MouseEvent the user used to click
+     * @param mouseEvent  the MouseEvent the user used to click
      */
     private void onMousePressed(MouseEvent mouseEvent) {
 
@@ -227,8 +224,8 @@ public class SimulatorCanvas extends AbstractGUI {
     /**
      * Handles the event when the user releases the mouse-button
      * <p>
-     * If the primary button is released <code>this.dragPoint</code> will be reset to null
-     * @param mouseEvent  The MouseEvent the user used to click
+     * If the primary button is released <code>this.dragPoint</code> will be reset to <i>null</i>.
+     * @param mouseEvent  the MouseEvent the user used to click
      */
     private void onMouseReleased(MouseEvent mouseEvent) {
         dragPoint = null;
@@ -237,8 +234,8 @@ public class SimulatorCanvas extends AbstractGUI {
     /**
      * Handles the event when the user drags the mouse-button across the screen
      * <p>
-     * If correct the screen will be moved to the new position. When done <code>this.dragPoint</code> will be reset to null
-     * @param mouseEvent  The MouseEvent the user used to drag
+     * If correct the screen will be moved to the new position. When done <code>this.dragPoint</code> will be reset to <i>null</i>.
+     * @param mouseEvent  the MouseEvent the user used to drag
      */
     private void onMouseDragged(MouseEvent mouseEvent) {
         if (this.dragPoint != null) {
@@ -247,19 +244,17 @@ public class SimulatorCanvas extends AbstractGUI {
 
             AffineTransform transform = new AffineTransform();
             transform.translate(horizontalPixels, verticalPixels);
-            //if (this.cameraInBounds(transform)) {
-                this.cameraTransform.translate(horizontalPixels, verticalPixels);
-            //}
 
+            this.cameraTransform.translate(horizontalPixels, verticalPixels);
             this.dragPoint = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
         }
     }
 
     /**
      * Moves the screen to the centre of the proposed point.
-     * @param point  The proposed point to move to
+     * @param point  the proposed point to move to
      */
-    public void moveToPoint(Point2D point) {
+    void moveToPoint(Point2D point) {
         Point2D centrePoint = getCanvasPoint(new Point2D.Double(
                 this.canvas.getWidth() / 2f,
                 this.canvas.getHeight() / 2f
@@ -268,13 +263,13 @@ public class SimulatorCanvas extends AbstractGUI {
     }
 
     /**
-     * Given a point on the screen this methode wil return the coördinates that that point represents.
+     * Given a point on the screen this method wil return the coördinates that that point represents.
      * <p>
-     * The given point wil be moved based on the current panning and zoom, stored in <code>rhis.cameraTransform</code>
-     * @param point2D  The position on the screen that needs to be transformed
-     * @return  The point on the field that the given point represents
+     * The given point wil be moved based on the current panning and zoom, stored in <code>this.cameraTransform</code>.
+     * @param point2D  the position on the screen that needs to be transformed
+     * @return  the point on the field that the given point represents
      */
-    public Point2D getCanvasPoint(Point2D point2D) {
+    private Point2D getCanvasPoint(Point2D point2D) {
         return new Point2D.Double(
                 (point2D.getX() - this.cameraTransform.getTranslateX()) / this.cameraTransform.getScaleX(),
                 (point2D.getY() - this.cameraTransform.getTranslateY()) / this.cameraTransform.getScaleY()

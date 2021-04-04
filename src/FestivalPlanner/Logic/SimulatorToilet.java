@@ -4,6 +4,7 @@ import FestivalPlanner.GUI.AgendaGUI.PopUpGUI.AbstractDialogPopUp;
 import FestivalPlanner.TileMap.TileLayer;
 import org.jfree.fx.FXGraphics2D;
 
+import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -30,7 +31,7 @@ public class SimulatorToilet extends SimulatorObject{
         super(location, width, height, rotation, name, collisionLayer, locationString);
 
         try {
-            //this.image = ImageIO.read(getClass().getResourceAsStream("/Images/Toilet.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/Images/toilet.png"));
 
         } catch (Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);
@@ -49,10 +50,18 @@ public class SimulatorToilet extends SimulatorObject{
         }
     }
 
+    /**
+     * Returns <code>this.occupied</code>.
+     * @return  <code>this.occupied</code>
+     */
     boolean isOccupied() {
-        return occupied;
+        return this.occupied;
     }
 
+    /**
+     * Sets <code>this.occupied</code> to the parameter's value.
+     * @param occupied  value to set occupied to
+     */
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }

@@ -83,7 +83,7 @@ public class Artist implements Serializable {
     /**
      * Writes the sprite and image of this artist to the saveFile.
      * @param out  the stream the images needs to be written to
-     * @throws IOException TODO: Write this
+     * @throws IOException if I/O errors occur while trying to write the images
      */
     //TODO: Separate agenda resources from other agendas to avoid overriding files.
     private void writeObject(ObjectOutputStream out) throws IOException {
@@ -94,8 +94,14 @@ public class Artist implements Serializable {
             pictureFile.mkdirs();
             File spriteFile = new File(System.getenv("LOCALAPPDATA") + "/A3/Resources/" + "AgendaName/" + this.toString() + "Sprite.png");
             spriteFile.mkdirs();
-            ImageIO.write(this.picture, "png", pictureFile);
-            ImageIO.write(this.sprite, "png", spriteFile);
+
+            if (this.picture != null) {
+                ImageIO.write(this.picture, "png", pictureFile);
+            }
+
+            if (this.sprite != null) {
+                ImageIO.write(this.sprite, "png", spriteFile);
+            }
         } catch (Exception e) {
             AbstractDialogPopUp.showExceptionPopUp(e);
         }
@@ -104,8 +110,8 @@ public class Artist implements Serializable {
     /**
      * Reads the sprite and image of the artist to the save file.
      * @param in  the stream used to read the class
-     * @throws IOException TODO: Write this
-     * @throws ClassNotFoundException TODO: Write this
+     * @throws IOException if an I/O error occurs.
+     * @throws ClassNotFoundException ff the class of a serialized object could not be found.
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();

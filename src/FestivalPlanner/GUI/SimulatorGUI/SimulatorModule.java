@@ -7,7 +7,8 @@ import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
-import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -39,6 +40,7 @@ public class SimulatorModule extends AbstractGUI {
     private SimulatorCanvas simulatorCanvas;
     private BorderPane mainPane = new BorderPane();
     private VBox topVBox = new VBox();
+    private VBox rightVBox = new VBox();
     private HBox toggleHBox = new HBox();
 
     //Ux Items.
@@ -65,9 +67,13 @@ public class SimulatorModule extends AbstractGUI {
     private Button agendaButton = new Button(messages.getString("agenda"));
     private Button simulatorButton = new Button(messages.getString("simulator"));
 
+    //Active Shows.
+    private Label activeShowsLabel = new Label(messages.getString("active_shows"));
+    private ListView<String> listView;
+
     /**
      * The constructor of this class.
-     * @param mainGUI  TODO: Write this
+     * @param mainGUI  the parent class responsible for making switching work.
      * @param stage  the <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html">Stage</a> the
      *              simulator module should assign itself to
      * @param agendaModule  the <a href="{@docRoot}/FestivalPlanner/GUI/SimulatorGUI.html">SimulatorModule</a>
@@ -78,6 +84,7 @@ public class SimulatorModule extends AbstractGUI {
         this.agendaModule = agendaModule;
         this.handler = new SimulatorHandler(this.agendaModule.getAgenda(), this.agendaModule.getPodiumManager(), this.agendaModule.getArtistManager());
         this.simulatorCanvas = new SimulatorCanvas(this.handler, this, 800, 700);
+        this.listView = new ListView();
     }
 
     @Override
@@ -97,11 +104,23 @@ public class SimulatorModule extends AbstractGUI {
         this.toggleHBox.setAlignment(Pos.CENTER);
         this.toggleHBox.setSpacing(HBOX_SPACING);
         this.timeLabel.setFont(new Font(16));
+        this.activeShowsLabel.setAlignment(Pos.TOP_CENTER);
+            //Right VBox.
+        this.rightVBox.setMinHeight(700);
+        this.rightVBox.setMinWidth(50);
+        this.rightVBox.setMaxWidth(150);
+        this.rightVBox.setPadding(new Insets(0,10,0,0));
+        this.rightVBox.setAlignment(Pos.CENTER);
+        this.rightVBox.setSpacing(VBOX_SPACING);
+            //ListView
+        this.listView.setMinHeight(200);
+        this.listView.setMaxHeight(500);
 
         //Adding all the children.
         this.toggleHBox.getChildren().addAll(this.agendaButton, this.simulatorButton);
         this.topVBox.getChildren().addAll(this.menuBar, this.toggleHBox, this.timeLabel);
-            //MenuBar
+        this.rightVBox.getChildren().addAll(this.activeShowsLabel, this.listView);
+            //MenuBar.
         this.fileMenu.getItems().addAll(this.loadAgendaMenuItem, new SeparatorMenuItem(), this.exitMenuItem);
         this.optionsMenu.getItems().addAll(this.viewPartMenuItem, new SeparatorMenuItem(), this.timeEditMenuItem, new SeparatorMenuItem(), this.npcEditMenuItem);
         this.menuBar.getMenus().addAll(this.optionsMenu, CommonNodeRetriever.getHelpMenu(this.stage));
@@ -109,21 +128,17 @@ public class SimulatorModule extends AbstractGUI {
         //Adding it all together.
         this.mainPane.setTop(this.topVBox);
         this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
+        this.mainPane.setRight(rightVBox);
         this.simulatorScene = new Scene(this.mainPane);
     }
 
     @Override
     public void actionHandlingSetup() {
-        //Generic
-        this.stage.setOnCloseRequest(e -> { //When the main window is closed -> Close the entire program.
-            Platform.exit();
-        });
-
-        //MenuBar
+        //MenuBar.
         this.exitMenuItem.setOnAction(e -> {
             AbstractDialogPopUp.showExitConfirmationPopUp();
         });
-            //EditMenu
+            //EditMenu.
         this.viewPartMenuItem.setOnAction(e -> {
             ViewObjectView simulatorViewPopUp = new ViewObjectView(this.handler, this.simulatorCanvas);
             simulatorViewPopUp.load();
@@ -139,7 +154,7 @@ public class SimulatorModule extends AbstractGUI {
             npcEditGUI.load();
         });
 
-        //Agenda button
+        //Agenda Button.
         this.agendaButton.setOnAction(event -> {
             this.mainGUI.loadAgendaCallBack();
         });
@@ -150,7 +165,12 @@ public class SimulatorModule extends AbstractGUI {
      */
     void updateTime() {
         LocalTime time = this.handler.getTime();
-        this.timeLabel.setText("    Time: " + time.format(dateTimeFormatter));
+        this.timeLabel.setText("\tTime: " + time.format(dateTimeFormatter));
+
+        this.listView.getItems().clear();
+        this.handler.getActiveShows(time).forEach(e -> {
+            this.listView.getItems().add(e.getName());
+        });
     }
 
     /**

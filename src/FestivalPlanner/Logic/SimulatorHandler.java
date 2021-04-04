@@ -16,21 +16,22 @@ import java.awt.image.BufferedImage;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
 public class SimulatorHandler {
 
-    // Final values.
-    private final double SHOW_CHECK_TIME = 60 * 15; //how often to check per in-game second
-    private final double NPC_SPAWN_TIME = 60 * 3; //how ofter to spawn a new NPC if not all NPC's have been spawned
+    //Final values.
+    private final double SHOW_CHECK_TIME = 60 * 5; //how often to check per in-game second
+    private final double NPC_SPAWN_TIME = 60; //how ofter to spawn a new NPC if not all NPC's have been spawned
     private static final double TOILET_CHANCE = 0.2;
 
-    // NPC attributes.
+    //NPC attributes.
     private ArrayList<NPC> npcList;
     private ArrayList<NPC> allNPCList;
-    private int NPCAmount = 10;
+    private int NPCAmount = 20;
 
-    // Agenda attributes.
+    //Agenda attributes.
     private Agenda agenda;
     private PodiumManager podiumManager;
     private ArtistManager artistManager;
@@ -38,24 +39,23 @@ public class SimulatorHandler {
     private HashMap<String, SimulatorPodium> podiumObjectHashMap;
     private HashMap<String, NPC> artistNPCHashMap;
     private HashMap<String, SimulatorObject> danceObjectHashMap;
-    private ArrayList<Show> activeShows = new ArrayList<>();
+    private HashSet<Show> activeShows = new HashSet<>();
 
-    // TileMap attributes.
+    //TileMap attributes.
     private TileMap tileMap;
     private ArrayList<SimulatorObject> simulatorObjects;
     private ArrayList<SimulatorToilet> simulatorToilets = new ArrayList<>();
     private SimulatorObject spawn;
 
-    // Time attributes.
+    //Time attributes.
     private LocalTime time;
-    private double speed = (60 * 2); //value in game second per real second (s/s)
+    private double speed = (60 * 2); //Value in game second per real second (s/s).
 
-    /**
-     * Empty constructor for SimulatorHandler.
-     */
-    public SimulatorHandler() {
-        this(new Agenda(), new PodiumManager(), new ArtistManager());
-    }
+    private double currentNPCSpawnTime = this.NPC_SPAWN_TIME;
+    private double currentShowTime = this.SHOW_CHECK_TIME;
+
+
+    private boolean paused = false;
 
     public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArtistManager artistManager) {
         //Todo: remember to remove when loading maps is implemented
@@ -64,12 +64,12 @@ public class SimulatorHandler {
 
     /**
      * Top constructor for SimulatorHandler.
-     * @param agenda  TODO: Write this
-     * @param podiumManager  TODO: Write this
-     * @param artistManager  TODO: Write this
+     * @param agenda  a class containing all of the information about created shows
+     * @param podiumManager  the manager containing all the created podiums
+     * @param artistManager  the manager containing all the created Artists
      * @param tileMap  the TileMap to set <code>this.tileMap</code> to
      */
-    public SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArtistManager artistManager, TileMap tileMap) {
+    private SimulatorHandler(Agenda agenda, PodiumManager podiumManager, ArtistManager artistManager, TileMap tileMap) {
         this.npcList = new ArrayList<>();
         this.allNPCList = new ArrayList<>();
         this.tileMap = tileMap;
@@ -90,7 +90,7 @@ public class SimulatorHandler {
      *     <li>{@link #generateObjects()}</li>
      *     <li>{@link #generatePodiumHashMap()}</li>
      *     <li><code>this.time</code> to 00:00.</li>
-     *     <li>Resets all the NPC's</li>
+     *     <li>Resets all the <b>NPC</b>s</li>
      * </ul>
      * @param agenda  <a href="{@docRoot}/FestivalPlanner/Agenda/Agenda.html">Agenda</a> That is loaded into the simulator
      */
@@ -127,7 +127,6 @@ public class SimulatorHandler {
                 }
             }
         }
-
     }
 
     /**
@@ -183,6 +182,10 @@ public class SimulatorHandler {
             object.draw(g2d);
         }
 
+        for(SimulatorToilet toilet : this.simulatorToilets) {
+            toilet.draw(g2d);
+        }
+
         for (NPC npc : this.allNPCList) {
             npc.draw(g2d);
         }
@@ -191,13 +194,15 @@ public class SimulatorHandler {
         g2d.setColor(Color.black);
     }
 
-    private double currentShowTime = this.SHOW_CHECK_TIME;
-
     /**
      * Updates all the <b>NPC</b>s and the objects to the given screen.
      * @param deltaTime  the time it took since last update
      */
     public void update(double deltaTime) {
+        if (this.paused){
+            return;
+        }
+
         this.time = this.time.plusSeconds((long) (deltaTime * this.speed));
 
         //Updating NPCs.
@@ -218,11 +223,7 @@ public class SimulatorHandler {
             checkShows();
             this.currentShowTime = this.SHOW_CHECK_TIME;
         }
-
-        //debugNPCTarget(deltaTime);
     }
-
-    private double currentNPCSpawnTime = this.NPC_SPAWN_TIME;
 
     /**
      * Handles spawning <b>NPC</b>s.
@@ -255,7 +256,7 @@ public class SimulatorHandler {
         }
     }
 
-    //TODO: Change spawn point.
+    //TODO: Change spawn point. Not necessary anymore.
     private void spawnAllArtistNPCs() {
         for (String artist : this.artistManager.getAllArtistNames()) {
             Artist currentArtist = this.artistManager.getArtist(artist);
@@ -283,7 +284,7 @@ public class SimulatorHandler {
     }
 
     private void checkShows() {
-        ArrayList<Show> oldActiveShows = this.activeShows;
+        HashSet<Show> oldActiveShows = this.activeShows;
         this.activeShows = getActiveShows(this.time);
 
         if (this.activeShows.size() > 0) {
@@ -300,7 +301,7 @@ public class SimulatorHandler {
             ArrayList<Show> endedShows = new ArrayList<>(oldActiveShows);
             endedShows.removeAll(activeShows);
             for (Show show : endedShows) {
-                // Shows that have ended.
+                //Shows that have ended.
                 onShowEnd(show);
             }
         }
@@ -333,12 +334,13 @@ public class SimulatorHandler {
             podium.setActive(false);
 
             for (NPC npc : this.npcList) {
-                if (npc.getTargetObject().equals(podium)) {
+                if (npc.getTargetObject() != null && npc.getTargetObject().equals(podium)) {
 
-                    if (Math.random() > TOILET_CHANCE) {
+                    if (Math.random() < TOILET_CHANCE) {
                         for (SimulatorToilet toilet : this.simulatorToilets) {
                             if (!toilet.isOccupied()) {
                                 npc.setTargetObject(toilet);
+                                toilet.setOccupied(true);
                                 System.out.println("to " + toilet);
                                 break;
                             }
@@ -351,26 +353,13 @@ public class SimulatorHandler {
         }
     }
 
-    private double debugTimer = 15;
-
-    private void debugNPCTarget(double deltaTime) {
-        debugTimer -= deltaTime;
-        if (debugTimer < 0) {
-            SimulatorObject object = this.simulatorObjects.get((int) (Math.random() * this.simulatorObjects.size()));
-            for (NPC npc : this.npcList) {
-                npc.setTargetObject(object);
-            }
-            debugTimer = 15;
-        }
-    }
-
     /**
      * Returns an ArrayList with current active shows.
      * @param currentTime  the time to check the shows for
      * @return  <code>ArrayList</code> with current active <code>Show</code>s
      */
-    private ArrayList<Show> getActiveShows(LocalTime currentTime) {
-        ArrayList<Show> activeShows = new ArrayList<>();
+    public HashSet<Show> getActiveShows(LocalTime currentTime) {
+        HashSet<Show> activeShows = new HashSet<>();
         for (Show show : this.agenda.getShows()) {
             if (show.getStartTime().isBefore(currentTime) && show.getEndTime().isAfter(currentTime)) {
                 activeShows.add(show);
@@ -388,27 +377,11 @@ public class SimulatorHandler {
     }
 
     /**
-     * Setter for <code>this.npcList</code>.
-     * @param npcList <code>this.npcList</code>
-     */
-    public void setNpcList(ArrayList<NPC> npcList) {
-        this.npcList = npcList;
-    }
-
-    /**
      * Returns <code>this.tileMap</code>.
      * @return  <code>this.tileMap</code>
      */
     public TileMap getTileMap() {
         return tileMap;
-    }
-
-    /**
-     * Setter for the <code>this.tileMap</code>.
-     * @param tileMap  <code>this.tileMap</code>
-     */
-    public void setTileMap(TileMap tileMap) {
-        this.tileMap = tileMap;
     }
 
     /**
@@ -489,5 +462,21 @@ public class SimulatorHandler {
      */
     public HashMap<String, NPC> getArtistNPCHashMap() {
         return this.artistNPCHashMap;
+    }
+
+    /**
+     * Returns <code>this.paused</code>.
+     * @return  <code>this.paused</code>
+     */
+    public boolean isPaused() {
+        return this.paused;
+    }
+
+    /**
+     * Sets <code>this.paused</code> to the parameter's value.
+     * @param paused  parameter to set <code>this.paused</code> to
+     */
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }

@@ -52,12 +52,17 @@ public class PreferencesGUI extends AbstractGUI{
     private HBox colorHBox = new HBox();
     private Button selectedColorButton = new Button(messages.getString("color_for_selected_show"));
     private Button unselectedColorButton = new Button(messages.getString("color_for_shows_that_are_not_selected"));
-    private Button colorResetToDefaultButton = new Button(messages.getString("reset_colors_to_default"));
+    private Button resetColorToDefaultButton = new Button(messages.getString("reset_colors_to_default"));
 
     //ExceptionPopUps.
     private HBox exceptionHBox = new HBox();
     private Label exceptionLabel = new Label(messages.getString("exception_label"));
     private CheckBox exceptionCheckBox = new CheckBox();
+
+    //ToolTips.
+    private Tooltip selectedColorTooltip = new Tooltip(messages.getString("color_for_selected_show"));
+    private Tooltip unselectedColorTooltip = new Tooltip(messages.getString("color_for_shows_that_are_not_selected"));
+    private Tooltip resetColorTooltip = new Tooltip(messages.getString("reset_colors_to_default"));
 
     public PreferencesGUI(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -113,10 +118,14 @@ public class PreferencesGUI extends AbstractGUI{
         //Tooltips.
         this.removeCacheButton.setTooltip(this.removeCacheTooltip);
 
+        this.unselectedColorButton.setTooltip(this.unselectedColorTooltip);
+        this.selectedColorButton.setTooltip(this.selectedColorTooltip);
+        this.resetColorToDefaultButton.setTooltip(this.resetColorTooltip);
+
         //Adding the children.
         this.languagesHBox.getChildren().addAll(this.languagesLabel, this.languagesComboBox, this.languagesFlagLabel);
         this.useAnimationsHBox.getChildren().addAll(this.useAnimationsLabel, this.useAnimationsCheckbox);
-        this.colorHBox.getChildren().addAll(this.selectedColorButton, this.unselectedColorButton, this.colorResetToDefaultButton);
+        this.colorHBox.getChildren().addAll(this.selectedColorButton, this.unselectedColorButton, this.resetColorToDefaultButton);
         this.exceptionHBox.getChildren().addAll(this.exceptionLabel, this.exceptionCheckBox);
         this.generalSettingsVBox.getChildren().addAll(this.languagesHBox, this.useAnimationsHBox, this.removeCacheButton, this.colorHBox, this.exceptionHBox);
         this.buttonHBox.getChildren().addAll(this.applyButton, this.closeButton);
@@ -162,7 +171,7 @@ public class PreferencesGUI extends AbstractGUI{
             CommonNodeRetriever.getUnselectedColorPickerStage(this.stage);
         });
 
-        this.colorResetToDefaultButton.setOnAction(e -> {
+        this.resetColorToDefaultButton.setOnAction(e -> {
             SaveSettingsHandler.restoreDefaultColors();
         });
 

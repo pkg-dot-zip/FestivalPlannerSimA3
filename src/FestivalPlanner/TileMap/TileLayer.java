@@ -22,7 +22,7 @@ public class TileLayer extends Layer {
 
     /**
      * Constructor for <b>Layer</b>.
-     * @param tileMap TODO: Write this
+     * @param tileMap the <a href="{@docRoot}/FestivalPlanner/TileMap/TileMap.html">TileMap</a> that holds this <b>layer</b>
      * @param width  the width of the <b>Layer</b>
      * @param height  the height of the <b>Layer</b>
      * @param tiles  the <a href="{@docRoot}/FestivalPlanner/TileMap/Tile.html">Tiles</a> in the <b>Layer</b>

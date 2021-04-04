@@ -40,6 +40,7 @@ public abstract class AbstractEditGUI extends AbstractGUI {
         this.gridPane.setHgap(50);
         this.gridPane.setAlignment(Pos.CENTER);
         this.bottomHBox.setAlignment(Pos.CENTER);
+        this.bottomHBox.setSpacing(HBOX_SPACING);
 
         //Adding all the children.
         this.bottomHBox.getChildren().addAll(this.applyButton, this.closeButton);
