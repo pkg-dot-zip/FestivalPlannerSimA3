@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
 public class SimulatorToilet extends SimulatorObject{
 
     private BufferedImage image;
-
     private boolean occupied = false;
 
     /**
@@ -51,10 +50,18 @@ public class SimulatorToilet extends SimulatorObject{
         }
     }
 
+    /**
+     * Returns <code>this.occupied</code>.
+     * @return  <code>this.occupied</code>
+     */
     boolean isOccupied() {
-        return occupied;
+        return this.occupied;
     }
 
+    /**
+     * Sets <code>this.occupied</code> to the parameter's value.
+     * @param occupied  value to set occupied to
+     */
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
