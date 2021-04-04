@@ -74,7 +74,7 @@ Ik had eigenlijk bijna alle denkbare mogelijkheden. Hierdoor was een keuze maken
 #### Welke keuze heb je gemaakt?
 Uiteindelijk heb ik gekozen voor een extra pop up scherm waar je de naam kan invullen, met daar onder een foto en een sprite die ook meteen een preview geven als je een afbeelding geselecteerd hebt.
 Het pop up scherm ziet er als volgt uit:
-![ArtistEditor.gif](https://media.giphy.com/media/LoUdbweHibQm1kCJqm/giphy.gif =720x173)
+![ArtistEditor.gif](./Resources/Artist.gif)
 
 #### Waarom heb je deze keuze gemaakt?
 Ik heb deze keuze gemaakt omdat ik dan een extra venster had om zelf in te delen en niet bang hoefde te zijn om nog ander werk te verpesten doordat ik iets in een verkeerde manier toevoeg. Het leek mij dus de meest veilige optie.
@@ -90,147 +90,13 @@ Jesse en ik hebben dus de logica (back-end) en de GUI (front-end) klasse diagram
 
 #### Welke keuze heb je gemaakt?
 Als eerste de GUI (front-end)
-```mermaid
-classDiagram
-class MainGUI {
-	- viewAgendaButton : Button
-	- viewSimulatorButton : Button
-	+ MainGUI()
-	+ load()
-	+ setup()
-	+ actionHandlingSetup()
-}
 
-class SimulatorModule {
-	- simulatorHandler : SimulatorHandler
-	- simulatorCanvas : SimulatorCanvas
-	- stageButtons : ArrayList~ToggleButton~
-	- stageGroup : ToggleGroup
-	- stageLabel : Label
-	- NPCLabel : Label
-	- NPCField : TextField
-	- NPCListView : ListView
-	+ load()
-	+ setup()
-	+ actionHandlingSetup()
-}
+![MainGUI image](./Resources/mermaid-diagram-MainGUI.png)
 
-class SimulatorCanvas {
-	- simulatorHandler : SimulatorHandler
-	- simulatorModule : SimulatorModule
-	- canvas : Canvas
-	- mainPane : Pane
-	- cameraTransform : AffineTransform
-	+ load()
-	+ setup()
-	+ actionHandlingSetup()
-	+ draw(g2d : FXGraphics2D)
-	+ update()
-	- onScrolled(mouseEvent : MouseEvent)
-	- onWASD(keyEvent : KeyEvent)
-	- onMouseClicked(mouseEvent : MouseEvent)
-	- onMouseReleased(mouseEvent : MouseEvent)
-	- onMouseDragged(mouseEvent : MouseEvent)
-	+ getSimulatorHandler()
-	+ setSimulatorHandler(simulatorHandler : SimulatorHandler)
-	+ moveToPoint(point : Point2D)
-}
-
-class StageSimulatorPopup {
-	- agenda : Agenda
-	- stage : Stage
-}
-
-class AbstractPopup
-class AgendaModule
-
-MainGUI -- "1" SimulatorModule : Shows
-SimulatorModule -- "1" SimulatorCanvas : contains 
-SimulatorModule -- StageSimulatorPopup : Opens
-StageSimulatorPopup --|> AbstractPopup : is a
-MainGUI -- "1" AgendaModule : Shows
-```
 Dit was de kleinste diagram aangezien hij ook alleen maar gegevens hoeft weer te geven, en niet ophalen, berekenen, aanmaken, of wat dan ook.
 Zoals te zien is hebben we een MainGUI die 2 knoppen aan maakt om tussen de agenda en simulator te wisselen, deze sturen ons dus weer door naar de AgendaModule, of de SimulatorModule, als we naar de SimulatorModule gaan kijken (waar Jesse en ik ook vooral op aan het focussen waren deze middag) hebben we een paar handlers, een canvas, en een paar NPC onderdelen. Onder de SimulatorModule hebben we een SimulatorCanvas staan die de verschillende onderdelen mooi op het scherm laat weergeven. (Verder hebben we ook nog een pop-up klasse om naar de agenda te wisselen)
 
-```mermaid
-classDiagram
-class SimulatorHandler {
-	- NPCs : ArrayList~NPC~
-	- objects : ArrayList~SimulatorObject~
-	- tileMap : Tilemap
-	+ draw(g2d : FXGraphics2D)
-	+ update()
-}
-class NPC {
-	- sprite : BufferedImage
-	- location : Point2D
-	- targetObject : SimulatorObject
-	- tagetLocation : Point2D
-	- state : NPCState
-	+ draw(g2d : FXGraphics2D)
-	+ update()
-}
-class NPCState {
-	+ handle()
-}
-class ViewingState {
-	+ handle()
-}
-class MovingState {
-	+ handle()
-}
-class IdleState {
-	+ handle()
-}
-class PerformingState {
-	+ handle()
-}
-class SideQuestState {
-	+ handle()
-}
-class ToiletState
-class BeachState
-class ShoppingState
-
-class SimulatorObject {
-	- location : Point2D
-	- width : int
-	- height : int
-	+ draw(g2d : FXGraphics2D)
-	+ update()
-	- buildPathMap()
-	- getNextDirection(Point2D point)
-}
-class SimulatorPodium {
-	+ draw(g2d : FXGraphics2D)
-	+ update()
-}
-class Tilemap{
-	- mapWidth : int
-	- mapHeight : int
-	- layers : ArrayList~Layer~
-	- tileManager : TileManager
-}
-
-SimulatorHandler -- "0..*" SimulatorObject : Contains
-SimulatorHandler -- "0..*" NPC : Controls
-
-NPC -- SimulatorObject : finds
-NPC "1" -- "1" NPCState
-NPCState <|-- ViewingState
-NPCState <|-- MovingState
-NPCState <|-- IdleState
-NPCState <|-- PerformingState
-NPCState <|-- SideQuestState
-SideQuestState <|-- ToiletState
-SideQuestState <|-- BeachState
-SideQuestState <|-- ShoppingState
-SimulatorObject <|-- SimulatorPodium
-SimulatorObject <|-- SimulatorToilet
-SimulatorHandler -- "1" Tilemap : contains
-```
-
+![Simulator handler image](./Resources/mermaid-diagram-SimulatorHandler.png)
 #### Waarom heb je deze keuze gemaakt?
 Alle keuzes die hierboven beschreven stonden hebben wij gemaakt door er over na te denken wat we allemaal nodig zouden kunnen hebben. Natuurlijk hadden we het zo gedetailleerd mogelijk geprobeerd te maken, maar we gingen er al van uit dat er iets vergeten zou kunnen worden en dus hebben we aan de groep door gegeven dat deze als voorbeeld genomen moeten worden, maar als er nog iets extra's nodig zou zijn dat dan gewoon toegevoegd mag worden.
 
