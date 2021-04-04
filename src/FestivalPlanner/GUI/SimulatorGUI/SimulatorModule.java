@@ -7,6 +7,7 @@ import FestivalPlanner.GUI.CommonNodeRetriever;
 import FestivalPlanner.GUI.MainGUI;
 import FestivalPlanner.Logic.SimulatorHandler;
 import FestivalPlanner.Util.LanguageHandling.LanguageHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -109,10 +110,22 @@ public class SimulatorModule extends AbstractGUI {
         this.optionsMenu.getItems().addAll(this.viewPartMenuItem, new SeparatorMenuItem(), this.timeEditMenuItem, new SeparatorMenuItem(), this.npcEditMenuItem);
         this.menuBar.getMenus().addAll(this.optionsMenu, CommonNodeRetriever.getHelpMenu(this.stage));
 
+
+        //Right VBOX
+        VBox rightVBox = new VBox();
+        rightVBox.setMinHeight(700);
+        rightVBox.setMinWidth(50);
+        rightVBox.setMaxWidth(150);
+        rightVBox.setPadding(new Insets(0,10,0,0));
+
+        this.listView.setMinHeight(650);
+
+        rightVBox.getChildren().addAll(new Label(messages.getString("active_shows")), this.listView);
+
         //Adding it all together.
         this.mainPane.setTop(this.topVBox);
         this.mainPane.setCenter(this.simulatorCanvas.getMainPane());
-        this.mainPane.setRight(this.listView);
+        this.mainPane.setRight(rightVBox);
         this.simulatorScene = new Scene(this.mainPane);
     }
 
@@ -142,7 +155,7 @@ public class SimulatorModule extends AbstractGUI {
         this.agendaButton.setOnAction(event -> {
             this.mainGUI.loadAgendaCallBack();
         });
-        
+
     }
 
     /**
