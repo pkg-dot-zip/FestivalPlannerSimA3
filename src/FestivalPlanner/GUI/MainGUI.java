@@ -8,6 +8,7 @@ import FestivalPlanner.Util.PreferencesHandling.SaveSettingsHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -31,6 +32,7 @@ public class MainGUI extends Application {
 
         loadAgendaCallBack();
         ImageLoader.loadImages();
+        this.stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/Images/sus.png")));
     }
 
     /**
