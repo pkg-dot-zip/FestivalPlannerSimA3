@@ -728,11 +728,14 @@ CaseFleet, Full Stack, Open Lowcode, Endeeper en HyperSoft JavaFX. Zie onderstaa
 
 ![JavaDoc](Images/companiesJavaFX.png)
 
-Het was de bedoeling dat de library Swing zou vervangen als standaard GUI library, maar dit is nooit gebeurd.
+Het <a href="https://www.oracle.com/technetwork/java/javase/javaclientroadmapupdate2018mar-4414431.pdf">was</a>
+de bedoeling dat de library Swing zou vervangen als standaard GUI library, maar dit is nooit gebeurd.
 JavaFX is niet meer beschikbaar als standaard package in de nieuwere versies van Java SE, in tegenstelling
 tot Swing en AWT. JavaFX is niet meer onderdeel van Java SE na JDK 11.
 
-JavaFX is ontworpen voor business application software. Dit zijn dan ook het type applicatie dat genoemd werd.
+JavaFX is ontworpen voor 
+<a href="https://www.oracle.com/technical-resources/articles/java/casa.html">business application software</a>.
+Dit zijn dan ook het type applicatie dat genoemd werd.
 
 JavaFX is dan ook erg makkelijk om mee te werken en bezit over de gewenste functionaliteiten. Zo kunnen
 gebruikers animaties, keyboard shortcuts en nog meer toevoegen.
