@@ -473,25 +473,20 @@ void testFromAwtToJavaFX_withBlack_returnsBlack() {
 ## Week 7
 ### Reflectie
 In week 7 heb ik voornamelijk meegedaan met vergaderingen.
-Verder heb ik niet veel gedaan.
+Ik heb verder geen noemenswaardige aanpassingen gedaan aan het project.
 
 ## Week 8
 ### Reflectie
 
 #### Schoonmaken
-De code is zo'n rotzooi... en ik het zoveel fucking moeite moeten steken in het oplossen
-van andermans code en documentatie omdat het moeilijk is om hoofdletters fatsoenlijk te gebruiken natuurlijk.
-Wellicht moet ik mijn verwachten bijstellen en realiseren dat ik de enige op deze fucking planeet die
-fatsoenlijke producten wil maken ffs.
+De codestructuur was niet naar wens, ondanks alle inzet die ik getoond had. Ik heb consequent moeite gestoken in het oplossen
+van andermans code, en het bijwerken van de documentatie.
 
-Ik heb dus wat dingen geherstructureerd, documentatie geschreven, bugs gefixet en wat dingen
-toegevoegd. Kijk gewoon op GitHub. Dit ding wordt waarschijnlijk toch niet gelezen.
-Ik heb geen zin om al mijn tijd te verspillen aan kutverslagen over kutprojecten. We gaan toch allemaal dood.
+Ik heb dus grote stukken code geherstructureerd, documentatie geschreven, bugs gefixt en wat finishing touches toegevoegd.
+Een van de hoogtepunten is het maken van onderstaande klasse die met statische methoden werkt, waardoor andere klassen
+minder (gedeelde) code hoeven te bevatten.
 
-Code eerst:
-
-
-Code daarna:
+Code:
 ```
 package FestivalPlanner.GUI;
 
@@ -722,41 +717,128 @@ public class CommonNodeRetriever {
 }
 ```
 
-Wow, wat een verbetering. Wow. Wat leuk. Dit boeit iedereen.
+<br>
 
-
-VALERIEEEEEE<br>
-CALL ON ME<br>
-CALL ON ME<br>
-VALERIEEEEEEE<br>
-
-
-# Andere shit
+# Stellingen & Onderzoek naar JSON
 ## Oordeel over “In het bedrijfsleven wordt gebruik gemaakt van JavaFX”
-Nee, want waarom zou een bedrijf gebruik maken van Java als het zo sloom is?
-Een fatsoenlijk bedrijf gebruik een echte programmeertaal zoals HTML of PHP.
+In het bedrijfsleven wordt wel degelijk gebruik gemaakt van JavaFX.
 
 Volgens StackShare gebruiken Biting Bit, Business Manager, Keylord, Technologies,
-CaseFleet, Full Stack, Open Lowcode, Endeeper en HyperSoft JavaFX. Niemand kent
-deze bedrijven, maar aangezien het <i>überhaupt</i> bedrijven zijn betekent het dat het antwoord op
-deze vraag ja is.<br>
-Visuele representatie van een zin:
+CaseFleet, Full Stack, Open Lowcode, Endeeper en HyperSoft JavaFX. Zie onderstaande afbeelding.
 
-![JavaDoc](Images/cerny.png)
+![JavaDoc](Images/companiesJavaFX.png)
+
+Het was de bedoeling dat de library Swing zou vervangen als standaard GUI library, maar dit is nooit gebeurd.
+JavaFX is niet meer beschikbaar als standaard package in de nieuwere versies van Java SE, in tegenstelling
+tot Swing en AWT. JavaFX is niet meer onderdeel van Java SE na JDK 11.
+
+JavaFX is ontworpen voor business application software. Dit zijn dan ook het type applicatie dat genoemd werd.
+
+JavaFX is dan ook erg makkelijk om mee te werken en bezit over de gewenste functionaliteiten. Zo kunnen
+gebruikers animaties, keyboard shortcuts en nog meer toevoegen.
 
 ## Applicaties die gebruik maken van .JSON bestanden
 |Applicatie|Over|Gebruik|
 |---|---|---|
-|Minecraft|Zweeds spel met veel spelers|Voor resource packs etc.|
-|Steam|Game library software|Save files|
-|RIVM|Zorg-nerds|"Laatste data pushen naar virusdashboard ofzo"|
+|Minecraft|Wereldbekend spel bestaande uit blokken|Resource packs, items, language files etc.|
+|Steam Web API|Game library software|Ophalen data spellen & gebruikers|
+|Tiled|Flexibele map editor|Exporteren van maps|
+|VK API|Social media platform|Ophalen data gebruikers|
+|CurseForge API|Gaming website die modificaties van videospellen bevat|Data ophalen & automatiseren project management|
 
-Minecraft is een populair spel uit Oost-Noorwegen:
 
-![JavaDoc](Images/lego.png)
+Hieronder zijn de eerste twee voorbeelden uitgewerkt.
+
+#### Minecraft
+Minecraft is een populair videospel met meer dan 200 miljoen verkochte kopieën. Het spel
+wordt beschreven als een sandbox game. Het grafische aspect van het spel bestaat uit kubussen.
+
+![JavaDoc](Images/Minecraft.png)
+
+Minecraft is een videospel van <a href="https://www.mojang.com/">Mojang Studios</a>, 
+een bedrijf dat werd gesticht in 2009, in Stockholm, Zweden,
+door Markus (Notch) Persson. Persson verliet het bedrijf in november 2014, toen het bedrijf overgenomen werd
+door <a href="https://www.microsoft.com/">Microsoft</a> voor $2.5 biljoen dollar.
 <br>
-Steam is een platform dat developers slecht betaald, maar een zieke monopolie heeft:
 
-![JavaDoc](Images/fortnite.png)
+Het spel slaat een groot deel van de data op in <i>.JSON</i> bestanden. 
+Onder andere items & blokken worden opgeslagen op deze manier.
+
+![JavaDoc](Images/MinecraftItems.png)
+
+Inhoud item:
+```
+{
+  "parent": "minecraft:item/template_banner"
+}
+```
+
+Inhoud blok:
+```
+{
+  "textures": {
+    "particle": "minecraft:block/warped_planks"
+  }
+}
+```
+
+Gedeelte inhoud language file:
+```
+{
+  "language.name": "English",
+  "language.region": "United States",
+  "language.code": "en_us",
+  "narrator.button.accessibility": "Accessibility",
+  "narrator.button.language": "Language",
+  "narrator.button.difficulty_lock": "Difficulty lock",
+  "narrator.button.difficulty_lock.unlocked": "Unlocked",
+  "narrator.button.difficulty_lock.locked": "Locked",
+  "narrator.screen.title": "Title Screen",
+  "narrator.controls.reset": "Reset %s button",
+  "narrator.controls.bound": "%s is bound to %s",
+  "narrator.controls.unbound": "%s is not bound",
+  "narrator.select": "Selected: %s",
+  "narrator.select.world": "Selected %s, last played: %s, %s, %s, version: %s",
+  "narrator.loading": "Loading: %s",
+  "narrator.loading.done": "Done",
+  "narrator.joining": "Joining",
+  "narration.suggestion.tooltip": "Selected suggestion %d out of %d: %s (%s)",
+```
+
 <br>
-<b>doei</b>
+
+#### Steam Web API
+Steam is een gratis service waar gebruikers games kunnen kopen, installeren en spelen. Een goede beschrijving van
+Steam is <i>Game Library Software</i>. 
+
+![JavaDoc](Images/SteamWebPage.png)
+
+Steam is een product van <a href="https://www.valvesoftware.com/nl/">Valve</a>, 
+een bedrijf dat werd gesticht op 24 augustus 1996, in Kirkland, Washington, VS,
+door Gabe Newell en Mike Harrington. Harrington verliet het bedrijf in januari 2000.
+
+De API geeft informatie terug in een formaat naar keuze. De keuze bestaat uit
+<i>.JSON</i>, <i>.XML</i> & <i>.VDF</i>. Het standaardformaat is <i>.JSON</i>.
+
+De Steam Web API laat ontwikkelaars data ophalen over:
+- News feeds van spellen en applicaties op Steam.
+- Statistieken van spellen en applicaties op Steam.
+- Informatie van gebruikers van Steam.
+- Items van spelers van het spel <a href="https://wiki.teamfortress.com/wiki/WebAPI">Team Fortress 2</a>.
+
+Dat wordt opgehaald in de volgende vorm: <br>
+![JavaDoc](Images/SteamWebAPIFormat.png)
+
+Klik <a href="http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json">hier</a> voor
+een voorbeeld.
+
+Voor verdere uitleg kunt u refereren naar <a href="https://developer.valvesoftware.com/wiki/Steam_Web_API#JSON">deze pagina</a>.
+
+<br>
+
+#### Conclusie .JSON
+Ik denk dat <i>.JSON</i> gebruikt wordt omdat...:
+- De syntax makkelijk te begrijpen is voor mensen.
+- Het eenvoudig leesbaar is voor mensen.
+- Het het key-value concept gebruikt, wat een gangbaar principe is.
+- Het ondersteund wordt in heel veel programmeertalen.
